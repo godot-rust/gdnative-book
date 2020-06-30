@@ -1,0 +1,5 @@
+book/
+*~
+.DS_Store
+target
+tmp
