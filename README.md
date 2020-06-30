@@ -1,6 +1,6 @@
 # The godot-rust book
 
-The godot-rust book is a user guide for the Rust bindings.
+The godot-rust book is a user guide for the Rust bindings. The book is currently an early work-in-progress, and contributions are very welcome.
 
 The book is built with [mdBook](https://github.com/rust-lang-nursery/mdBook). There is currently no online version available. To build the book locally, you can run:
 
