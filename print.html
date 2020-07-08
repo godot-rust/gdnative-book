@@ -91,7 +91,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded "><a href="introduction.html"><strong aria-hidden="true">1.</strong> Introduction</a></li><li class="chapter-item expanded "><a href="getting-started.html"><strong aria-hidden="true">2.</strong> Getting Started</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="getting-started/setup.html"><strong aria-hidden="true">2.1.</strong> Setup</a></li><li class="chapter-item expanded "><a href="getting-started/hello-world.html"><strong aria-hidden="true">2.2.</strong> Hello, world!</a></li></ol></li><li class="chapter-item expanded "><a href="gdnative-overview.html"><strong aria-hidden="true">3.</strong> An Overview of GDNative</a></li><li class="chapter-item expanded "><a href="testing.html"><strong aria-hidden="true">4.</strong> Testing</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="testing/structure.html"><strong aria-hidden="true">4.1.</strong> Structuring Code for Testing</a></li><li class="chapter-item expanded "><a href="testing/engine.html"><strong aria-hidden="true">4.2.</strong> Testing with the Engine</a></li></ol></li><li class="chapter-item expanded "><a href="exporting.html"><strong aria-hidden="true">5.</strong> Exporting</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="exporting/android.html"><strong aria-hidden="true">5.1.</strong> Android</a></li><li class="chapter-item expanded "><a href="exporting/ios.html"><strong aria-hidden="true">5.2.</strong> iOS</a></li></ol></li></ol>
+                <ol class="chapter"><li class="chapter-item expanded "><a href="introduction.html"><strong aria-hidden="true">1.</strong> Introduction</a></li><li class="chapter-item expanded "><a href="getting-started.html"><strong aria-hidden="true">2.</strong> Getting Started</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="getting-started/setup.html"><strong aria-hidden="true">2.1.</strong> Setup</a></li><li class="chapter-item expanded "><a href="getting-started/hello-world.html"><strong aria-hidden="true">2.2.</strong> Hello, world!</a></li></ol></li><li class="chapter-item expanded "><a href="gdnative-overview.html"><strong aria-hidden="true">3.</strong> An Overview of GDNative</a></li><li class="chapter-item expanded "><a href="testing.html"><strong aria-hidden="true">4.</strong> Testing</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="testing/structure.html"><strong aria-hidden="true">4.1.</strong> Structuring Code for Testing</a></li><li class="chapter-item expanded "><a href="testing/engine.html"><strong aria-hidden="true">4.2.</strong> Testing with the Engine</a></li></ol></li><li class="chapter-item expanded "><a href="exporting.html"><strong aria-hidden="true">5.</strong> Exporting</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="exporting/android.html"><strong aria-hidden="true">5.1.</strong> Android</a></li><li class="chapter-item expanded "><a href="exporting/ios.html"><strong aria-hidden="true">5.2.</strong> iOS</a></li></ol></li><li class="chapter-item expanded "><a href="advanced-guides.html"><strong aria-hidden="true">6.</strong> Advanced Guides</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="advanced-guides/custom-bindings.html"><strong aria-hidden="true">6.1.</strong> Using custom builds of Godot</a></li></ol></li></ol>
             </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
@@ -174,6 +174,10 @@
 <h2><a class="header" href="#godot-engine" id="godot-engine">Godot Engine</a></h2>
 <p>The default API version is currently 3.2.2-stable. For the rest of the tutorial, we'll assume that you have Godot 3.2.2-stable installed, and available in your <code>PATH</code> as <code>godot</code>.</p>
 <p>You may download binaries of Godot 3.2.2-stable from the official repository: https://downloads.tuxfamily.org/godotengine/3.2.2/</p>
+<blockquote>
+<h3><a class="header" href="#using-another-build-of-the-engine" id="using-another-build-of-the-engine">Using another build of the engine</a></h3>
+<p>For simplicity, we assume that you use the official build of 3.2.2-stable for the Getting Started tutorial. If you want to use another version of the engine, see the <a href="getting-started/../advanced-guides/custom-bindings.html">Using custom builds of Godot</a> guide.</p>
+</blockquote>
 <h2><a class="header" href="#rust" id="rust">Rust</a></h2>
 <p><a href="https://rustup.rs/">rustup</a> is the recommended way to install the Rust toolchain, including the compiler, standard library, and Cargo, the package manager. Visit https://rustup.rs/ to see instructions for your platform.</p>
 <p>After installation of rustup and the <code>stable</code> toolchain, check that they were installed properly:</p>
@@ -474,6 +478,40 @@ godot --export &quot;Android&quot; path/to/my.apk
 <p>If not planning to release on Play Store, one may file an appeal from Play Protect using <a href="https://support.google.com/googleplay/android-developer/contact/protectappeals">a form provided by Google</a>.</p>
 <h1><a class="header" href="#ios" id="ios">iOS</a></h1>
 <p>TODO</p>
+<h1><a class="header" href="#advanced-guides" id="advanced-guides">Advanced Guides</a></h1>
+<h1><a class="header" href="#using-custom-builds-of-godot" id="using-custom-builds-of-godot">Using custom builds of Godot</a></h1>
+<p>Sometimes, users might need to use a different version of the engine that is different from the default one, or is a custom build. In order to use <code>godot-rust</code> with them, one would need to create a custom version of the <code>gdnative-bindings</code> crate, generated from an <code>api.json</code> from the custom build. This guide walks through the necessary steps to do so.</p>
+<p>First, obtain the source code for <code>gdnative-bindings</code> from crates.io. For this guide, we'll use <a href="https://github.com/Xion/cargo-download/"><code>cargo-download</code></a> to accomplish this:</p>
+<pre><code># Install the `cargo-download` sub-command if it isn't installed yet
+cargo install cargo-download
+
+# Download and unpack the crate
+cargo download gdnative-bindings==0.9.0-preview.0 &gt;gdnative-bindings.tar.gz
+tar -xf gdnative-bindings.tar.gz
+</code></pre>
+<p>You should be able to find the source code for the crate in a <code>gdnative-bindings-{version}</code> directory. Rename it to a distinctive name like <code>gdnative-bindings-custom</code> and update the <code>Cargo.toml</code>:</p>
+<pre><code class="language-toml">[package]
+name = &quot;gdnative-bindings-custom&quot;
+</code></pre>
+<p>When downloading the crate, please specify the exact version of the crate that is specified in the <code>Cargo.toml</code> of <code>gdnative</code>. This is necessary because the generated bindings depend on internal interfaces that may change between non-breaking versions of <code>gdnative</code>.</p>
+<p>After source is obtained, replace the API description file with one generated by your specific Godot build:</p>
+<pre><code>cd /path/to/gdnative-bindings-custom
+/path/to/godot --gdnative-generate-json-api api.json
+
+# Try to build and see if it works
+cargo build
+</code></pre>
+<p>If everything goes well, you can now update the dependencies of your GDNative library to use this custom bindings crate:</p>
+<pre><code class="language-toml">[dependencies]
+
+# Use the exact version corresponding to `gdnative-bindings`, and disable the default re-export.
+gdnative = { version = &quot;=0.9.0-preview.0&quot;, default-features = false, features = [] }
+
+# Use your custom bindings crate as a path dependency
+gdnative-bindings-custom = { path = &quot;/path/to/gdnative-bindings-custom&quot; }
+</code></pre>
+<p>Here, <code>gdnative</code> is specified using an exact version because the bindings generator is an internal dependency. When using custom binding crates, care must be taken to ensure that the version of the bindings crate used as the base matches the one specified in the <code>Cargo.toml</code> of the <code>gdnative</code> crate exactly, even for updates that are considered non-breaking in the <code>gdnative</code> crate. Using an exact version bound here helps prevent unintentional updates that may break the build.</p>
+<p>Finally, replace references to <code>gdnative::api</code> with <code>gdnative-bindings-custom</code>. You should now be able to use the APIs in your custom build in Rust!</p>
 
                     </main>
 

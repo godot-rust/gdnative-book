@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>Testing - The godot-rust Book</title>
+        <title>Using custom builds of Godot - The godot-rust Book</title>
         
         
 
@@ -17,23 +17,23 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="theme-color" content="#ffffff" />
 
-        <link rel="icon" href="favicon.svg">
-        <link rel="shortcut icon" href="favicon.png">
-        <link rel="stylesheet" href="css/variables.css">
-        <link rel="stylesheet" href="css/general.css">
-        <link rel="stylesheet" href="css/chrome.css">
-        <link rel="stylesheet" href="css/print.css" media="print">
+        <link rel="icon" href="../favicon.svg">
+        <link rel="shortcut icon" href="../favicon.png">
+        <link rel="stylesheet" href="../css/variables.css">
+        <link rel="stylesheet" href="../css/general.css">
+        <link rel="stylesheet" href="../css/chrome.css">
+        <link rel="stylesheet" href="../css/print.css" media="print">
 
         <!-- Fonts -->
-        <link rel="stylesheet" href="FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../FontAwesome/css/font-awesome.css">
         
-        <link rel="stylesheet" href="fonts/fonts.css">
+        <link rel="stylesheet" href="../fonts/fonts.css">
         
 
         <!-- Highlight.js Stylesheets -->
-        <link rel="stylesheet" href="highlight.css">
-        <link rel="stylesheet" href="tomorrow-night.css">
-        <link rel="stylesheet" href="ayu-highlight.css">
+        <link rel="stylesheet" href="../highlight.css">
+        <link rel="stylesheet" href="../tomorrow-night.css">
+        <link rel="stylesheet" href="../ayu-highlight.css">
 
         <!-- Custom theme stylesheets -->
         
@@ -43,7 +43,7 @@
     <body>
         <!-- Provide site root to javascript -->
         <script type="text/javascript">
-            var path_to_root = "";
+            var path_to_root = "../";
             var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
         </script>
 
@@ -89,7 +89,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded "><a href="introduction.html"><strong aria-hidden="true">1.</strong> Introduction</a></li><li class="chapter-item expanded "><a href="getting-started.html"><strong aria-hidden="true">2.</strong> Getting Started</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="getting-started/setup.html"><strong aria-hidden="true">2.1.</strong> Setup</a></li><li class="chapter-item expanded "><a href="getting-started/hello-world.html"><strong aria-hidden="true">2.2.</strong> Hello, world!</a></li></ol></li><li class="chapter-item expanded "><a href="gdnative-overview.html"><strong aria-hidden="true">3.</strong> An Overview of GDNative</a></li><li class="chapter-item expanded "><a href="testing.html" class="active"><strong aria-hidden="true">4.</strong> Testing</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="testing/structure.html"><strong aria-hidden="true">4.1.</strong> Structuring Code for Testing</a></li><li class="chapter-item expanded "><a href="testing/engine.html"><strong aria-hidden="true">4.2.</strong> Testing with the Engine</a></li></ol></li><li class="chapter-item expanded "><a href="exporting.html"><strong aria-hidden="true">5.</strong> Exporting</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="exporting/android.html"><strong aria-hidden="true">5.1.</strong> Android</a></li><li class="chapter-item expanded "><a href="exporting/ios.html"><strong aria-hidden="true">5.2.</strong> iOS</a></li></ol></li><li class="chapter-item expanded "><a href="advanced-guides.html"><strong aria-hidden="true">6.</strong> Advanced Guides</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="advanced-guides/custom-bindings.html"><strong aria-hidden="true">6.1.</strong> Using custom builds of Godot</a></li></ol></li></ol>
+                <ol class="chapter"><li class="chapter-item expanded "><a href="../introduction.html"><strong aria-hidden="true">1.</strong> Introduction</a></li><li class="chapter-item expanded "><a href="../getting-started.html"><strong aria-hidden="true">2.</strong> Getting Started</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../getting-started/setup.html"><strong aria-hidden="true">2.1.</strong> Setup</a></li><li class="chapter-item expanded "><a href="../getting-started/hello-world.html"><strong aria-hidden="true">2.2.</strong> Hello, world!</a></li></ol></li><li class="chapter-item expanded "><a href="../gdnative-overview.html"><strong aria-hidden="true">3.</strong> An Overview of GDNative</a></li><li class="chapter-item expanded "><a href="../testing.html"><strong aria-hidden="true">4.</strong> Testing</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../testing/structure.html"><strong aria-hidden="true">4.1.</strong> Structuring Code for Testing</a></li><li class="chapter-item expanded "><a href="../testing/engine.html"><strong aria-hidden="true">4.2.</strong> Testing with the Engine</a></li></ol></li><li class="chapter-item expanded "><a href="../exporting.html"><strong aria-hidden="true">5.</strong> Exporting</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../exporting/android.html"><strong aria-hidden="true">5.1.</strong> Android</a></li><li class="chapter-item expanded "><a href="../exporting/ios.html"><strong aria-hidden="true">5.2.</strong> iOS</a></li></ol></li><li class="chapter-item expanded "><a href="../advanced-guides.html"><strong aria-hidden="true">6.</strong> Advanced Guides</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../advanced-guides/custom-bindings.html" class="active"><strong aria-hidden="true">6.1.</strong> Using custom builds of Godot</a></li></ol></li></ol>
             </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
@@ -124,7 +124,7 @@
                     <h1 class="menu-title">The godot-rust Book</h1>
 
                     <div class="right-buttons">
-                        <a href="print.html" title="Print this book" aria-label="Print this book">
+                        <a href="../print.html" title="Print this book" aria-label="Print this book">
                             <i id="print-button" class="fa fa-print"></i>
                         </a>
                         
@@ -155,23 +155,50 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h1><a class="header" href="#testing" id="testing">Testing</a></h1>
-<p>TODO</p>
+                        <h1><a class="header" href="#using-custom-builds-of-godot" id="using-custom-builds-of-godot">Using custom builds of Godot</a></h1>
+<p>Sometimes, users might need to use a different version of the engine that is different from the default one, or is a custom build. In order to use <code>godot-rust</code> with them, one would need to create a custom version of the <code>gdnative-bindings</code> crate, generated from an <code>api.json</code> from the custom build. This guide walks through the necessary steps to do so.</p>
+<p>First, obtain the source code for <code>gdnative-bindings</code> from crates.io. For this guide, we'll use <a href="https://github.com/Xion/cargo-download/"><code>cargo-download</code></a> to accomplish this:</p>
+<pre><code># Install the `cargo-download` sub-command if it isn't installed yet
+cargo install cargo-download
+
+# Download and unpack the crate
+cargo download gdnative-bindings==0.9.0-preview.0 &gt;gdnative-bindings.tar.gz
+tar -xf gdnative-bindings.tar.gz
+</code></pre>
+<p>You should be able to find the source code for the crate in a <code>gdnative-bindings-{version}</code> directory. Rename it to a distinctive name like <code>gdnative-bindings-custom</code> and update the <code>Cargo.toml</code>:</p>
+<pre><code class="language-toml">[package]
+name = &quot;gdnative-bindings-custom&quot;
+</code></pre>
+<p>When downloading the crate, please specify the exact version of the crate that is specified in the <code>Cargo.toml</code> of <code>gdnative</code>. This is necessary because the generated bindings depend on internal interfaces that may change between non-breaking versions of <code>gdnative</code>.</p>
+<p>After source is obtained, replace the API description file with one generated by your specific Godot build:</p>
+<pre><code>cd /path/to/gdnative-bindings-custom
+/path/to/godot --gdnative-generate-json-api api.json
+
+# Try to build and see if it works
+cargo build
+</code></pre>
+<p>If everything goes well, you can now update the dependencies of your GDNative library to use this custom bindings crate:</p>
+<pre><code class="language-toml">[dependencies]
+
+# Use the exact version corresponding to `gdnative-bindings`, and disable the default re-export.
+gdnative = { version = &quot;=0.9.0-preview.0&quot;, default-features = false, features = [] }
+
+# Use your custom bindings crate as a path dependency
+gdnative-bindings-custom = { path = &quot;/path/to/gdnative-bindings-custom&quot; }
+</code></pre>
+<p>Here, <code>gdnative</code> is specified using an exact version because the bindings generator is an internal dependency. When using custom binding crates, care must be taken to ensure that the version of the bindings crate used as the base matches the one specified in the <code>Cargo.toml</code> of the <code>gdnative</code> crate exactly, even for updates that are considered non-breaking in the <code>gdnative</code> crate. Using an exact version bound here helps prevent unintentional updates that may break the build.</p>
+<p>Finally, replace references to <code>gdnative::api</code> with <code>gdnative-bindings-custom</code>. You should now be able to use the APIs in your custom build in Rust!</p>
 
                     </main>
 
                     <nav class="nav-wrapper" aria-label="Page navigation">
                         <!-- Mobile navigation buttons -->
                         
-                            <a rel="prev" href="gdnative-overview.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                            <a rel="prev" href="../advanced-guides.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                                 <i class="fa fa-angle-left"></i>
                             </a>
                         
 
-                        
-                            <a rel="next" href="testing/structure.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
-                                <i class="fa fa-angle-right"></i>
-                            </a>
                         
 
                         <div style="clear: both"></div>
@@ -181,15 +208,11 @@
 
             <nav class="nav-wide-wrapper" aria-label="Page navigation">
                 
-                    <a rel="prev" href="gdnative-overview.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                    <a rel="prev" href="../advanced-guides.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                         <i class="fa fa-angle-left"></i>
                     </a>
                 
 
-                
-                    <a rel="next" href="testing/structure.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
-                        <i class="fa fa-angle-right"></i>
-                    </a>
                 
             </nav>
 
@@ -210,14 +233,14 @@
         
 
         
-        <script src="elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
-        <script src="mark.min.js" type="text/javascript" charset="utf-8"></script>
-        <script src="searcher.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../mark.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../searcher.js" type="text/javascript" charset="utf-8"></script>
         
 
-        <script src="clipboard.min.js" type="text/javascript" charset="utf-8"></script>
-        <script src="highlight.js" type="text/javascript" charset="utf-8"></script>
-        <script src="book.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../clipboard.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../highlight.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../book.js" type="text/javascript" charset="utf-8"></script>
 
         <!-- Custom JS scripts -->
         
