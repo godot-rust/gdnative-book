@@ -8,6 +8,10 @@ The default API version is currently 3.2.2-stable. For the rest of the tutorial,
 
 You may download binaries of Godot 3.2.2-stable from the official repository: https://downloads.tuxfamily.org/godotengine/3.2.2/
 
+> ### Using another build of the engine
+>
+> For simplicity, we assume that you use the official build of 3.2.2-stable for the Getting Started tutorial. If you want to use another version of the engine, see the [Using custom builds of Godot](../advanced-guides/custom-bindings.md) guide.
+
 ## Rust
 
 [rustup](https://rustup.rs/) is the recommended way to install the Rust toolchain, including the compiler, standard library, and Cargo, the package manager. Visit https://rustup.rs/ to see instructions for your platform.
