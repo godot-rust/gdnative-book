@@ -235,6 +235,7 @@ impl Thing {
 pub struct Thing;
 
 impl Thing {
+    // `owner` may also be `TRef&lt;Object&gt;`, like in exported methods.
     fn new(_owner: &amp;Object) -&gt; Self {
         Thing
     }
