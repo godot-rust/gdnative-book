@@ -88,6 +88,7 @@ In 0.9, this should now be written as:
 pub struct Thing;
 
 impl Thing {
+    // `owner` may also be `TRef<Object>`, like in exported methods.
     fn new(_owner: &Object) -> Self {
         Thing
     }
