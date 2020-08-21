@@ -4,6 +4,7 @@
 - [Getting Started](./getting-started.md)
   - [Setup](./getting-started/setup.md)
   - [Hello, world!](./getting-started/hello-world.md)
+- [FAQ](./faq.md)
 - [An Overview of GDNative](./gdnative-overview.md)
 - [Testing](./testing.md)
   - [Structuring Code for Testing](./testing/structure.md)
