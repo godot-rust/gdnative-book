@@ -4,7 +4,7 @@
 
 **Question**
 
-A native script type needs to implement `fn new(_owner: &Node) -> Self`.
+A native script type needs to implement `fn new(owner: &Node) -> Self`.
 Is it possible to pass additional arguments to `new`?
 
 **Answer**
@@ -52,6 +52,8 @@ As a work-around, it is possible to use a ZST (zero-sized type):
 
 ```rust
 #[derive(NativeClass)]
+#[derive(Copy, Clone, Default)]
+#[user_data(Aether<StaticUtil>)]
 #[inherit(Object)]
 pub struct StaticUtil;
 
@@ -65,6 +67,8 @@ impl StaticUtil {
 }
 ```
 
+[`Aether`](https://docs.rs/gdnative/0.9.0-preview.0/gdnative/prelude/struct.Aether.html) is a special user-data wrapper intended for zero-sized types, that does not perform any allocation or synchronization at runtime.
+
 The type needs to be instantiated somewhere on GDScript level.
 Good places for instantiation are for instance:
 
@@ -77,12 +81,12 @@ Good places for instantiation are for instance:
 **Question**
 
 I have a method that takes an argument `my_object` as a `Variant`.
-I know that this object is actually another native script, i.e., it is backed by some Rust data structure, called say `MyObject`.
-How can I convert the `Variant` to the underlying Rust type?
+I know that this object has a Rust native script attached to it, called say `MyObject`.
+How can I access the Rust type given the Variant?
 
 **Answer**
 
-This conversion can be accomplished by casting the `Variant` to a `Ref`, obtaining the underlying `RefInstance`, and mapping over it to access the Rust data type:
+This conversion can be accomplished by casting the `Variant` to a `Ref`, and then to an `Instance` or `RefInstance`, and mapping over it to access the Rust data type:
 
 ```rust
 #[godot::methods]
@@ -103,7 +107,7 @@ impl AnotherNativeScript {
             .expect("Failed to cast my_object object to instance");
         // 3. Map over the RefInstance to extract the underlying user data.
         my_object
-            .map(|my_object, _| {
+            .map(|my_object, _owner| {
                 // now my_object is of type MyObject
             })
             .expect("Failed to map over my_object instance");
