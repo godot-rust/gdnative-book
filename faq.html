@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>Advanced Guides - The godot-rust Book</title>
+        <title>FAQ - The godot-rust Book</title>
         
         
 
@@ -89,7 +89,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded "><a href="introduction.html"><strong aria-hidden="true">1.</strong> Introduction</a></li><li class="chapter-item expanded "><a href="getting-started.html"><strong aria-hidden="true">2.</strong> Getting Started</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="getting-started/setup.html"><strong aria-hidden="true">2.1.</strong> Setup</a></li><li class="chapter-item expanded "><a href="getting-started/hello-world.html"><strong aria-hidden="true">2.2.</strong> Hello, world!</a></li></ol></li><li class="chapter-item expanded "><a href="faq.html"><strong aria-hidden="true">3.</strong> FAQ</a></li><li class="chapter-item expanded "><a href="gdnative-overview.html"><strong aria-hidden="true">4.</strong> An Overview of GDNative</a></li><li class="chapter-item expanded "><a href="testing.html"><strong aria-hidden="true">5.</strong> Testing</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="testing/structure.html"><strong aria-hidden="true">5.1.</strong> Structuring Code for Testing</a></li><li class="chapter-item expanded "><a href="testing/engine.html"><strong aria-hidden="true">5.2.</strong> Testing with the Engine</a></li></ol></li><li class="chapter-item expanded "><a href="exporting.html"><strong aria-hidden="true">6.</strong> Exporting</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="exporting/android.html"><strong aria-hidden="true">6.1.</strong> Android</a></li><li class="chapter-item expanded "><a href="exporting/ios.html"><strong aria-hidden="true">6.2.</strong> iOS</a></li></ol></li><li class="chapter-item expanded "><a href="advanced-guides.html" class="active"><strong aria-hidden="true">7.</strong> Advanced Guides</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="advanced-guides/custom-bindings.html"><strong aria-hidden="true">7.1.</strong> Using custom builds of Godot</a></li></ol></li><li class="chapter-item expanded "><a href="migrating-0-8.html"><strong aria-hidden="true">8.</strong> Migrating from godot-rust 0.8.x</a></li></ol>
+                <ol class="chapter"><li class="chapter-item expanded "><a href="introduction.html"><strong aria-hidden="true">1.</strong> Introduction</a></li><li class="chapter-item expanded "><a href="getting-started.html"><strong aria-hidden="true">2.</strong> Getting Started</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="getting-started/setup.html"><strong aria-hidden="true">2.1.</strong> Setup</a></li><li class="chapter-item expanded "><a href="getting-started/hello-world.html"><strong aria-hidden="true">2.2.</strong> Hello, world!</a></li></ol></li><li class="chapter-item expanded "><a href="faq.html" class="active"><strong aria-hidden="true">3.</strong> FAQ</a></li><li class="chapter-item expanded "><a href="gdnative-overview.html"><strong aria-hidden="true">4.</strong> An Overview of GDNative</a></li><li class="chapter-item expanded "><a href="testing.html"><strong aria-hidden="true">5.</strong> Testing</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="testing/structure.html"><strong aria-hidden="true">5.1.</strong> Structuring Code for Testing</a></li><li class="chapter-item expanded "><a href="testing/engine.html"><strong aria-hidden="true">5.2.</strong> Testing with the Engine</a></li></ol></li><li class="chapter-item expanded "><a href="exporting.html"><strong aria-hidden="true">6.</strong> Exporting</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="exporting/android.html"><strong aria-hidden="true">6.1.</strong> Android</a></li><li class="chapter-item expanded "><a href="exporting/ios.html"><strong aria-hidden="true">6.2.</strong> iOS</a></li></ol></li><li class="chapter-item expanded "><a href="advanced-guides.html"><strong aria-hidden="true">7.</strong> Advanced Guides</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="advanced-guides/custom-bindings.html"><strong aria-hidden="true">7.1.</strong> Using custom builds of Godot</a></li></ol></li><li class="chapter-item expanded "><a href="migrating-0-8.html"><strong aria-hidden="true">8.</strong> Migrating from godot-rust 0.8.x</a></li></ol>
             </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
@@ -155,20 +155,122 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h1><a class="header" href="#advanced-guides" id="advanced-guides">Advanced Guides</a></h1>
+                        <h1><a class="header" href="#faq" id="faq">FAQ</a></h1>
+<h2><a class="header" href="#passing-additional-arguments-to-a-class-constructor" id="passing-additional-arguments-to-a-class-constructor">Passing additional arguments to a class constructor</a></h2>
+<p><strong>Question</strong></p>
+<p>A native script type needs to implement <code>fn new(owner: &amp;Node) -&gt; Self</code>.
+Is it possible to pass additional arguments to <code>new</code>?</p>
+<p><strong>Answer</strong></p>
+<p>Unfortunately this is currently a general limitation of GDNative (see <a href="https://github.com/godotengine/godot/issues/23260">related issue</a>).</p>
+<p>As a result, a common pattern to work-around the limitation is to use explicit initialization methods. For instance:</p>
+<pre><pre class="playground"><code class="language-rust">
+<span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>#[derive(NativeClass)]
+#[inherit(Object)]
+struct DataWrapper {
+    data: Option&lt;Data&gt;,
+}
+
+#[godot::methods]
+impl DataWrapper {
+    fn new(_owner: &amp;Object) -&gt; Self {
+        DataWrapper {
+            data: None,
+        }
+    }
+
+    #[export]
+    fn set_data(&amp;mut self, _owner: &amp;Object, additional_arg1: i32, additional_arg2: i32) {
+        self.data = Some(Data::new(additional_arg1, additional_arg2));
+    }
+}
+<span class="boring">}
+</span></code></pre></pre>
+<h2><a class="header" href="#static-methods" id="static-methods">Static methods</a></h2>
+<p><strong>Question</strong></p>
+<p>In GDScript, classes can have static methods.
+However, when I try to omit <code>self</code> in the exported method signature, I'm getting a compile error.
+How can I implement a static method?</p>
+<p><strong>Answer</strong></p>
+<p>This is another limitation of GDNative -- static methods are not supported in general.</p>
+<p>As a work-around, it is possible to use a ZST (zero-sized type):</p>
+<pre><pre class="playground"><code class="language-rust">
+<span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>#[derive(NativeClass, Copy, Clone, Default)]
+#[user_data(Aether&lt;StaticUtil&gt;)]
+#[inherit(Object)]
+pub struct StaticUtil;
+
+#[godot::methods]
+impl StaticUtil {
+    #[export]
+    fn compute_something(&amp;self, _owner: &amp;Object, input: i32) -&gt; i32 {
+        godot_print!(&quot;pseudo-static computation&quot;);
+        2 * input
+    }
+}
+<span class="boring">}
+</span></code></pre></pre>
+<p><a href="https://docs.rs/gdnative/0.9.0-preview.0/gdnative/prelude/struct.Aether.html"><code>Aether</code></a> is a special user-data wrapper intended for zero-sized types, that does not perform any allocation or synchronization at runtime.</p>
+<p>The type needs to be instantiated somewhere on GDScript level.
+Good places for instantiation are for instance:</p>
+<ul>
+<li>as a member of a long-living util object,</li>
+<li>as a <a href="https://docs.godotengine.org/en/stable/getting_started/step_by_step/singletons_autoload.html">singleton auto-load object</a>.</li>
+</ul>
+<h2><a class="header" href="#converting-a-godot-type-to-the-underlying-rust-type" id="converting-a-godot-type-to-the-underlying-rust-type">Converting a Godot type to the underlying Rust type</a></h2>
+<p><strong>Question</strong></p>
+<p>I have a method that takes an argument <code>my_object</code> as a <code>Variant</code>.
+I know that this object has a Rust native script attached to it, called say <code>MyObject</code>.
+How can I access the Rust type given the Variant?</p>
+<p><strong>Answer</strong></p>
+<p>This conversion can be accomplished by casting the <code>Variant</code> to a <code>Ref</code>, and then to an <code>Instance</code> or <code>RefInstance</code>, and mapping over it to access the Rust data type:</p>
+<pre><pre class="playground"><code class="language-rust">
+<span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>#[godot::methods]
+impl AnotherNativeScript {
+
+    #[export]
+    pub fn method_accepting_my_object(&amp;self, _owner: &amp;Object, my_object: Variant) {
+        // 1. Cast Variant to Ref of associated Godot type, and convert to TRef.
+        let my_object = unsafe {
+            my_object
+                .try_to_object::&lt;Object&gt;()
+                .expect(&quot;Failed to convert my_object variant to object&quot;)
+                .assume_safe()
+        };
+        // 2. Obtain a RefInstance.
+        let my_object = my_object
+            .cast_instance::&lt;MyObject&gt;()
+            .expect(&quot;Failed to cast my_object object to instance&quot;);
+        // 3. Map over the RefInstance to extract the underlying user data.
+        my_object
+            .map(|my_object, _owner| {
+                // now my_object is of type MyObject
+            })
+            .expect(&quot;Failed to map over my_object instance&quot;);
+    }
+
+}
+
+<span class="boring">}
+</span></code></pre></pre>
 
                     </main>
 
                     <nav class="nav-wrapper" aria-label="Page navigation">
                         <!-- Mobile navigation buttons -->
                         
-                            <a rel="prev" href="exporting/ios.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                            <a rel="prev" href="getting-started/hello-world.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                                 <i class="fa fa-angle-left"></i>
                             </a>
                         
 
                         
-                            <a rel="next" href="advanced-guides/custom-bindings.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                            <a rel="next" href="gdnative-overview.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                                 <i class="fa fa-angle-right"></i>
                             </a>
                         
@@ -180,13 +282,13 @@
 
             <nav class="nav-wide-wrapper" aria-label="Page navigation">
                 
-                    <a rel="prev" href="exporting/ios.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                    <a rel="prev" href="getting-started/hello-world.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                         <i class="fa fa-angle-left"></i>
                     </a>
                 
 
                 
-                    <a rel="next" href="advanced-guides/custom-bindings.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                    <a rel="next" href="gdnative-overview.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                         <i class="fa fa-angle-right"></i>
                     </a>
                 
