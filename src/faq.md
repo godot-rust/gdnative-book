@@ -51,8 +51,7 @@ This is another limitation of GDNative -- static methods are not supported in ge
 As a work-around, it is possible to use a ZST (zero-sized type):
 
 ```rust
-#[derive(NativeClass)]
-#[derive(Copy, Clone, Default)]
+#[derive(NativeClass, Copy, Clone, Default)]
 #[user_data(Aether<StaticUtil>)]
 #[inherit(Object)]
 pub struct StaticUtil;
