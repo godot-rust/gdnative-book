@@ -258,6 +258,13 @@ impl AnotherNativeScript {
 
 <span class="boring">}
 </span></code></pre></pre>
+<h2><a class="header" href="#auto-completion-with-rust-analyzer" id="auto-completion-with-rust-analyzer">Auto-completion with rust-analyzer</a></h2>
+<p><strong>Question</strong></p>
+<p><code>godot-rust</code> generates most of the gdnative type's code at compile-time. Editors using <a href="https://github.com/rust-analyzer/rust-analyzer">rust-analyzer</a> struggle to autocomplete those types:</p>
+<p><img src="images/no-completion.png" alt="no-completion" /></p>
+<p><strong>Answer</strong></p>
+<p>People <a href="https://github.com/rust-analyzer/rust-analyzer/issues/5040">reported</a> similar issues and found that switching on the <code>&quot;rust-analyzer.cargo.loadOutDirsFromCheck&quot;: true</code> setting fixed it:</p>
+<p><img src="images/completion.png" alt="completion" /></p>
 
                     </main>
 
