@@ -115,3 +115,17 @@ impl AnotherNativeScript {
 }
 
 ```
+
+## Intellisense with rust-analyzer
+
+**Question**
+
+`godot-rust` generates most of the gdnative type's code at compile-time. IDE's using [rust-analyzer](https://github.com/rust-analyzer/rust-analyzer) struggle to autocomplete those types:
+
+![no-completion](images/no-completion.png)
+
+**Answer**
+
+People [reported](https://github.com/rust-analyzer/rust-analyzer/issues/5040) similar issues and found that switching on the `"rust-analyzer.cargo.loadOutDirsFromCheck": true` setting fixed it:
+
+![completion](images/completion.png)
