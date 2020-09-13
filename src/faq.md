@@ -116,11 +116,11 @@ impl AnotherNativeScript {
 
 ```
 
-## Intellisense with rust-analyzer
+## Auto-completion with rust-analyzer
 
 **Question**
 
-`godot-rust` generates most of the gdnative type's code at compile-time. IDE's using [rust-analyzer](https://github.com/rust-analyzer/rust-analyzer) struggle to autocomplete those types:
+`godot-rust` generates most of the gdnative type's code at compile-time. Editors using [rust-analyzer](https://github.com/rust-analyzer/rust-analyzer) struggle to autocomplete those types:
 
 ![no-completion](images/no-completion.png)
 
