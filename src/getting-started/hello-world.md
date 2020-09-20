@@ -1,8 +1,8 @@
 # Hello, world!
 
-At the end of this section, you will end up with an empty project that simply prints "Hello, world!" to the Godot console on ready.
+Follow this tutorial to learn how to create an empty project that simply prints "Hello, world!" to the Godot console on ready. The code might not compile or work as intended while it's in-progress, but at the end of this section, the code will be compiling and working fine.
 
-The full code is available in the main repo: https://github.com/godot-rust/godot-rust/tree/master/examples/hello_world
+The full, finished code is available in the main repo: https://github.com/godot-rust/godot-rust/tree/master/examples/hello_world
 
 ## Creating the project
 
@@ -58,10 +58,8 @@ use gdnative::prelude::*;
 fn init(handle: InitHandle) {
 }
 
-// Macros that create the entry-points of the dynamic library.
-godot_gdnative_init!();
-godot_nativescript_init!(init);
-godot_gdnative_terminate!();
+// Macro that creates the entry-points of the dynamic library.
+godot_init!(init);
 ```
 
 The code does several things:
@@ -81,10 +79,8 @@ fn init(handle: InitHandle) {
 This declares an empty callback function, which is called when the library is loaded by Godot. All script classes in the library should be "registered" here using `handle.add_class::<MyNativeClass>()`. You only need *one* of this in the entire library.
 
 ```rust
-// Macros that create the entry-points of the dynamic library.
-godot_gdnative_init!();
-godot_nativescript_init!(init);
-godot_gdnative_terminate!();
+// Macro that creates the entry-points of the dynamic library.
+godot_init!(init);
 ```
 
 These macros define the necessary C callbacks used by Godot. You only need *one* of these in the entire library. Note how the `init` function defined earlier is given to the `godot_nativescript_init` macro as a callback.
@@ -185,4 +181,4 @@ You can find the full code for this example in the main repo: https://github.com
 
 ## Work-in-progress
 
-**The Getting Started tutorial is a work-in-progress, and unfortunately it ends here for now!** To learn more about the API, you'll have to dive into the [documentation on docs.rs](https://docs.rs/gdnative/0.9.0-preview.0), and the [other examples in the main repo]( https://github.com/godot-rust/godot-rust/tree/master/examples/). If you have any questions using the bindings, ask away in the `#gdnative_dev` channel on the [Godot Engine community Discord server](https://godotengine.org/community)!
+**The Getting Started tutorial is a work-in-progress, and unfortunately it ends here for now!** To learn more about the API, you'll have to dive into the [documentation on docs.rs](https://docs.rs/gdnative/0.9), and the [other examples in the main repo]( https://github.com/godot-rust/godot-rust/tree/master/examples/). If you have any questions using the bindings, ask away in the `#gdnative_dev` channel on the [Godot Engine community Discord server](https://godotengine.org/community)!

@@ -9,7 +9,7 @@ First, obtain the source code for `gdnative-bindings` from crates.io. For this g
 cargo install cargo-download
 
 # Download and unpack the crate
-cargo download gdnative-bindings==0.9.0-preview.0 >gdnative-bindings.tar.gz
+cargo download gdnative-bindings==0.9.0 >gdnative-bindings.tar.gz
 tar -xf gdnative-bindings.tar.gz
 ```
 
@@ -38,7 +38,7 @@ If everything goes well, you can now update the dependencies of your GDNative li
 [dependencies]
 
 # Use the exact version corresponding to `gdnative-bindings`, and disable the default re-export.
-gdnative = { version = "=0.9.0-preview.0", default-features = false, features = [] }
+gdnative = { version = "=0.9.0", default-features = false, features = [] }
 
 # Use your custom bindings crate as a path dependency
 gdnative-bindings-custom = { path = "/path/to/gdnative-bindings-custom" }
@@ -47,3 +47,9 @@ gdnative-bindings-custom = { path = "/path/to/gdnative-bindings-custom" }
 Here, `gdnative` is specified using an exact version because the bindings generator is an internal dependency. When using custom binding crates, care must be taken to ensure that the version of the bindings crate used as the base matches the one specified in the `Cargo.toml` of the `gdnative` crate exactly, even for updates that are considered non-breaking in the `gdnative` crate. Using an exact version bound here helps prevent unintentional updates that may break the build.
 
 Finally, replace references to `gdnative::api` with `gdnative-bindings-custom`. You should now be able to use the APIs in your custom build in Rust!
+
+## Generating documentation
+
+However, if you try to generate documentation with rustdoc at this point, you might notice that documentation might be missing or wrong for some of the types or methods. This is due to documentation being stored separately from the API description itself, and can be easily fixed if you have access to the source code from which your custom Godot binary is built.
+
+To get updated documentation, you only need to copy all the documentation XMLs from `doc/classes` in the Godot source tree, to the `docs` directory in the `gdnative-bindings` source. After the files are copied, you should be able to get correct documentation for the API.
