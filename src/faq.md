@@ -1,5 +1,17 @@
 # FAQ
 
+## Avoiding a `BorrowFailed` error on method call
+
+**Question**
+
+What is the `BorrowFailed` error and why I keep getting it? I'm only trying to call another method that takes `&mut self` while holding one!
+
+**Answer**
+
+In Rust, [there can only be *one* `&mut` reference to the same memory location at the same time](https://docs.rs/dtolnay/0.0.9/dtolnay/macro._02__reference_types.html). To enforce this while making simple use cases easier, the bindings make use of [interior mutability](https://doc.rust-lang.org/book/ch15-05-interior-mutability.html). This works like a lock: whenever a method with `&mut self` is called, it will try to obtain a lock on the `self` value, and hold it *until it returns*. As a result, if another method that takes `&mut self` in called in the meantime for whatever reason (e.g. signals), the lock will fail and a error (`BorrowFailed`) will be produced.
+
+It's relatively easy to work around this problem, though: Because of how the user-data container works, it can only see the outermost layer of your script type - the entire structure. This is why it's stricter than what is actually required. If you run into this problem, you can [introduce finer-grained interior mutability](https://doc.rust-lang.org/book/ch15-05-interior-mutability.html) in your own type, and modify the problematic exported methods to take `&self` instead of `&mut self`.
+
 ## Passing additional arguments to a class constructor
 
 **Question**
@@ -66,7 +78,7 @@ impl StaticUtil {
 }
 ```
 
-[`Aether`](https://docs.rs/gdnative/0.9.0-preview.0/gdnative/prelude/struct.Aether.html) is a special user-data wrapper intended for zero-sized types, that does not perform any allocation or synchronization at runtime.
+[`Aether`](https://docs.rs/gdnative/0.9/gdnative/prelude/struct.Aether.html) is a special user-data wrapper intended for zero-sized types, that does not perform any allocation or synchronization at runtime.
 
 The type needs to be instantiated somewhere on GDScript level.
 Good places for instantiation are for instance:

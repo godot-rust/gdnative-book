@@ -4,13 +4,13 @@ Before we can start creating a hello-world project using godot-rust, we'll need 
 
 ## Godot Engine
 
-The default API version is currently 3.2.2-stable. For the rest of the tutorial, we'll assume that you have Godot 3.2.2-stable installed, and available in your `PATH` as `godot`.
+The default API version is currently 3.2.3-stable. For the rest of the tutorial, we'll assume that you have Godot 3.2.3-stable installed, and available in your `PATH` as `godot`.
 
-You may download binaries of Godot 3.2.2-stable from the official repository: https://downloads.tuxfamily.org/godotengine/3.2.2/
+You may download binaries of Godot 3.2.3-stable from the official repository: https://downloads.tuxfamily.org/godotengine/3.2.3/
 
 > ### Using another build of the engine
 >
-> For simplicity, we assume that you use the official build of 3.2.2-stable for the Getting Started tutorial. If you want to use another version of the engine, see the [Using custom builds of Godot](../advanced-guides/custom-bindings.md) guide.
+> For simplicity, we assume that you use the official build of 3.2.3-stable for the Getting Started tutorial. If you want to use another version of the engine, see the [Using custom builds of Godot](../advanced-guides/custom-bindings.md) guide.
 
 ## Rust
 
