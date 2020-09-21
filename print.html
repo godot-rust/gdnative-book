@@ -91,7 +91,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded "><a href="introduction.html"><strong aria-hidden="true">1.</strong> Introduction</a></li><li class="chapter-item expanded "><a href="getting-started.html"><strong aria-hidden="true">2.</strong> Getting Started</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="getting-started/setup.html"><strong aria-hidden="true">2.1.</strong> Setup</a></li><li class="chapter-item expanded "><a href="getting-started/hello-world.html"><strong aria-hidden="true">2.2.</strong> Hello, world!</a></li></ol></li><li class="chapter-item expanded "><a href="faq.html"><strong aria-hidden="true">3.</strong> FAQ</a></li><li class="chapter-item expanded "><a href="gdnative-overview.html"><strong aria-hidden="true">4.</strong> An Overview of GDNative</a></li><li class="chapter-item expanded "><a href="testing.html"><strong aria-hidden="true">5.</strong> Testing</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="testing/structure.html"><strong aria-hidden="true">5.1.</strong> Structuring Code for Testing</a></li><li class="chapter-item expanded "><a href="testing/engine.html"><strong aria-hidden="true">5.2.</strong> Testing with the Engine</a></li></ol></li><li class="chapter-item expanded "><a href="exporting.html"><strong aria-hidden="true">6.</strong> Exporting</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="exporting/android.html"><strong aria-hidden="true">6.1.</strong> Android</a></li><li class="chapter-item expanded "><a href="exporting/ios.html"><strong aria-hidden="true">6.2.</strong> iOS</a></li></ol></li><li class="chapter-item expanded "><a href="advanced-guides.html"><strong aria-hidden="true">7.</strong> Advanced Guides</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="advanced-guides/custom-bindings.html"><strong aria-hidden="true">7.1.</strong> Using custom builds of Godot</a></li></ol></li><li class="chapter-item expanded "><a href="migrating-0-8.html"><strong aria-hidden="true">8.</strong> Migrating from godot-rust 0.8.x</a></li></ol>
+                <ol class="chapter"><li class="chapter-item expanded "><a href="introduction.html"><strong aria-hidden="true">1.</strong> Introduction</a></li><li class="chapter-item expanded "><a href="getting-started.html"><strong aria-hidden="true">2.</strong> Getting Started</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="getting-started/setup.html"><strong aria-hidden="true">2.1.</strong> Setup</a></li><li class="chapter-item expanded "><a href="getting-started/hello-world.html"><strong aria-hidden="true">2.2.</strong> Hello, world!</a></li></ol></li><li class="chapter-item expanded "><a href="faq.html"><strong aria-hidden="true">3.</strong> FAQ</a></li><li class="chapter-item expanded "><a href="gdnative-overview.html"><strong aria-hidden="true">4.</strong> (TODO) An Overview of GDNative</a></li><li class="chapter-item expanded "><a href="testing.html"><strong aria-hidden="true">5.</strong> (TODO) Testing</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="testing/structure.html"><strong aria-hidden="true">5.1.</strong> Structuring Code for Testing</a></li><li class="chapter-item expanded "><a href="testing/engine.html"><strong aria-hidden="true">5.2.</strong> Testing with the Engine</a></li></ol></li><li class="chapter-item expanded "><a href="exporting.html"><strong aria-hidden="true">6.</strong> Exporting</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="exporting/android.html"><strong aria-hidden="true">6.1.</strong> Android</a></li><li class="chapter-item expanded "><a href="exporting/ios.html"><strong aria-hidden="true">6.2.</strong> (TODO) iOS</a></li></ol></li><li class="chapter-item expanded "><a href="advanced-guides.html"><strong aria-hidden="true">7.</strong> Advanced Guides</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="advanced-guides/custom-bindings.html"><strong aria-hidden="true">7.1.</strong> Using custom builds of Godot</a></li></ol></li><li class="chapter-item expanded "><a href="migrating-0-8.html"><strong aria-hidden="true">8.</strong> Migrating from godot-rust 0.8.x</a></li></ol>
             </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
@@ -169,15 +169,15 @@
 <p>The getting started tutorial will introduce you to basic godot-rust concepts. At the end of the tutorial, you'll have a working copy of the <a href="https://github.com/godot-rust/godot-rust/tree/master/examples/dodge_the_creeps">dodge-the-creeps example</a> from the main repo.</p>
 <p>This tutorial assumes some experience with Godot's GUI and GDScript. It assumes a basic understanding of Rust itself.</p>
 <h2><a class="header" href="#work-in-progress" id="work-in-progress">Work-in-progress</a></h2>
-<p><strong>The Getting Started tutorial is a work-in-progress, and currently it only covers up to the hello-world example!</strong> To learn more about the API after the tutorial, you'll have to dive into the <a href="https://docs.rs/gdnative/0.9.0-preview.0">documentation on docs.rs</a>, and the <a href="https://github.com/godot-rust/godot-rust/tree/master/examples/">other examples in the main repo</a>. If you have any questions using the bindings, ask away in the <code>#gdnative_dev</code> channel on the <a href="https://godotengine.org/community">Godot Engine community Discord server</a>!</p>
+<p><strong>The Getting Started tutorial is a work-in-progress, and currently it only covers up to the hello-world example!</strong> To learn more about the API after the tutorial, you'll have to dive into the <a href="https://docs.rs/gdnative/0.9">documentation on docs.rs</a>, and the <a href="https://github.com/godot-rust/godot-rust/tree/master/examples/">other examples in the main repo</a>. If you have any questions using the bindings, ask away in the <code>#gdnative_dev</code> channel on the <a href="https://godotengine.org/community">Godot Engine community Discord server</a>!</p>
 <h1><a class="header" href="#setup" id="setup">Setup</a></h1>
 <p>Before we can start creating a hello-world project using godot-rust, we'll need to install the necessary software.</p>
 <h2><a class="header" href="#godot-engine" id="godot-engine">Godot Engine</a></h2>
-<p>The default API version is currently 3.2.2-stable. For the rest of the tutorial, we'll assume that you have Godot 3.2.2-stable installed, and available in your <code>PATH</code> as <code>godot</code>.</p>
-<p>You may download binaries of Godot 3.2.2-stable from the official repository: https://downloads.tuxfamily.org/godotengine/3.2.2/</p>
+<p>The default API version is currently 3.2.3-stable. For the rest of the tutorial, we'll assume that you have Godot 3.2.3-stable installed, and available in your <code>PATH</code> as <code>godot</code>.</p>
+<p>You may download binaries of Godot 3.2.3-stable from the official repository: https://downloads.tuxfamily.org/godotengine/3.2.3/</p>
 <blockquote>
 <h3><a class="header" href="#using-another-build-of-the-engine" id="using-another-build-of-the-engine">Using another build of the engine</a></h3>
-<p>For simplicity, we assume that you use the official build of 3.2.2-stable for the Getting Started tutorial. If you want to use another version of the engine, see the <a href="getting-started/../advanced-guides/custom-bindings.html">Using custom builds of Godot</a> guide.</p>
+<p>For simplicity, we assume that you use the official build of 3.2.3-stable for the Getting Started tutorial. If you want to use another version of the engine, see the <a href="getting-started/../advanced-guides/custom-bindings.html">Using custom builds of Godot</a> guide.</p>
 </blockquote>
 <h2><a class="header" href="#rust" id="rust">Rust</a></h2>
 <p><a href="https://rustup.rs/">rustup</a> is the recommended way to install the Rust toolchain, including the compiler, standard library, and Cargo, the package manager. Visit https://rustup.rs/ to see instructions for your platform.</p>
@@ -198,8 +198,8 @@ cargo -V
 clang -v
 </code></pre>
 <h1><a class="header" href="#hello-world" id="hello-world">Hello, world!</a></h1>
-<p>At the end of this section, you will end up with an empty project that simply prints &quot;Hello, world!&quot; to the Godot console on ready.</p>
-<p>The full code is available in the main repo: https://github.com/godot-rust/godot-rust/tree/master/examples/hello_world</p>
+<p>Follow this tutorial to learn how to create an empty project that simply prints &quot;Hello, world!&quot; to the Godot console on ready. The code might not compile or work as intended while it's in-progress, but at the end of this section, the code will be compiling and working fine.</p>
+<p>The full, finished code is available in the main repo: https://github.com/godot-rust/godot-rust/tree/master/examples/hello_world</p>
 <h2><a class="header" href="#creating-the-project" id="creating-the-project">Creating the project</a></h2>
 <p>First, create an empty project using the Godot GUI. Then, create an empty crate <em>beside</em> the project folder using <code>cargo</code>:</p>
 <pre><code class="language-sh">cargo init --lib my-gdnative-lib
@@ -241,10 +241,8 @@ gdnative = &quot;0.9&quot;
 fn init(handle: InitHandle) {
 }
 
-// Macros that create the entry-points of the dynamic library.
-godot_gdnative_init!();
-godot_nativescript_init!(init);
-godot_gdnative_terminate!();
+// Macro that creates the entry-points of the dynamic library.
+godot_init!(init);
 <span class="boring">}
 </span></code></pre></pre>
 <p>The code does several things:</p>
@@ -267,10 +265,8 @@ fn init(handle: InitHandle) {
 <pre><pre class="playground"><code class="language-rust">
 <span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
-</span>// Macros that create the entry-points of the dynamic library.
-godot_gdnative_init!();
-godot_nativescript_init!(init);
-godot_gdnative_terminate!();
+</span>// Macro that creates the entry-points of the dynamic library.
+godot_init!(init);
 <span class="boring">}
 </span></code></pre></pre>
 <p>These macros define the necessary C callbacks used by Godot. You only need <em>one</em> of these in the entire library. Note how the <code>init</code> function defined earlier is given to the <code>godot_nativescript_init</code> macro as a callback.</p>
@@ -356,8 +352,14 @@ impl HelloWorld {
 <p>Congratulations! You have just created your first Rust GDNative library. You have learned how to expose scripts, methods to Godot using the bindings, and how to use them in Godot. A lot of the details are still unexplained, but you're off to a good start!</p>
 <p>You can find the full code for this example in the main repo: https://github.com/godot-rust/godot-rust/tree/master/examples/hello_world</p>
 <h2><a class="header" href="#work-in-progress-1" id="work-in-progress-1">Work-in-progress</a></h2>
-<p><strong>The Getting Started tutorial is a work-in-progress, and unfortunately it ends here for now!</strong> To learn more about the API, you'll have to dive into the <a href="https://docs.rs/gdnative/0.9.0-preview.0">documentation on docs.rs</a>, and the <a href="https://github.com/godot-rust/godot-rust/tree/master/examples/">other examples in the main repo</a>. If you have any questions using the bindings, ask away in the <code>#gdnative_dev</code> channel on the <a href="https://godotengine.org/community">Godot Engine community Discord server</a>!</p>
+<p><strong>The Getting Started tutorial is a work-in-progress, and unfortunately it ends here for now!</strong> To learn more about the API, you'll have to dive into the <a href="https://docs.rs/gdnative/0.9">documentation on docs.rs</a>, and the <a href="https://github.com/godot-rust/godot-rust/tree/master/examples/">other examples in the main repo</a>. If you have any questions using the bindings, ask away in the <code>#gdnative_dev</code> channel on the <a href="https://godotengine.org/community">Godot Engine community Discord server</a>!</p>
 <h1><a class="header" href="#faq" id="faq">FAQ</a></h1>
+<h2><a class="header" href="#avoiding-a-borrowfailed-error-on-method-call" id="avoiding-a-borrowfailed-error-on-method-call">Avoiding a <code>BorrowFailed</code> error on method call</a></h2>
+<p><strong>Question</strong></p>
+<p>What is the <code>BorrowFailed</code> error and why I keep getting it? I'm only trying to call another method that takes <code>&amp;mut self</code> while holding one!</p>
+<p><strong>Answer</strong></p>
+<p>In Rust, <a href="https://docs.rs/dtolnay/0.0.9/dtolnay/macro._02__reference_types.html">there can only be <em>one</em> <code>&amp;mut</code> reference to the same memory location at the same time</a>. To enforce this while making simple use cases easier, the bindings make use of <a href="https://doc.rust-lang.org/book/ch15-05-interior-mutability.html">interior mutability</a>. This works like a lock: whenever a method with <code>&amp;mut self</code> is called, it will try to obtain a lock on the <code>self</code> value, and hold it <em>until it returns</em>. As a result, if another method that takes <code>&amp;mut self</code> in called in the meantime for whatever reason (e.g. signals), the lock will fail and a error (<code>BorrowFailed</code>) will be produced.</p>
+<p>It's relatively easy to work around this problem, though: Because of how the user-data container works, it can only see the outermost layer of your script type - the entire structure. This is why it's stricter than what is actually required. If you run into this problem, you can <a href="https://doc.rust-lang.org/book/ch15-05-interior-mutability.html">introduce finer-grained interior mutability</a> in your own type, and modify the problematic exported methods to take <code>&amp;self</code> instead of <code>&amp;mut self</code>.</p>
 <h2><a class="header" href="#passing-additional-arguments-to-a-class-constructor" id="passing-additional-arguments-to-a-class-constructor">Passing additional arguments to a class constructor</a></h2>
 <p><strong>Question</strong></p>
 <p>A native script type needs to implement <code>fn new(owner: &amp;Node) -&gt; Self</code>.
@@ -415,7 +417,7 @@ impl StaticUtil {
 }
 <span class="boring">}
 </span></code></pre></pre>
-<p><a href="https://docs.rs/gdnative/0.9.0-preview.0/gdnative/prelude/struct.Aether.html"><code>Aether</code></a> is a special user-data wrapper intended for zero-sized types, that does not perform any allocation or synchronization at runtime.</p>
+<p><a href="https://docs.rs/gdnative/0.9/gdnative/prelude/struct.Aether.html"><code>Aether</code></a> is a special user-data wrapper intended for zero-sized types, that does not perform any allocation or synchronization at runtime.</p>
 <p>The type needs to be instantiated somewhere on GDScript level.
 Good places for instantiation are for instance:</p>
 <ul>
@@ -597,7 +599,7 @@ godot --export &quot;Android&quot; path/to/my.apk
 cargo install cargo-download
 
 # Download and unpack the crate
-cargo download gdnative-bindings==0.9.0-preview.0 &gt;gdnative-bindings.tar.gz
+cargo download gdnative-bindings==0.9.0 &gt;gdnative-bindings.tar.gz
 tar -xf gdnative-bindings.tar.gz
 </code></pre>
 <p>You should be able to find the source code for the crate in a <code>gdnative-bindings-{version}</code> directory. Rename it to a distinctive name like <code>gdnative-bindings-custom</code> and update the <code>Cargo.toml</code>:</p>
@@ -616,13 +618,16 @@ cargo build
 <pre><code class="language-toml">[dependencies]
 
 # Use the exact version corresponding to `gdnative-bindings`, and disable the default re-export.
-gdnative = { version = &quot;=0.9.0-preview.0&quot;, default-features = false, features = [] }
+gdnative = { version = &quot;=0.9.0&quot;, default-features = false, features = [] }
 
 # Use your custom bindings crate as a path dependency
 gdnative-bindings-custom = { path = &quot;/path/to/gdnative-bindings-custom&quot; }
 </code></pre>
 <p>Here, <code>gdnative</code> is specified using an exact version because the bindings generator is an internal dependency. When using custom binding crates, care must be taken to ensure that the version of the bindings crate used as the base matches the one specified in the <code>Cargo.toml</code> of the <code>gdnative</code> crate exactly, even for updates that are considered non-breaking in the <code>gdnative</code> crate. Using an exact version bound here helps prevent unintentional updates that may break the build.</p>
 <p>Finally, replace references to <code>gdnative::api</code> with <code>gdnative-bindings-custom</code>. You should now be able to use the APIs in your custom build in Rust!</p>
+<h2><a class="header" href="#generating-documentation" id="generating-documentation">Generating documentation</a></h2>
+<p>However, if you try to generate documentation with rustdoc at this point, you might notice that documentation might be missing or wrong for some of the types or methods. This is due to documentation being stored separately from the API description itself, and can be easily fixed if you have access to the source code from which your custom Godot binary is built.</p>
+<p>To get updated documentation, you only need to copy all the documentation XMLs from <code>doc/classes</code> in the Godot source tree, to the <code>docs</code> directory in the <code>gdnative-bindings</code> source. After the files are copied, you should be able to get correct documentation for the API.</p>
 <h1><a class="header" href="#migrating-from-godot-rust-08x" id="migrating-from-godot-rust-08x">Migrating from godot-rust 0.8.x</a></h1>
 <p>In version 0.9, we are attempting to resolve many long-standing problems in the older API. As a result, there are many breaking changes in the public interface. This is a quick guide to the new API for users that have used older versions.</p>
 <h2><a class="header" href="#module-organization-and-naming" id="module-organization-and-naming">Module organization and naming</a></h2>

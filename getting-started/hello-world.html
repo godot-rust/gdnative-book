@@ -89,7 +89,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded "><a href="../introduction.html"><strong aria-hidden="true">1.</strong> Introduction</a></li><li class="chapter-item expanded "><a href="../getting-started.html"><strong aria-hidden="true">2.</strong> Getting Started</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../getting-started/setup.html"><strong aria-hidden="true">2.1.</strong> Setup</a></li><li class="chapter-item expanded "><a href="../getting-started/hello-world.html" class="active"><strong aria-hidden="true">2.2.</strong> Hello, world!</a></li></ol></li><li class="chapter-item expanded "><a href="../faq.html"><strong aria-hidden="true">3.</strong> FAQ</a></li><li class="chapter-item expanded "><a href="../gdnative-overview.html"><strong aria-hidden="true">4.</strong> An Overview of GDNative</a></li><li class="chapter-item expanded "><a href="../testing.html"><strong aria-hidden="true">5.</strong> Testing</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../testing/structure.html"><strong aria-hidden="true">5.1.</strong> Structuring Code for Testing</a></li><li class="chapter-item expanded "><a href="../testing/engine.html"><strong aria-hidden="true">5.2.</strong> Testing with the Engine</a></li></ol></li><li class="chapter-item expanded "><a href="../exporting.html"><strong aria-hidden="true">6.</strong> Exporting</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../exporting/android.html"><strong aria-hidden="true">6.1.</strong> Android</a></li><li class="chapter-item expanded "><a href="../exporting/ios.html"><strong aria-hidden="true">6.2.</strong> iOS</a></li></ol></li><li class="chapter-item expanded "><a href="../advanced-guides.html"><strong aria-hidden="true">7.</strong> Advanced Guides</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../advanced-guides/custom-bindings.html"><strong aria-hidden="true">7.1.</strong> Using custom builds of Godot</a></li></ol></li><li class="chapter-item expanded "><a href="../migrating-0-8.html"><strong aria-hidden="true">8.</strong> Migrating from godot-rust 0.8.x</a></li></ol>
+                <ol class="chapter"><li class="chapter-item expanded "><a href="../introduction.html"><strong aria-hidden="true">1.</strong> Introduction</a></li><li class="chapter-item expanded "><a href="../getting-started.html"><strong aria-hidden="true">2.</strong> Getting Started</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../getting-started/setup.html"><strong aria-hidden="true">2.1.</strong> Setup</a></li><li class="chapter-item expanded "><a href="../getting-started/hello-world.html" class="active"><strong aria-hidden="true">2.2.</strong> Hello, world!</a></li></ol></li><li class="chapter-item expanded "><a href="../faq.html"><strong aria-hidden="true">3.</strong> FAQ</a></li><li class="chapter-item expanded "><a href="../gdnative-overview.html"><strong aria-hidden="true">4.</strong> (TODO) An Overview of GDNative</a></li><li class="chapter-item expanded "><a href="../testing.html"><strong aria-hidden="true">5.</strong> (TODO) Testing</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../testing/structure.html"><strong aria-hidden="true">5.1.</strong> Structuring Code for Testing</a></li><li class="chapter-item expanded "><a href="../testing/engine.html"><strong aria-hidden="true">5.2.</strong> Testing with the Engine</a></li></ol></li><li class="chapter-item expanded "><a href="../exporting.html"><strong aria-hidden="true">6.</strong> Exporting</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../exporting/android.html"><strong aria-hidden="true">6.1.</strong> Android</a></li><li class="chapter-item expanded "><a href="../exporting/ios.html"><strong aria-hidden="true">6.2.</strong> (TODO) iOS</a></li></ol></li><li class="chapter-item expanded "><a href="../advanced-guides.html"><strong aria-hidden="true">7.</strong> Advanced Guides</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../advanced-guides/custom-bindings.html"><strong aria-hidden="true">7.1.</strong> Using custom builds of Godot</a></li></ol></li><li class="chapter-item expanded "><a href="../migrating-0-8.html"><strong aria-hidden="true">8.</strong> Migrating from godot-rust 0.8.x</a></li></ol>
             </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
@@ -156,8 +156,8 @@
                 <div id="content" class="content">
                     <main>
                         <h1><a class="header" href="#hello-world" id="hello-world">Hello, world!</a></h1>
-<p>At the end of this section, you will end up with an empty project that simply prints &quot;Hello, world!&quot; to the Godot console on ready.</p>
-<p>The full code is available in the main repo: https://github.com/godot-rust/godot-rust/tree/master/examples/hello_world</p>
+<p>Follow this tutorial to learn how to create an empty project that simply prints &quot;Hello, world!&quot; to the Godot console on ready. The code might not compile or work as intended while it's in-progress, but at the end of this section, the code will be compiling and working fine.</p>
+<p>The full, finished code is available in the main repo: https://github.com/godot-rust/godot-rust/tree/master/examples/hello_world</p>
 <h2><a class="header" href="#creating-the-project" id="creating-the-project">Creating the project</a></h2>
 <p>First, create an empty project using the Godot GUI. Then, create an empty crate <em>beside</em> the project folder using <code>cargo</code>:</p>
 <pre><code class="language-sh">cargo init --lib my-gdnative-lib
@@ -199,10 +199,8 @@ gdnative = &quot;0.9&quot;
 fn init(handle: InitHandle) {
 }
 
-// Macros that create the entry-points of the dynamic library.
-godot_gdnative_init!();
-godot_nativescript_init!(init);
-godot_gdnative_terminate!();
+// Macro that creates the entry-points of the dynamic library.
+godot_init!(init);
 <span class="boring">}
 </span></code></pre></pre>
 <p>The code does several things:</p>
@@ -225,10 +223,8 @@ fn init(handle: InitHandle) {
 <pre><pre class="playground"><code class="language-rust">
 <span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
-</span>// Macros that create the entry-points of the dynamic library.
-godot_gdnative_init!();
-godot_nativescript_init!(init);
-godot_gdnative_terminate!();
+</span>// Macro that creates the entry-points of the dynamic library.
+godot_init!(init);
 <span class="boring">}
 </span></code></pre></pre>
 <p>These macros define the necessary C callbacks used by Godot. You only need <em>one</em> of these in the entire library. Note how the <code>init</code> function defined earlier is given to the <code>godot_nativescript_init</code> macro as a callback.</p>
@@ -314,7 +310,7 @@ impl HelloWorld {
 <p>Congratulations! You have just created your first Rust GDNative library. You have learned how to expose scripts, methods to Godot using the bindings, and how to use them in Godot. A lot of the details are still unexplained, but you're off to a good start!</p>
 <p>You can find the full code for this example in the main repo: https://github.com/godot-rust/godot-rust/tree/master/examples/hello_world</p>
 <h2><a class="header" href="#work-in-progress" id="work-in-progress">Work-in-progress</a></h2>
-<p><strong>The Getting Started tutorial is a work-in-progress, and unfortunately it ends here for now!</strong> To learn more about the API, you'll have to dive into the <a href="https://docs.rs/gdnative/0.9.0-preview.0">documentation on docs.rs</a>, and the <a href="https://github.com/godot-rust/godot-rust/tree/master/examples/">other examples in the main repo</a>. If you have any questions using the bindings, ask away in the <code>#gdnative_dev</code> channel on the <a href="https://godotengine.org/community">Godot Engine community Discord server</a>!</p>
+<p><strong>The Getting Started tutorial is a work-in-progress, and unfortunately it ends here for now!</strong> To learn more about the API, you'll have to dive into the <a href="https://docs.rs/gdnative/0.9">documentation on docs.rs</a>, and the <a href="https://github.com/godot-rust/godot-rust/tree/master/examples/">other examples in the main repo</a>. If you have any questions using the bindings, ask away in the <code>#gdnative_dev</code> channel on the <a href="https://godotengine.org/community">Godot Engine community Discord server</a>!</p>
 
                     </main>
 
