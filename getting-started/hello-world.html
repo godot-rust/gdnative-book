@@ -157,7 +157,7 @@
                     <main>
                         <h1><a class="header" href="#hello-world" id="hello-world">Hello, world!</a></h1>
 <p>Follow this tutorial to learn how to create an empty project that simply prints &quot;Hello, world!&quot; to the Godot console on ready. The code might not compile or work as intended while it's in-progress, but at the end of this section, the code will be compiling and working fine.</p>
-<p>The full, finished code is available in the main repo: https://github.com/godot-rust/godot-rust/tree/master/examples/hello_world</p>
+<p>The full, finished code is available in the main repo: <a href="https://github.com/godot-rust/godot-rust/tree/master/examples/hello_world">https://github.com/godot-rust/godot-rust/tree/master/examples/hello_world</a>.</p>
 <h2><a class="header" href="#creating-the-project" id="creating-the-project">Creating the project</a></h2>
 <p>First, create an empty project using the Godot GUI. Then, create an empty crate <em>beside</em> the project folder using <code>cargo</code>:</p>
 <pre><code class="language-sh">cargo init --lib my-gdnative-lib
@@ -170,9 +170,8 @@
 │   ├   Cargo.toml
 ├─── my-godot-project
 │   ├─── .import
-│   └─── assets
-│   │   ├   icon.png
-│   │   └   icon.png.import
+│   ├   icon.png
+│   ├   icon.png.import
 │   └   project.godot
 </code></pre>
 <p>Once the project is created, open <code>Cargo.toml</code>, change the crate type to <code>cdylib</code>, and add <code>gdnative</code> as a dependency:</p>
@@ -227,13 +226,13 @@ fn init(handle: InitHandle) {
 godot_init!(init);
 <span class="boring">}
 </span></code></pre></pre>
-<p>These macros define the necessary C callbacks used by Godot. You only need <em>one</em> of these in the entire library. Note how the <code>init</code> function defined earlier is given to the <code>godot_nativescript_init</code> macro as a callback.</p>
+<p>This macro defines the necessary C callbacks used by Godot. You only need <em>one</em> invocation of this macro in the entire library. Note how the <code>init</code> function defined earlier is given to the <code>godot_init!</code> macro as a callback.</p>
 <blockquote>
 <h3><a class="header" href="#gdnative-internals" id="gdnative-internals">GDNative internals</a></h3>
-<p>The purposes of these macros will be discussed in detail in <a href="../gdnative-overview.html"><em>An Overview of GDNative</em></a>. For now, treat these as magic incantations.</p>
+<p>The purposes of this macro will be discussed in detail in <a href="../gdnative-overview.html"><em>An Overview of GDNative</em></a>. For now, treat it as a magic incantation.</p>
 </blockquote>
 <h2><a class="header" href="#your-first-script" id="your-first-script">Your first script</a></h2>
-<p>With the boilerplate put into place, you can now create your first Rust script! We will go step by step and discover what's needed to create script &quot;class&quot;es. Intermediate code versions might not compile, but at the end of this section it should be working!</p>
+<p>With the boilerplate put into place, you can now create your first Rust script! We will go step by step and discover what's needed to create script &quot;classes&quot;. Intermediate code versions might not compile, but at the end of this section it should be working!</p>
 <p>A script is simply a Rust type that implements (derives) the <code>NativeScript</code> trait:</p>
 <pre><pre class="playground"><code class="language-rust">
 <span class="boring">#![allow(unused)]
@@ -270,7 +269,7 @@ impl HelloWorld {
 }
 <span class="boring">}
 </span></code></pre></pre>
-<p>The <code>HelloWorld</code> type is like any regular Rust type, and can have any number of ordinary <code>impl</code> blocks. However, it must have <strong>one and only one</strong> <code>impl</code> block with the <code>#[methods]</code> attribute, which tells godot-rust to generate code that automatically bind any exported methods to Godot.</p>
+<p>The <code>HelloWorld</code> type is like any regular Rust type, and can have any number of ordinary <code>impl</code> blocks. However, it must have <strong>one and only one</strong> <code>impl</code> block with the <code>#[methods]</code> attribute, which tells godot-rust to generate code that automatically binds any exported methods to Godot.</p>
 <h2><a class="header" href="#creating-the-nativescript-resource" id="creating-the-nativescript-resource">Creating the NativeScript resource</a></h2>
 <p>You should now be able to build the dynamic library with a <code>HelloWorld</code> script class in it. However, we also need to tell Godot about it. To do this, build the library with <code>cargo build</code>.</p>
 <p>After building the library with <code>cargo build</code>, the resulting library should be in the <code>target/debug/</code> folder. Copy it (or create a symbolic link to it) somewhere inside the Godot project directory.</p>
@@ -307,8 +306,8 @@ impl HelloWorld {
 <p>Here, the <code>#[export]</code> attribute is used to tell godot-rust to expose your methods to Godot. In this case, we are overriding <a href="https://docs.godotengine.org/en/stable/classes/class_node.html#class-node-method-ready"><code>_ready</code></a> and printing a line of text.</p>
 <p>Now, re-compile the crate using <code>cargo build</code> and copy the resulting binary to the Godot project. Launch the project from the editor, and you should see <code>Hello, world!</code> in the Godot console!</p>
 <h2><a class="header" href="#wrapping-it-up" id="wrapping-it-up">Wrapping it up</a></h2>
-<p>Congratulations! You have just created your first Rust GDNative library. You have learned how to expose scripts, methods to Godot using the bindings, and how to use them in Godot. A lot of the details are still unexplained, but you're off to a good start!</p>
-<p>You can find the full code for this example in the main repo: https://github.com/godot-rust/godot-rust/tree/master/examples/hello_world</p>
+<p>Congratulations! You have just created your first Rust GDNative library. You have learned how to expose scripts and methods to Godot using the bindings, and how to use them in Godot. A lot of the details are still unexplained, but you're off to a good start!</p>
+<p>You can find the full code for this example in the main repo: <a href="https://github.com/godot-rust/godot-rust/tree/master/examples/hello_world">https://github.com/godot-rust/godot-rust/tree/master/examples/hello_world</a>.</p>
 <h2><a class="header" href="#work-in-progress" id="work-in-progress">Work-in-progress</a></h2>
 <p><strong>The Getting Started tutorial is a work-in-progress, and unfortunately it ends here for now!</strong> To learn more about the API, you'll have to dive into the <a href="https://docs.rs/gdnative/0.9">documentation on docs.rs</a>, and the <a href="https://github.com/godot-rust/godot-rust/tree/master/examples/">other examples in the main repo</a>. If you have any questions using the bindings, ask away in the <code>#gdnative_dev</code> channel on the <a href="https://godotengine.org/community">Godot Engine community Discord server</a>!</p>
 

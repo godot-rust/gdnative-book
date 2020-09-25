@@ -158,9 +158,9 @@
                         <h1><a class="header" href="#faq" id="faq">FAQ</a></h1>
 <h2><a class="header" href="#avoiding-a-borrowfailed-error-on-method-call" id="avoiding-a-borrowfailed-error-on-method-call">Avoiding a <code>BorrowFailed</code> error on method call</a></h2>
 <p><strong>Question</strong></p>
-<p>What is the <code>BorrowFailed</code> error and why I keep getting it? I'm only trying to call another method that takes <code>&amp;mut self</code> while holding one!</p>
+<p>What is the <code>BorrowFailed</code> error and why do I keep getting it? I'm only trying to call another method that takes <code>&amp;mut self</code> while holding one!</p>
 <p><strong>Answer</strong></p>
-<p>In Rust, <a href="https://docs.rs/dtolnay/0.0.9/dtolnay/macro._02__reference_types.html">there can only be <em>one</em> <code>&amp;mut</code> reference to the same memory location at the same time</a>. To enforce this while making simple use cases easier, the bindings make use of <a href="https://doc.rust-lang.org/book/ch15-05-interior-mutability.html">interior mutability</a>. This works like a lock: whenever a method with <code>&amp;mut self</code> is called, it will try to obtain a lock on the <code>self</code> value, and hold it <em>until it returns</em>. As a result, if another method that takes <code>&amp;mut self</code> in called in the meantime for whatever reason (e.g. signals), the lock will fail and a error (<code>BorrowFailed</code>) will be produced.</p>
+<p>In Rust, <a href="https://docs.rs/dtolnay/0.0.9/dtolnay/macro._02__reference_types.html">there can only be <em>one</em> <code>&amp;mut</code> reference to the same memory location at the same time</a>. To enforce this while making simple use cases easier, the bindings make use of <a href="https://doc.rust-lang.org/book/ch15-05-interior-mutability.html">interior mutability</a>. This works like a lock: whenever a method with <code>&amp;mut self</code> is called, it will try to obtain a lock on the <code>self</code> value, and hold it <em>until it returns</em>. As a result, if another method that takes <code>&amp;mut self</code> is called in the meantime for whatever reason (e.g. signals), the lock will fail and an error (<code>BorrowFailed</code>) will be produced.</p>
 <p>It's relatively easy to work around this problem, though: Because of how the user-data container works, it can only see the outermost layer of your script type - the entire structure. This is why it's stricter than what is actually required. If you run into this problem, you can <a href="https://doc.rust-lang.org/book/ch15-05-interior-mutability.html">introduce finer-grained interior mutability</a> in your own type, and modify the problematic exported methods to take <code>&amp;self</code> instead of <code>&amp;mut self</code>.</p>
 <h2><a class="header" href="#passing-additional-arguments-to-a-class-constructor" id="passing-additional-arguments-to-a-class-constructor">Passing additional arguments to a class constructor</a></h2>
 <p><strong>Question</strong></p>
@@ -255,7 +255,7 @@ impl AnotherNativeScript {
         // 3. Map over the RefInstance to extract the underlying user data.
         my_object
             .map(|my_object, _owner| {
-                // now my_object is of type MyObject
+                // Now my_object is of type MyObject.
             })
             .expect(&quot;Failed to map over my_object instance&quot;);
     }
