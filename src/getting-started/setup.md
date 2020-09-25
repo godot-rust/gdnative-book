@@ -6,7 +6,7 @@ Before we can start creating a hello-world project using godot-rust, we'll need 
 
 The default API version is currently 3.2.3-stable. For the rest of the tutorial, we'll assume that you have Godot 3.2.3-stable installed, and available in your `PATH` as `godot`.
 
-You may download binaries of Godot 3.2.3-stable from the official repository: https://downloads.tuxfamily.org/godotengine/3.2.3/
+You may download binaries of Godot 3.2.3-stable from the official repository: [https://downloads.tuxfamily.org/godotengine/3.2.3/](https://downloads.tuxfamily.org/godotengine/3.2.3/).
 
 > ### Using another build of the engine
 >
@@ -14,7 +14,7 @@ You may download binaries of Godot 3.2.3-stable from the official repository: ht
 
 ## Rust
 
-[rustup](https://rustup.rs/) is the recommended way to install the Rust toolchain, including the compiler, standard library, and Cargo, the package manager. Visit https://rustup.rs/ to see instructions for your platform.
+[rustup](https://rustup.rs/) is the recommended way to install the Rust toolchain, including the compiler, standard library, and Cargo, the package manager. Visit [https://rustup.rs/](https://rustup.rs/) to see instructions for your platform.
 
 After installation of rustup and the `stable` toolchain, check that they were installed properly:
 
@@ -33,11 +33,11 @@ When working on Windows, it's also necessary to install the [Visual Studio Build
 
 ## LLVM
 
-The godot-rust bindings depend on `bindgen`, which in turn [depends on LLVM](https://rust-lang.github.io/rust-bindgen/requirements.html). You may download LLVM binaries from https://releases.llvm.org/.
+The godot-rust bindings depend on `bindgen`, which in turn [depends on LLVM](https://rust-lang.github.io/rust-bindgen/requirements.html). You may download LLVM binaries from [https://releases.llvm.org/](https://releases.llvm.org/).
 
 After installation, check that LLVM was installed properly:
 
 ```bash
-# Check if CLang is installed and registered in PATH
+# Check if Clang is installed and registered in PATH
 clang -v
 ```

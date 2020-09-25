@@ -4,11 +4,11 @@
 
 **Question**
 
-What is the `BorrowFailed` error and why I keep getting it? I'm only trying to call another method that takes `&mut self` while holding one!
+What is the `BorrowFailed` error and why do I keep getting it? I'm only trying to call another method that takes `&mut self` while holding one!
 
 **Answer**
 
-In Rust, [there can only be *one* `&mut` reference to the same memory location at the same time](https://docs.rs/dtolnay/0.0.9/dtolnay/macro._02__reference_types.html). To enforce this while making simple use cases easier, the bindings make use of [interior mutability](https://doc.rust-lang.org/book/ch15-05-interior-mutability.html). This works like a lock: whenever a method with `&mut self` is called, it will try to obtain a lock on the `self` value, and hold it *until it returns*. As a result, if another method that takes `&mut self` in called in the meantime for whatever reason (e.g. signals), the lock will fail and a error (`BorrowFailed`) will be produced.
+In Rust, [there can only be *one* `&mut` reference to the same memory location at the same time](https://docs.rs/dtolnay/0.0.9/dtolnay/macro._02__reference_types.html). To enforce this while making simple use cases easier, the bindings make use of [interior mutability](https://doc.rust-lang.org/book/ch15-05-interior-mutability.html). This works like a lock: whenever a method with `&mut self` is called, it will try to obtain a lock on the `self` value, and hold it *until it returns*. As a result, if another method that takes `&mut self` is called in the meantime for whatever reason (e.g. signals), the lock will fail and an error (`BorrowFailed`) will be produced.
 
 It's relatively easy to work around this problem, though: Because of how the user-data container works, it can only see the outermost layer of your script type - the entire structure. This is why it's stricter than what is actually required. If you run into this problem, you can [introduce finer-grained interior mutability](https://doc.rust-lang.org/book/ch15-05-interior-mutability.html) in your own type, and modify the problematic exported methods to take `&self` instead of `&mut self`.
 
@@ -119,7 +119,7 @@ impl AnotherNativeScript {
         // 3. Map over the RefInstance to extract the underlying user data.
         my_object
             .map(|my_object, _owner| {
-                // now my_object is of type MyObject
+                // Now my_object is of type MyObject.
             })
             .expect("Failed to map over my_object instance");
     }
