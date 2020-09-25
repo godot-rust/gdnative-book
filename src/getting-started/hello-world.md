@@ -2,7 +2,7 @@
 
 Follow this tutorial to learn how to create an empty project that simply prints "Hello, world!" to the Godot console on ready. The code might not compile or work as intended while it's in-progress, but at the end of this section, the code will be compiling and working fine.
 
-The full, finished code is available in the main repo: https://github.com/godot-rust/godot-rust/tree/master/examples/hello_world
+The full, finished code is available in the main repo: [https://github.com/godot-rust/godot-rust/tree/master/examples/hello_world](https://github.com/godot-rust/godot-rust/tree/master/examples/hello_world).
 
 ## Creating the project
 
@@ -22,9 +22,8 @@ Your file structure should look like this:
 │   ├   Cargo.toml
 ├─── my-godot-project
 │   ├─── .import
-│   └─── assets
-│   │   ├   icon.png
-│   │   └   icon.png.import
+│   ├   icon.png
+│   ├   icon.png.import
 │   └   project.godot
 ```
 
@@ -83,15 +82,15 @@ This declares an empty callback function, which is called when the library is lo
 godot_init!(init);
 ```
 
-These macros define the necessary C callbacks used by Godot. You only need *one* of these in the entire library. Note how the `init` function defined earlier is given to the `godot_nativescript_init` macro as a callback.
+This macro defines the necessary C callbacks used by Godot. You only need *one* invocation of this macro in the entire library. Note how the `init` function defined earlier is given to the `godot_init!` macro as a callback.
 
 > ### GDNative internals
 >
-> The purposes of these macros will be discussed in detail in [_An Overview of GDNative_](../gdnative-overview.md). For now, treat these as magic incantations.
+> The purposes of this macro will be discussed in detail in [_An Overview of GDNative_](../gdnative-overview.md). For now, treat it as a magic incantation.
 
 ## Your first script
 
-With the boilerplate put into place, you can now create your first Rust script! We will go step by step and discover what's needed to create script "class"es. Intermediate code versions might not compile, but at the end of this section it should be working!
+With the boilerplate put into place, you can now create your first Rust script! We will go step by step and discover what's needed to create script "classes". Intermediate code versions might not compile, but at the end of this section it should be working!
 
 A script is simply a Rust type that implements (derives) the `NativeScript` trait:
 
@@ -128,7 +127,7 @@ impl HelloWorld {
 }
 ```
 
-The `HelloWorld` type is like any regular Rust type, and can have any number of ordinary `impl` blocks. However, it must have **one and only one** `impl` block with the `#[methods]` attribute, which tells godot-rust to generate code that automatically bind any exported methods to Godot.
+The `HelloWorld` type is like any regular Rust type, and can have any number of ordinary `impl` blocks. However, it must have **one and only one** `impl` block with the `#[methods]` attribute, which tells godot-rust to generate code that automatically binds any exported methods to Godot.
 
 ## Creating the NativeScript resource
 
@@ -175,9 +174,9 @@ Now, re-compile the crate using `cargo build` and copy the resulting binary to t
 
 ## Wrapping it up
 
-Congratulations! You have just created your first Rust GDNative library. You have learned how to expose scripts, methods to Godot using the bindings, and how to use them in Godot. A lot of the details are still unexplained, but you're off to a good start!
+Congratulations! You have just created your first Rust GDNative library. You have learned how to expose scripts and methods to Godot using the bindings, and how to use them in Godot. A lot of the details are still unexplained, but you're off to a good start!
 
-You can find the full code for this example in the main repo: https://github.com/godot-rust/godot-rust/tree/master/examples/hello_world
+You can find the full code for this example in the main repo: [https://github.com/godot-rust/godot-rust/tree/master/examples/hello_world](https://github.com/godot-rust/godot-rust/tree/master/examples/hello_world).
 
 ## Work-in-progress
 
