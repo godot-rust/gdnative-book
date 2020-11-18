@@ -41,3 +41,19 @@ After installation, check that LLVM was installed properly:
 # Check if Clang is installed and registered in PATH
 clang -v
 ```
+
+## Using the template
+
+We also provide a [template](https://github.com/godot-rust/godot-rust-template) to get you started right away. All the boilerplate stuff is already done for you. If you have decided to use the template, you can skip section 2.2. Check out the [wiki](https://github.com/godot-rust/godot-rust-template/wiki) for instructions.
+
+### Setup
+```shell
+$ cargo install cargo-generate
+```
+
+### Usage
+```shell
+$ cargo generate --git https://github.com/godot-rust/godot-rust-template --name my-awesome-game
+$ cd my-awesome-game
+$ make run
+```
