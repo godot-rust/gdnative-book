@@ -141,3 +141,21 @@ impl AnotherNativeScript {
 People [reported](https://github.com/rust-analyzer/rust-analyzer/issues/5040) similar issues and found that switching on the `"rust-analyzer.cargo.loadOutDirsFromCheck": true` setting fixed it:
 
 ![completion](images/completion.png)
+
+
+## Auto-completion with IntelliJ Rust Plugin
+
+**Question**
+
+Similar to rust-analyzer, IntelliJ-Family IDEs struggle to autocomplete gdnative types generated at compile-time.
+
+**Answer**
+
+There are two problems preventing autocompletion of gdnative types in IntelliJ-Rust.
+
+First, the features necessary are (as of writing) considered experimental and must be enabled. Press `shift` twice to open the find all dialog and type `Experimental features...` and click the checkbox for `org.rust.cargo.evaluate.build.scripts`.  Note that `org.rust.cargo.fetch.out.dir` will also work, but is known to be less performant and may be phased out.
+
+Second, the bindings files generated (~8mb) are above the 2mb limit for files to be processed. As [reported](https://github.com/intellij-rust/intellij-rust/issues/6571#) you can increase the limit with the steps below.
+* open custom VM options dialog (`Help` | `Find Action` and type `Edit Custom VM Options`)
+* add `-Didea.max.intellisense.filesize=limitValue` line where `limitValue` is desired limit in KB, for example, 10240. Note, it cannot be more than 20 MB.
+* restart IDE
