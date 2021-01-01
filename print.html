@@ -91,7 +91,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded "><a href="introduction.html"><strong aria-hidden="true">1.</strong> Introduction</a></li><li class="chapter-item expanded "><a href="getting-started.html"><strong aria-hidden="true">2.</strong> Getting Started</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="getting-started/setup.html"><strong aria-hidden="true">2.1.</strong> Setup</a></li><li class="chapter-item expanded "><a href="getting-started/hello-world.html"><strong aria-hidden="true">2.2.</strong> Hello, world!</a></li></ol></li><li class="chapter-item expanded "><a href="faq.html"><strong aria-hidden="true">3.</strong> FAQ</a></li><li class="chapter-item expanded "><a href="gdnative-overview.html"><strong aria-hidden="true">4.</strong> (TODO) An Overview of GDNative</a></li><li class="chapter-item expanded "><a href="testing.html"><strong aria-hidden="true">5.</strong> (TODO) Testing</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="testing/structure.html"><strong aria-hidden="true">5.1.</strong> Structuring Code for Testing</a></li><li class="chapter-item expanded "><a href="testing/engine.html"><strong aria-hidden="true">5.2.</strong> Testing with the Engine</a></li></ol></li><li class="chapter-item expanded "><a href="exporting.html"><strong aria-hidden="true">6.</strong> Exporting</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="exporting/android.html"><strong aria-hidden="true">6.1.</strong> Android</a></li><li class="chapter-item expanded "><a href="exporting/ios.html"><strong aria-hidden="true">6.2.</strong> (TODO) iOS</a></li></ol></li><li class="chapter-item expanded "><a href="advanced-guides.html"><strong aria-hidden="true">7.</strong> Advanced Guides</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="advanced-guides/custom-bindings.html"><strong aria-hidden="true">7.1.</strong> Using custom builds of Godot</a></li></ol></li><li class="chapter-item expanded "><a href="migrating-0-8.html"><strong aria-hidden="true">8.</strong> Migrating from godot-rust 0.8.x</a></li></ol>
+                <ol class="chapter"><li class="chapter-item expanded "><a href="introduction.html"><strong aria-hidden="true">1.</strong> Introduction</a></li><li class="chapter-item expanded "><a href="getting-started.html"><strong aria-hidden="true">2.</strong> Getting Started</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="getting-started/setup.html"><strong aria-hidden="true">2.1.</strong> Setup</a></li><li class="chapter-item expanded "><a href="getting-started/hello-world.html"><strong aria-hidden="true">2.2.</strong> Hello, world!</a></li></ol></li><li class="chapter-item expanded "><a href="faq.html"><strong aria-hidden="true">3.</strong> FAQ</a></li><li class="chapter-item expanded "><a href="gdnative-overview.html"><strong aria-hidden="true">4.</strong> (TODO) An Overview of GDNative</a></li><li class="chapter-item expanded "><a href="testing.html"><strong aria-hidden="true">5.</strong> (TODO) Testing</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="testing/structure.html"><strong aria-hidden="true">5.1.</strong> Structuring Code for Testing</a></li><li class="chapter-item expanded "><a href="testing/engine.html"><strong aria-hidden="true">5.2.</strong> Testing with the Engine</a></li></ol></li><li class="chapter-item expanded "><a href="exporting.html"><strong aria-hidden="true">6.</strong> Exporting</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="exporting/android.html"><strong aria-hidden="true">6.1.</strong> Android</a></li><li class="chapter-item expanded "><a href="exporting/ios.html"><strong aria-hidden="true">6.2.</strong> (TODO) iOS</a></li><li class="chapter-item expanded "><a href="exporting/macosx.html"><strong aria-hidden="true">6.3.</strong> Mac OS X</a></li></ol></li><li class="chapter-item expanded "><a href="advanced-guides.html"><strong aria-hidden="true">7.</strong> Advanced Guides</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="advanced-guides/custom-bindings.html"><strong aria-hidden="true">7.1.</strong> Using custom builds of Godot</a></li></ol></li><li class="chapter-item expanded "><a href="migrating-0-8.html"><strong aria-hidden="true">8.</strong> Migrating from godot-rust 0.8.x</a></li></ol>
             </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
@@ -489,7 +489,20 @@ impl AnotherNativeScript {
 <h1><a class="header" href="#testing-with-the-engine" id="testing-with-the-engine">Testing with the Engine</a></h1>
 <p>TODO</p>
 <h1><a class="header" href="#exporting" id="exporting">Exporting</a></h1>
-<p>TODO</p>
+<p>Exporting <a href="https://godotengine.org/">Godot</a> projects using <a href="https://github.com/godot-rust/godot-rust">godot-rust</a>
+is a 2 steps process:</p>
+<ul>
+<li>build your Rust code with cargo, which triggers a build of <a href="https://crates.io/crates/gdnative">gdnative crate</a> for the target platform;</li>
+<li>do a standard <a href="https://docs.godotengine.org/en/stable/getting_started/workflow/export/exporting_projects.html">Godot export</a>.</li>
+</ul>
+<p>If the target you are exporting to is the same as the one you are developping on,
+the export is straightforward, however when cross-compiling (eg: exporting for a mobile platform,
+or building from a Docker image on a CI)
+you need to correctly set up a cross-compiler for the target platform. Rust does this very well,
+so provided you only write Rust code, cross-compiling is easy.
+However to build <a href="https://crates.io/crates/gdnative-sys">gdnative-sys</a> you need a working C/C++
+cross compiler with, among other things, the correct headers and linker.</p>
+<p>How to set up such a cross-compiler depends on the source and the target platform.</p>
 <h1><a class="header" href="#android" id="android">Android</a></h1>
 <p><strong>Disclaimer</strong>: <em>Currently, the following steps are tested and confirmed to work on Linux only.</em></p>
 <p>In order to export to Android, we need to compile our Rust source for the appropriate targets. Unlike compiling for our native targets, there are a few extra steps involved with cross-compiling for another target.</p>
@@ -602,6 +615,103 @@ godot --export &quot;Android&quot; path/to/my.apk
 <p>If not planning to release on Play Store, one may file an appeal from Play Protect using <a href="https://support.google.com/googleplay/android-developer/contact/protectappeals">a form provided by Google</a>.</p>
 <h1><a class="header" href="#ios" id="ios">iOS</a></h1>
 <p>TODO</p>
+<h1><a class="header" href="#mac-os-x" id="mac-os-x">Mac OS X</a></h1>
+<p><strong>Disclaimer</strong>: <em>Currently, the following steps are tested and confirmed to work on Linux only.</em></p>
+<h2><a class="header" href="#use-case" id="use-case">Use case</a></h2>
+<p>Exporting for Mac OS X is interesting if:</p>
+<ul>
+<li>you do not have access to Apple hardware</li>
+<li>you want to build from a CI, typically on a Docker image</li>
+</ul>
+<p>If you have access to a real Mac, building natively is easier.</p>
+<h2><a class="header" href="#why-is-this-complex-" id="why-is-this-complex-">Why is this complex ?</a></h2>
+<p>Cross-compiling Rust programs for Mac OS X is as simple as:</p>
+<pre><code class="language-sh">rustup target add x86_64-apple-darwin
+cargo build --target x86_64-apple-darwin
+</code></pre>
+<p>However to build <a href="https://crates.io/crates/gdnative-sys">gdnative-sys</a> you
+need a Mac OS X C/C++ compiler, the Rust compiler is not enough. More precisely you need
+an SDK which usually comes with <a href="https://developer.apple.com/xcode/">Xcode</a>.
+For Mac users, this SDK is &quot;just there&quot; but when cross-compiling, it is
+typically missing, even if your compiler is able to produce Mac OS X compatible binaries.</p>
+<p>The most common error is:</p>
+<pre><code>fatal error: 'TargetConditionals.h' file not found
+</code></pre>
+<p>Installing just this file is not enough, this error is usually a consequence
+of the whole SDK missing, so there is no chance you can get a build.</p>
+<p>What you need to do is:</p>
+<ul>
+<li>download the SDK</li>
+<li>fix all paths and other details so that it ressembles a Mac OS X environment</li>
+<li>then build with <code>cargo build --target x86_64-apple-darwin</code></li>
+</ul>
+<p>Hopefully, the first two steps, downloading the SDK and fixing details,
+are handled by a tool called <a href="https://github.com/tpoechtrager/osxcross">osxcross</a>
+which is just about setting up a working C/C++ compiler on Linux.</p>
+<h2><a class="header" href="#howto" id="howto">Howto</a></h2>
+<pre><code class="language-sh"># make sure you have a proper C/C++ native compiler first, as a suggestion:
+sudo apt-get install llvm-dev libclang-dev clang libxml2-dev libz-dev
+
+# change the following path to match your setup
+export MACOSX_CROSS_COMPILER=$HOME/macosx-cross-compiler
+
+install -d $MACOSX_CROSS_COMPILER/osxcross
+install -d $MACOSX_CROSS_COMPILER/cross-compiler
+cd $MACOSX_CROSS_COMPILER
+git clone https://github.com/tpoechtrager/osxcross &amp;&amp; cd osxcross
+
+# picked this version as they work well with godot-rust, feel free to change
+git checkout 7c090bd8cd4ad28cf332f1d02267630d8f333c19
+</code></pre>
+<p>At this stage you need to <a href="https://github.com/tpoechtrager/osxcross#packaging-the-sdk">download and package the SDK</a>
+which can not be distributed with osxcross for legal reasons.
+<a href="https://www.apple.com/legal/sla/docs/xcode.pdf">Please ensure you have read and understood the Xcode license terms before continuing</a>.</p>
+<p>You should now have an SDK file, for example <code>MacOSX10.10.sdk.tar.xz</code>.</p>
+<pre><code class="language-sh"># move the file where osxcross expects it to be
+mv MacOSX10.10.sdk.tar.xz $MACOSX_CROSS_COMPILER/osxcross/tarballs/
+# build and install osxcross
+UNATTENDED=yes OSX_VERSION_MIN=10.7 TARGET_DIR=$MACOSX_CROSS_COMPILER/cross-compiler ./build.sh
+</code></pre>
+<p>At this stage, you should have, in <code>$MACOSX_CROSS_COMPILER/cross-compiler</code>,
+a working cross-compiler.</p>
+<p>Now you need to tell Rust to use it when linking
+Mac OS X programs:</p>
+<pre><code class="language-sh">echo &quot;[target.x86_64-apple-darwin]&quot; &gt;&gt; $HOME/.cargo/config
+find $MACOSX_CROSS_COMPILER -name x86_64-apple-darwin14-cc -printf 'linker = &quot;%p&quot;\n' &gt;&gt; $HOME/.cargo/config
+echo &gt;&gt; $HOME/.cargo/config
+</code></pre>
+<p>After this, your <code>$HOME/.cargo/config</code> (not the <code>cargo.toml</code> file in your project, this is a different file)
+should contain:</p>
+<pre><code class="language-toml">[target.x86_64-apple-darwin]
+linker = &quot;/home/my-user-name/macosx-cross-compiler/cross-compiler/bin/x86_64-apple-darwin14-cc&quot;
+</code></pre>
+<p>Then, we need to also tell the compiler to use the right compiler and headers.
+In our example, with SDK 10.10, the env vars we need to export are:</p>
+<pre><code class="language-sh">C_INCLUDE_PATH=$MACOSX_CROSS_COMPILER/cross-compiler/SDK/MacOSX10.10.sdk/usr/include
+CC=$MACOSX_CROSS_COMPILER/cross-compiler/bin/x86_64-apple-darwin14-cc
+</code></pre>
+<p>You probably do not want to export those permanently as they are very
+specific to building for Mac OS X so they are typically passed at each
+call to <code>cargo</code>, eg:</p>
+<pre><code class="language-sh">C_INCLUDE_PATH=$MACOSX_CROSS_COMPILER/cross-compiler/SDK/MacOSX10.10.sdk/usr/include CC=$MACOSX_CROSS_COMPILER/cross-compiler/bin/x86_64-apple-darwin14-cc cargo build --release --target x86_64-apple-darwin
+</code></pre>
+<p>As a consequence, you do <em>not</em> need to put <code>$MACOSX_CROSS_COMPILER/cross-compiler/bin</code> in your <code>$PATH</code> if
+you only plan to export <a href="https://github.com/godot-rust/godot-rust">godot-rust</a> based programs, as the
+binary needs to be explicitly overloaded.</p>
+<h2><a class="header" href="#exporting-2" id="exporting-2">Exporting</a></h2>
+<p>Once your <code>.dylib</code> file is built, a standard Godot export should work:</p>
+<pre><code class="language-sh">godot --export &quot;Mac OSX&quot; path/to/my.zip
+</code></pre>
+<p>Note that when exporting from a non Mac OS X platform, it is not possible to build a <code>.dmg</code>.
+Instead, a <code>.zip</code> is produced. Again, the tool required to build Mac OS X disk images is
+only available on Mac OS X. The <code>.zip</code> works fine though, it just contains <code>my.app</code>
+folder, ready to use.</p>
+<p>Double-check your <code>.dylib</code> file is there.</p>
+<h2><a class="header" href="#useful-links" id="useful-links">Useful links</a></h2>
+<ul>
+<li>https://github.com/tpoechtrager/osxcross : tool used to install the Mac OS X SDK on Linux</li>
+<li>https://wapl.es/rust/2019/02/17/rust-cross-compile-linux-to-macos.html : a complete tutorial on how to use osxcross</li>
+</ul>
 <h1><a class="header" href="#advanced-guides" id="advanced-guides">Advanced Guides</a></h1>
 <h1><a class="header" href="#using-custom-builds-of-godot" id="using-custom-builds-of-godot">Using custom builds of Godot</a></h1>
 <p>Sometimes, users might need to use a different version of the engine that is different from the default one, or is a custom build. In order to use <code>godot-rust</code> with them, one would need to create a custom version of the <code>gdnative-bindings</code> crate, generated from an <code>api.json</code> from the custom build. This guide walks through the necessary steps to do so.</p>
