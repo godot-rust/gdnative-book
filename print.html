@@ -197,6 +197,16 @@ cargo -V
 <pre><code class="language-bash"># Check if Clang is installed and registered in PATH
 clang -v
 </code></pre>
+<h2><a class="header" href="#using-the-template" id="using-the-template">Using the template</a></h2>
+<p>We also provide a <a href="https://github.com/godot-rust/godot-rust-template">template</a> to get you started right away. All the boilerplate stuff is already done for you. If you have decided to use the template, you can skip section 2.2. Check out the <a href="https://github.com/godot-rust/godot-rust-template/wiki">wiki</a> for instructions.</p>
+<h3><a class="header" href="#setup-1" id="setup-1">Setup</a></h3>
+<pre><code class="language-shell">$ cargo install cargo-generate
+</code></pre>
+<h3><a class="header" href="#usage" id="usage">Usage</a></h3>
+<pre><code class="language-shell">$ cargo generate --git https://github.com/godot-rust/godot-rust-template --name my-awesome-game
+$ cd my-awesome-game
+$ make run
+</code></pre>
 <h1><a class="header" href="#hello-world" id="hello-world">Hello, world!</a></h1>
 <p>Follow this tutorial to learn how to create an empty project that simply prints &quot;Hello, world!&quot; to the Godot console on ready. The code might not compile or work as intended while it's in-progress, but at the end of this section, the code will be compiling and working fine.</p>
 <p>The full, finished code is available in the main repo: <a href="https://github.com/godot-rust/godot-rust/tree/master/examples/hello_world">https://github.com/godot-rust/godot-rust/tree/master/examples/hello_world</a>.</p>
