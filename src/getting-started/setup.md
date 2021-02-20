@@ -44,7 +44,9 @@ clang -v
 
 ## Using the template
 
-We also provide a [template](https://github.com/godot-rust/godot-rust-template) to get you started right away. All the boilerplate stuff is already done for you. If you have decided to use the template, you can skip section 2.2. Check out the [wiki](https://github.com/godot-rust/godot-rust-template/wiki) for instructions.
+We also provide an experimental [template](https://github.com/godot-rust/godot-rust-template) to get you started right away. All the boilerplate stuff is already done for you. If you have decided to use the template, you can skip section 2.2. Check out the [wiki](https://github.com/godot-rust/godot-rust-template/wiki) for instructions.
+
+The template is currently a work-in-progress, and might not work in all setups where the base library would be compatible. If you encounter any issues with the template, please report them at its [issue tracker](https://github.com/godot-rust/godot-rust-template/issues/).
 
 ### Setup
 ```shell
