@@ -13,7 +13,7 @@ The generic smart pointer `gdnative::Ref<T, Access>` allows you to store `Object
 For example, storing a reference to a Godot `Node2D` instance in a struct would look as follows:
 ```rust
 struct GodotNode {
-	node_ref: gd::Ref<gd::api::Node2D>,
+	node_ref: Ref<Node2D>,
 }
 ```
 
@@ -28,14 +28,14 @@ While `Ref` is a persistent pointer to retain references to Godot objects for an
 The following example demonstrates `TRef`. A node is stored inside a Rust struct, and its position is modified through `set_position()`. This approach could be used in an ECS (Entity-Component-System) architecture, where `GodotNode` is a component, updated by a system.
 ```rust
 struct GodotNode {
-    node_ref: gd::Ref<gd::api::Node2D>,
+    node_ref: Ref<Node2D>,
 }
 
 fn update_position(node: &GodotNode) {
-    let pos = gd::core_types::Vector2::new(20, 30);
+    let pos = Vector2::new(20, 30);
   
     // fetch temporary reference to the node
-    let node: gd::TRef<gd::api::Node2D> = unsafe { node.node_ref.assume_safe() };
+    let node: TRef<Node2D> = unsafe { node.node_ref.assume_safe() };
     
     // call into the Godot engine
     // this implicitly invokes deref(), turning TRef<Node2D> into &Node2D
@@ -69,16 +69,16 @@ When passing around your own Rust types, you will thus be working with `Instance
 
 Let's use a straightforward example: a player with name and score. Exported methods and properties are omitted for simplicity; the full interfacing will be explained later in [Calling into GDScript from Rust](../rust-binding/calling-gdscript.md).
 ```rust
-#[derive(gd::NativeClass)]
+#[derive(NativeClass)]
 // no #[inherit], thus inherits Reference by default
 pub struct Player {
     name: String,
     score: u32,
 }
 
-#[gd::methods]
+#[methods]
 impl Player {
-    fn new(_owner: &gd::Reference) -> Self {
+    fn new(_owner: &Reference) -> Self {
         Self {
             name: "New player".to_string(),
             score: 0
@@ -104,14 +104,14 @@ instance.map_mut(|p: &mut Player, _base: TRef<Reference, Unique>| {
 
 If you don't need a Godot-enabled default constructor, use the `#[no_constructor]` attribute and define your own Rust `new()` constructor.
 ```rust
-#[derive(gd::NativeClass)]
+#[derive(NativeClass)]
 #[no_constructor]
 pub struct Player {
     name: String,
     score: u32,
 }
 
-#[gd::methods]
+#[methods]
 impl Player {
     pub fn new(name: &str, score: u32) -> Self {
        Self { name: name.to_string(), score }

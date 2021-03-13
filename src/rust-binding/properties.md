@@ -4,8 +4,8 @@ Like methods, properties can be exported. The `#[property]` attribute above a fi
 
 In the previous example, we could replace the `count_enemies()` method with a property `enemy_count`.
 ```rust
-#[derive(gd::nativescript::NativeClass)]
-#[inherit(gd::api::Node)]
+#[derive(NativeClass)]
+#[inherit(Node)]
 pub struct GodotApi {
     #[property]
     enemy_count: i32,

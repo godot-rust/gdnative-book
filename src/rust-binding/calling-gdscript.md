@@ -20,12 +20,12 @@ On the previous pages, we explained how to export a class, so it can be instanti
 Let's define a class `Enemy` which acts as a simple data bundle, i.e. no functionality. We inherit it from `Reference`, such that memory is managed automatically. In addition, we define `_to_string()` and delegate it to the derived `Debug` trait implementation, to make it printable from GDScript.
 
 ```rust
-#[derive(gd::NativeClass, Debug)]
+#[derive(NativeClass, Debug)]
 // no #[inherit], thus inherits Reference by default
 #[no_constructor]
 pub struct Enemy {
     #[property]
-    pos: gd::core_types::Vector2,
+    pos: Vector2,
 
     #[property]
     health: f32,
@@ -34,35 +34,35 @@ pub struct Enemy {
     name: String,
 }
 
-#[gd::methods]
+#[methods]
 impl Enemy {
     #[export]
-    fn _to_string(&self, _owner: &gd::Reference) -> String {
+    fn _to_string(&self, _owner: &Reference) -> String {
         format!("{:?}", self) // calls Debug::fmt()
     }
 }
 ```
 Godot can only use classes that are registered, so let's do that:
 ```rust
-fn init(handle: gd::nativescript::InitHandle) {
+fn init(handle: InitHandle) {
     // ...
     handle.add_class::<Enemy>();
 }
 ```
 Now, it's not possible to directly return `Enemy` instances in exported methods, so this won't work:
 ```rust
-#[gdnative::export]
-fn create_enemy(&mut self, _owner: &gd::Node) -> Enemy {...}
+#[export]
+fn create_enemy(&mut self, _owner: &Node) -> Enemy {...}
 ```
 Instead, you can wrap the object in a `Instance<Enemy, Unique>`, using `emplace()`. For an in-depth explanation of the `Instance` class, read [this section](http://localhost:3000/gdnative-overview/wrappers.html#instance-reference-with-attached-rust-class).
 ```rust
-#[gdnative::export]
+#[export]
 fn create_enemy(
     &self,
-    _owner: &gd::Node
-) -> gd::Instance<Enemy, gd::thread_access::Unique> {
+    _owner: &Node
+) -> Instance<Enemy, Unique> {
     let enemy = Enemy {
-        pos: gd::Vector2::new(7.0, 2.0),
+        pos: Vector2::new(7.0, 2.0),
         health: 100.0,
         name: "MyEnemy".to_string(),
     };

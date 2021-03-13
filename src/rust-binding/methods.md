@@ -5,44 +5,44 @@ In order to receive data from Godot, you can export methods. With the `#[export]
 The exported method's first parameter is always `&self` or `&mut self` (operating on the Rust object), and the second parameter is `&T` or `TRef<T>` (operating on the Godot base object, with `T` being the inherited type).
 
 ```rust
-#[derive(gd::nativescript::NativeClass)]
-#[inherit(gd::api::Node)]
+#[derive(NativeClass)]
+#[inherit(Node)]
 pub struct GodotApi {
     enemy_count: i32,
 }
 
-#[gd::methods]
+#[methods]
 impl GodotApi {
-    fn new(_owner: &gd::api::Node) -> Self {
+    fn new(_owner: &Node) -> Self {
         // Print to both shell and Godot editor console
-        gd::godot_print!("_init()");
+        godot_print!("_init()");
         Self { enemy_count: 0 }
     }
     
-    #[gd::export]
+    #[export]
     fn create_enemy(
         &mut self,
-        _owner: &gd::api::Node,
+        _owner: &Node,
         typ: String,
-        pos: gd::core_types::Vector2
+        pos: Vector2
     ) {
-        gd::godot_print!("create_enemy(): type '{}' at position {:?}", typ, pos);
+        godot_print!("create_enemy(): type '{}' at position {:?}", typ, pos);
         self.enemy_count += 1;
     }
 
-    #[gd::export]
+    #[export]
     fn create_enemy2(
         &mut self,
-        _owner: &gd::api::Node,
-        typ: gd::core_types::GodotString,
-        pos: gd::core_types::Variant
+        _owner: &Node,
+        typ: GodotString,
+        pos: Variant
     ) {
-        gd::godot_print!("create_enemy2(): type '{}' at position {:?}", typ, pos);
+        godot_print!("create_enemy2(): type '{}' at position {:?}", typ, pos);
         self.enemy_count += 1;
     }
 
-    #[gd::export]
-    fn count_enemies(&self, _owner: &gd::api::Node) -> i32 {
+    #[export]
+    fn count_enemies(&self, _owner: &Node) -> i32 {
         self.enemy_count
     }  
 }
@@ -77,22 +77,22 @@ The above examples have dealt with simple types such as strings and integers. Wh
 
 Let's say we want to pass in an enemy from GDScript, instead of creating one locally. It could be represented by the `Node2D` class and directly configured in the Godot editor. What you then would do is use [the `Ref` wrapper](../gdnative-overview/wrappers.md):
 ```rust
-#[derive(gd::nativescript::NativeClass)]
-#[inherit(gd::api::Node)]
+#[derive(NativeClass)]
+#[inherit(Node)]
 pub struct GodotApi {
     // Store references to all enemy nodes
-    enemies: Vec<gd::Ref<gd::api::Node2D>>,
+    enemies: Vec<Ref<Node2D>>,
 }
 
-#[gd::methods]
+#[methods]
 impl GodotApi {
     // new() etc...
 
-    #[gd::export]
+    #[export]
     fn add_enemy(
         &mut self,
-        _owner: &gd::Node,
-        enemy: gd::Ref<gd::api::Node2D> // pass in enemy
+        _owner: &Node,
+        enemy: Ref<Node2D> // pass in enemy
     ) {
         self.enemies.push(enemy);
     }
@@ -100,11 +100,11 @@ impl GodotApi {
     // You can even return the enemies directly with Vec.
     // In GDScript, you will get an array of nodes.
     // An alternative would be VariantArray, able to hold different types.
-    #[gd::export]
+    #[export]
     fn get_enemies(
         &self,
-        _owner: &gd::api::Node
-    ) ->  Vec<gd::Ref<gd::api::Node2D>> {
+        _owner: &Node
+    ) ->  Vec<Ref<Node2D>> {
         self.enemies.clone()
     }
 }
@@ -116,20 +116,20 @@ Godot offers some special methods. Most of them implement [notifications](https:
 
 If you need to override a Godot special method, just declare it as a normal exported method, with the same name and signature as in GDScript:
 ```rust
-#[gd::export]
-fn _ready(&mut self, _owner: &gd::Node) {...}
+#[export]
+fn _ready(&mut self, _owner: &Node) {...}
 
-#[gd::export]
-fn _process(&mut self, _owner: &gd::Node, delta: f32) {...}
+#[export]
+fn _process(&mut self, _owner: &Node, delta: f32) {...}
 
-#[gd::export]
-fn _physics_process(&mut self, _owner: &gd::Node, delta: f32) {...}
+#[export]
+fn _physics_process(&mut self, _owner: &Node, delta: f32) {...}
 ```
 
 If you want to change how GDScript's default formatter in functions like `str()` or `print()` works, you can overload the `to_string` GDScript method, which corresponds to the following Rust method:
 ```rust
-#[gd::export]
-fn _to_string(&self, _owner: &gd::Reference) -> String {...}
+#[export]
+fn _to_string(&self, _owner: &Reference) -> String {...}
 ```
 
 

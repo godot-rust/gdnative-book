@@ -108,7 +108,7 @@ As a work-around, it is possible to use a ZST (zero-sized type):
 #[inherit(Object)]
 pub struct StaticUtil;
 
-#[godot::methods]
+#[methods]
 impl StaticUtil {
     #[export]
     fn compute_something(&self, _owner: &Object, input: i32) -> i32 {
@@ -140,7 +140,7 @@ How can I access the Rust type given the Variant?
 This conversion can be accomplished by casting the `Variant` to a `Ref`, and then to an `Instance` or `RefInstance`, and mapping over it to access the Rust data type:
 
 ```rust
-#[godot::methods]
+#[methods]
 impl AnotherNativeScript {
 
     #[export]
