@@ -16,7 +16,7 @@ It's relatively easy to work around this problem, though: Because of how the use
 
 **Question**
 
-A native script type needs to implement `fn new(owner: &Node) -> Self`.
+A native script type needs to implement `fn new(owner: &Node) -> Self`.  
 Is it possible to pass additional arguments to `new`?
 
 **Answer**
@@ -26,26 +26,66 @@ Unfortunately this is currently a general limitation of GDNative (see [related i
 As a result, a common pattern to work-around the limitation is to use explicit initialization methods. For instance:
 
 ```rust
-#[derive(NativeClass)]
-#[inherit(Object)]
-struct DataWrapper {
-    data: Option<Data>,
+struct EnemyData {
+    name: String,
+    health: f32,
 }
 
-#[godot::methods]
-impl DataWrapper {
+#[derive(NativeClass)]
+#[inherit(Object)]
+struct Enemy {
+    data: Option<EnemyData>,
+}
+
+#[methods]
+impl Enemy {
     fn new(_owner: &Object) -> Self {
-        DataWrapper {
+        Enemy {
             data: None,
         }
     }
 
     #[export]
-    fn set_data(&mut self, _owner: &Object, additional_arg1: i32, additional_arg2: i32) {
-        self.data = Some(Data::new(additional_arg1, additional_arg2));
+    fn set_data(&mut self, _owner: &Object, name: String, health: f32) {
+        self.data = Some(EnemyData { name, health });
     }
 }
 ```
+
+This however has two disadvantages:
+1. You need to use an `Option` with the sole purpose of late initialization, and subsequent `unwrap()` calls or checks -- weaker invariants in short.
+1. An additional type `EnemyData` for each native class like `Enemy` is required (unless you have very few properties, or decide to add `Option` for each of them, which has its own disadvantages).
+
+An alternative is to register a separate factory class, which returns fully-constructed instances:
+```rust
+#[derive(NativeClass)]
+#[no_constructor] // disallow default constructor
+#[inherit(Object)]
+struct Enemy {
+    name: String,
+    health: f32,
+}
+
+#[methods]
+impl Enemy {
+    // nothing here
+}
+
+#[derive(NativeClass)]
+#[inherit(Reference)]
+struct EntityFactory {}
+
+#[methods]
+impl EntityFactory {
+    #[export]
+    fn enemy(&self, _owner: &Object, name: String, health: f32)
+    -> Instance<Enemy, Unique> {
+        Enemy { name, health }.emplace()
+    }
+}
+```
+So instead of `Enemy.new()` you can write `EntityFactory.enemy(args)` in GDScript.    
+This still needs an extra type `EntityFactory`, however you could reuse that for multiple classes.
 
 
 ## Static methods

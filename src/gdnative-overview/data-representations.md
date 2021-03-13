@@ -1,16 +1,11 @@
 # Data representations
 
-The godot-rust library uses many different approaches to store and transport data. This chapter explains high-level concepts of related terminology used throughout the library and its documentation. It is not a usage guide however -- to see the concepts in action, check out other advanced topics such as [Exchanging data between GDScript and Rust](data-exchange.md).
-
-* [Object and class](#object-and-class)
-* [Variant](#variant)
-* [Script](#script)
-* [Instance](#instance)
+The godot-rust library uses many different approaches to store and transport data. This chapter explains high-level concepts of related terminology used throughout the library and its documentation. It is not a usage guide however -- to see the concepts in action, check out [Binding to Rust code](../rust-binding.md).
 
 
 ## Object and class
 
-Godot is built around _classes_, object-oriented types in a hierarchy, with the base class `Object` at the top. When talking about classes, we explicitly mean classes in the `Object` hierarchy and not built-in types like `String`, `Vector2`, `Color`, even though they are technically classes in C++. In Rust, such classes are represented as structs.
+Godot is built around _classes_, object-oriented types in a hierarchy, with the base class `Object` at the top. When talking about classes, we explicitly mean classes in the `Object` hierarchy and not built-in types like `String`, `Vector2`, `Color`, even though they are technically classes in C++. In Rust, classes are represented as structs.
 
 Every user-defined class inherits `Object` directly or indirectly, and thus all methods defined in `Object` are accessible on _any_ instance of a user-defined class. This type includes functionality for:
 * object lifetime: `_init` (`new` in Rust), `free`
@@ -27,6 +22,9 @@ Every user-defined class inherits `Object` directly or indirectly, and thus all 
 * **`Node`**  
   Anything that's part of the scene tree, such as `Spatial` (3D), `CanvasItem` and `Node2D` (2D). Each node in the tree is responsible of its children and will deallocate them automatically when it is removed from the tree. At the latest, the entire tree will be destroyed when ending the application.  
   **Important:** as long as a node is not attached to the scene tree, it behaves like an `Object` instance and must be freed manually. On the other hand, as long as it is part of the tree, it can be destroyed (e.g. when its parent is removed) and other references pointing to it become invalid.
+* **`Resource`**  
+  Data set that is loaded from disk and cached in memory, for example 3D meshes, materials, textures, fonts or music (see also [Godot tutorial](https://docs.godotengine.org/en/stable/getting_started/step_by_step/resources.html)).
+  `Resource` inherits `Reference`, so in the context of godot-rust, it can be treated like a normal, reference-counted class. 
 
 When talking about inheritance, we always mean the relationship in GDScript code. Rust does not have inheritance, instead godot-rust implements `Deref` traits to allow implicit upcasts. This enables to invoke all parent methods and makes the godot-rust API very close to GDScript.
 
@@ -60,15 +58,3 @@ Scripts _always_ inherit another class from Godot's `Object` hierarchy, either a
 _See `Script` in
 [godot-rust docs](https://docs.rs/gdnative/latest/gdnative/api/struct.Script.html),
 [Godot docs](https://docs.godotengine.org/en/latest/classes/class_script.html)_
-
-
-## Instance
-
-In Rust, the `Instance` type stores a native script instance alongside its _base object_ (the instance of the Godot class that the script inherits). 
-
-For example, if you have a Rust struct `VictoryArea` extending Godot node type `Area`, then the instance will hold both the struct instance and the Godot `Area` instance (as Rust doesn't support inheritance, its struct object cannot directly hold the base object's data).
-
-The traits `ToVariant`, `FromVariant` and `OwnedToVariant` are automatically implemented for `Instance` types. This allows to pass them from and to the Godot engine.
-
-_See `Instance` in
-[godot-rust docs](https://docs.rs/gdnative/latest/gdnative/api/struct.Instance.html)_
