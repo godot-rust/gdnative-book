@@ -1,0 +1,352 @@
+<!DOCTYPE HTML>
+<html lang="en" class="sidebar-visible no-js light">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Ref, TRef and Instance -- wrappers for custom types - The godot-rust Book</title>
+        
+        
+
+
+        <!-- Custom HTML head -->
+        
+
+
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff" />
+
+        <link rel="icon" href="../favicon.svg">
+        <link rel="shortcut icon" href="../favicon.png">
+        <link rel="stylesheet" href="../css/variables.css">
+        <link rel="stylesheet" href="../css/general.css">
+        <link rel="stylesheet" href="../css/chrome.css">
+        <link rel="stylesheet" href="../css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../FontAwesome/css/font-awesome.css">
+        
+        <link rel="stylesheet" href="../fonts/fonts.css">
+        
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="../highlight.css">
+        <link rel="stylesheet" href="../tomorrow-night.css">
+        <link rel="stylesheet" href="../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+        
+
+        
+    </head>
+    <body>
+        <!-- Provide site root to javascript -->
+        <script type="text/javascript">
+            var path_to_root = "../";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script type="text/javascript">
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script type="text/javascript">
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('no-js')
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add('js');
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script type="text/javascript">
+            var html = document.querySelector('html');
+            var sidebar = 'hidden';
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            }
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded "><a href="../introduction.html"><strong aria-hidden="true">1.</strong> Introduction</a></li><li class="chapter-item expanded "><a href="../getting-started.html"><strong aria-hidden="true">2.</strong> Getting Started</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../getting-started/setup.html"><strong aria-hidden="true">2.1.</strong> Setup</a></li><li class="chapter-item expanded "><a href="../getting-started/hello-world.html"><strong aria-hidden="true">2.2.</strong> Hello, world!</a></li></ol></li><li class="chapter-item expanded "><a href="../gdnative-overview.html"><strong aria-hidden="true">3.</strong> An Overview of GDNative</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../gdnative-overview/data-representations.html"><strong aria-hidden="true">3.1.</strong> Data representations</a></li><li class="chapter-item expanded "><a href="../gdnative-overview/wrappers.html" class="active"><strong aria-hidden="true">3.2.</strong> Ref, TRef and Instance -- wrappers for custom types</a></li></ol></li><li class="chapter-item expanded "><a href="../rust-binding.html"><strong aria-hidden="true">4.</strong> Binding to Rust code</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../rust-binding/classes.html"><strong aria-hidden="true">4.1.</strong> Class registration</a></li><li class="chapter-item expanded "><a href="../rust-binding/methods.html"><strong aria-hidden="true">4.2.</strong> Exported methods</a></li><li class="chapter-item expanded "><a href="../rust-binding/properties.html"><strong aria-hidden="true">4.3.</strong> Exported properties</a></li><li class="chapter-item expanded "><a href="../rust-binding/calling-gdscript.html"><strong aria-hidden="true">4.4.</strong> Calling into GDScript from Rust</a></li></ol></li><li class="chapter-item expanded "><a href="../faq.html"><strong aria-hidden="true">5.</strong> FAQ</a></li><li class="chapter-item expanded "><a href="../testing.html"><strong aria-hidden="true">6.</strong> (TODO) Testing</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../testing/structure.html"><strong aria-hidden="true">6.1.</strong> Structuring Code for Testing</a></li><li class="chapter-item expanded "><a href="../testing/engine.html"><strong aria-hidden="true">6.2.</strong> Testing with the Engine</a></li></ol></li><li class="chapter-item expanded "><a href="../exporting.html"><strong aria-hidden="true">7.</strong> Exporting</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../exporting/android.html"><strong aria-hidden="true">7.1.</strong> Android</a></li><li class="chapter-item expanded "><a href="../exporting/ios.html"><strong aria-hidden="true">7.2.</strong> (TODO) iOS</a></li><li class="chapter-item expanded "><a href="../exporting/macosx.html"><strong aria-hidden="true">7.3.</strong> Mac OS X</a></li></ol></li><li class="chapter-item expanded "><a href="../advanced-guides.html"><strong aria-hidden="true">8.</strong> Advanced Guides</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../advanced-guides/custom-bindings.html"><strong aria-hidden="true">8.1.</strong> Using custom builds of Godot</a></li></ol></li><li class="chapter-item expanded "><a href="../migrating-0-8.html"><strong aria-hidden="true">9.</strong> Migrating from godot-rust 0.8.x</a></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky bordered">
+                    <div class="left-buttons">
+                        <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </button>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light (default)</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                        
+                    </div>
+
+                    <h1 class="menu-title">The godot-rust Book</h1>
+
+                    <div class="right-buttons">
+                        <a href="../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                        
+                    </div>
+                </div>
+
+                
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" name="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+                
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script type="text/javascript">
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1><a class="header" href="#ref-tref-and-instance" id="ref-tref-and-instance"><code>Ref</code>, <code>TRef</code> and <code>Instance</code></a></h1>
+<p>Objects from Godot, such as scene nodes, materials, or other resources are owned and maintained by the Godot engine. This means that your Rust code will store references to existing objects, not values. godot-rust provides special wrapper types to deal with these references, which are explained in this page.</p>
+<p>These classes stand in contrast to value types like <code>bool</code>, <code>int</code>, <code>Vector2</code>, <code>Color</code> etc., which are copied in GDScript, not referenced. In Rust, those types either map to built-in Rust types or structs implementing the <code>Copy</code> trait.</p>
+<h2><a class="header" href="#ref-persistent-reference" id="ref-persistent-reference"><code>Ref</code>: persistent reference</a></h2>
+<p>The generic smart pointer <code>gdnative::Ref&lt;T, Access&gt;</code> allows you to store <code>Object</code> instances in Rust. It comes with different access policies, depending on how the memory of the underlying object is managed (consult <a href="https://docs.rs/gdnative/latest/gdnative/struct.Ref.html">the docs</a> for details). Most of the time, you will be working with <code>Ref&lt;T&gt;</code>, which is the same as <code>Ref&lt;T, Shared&gt;</code> and the only access policy that is explained here. Its memory management mirrors that of the underlying type:</p>
+<ul>
+<li>for all Godot objects inheriting the <code>Reference</code> class, <code>Ref&lt;T&gt;</code> is reference-counted like <code>Arc&lt;T&gt;</code> and will clean up automatically.</li>
+<li>for all other types (i.e. the type <code>Object</code> and inheritors of <code>Node</code>), <code>Ref&lt;T&gt;</code> behaves like a raw pointer with manual memory management.</li>
+</ul>
+<p>For example, storing a reference to a Godot <code>Node2D</code> instance in a struct would look as follows:</p>
+<pre><pre class="playground"><code class="language-rust">
+<span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>struct GodotNode {
+	node_ref: Ref&lt;Node2D&gt;,
+}
+<span class="boring">}
+</span></code></pre></pre>
+<p><em>See <code>Ref</code> in
+<a href="https://docs.rs/gdnative/latest/gdnative/struct.Ref.html">godot-rust docs</a></em></p>
+<h2><a class="header" href="#tref-temporary-reference" id="tref-temporary-reference"><code>TRef</code>: temporary reference</a></h2>
+<p>While <code>Ref</code> is a persistent pointer to retain references to Godot objects for an extended period of time, it doesn't grant access to the underlying Godot object. The reason for this is that <code>Ref</code> cannot generally guarantee that the underlying object, which is managed by the Godot engine, is valid at the time of the access. However, you as a user are in control of GDScript code and the scene tree, thus you can assert that an object is valid at a certain point in time by using <code>assume_safe()</code>. This is an unsafe function that returns a <code>gdnative::TRef&lt;T, Access&gt;</code> object, which allows you to call methods on the node. You are responsible for this assumption to be correct; violating it can lead to undefined behavior.</p>
+<p>The following example demonstrates <code>TRef</code>. A node is stored inside a Rust struct, and its position is modified through <code>set_position()</code>. This approach could be used in an ECS (Entity-Component-System) architecture, where <code>GodotNode</code> is a component, updated by a system.</p>
+<pre><pre class="playground"><code class="language-rust">
+<span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>struct GodotNode {
+    node_ref: Ref&lt;Node2D&gt;,
+}
+
+fn update_position(node: &amp;GodotNode) {
+    let pos = Vector2::new(20, 30);
+  
+    // fetch temporary reference to the node
+    let node: TRef&lt;Node2D&gt; = unsafe { node.node_ref.assume_safe() };
+    
+    // call into the Godot engine
+    // this implicitly invokes deref(), turning TRef&lt;Node2D&gt; into &amp;Node2D
+    node.set_position(pos);
+}
+<span class="boring">}
+</span></code></pre></pre>
+<p>Note that the parameter type is <code>&amp;GodotNode</code>, not <code>&amp;mut GodotNode</code>. Then why is it possible to mutate the Godot object?</p>
+<p>All Godot classes in Rust (<code>Object</code> and its subtypes) have only methods that operate on <code>&amp;self</code>, not <code>&amp;mut self</code>. The reason for this choice is that <code>&amp;mut</code> is -- strictly speaking -- not a mutable reference, but rather an <a href="https://docs.rs/dtolnay/latest/dtolnay/macro._02__reference_types.html"><em>exclusive</em> reference</a>. The one and only thing it guarantees is that while it exists, no other reference to the same object can exist (no aliasing). Since all the Godot classes can be shared with the Godot engine, which is written in C++ and allows free aliasing, using <code>&amp;mut</code> references would potentially violate the exclusivity, leading to UB. This is why <code>&amp;T</code> is used, and just like e.g. <code>&amp;RefCell</code> it <em>does</em> allow mutation.</p>
+<p>This being said, it can still make sense to bring back some type safety on a higher level in your own code. For example, you could make the <code>update_position()</code> take a <code>&amp;mut GodotNode</code> parameter, to make sure that access to this <code>GodotNode</code> object is exclusive.</p>
+<p><em>See <code>TRef</code> in
+<a href="https://docs.rs/gdnative/latest/gdnative/struct.TRef.html">godot-rust docs</a></em></p>
+<h2><a class="header" href="#instance-reference-with-attached-rust-class" id="instance-reference-with-attached-rust-class"><code>Instance</code>: reference with attached Rust class</a></h2>
+<p>When working with classes that are provided by the engine or defined in GDScript, the <code>Ref</code> smart pointer is the ideal type for interfacing between Rust and Godot. However, when defining a custom class in Rust, that is registered with the Godot engine, there are two parts that need to be stored together:</p>
+<ol>
+<li><strong>GDNative script:</strong> the Rust struct object that implements the entire custom logic. The Rust struct is written by you.</li>
+<li><strong>Base object:</strong> the base class from which the script inherits, with its own state. This is always a Godot built-in class such as <code>Object</code>, <code>Reference</code> or <code>Node</code>.</li>
+</ol>
+<p>The <code>Instance</code> class simply wraps the two parts into a single type.</p>
+<p>When passing around your own Rust types, you will thus be working with <code>Instance</code>. The traits <code>ToVariant</code>, <code>FromVariant</code> and <code>OwnedToVariant</code> are automatically implemented for <code>Instance</code> types, allowing you to pass them from and to the Godot engine.</p>
+<h3><a class="header" href="#construction" id="construction">Construction</a></h3>
+<p>Let's use a straightforward example: a player with name and score. Exported methods and properties are omitted for simplicity; the full interfacing will be explained later in <a href="../rust-binding/calling-gdscript.html">Calling into GDScript from Rust</a>.</p>
+<pre><pre class="playground"><code class="language-rust">
+<span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>#[derive(NativeClass)]
+// no #[inherit], thus inherits Reference by default
+pub struct Player {
+    name: String,
+    score: u32,
+}
+
+#[methods]
+impl Player {
+    fn new(_owner: &amp;Reference) -&gt; Self {
+        Self {
+            name: &quot;New player&quot;.to_string(),
+            score: 0
+        }
+    }
+}
+<span class="boring">}
+</span></code></pre></pre>
+<p>To create a default instance, use <code>Instance::new_instance()</code>.<br />
+You can later use <code>map()</code> and <code>map_mut()</code> to access the <code>Instance</code> immutably and mutably.</p>
+<pre><pre class="playground"><code class="language-rust">
+<span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>let instance: Instance&lt;Reference, Unique&gt; = Instance::new();
+// or:
+let instance = Player::new_instance();
+
+// note: map_mut() takes &amp;self, so above is not 'let mut'
+instance.map_mut(|p: &amp;mut Player, _base: TRef&lt;Reference, Unique&gt;| {
+    p.name = &quot;Joe&quot;.to_string();
+    p.score = 120;
+});
+<span class="boring">}
+</span></code></pre></pre>
+<p>If you don't need a Godot-enabled default constructor, use the <code>#[no_constructor]</code> attribute and define your own Rust <code>new()</code> constructor.</p>
+<pre><pre class="playground"><code class="language-rust">
+<span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>#[derive(NativeClass)]
+#[no_constructor]
+pub struct Player {
+    name: String,
+    score: u32,
+}
+
+#[methods]
+impl Player {
+    pub fn new(name: &amp;str, score: u32) -&gt; Self {
+       Self { name: name.to_string(), score }
+    }
+}
+<span class="boring">}
+</span></code></pre></pre>
+<p>In this case, you can construct an <code>Instance</code> from an existing Rust object using <code>Instance::emplace()</code>:</p>
+<pre><pre class="playground"><code class="language-rust">
+<span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>let player = Player::new(&quot;Joe&quot;, 120);
+
+let instance = Instance::emplace(player);
+// or:
+let instance = player.emplace();
+<span class="boring">}
+</span></code></pre></pre>
+<p><em>See <code>Instance</code> in
+<a href="https://docs.rs/gdnative/latest/gdnative/nativescript/struct.Instance.html">godot-rust docs</a></em></p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                        
+                            <a rel="prev" href="../gdnative-overview/data-representations.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+                        
+
+                        
+                            <a rel="next" href="../rust-binding.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+                        
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                
+                    <a rel="prev" href="../gdnative-overview/data-representations.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+                
+
+                
+                    <a rel="next" href="../rust-binding.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+                
+            </nav>
+
+        </div>
+
+        
+
+        
+
+        
+
+        
+        <script type="text/javascript">
+            window.playground_copyable = true;
+        </script>
+        
+
+        
+
+        
+        <script src="../elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../mark.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../searcher.js" type="text/javascript" charset="utf-8"></script>
+        
+
+        <script src="../clipboard.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../highlight.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../book.js" type="text/javascript" charset="utf-8"></script>
+
+        <!-- Custom JS scripts -->
+        
+
+        
+
+    </body>
+</html>

@@ -91,7 +91,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded "><a href="introduction.html"><strong aria-hidden="true">1.</strong> Introduction</a></li><li class="chapter-item expanded "><a href="getting-started.html"><strong aria-hidden="true">2.</strong> Getting Started</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="getting-started/setup.html"><strong aria-hidden="true">2.1.</strong> Setup</a></li><li class="chapter-item expanded "><a href="getting-started/hello-world.html"><strong aria-hidden="true">2.2.</strong> Hello, world!</a></li></ol></li><li class="chapter-item expanded "><a href="faq.html"><strong aria-hidden="true">3.</strong> FAQ</a></li><li class="chapter-item expanded "><a href="gdnative-overview.html"><strong aria-hidden="true">4.</strong> (TODO) An Overview of GDNative</a></li><li class="chapter-item expanded "><a href="testing.html"><strong aria-hidden="true">5.</strong> (TODO) Testing</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="testing/structure.html"><strong aria-hidden="true">5.1.</strong> Structuring Code for Testing</a></li><li class="chapter-item expanded "><a href="testing/engine.html"><strong aria-hidden="true">5.2.</strong> Testing with the Engine</a></li></ol></li><li class="chapter-item expanded "><a href="exporting.html"><strong aria-hidden="true">6.</strong> Exporting</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="exporting/android.html"><strong aria-hidden="true">6.1.</strong> Android</a></li><li class="chapter-item expanded "><a href="exporting/ios.html"><strong aria-hidden="true">6.2.</strong> (TODO) iOS</a></li><li class="chapter-item expanded "><a href="exporting/macosx.html"><strong aria-hidden="true">6.3.</strong> Mac OS X</a></li></ol></li><li class="chapter-item expanded "><a href="advanced-guides.html"><strong aria-hidden="true">7.</strong> Advanced Guides</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="advanced-guides/custom-bindings.html"><strong aria-hidden="true">7.1.</strong> Using custom builds of Godot</a></li></ol></li><li class="chapter-item expanded "><a href="migrating-0-8.html"><strong aria-hidden="true">8.</strong> Migrating from godot-rust 0.8.x</a></li></ol>
+                <ol class="chapter"><li class="chapter-item expanded "><a href="introduction.html"><strong aria-hidden="true">1.</strong> Introduction</a></li><li class="chapter-item expanded "><a href="getting-started.html"><strong aria-hidden="true">2.</strong> Getting Started</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="getting-started/setup.html"><strong aria-hidden="true">2.1.</strong> Setup</a></li><li class="chapter-item expanded "><a href="getting-started/hello-world.html"><strong aria-hidden="true">2.2.</strong> Hello, world!</a></li></ol></li><li class="chapter-item expanded "><a href="gdnative-overview.html"><strong aria-hidden="true">3.</strong> An Overview of GDNative</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="gdnative-overview/data-representations.html"><strong aria-hidden="true">3.1.</strong> Data representations</a></li><li class="chapter-item expanded "><a href="gdnative-overview/wrappers.html"><strong aria-hidden="true">3.2.</strong> Ref, TRef and Instance -- wrappers for custom types</a></li></ol></li><li class="chapter-item expanded "><a href="rust-binding.html"><strong aria-hidden="true">4.</strong> Binding to Rust code</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="rust-binding/classes.html"><strong aria-hidden="true">4.1.</strong> Class registration</a></li><li class="chapter-item expanded "><a href="rust-binding/methods.html"><strong aria-hidden="true">4.2.</strong> Exported methods</a></li><li class="chapter-item expanded "><a href="rust-binding/properties.html"><strong aria-hidden="true">4.3.</strong> Exported properties</a></li><li class="chapter-item expanded "><a href="rust-binding/calling-gdscript.html"><strong aria-hidden="true">4.4.</strong> Calling into GDScript from Rust</a></li></ol></li><li class="chapter-item expanded "><a href="faq.html"><strong aria-hidden="true">5.</strong> FAQ</a></li><li class="chapter-item expanded "><a href="testing.html"><strong aria-hidden="true">6.</strong> (TODO) Testing</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="testing/structure.html"><strong aria-hidden="true">6.1.</strong> Structuring Code for Testing</a></li><li class="chapter-item expanded "><a href="testing/engine.html"><strong aria-hidden="true">6.2.</strong> Testing with the Engine</a></li></ol></li><li class="chapter-item expanded "><a href="exporting.html"><strong aria-hidden="true">7.</strong> Exporting</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="exporting/android.html"><strong aria-hidden="true">7.1.</strong> Android</a></li><li class="chapter-item expanded "><a href="exporting/ios.html"><strong aria-hidden="true">7.2.</strong> (TODO) iOS</a></li><li class="chapter-item expanded "><a href="exporting/macosx.html"><strong aria-hidden="true">7.3.</strong> Mac OS X</a></li></ol></li><li class="chapter-item expanded "><a href="advanced-guides.html"><strong aria-hidden="true">8.</strong> Advanced Guides</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="advanced-guides/custom-bindings.html"><strong aria-hidden="true">8.1.</strong> Using custom builds of Godot</a></li></ol></li><li class="chapter-item expanded "><a href="migrating-0-8.html"><strong aria-hidden="true">9.</strong> Migrating from godot-rust 0.8.x</a></li></ol>
             </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
@@ -363,6 +363,594 @@ impl HelloWorld {
 <p>You can find the full code for this example in the main repo: <a href="https://github.com/godot-rust/godot-rust/tree/master/examples/hello_world">https://github.com/godot-rust/godot-rust/tree/master/examples/hello_world</a>.</p>
 <h2><a class="header" href="#work-in-progress-1" id="work-in-progress-1">Work-in-progress</a></h2>
 <p><strong>The Getting Started tutorial is a work-in-progress, and unfortunately it ends here for now!</strong> To learn more about the API, you'll have to dive into the <a href="https://docs.rs/gdnative/0.9">documentation on docs.rs</a>, and the <a href="https://github.com/godot-rust/godot-rust/tree/master/examples/">other examples in the main repo</a>. If you have any questions using the bindings, ask away in the <code>#gdnative_dev</code> channel on the <a href="https://godotengine.org/community">Godot Engine community Discord server</a>!</p>
+<h1><a class="header" href="#an-overview-of-gdnative" id="an-overview-of-gdnative">An Overview of GDNative</a></h1>
+<p>GDNative is the interface between the Godot engine and bindings in native languages, such as C, C++ or Rust.</p>
+<p>This chapter gives a broad overview of basic GDNative concepts and godot-rust's approach to implement them in Rust. It is not a usage guide for exposing your Rust code to Godot; see chapter <a href="rust-binding.html">Binding to Rust code</a> for concrete examples.</p>
+<p>Subchapters:</p>
+<ol>
+<li><a href="gdnative-overview/data-representations.html">Data representations</a></li>
+<li><a href="gdnative-overview/wrappers.html"><code>Ref</code>, <code>TRef</code> and <code>Instance</code></a></li>
+</ol>
+<h1><a class="header" href="#data-representations" id="data-representations">Data representations</a></h1>
+<p>The godot-rust library uses many different approaches to store and transport data. This chapter explains high-level concepts of related terminology used throughout the library and its documentation. It is not a usage guide however -- to see the concepts in action, check out <a href="gdnative-overview/../rust-binding.html">Binding to Rust code</a>.</p>
+<h2><a class="header" href="#object-and-class" id="object-and-class">Object and class</a></h2>
+<p>Godot is built around <em>classes</em>, object-oriented types in a hierarchy, with the base class <code>Object</code> at the top. When talking about classes, we explicitly mean classes in the <code>Object</code> hierarchy and not built-in types like <code>String</code>, <code>Vector2</code>, <code>Color</code>, even though they are technically classes in C++. In Rust, classes are represented as structs.</p>
+<p>Every user-defined class inherits <code>Object</code> directly or indirectly, and thus all methods defined in <code>Object</code> are accessible on <em>any</em> instance of a user-defined class. This type includes functionality for:</p>
+<ul>
+<li>object lifetime: <code>_init</code> (<code>new</code> in Rust), <code>free</code></li>
+<li>identification and printing: <code>to_string</code>, <code>get_instance_id</code></li>
+<li>reflection/introspection: <code>get_class</code>, <code>get</code>, <code>has_method</code>, ...</li>
+<li>custom function invocation: <code>call</code>, <code>callv</code>, <code>call_deferred</code></li>
+<li>signal handling: <code>connect</code>, <code>emit_signal</code>, ...</li>
+</ul>
+<p><code>Object</code> itself comes with manual memory management. All instances must be deallocated using the <code>free()</code> method. This is typically not what you want, instead you will most often work with the following classes inherited from <code>Object</code>:</p>
+<ul>
+<li><strong><code>Reference</code></strong><br />
+Reference-counted objects. This is the default base class if you don't use the <code>extends</code> keyword in GDScript. Allows to pass around instances of this type freely, managing memory automatically when the last reference goes out of scope.<br />
+Do not confuse this type with the godot-rust <code>Ref</code> smart pointer.</li>
+<li><strong><code>Node</code></strong><br />
+Anything that's part of the scene tree, such as <code>Spatial</code> (3D), <code>CanvasItem</code> and <code>Node2D</code> (2D). Each node in the tree is responsible of its children and will deallocate them automatically when it is removed from the tree. At the latest, the entire tree will be destroyed when ending the application.<br />
+<strong>Important:</strong> as long as a node is not attached to the scene tree, it behaves like an <code>Object</code> instance and must be freed manually. On the other hand, as long as it is part of the tree, it can be destroyed (e.g. when its parent is removed) and other references pointing to it become invalid.</li>
+<li><strong><code>Resource</code></strong><br />
+Data set that is loaded from disk and cached in memory, for example 3D meshes, materials, textures, fonts or music (see also <a href="https://docs.godotengine.org/en/stable/getting_started/step_by_step/resources.html">Godot tutorial</a>).
+<code>Resource</code> inherits <code>Reference</code>, so in the context of godot-rust, it can be treated like a normal, reference-counted class. </li>
+</ul>
+<p>When talking about inheritance, we always mean the relationship in GDScript code. Rust does not have inheritance, instead godot-rust implements <code>Deref</code> traits to allow implicit upcasts. This enables to invoke all parent methods and makes the godot-rust API very close to GDScript.</p>
+<p>Classes need to be added as <code>NativeScript</code> resources inside the Godot editor, see <a href="gdnative-overview/../getting-started/hello-world.html#creating-the-nativescript-resource">here</a> for a description.</p>
+<p><em>See <code>Object</code> in
+<a href="https://docs.rs/gdnative/latest/gdnative/api/struct.Object.html">godot-rust docs</a>,
+<a href="https://docs.godotengine.org/en/latest/classes/class_object.html">Godot docs</a></em><br />
+<em>See <code>GodotObject</code>, the Rust trait implemented for all Godot classes, in <a href="https://docs.rs/gdnative/latest/gdnative/trait.GodotObject.html">godot-rust docs</a></em></p>
+<h2><a class="header" href="#variant" id="variant">Variant</a></h2>
+<p><code>Variant</code> is a type that can hold an instance of <em>any</em> type in Godot. This includes all classes (of type <code>Object</code>) as well as all built-in types such as <code>int</code>, <code>String</code>, <code>Vector2</code> etc.</p>
+<p>Since GDScript is a dynamic language, you often deal with variants implicitly. Variables which are not type-annotated can have values of multiple types throughout their lifetime. In static languages like Rust, every value must have a defined type, thus untyped values in GDScript correspond to <code>Variant</code> in Rust. Godot APIs which accept any type as parameter are declared as <code>Variant</code> in the GDNative bindings (and thus godot-rust library). Sometimes, godot-rust also provides transparent mapping from/to concrete types behind the scenes.</p>
+<p>Variants also have a second role as a serialization format between Godot and Rust. It is possible to extend this beyond the built-in Godot types. To make your own types convertible from and to variants, implement the traits <a href="https://docs.rs/gdnative/latest/gdnative/core_types/trait.FromVariant.html"><code>FromVariant</code></a> and <a href="https://docs.rs/gdnative/latest/gdnative/core_types/trait.ToVariant.html"><code>ToVariant</code></a>. Types that can only be safely converted to variants by giving up ownership can use <a href="https://docs.rs/gdnative/0.9.3/gdnative/core_types/trait.OwnedToVariant.html">OwnedToVariant</a>, which is similar to the Rust <code>Into</code> trait.</p>
+<p><em>See <code>Variant</code> in
+<a href="https://docs.rs/gdnative/latest/gdnative/core_types/struct.Variant.html">godot-rust docs</a>,
+<a href="https://docs.godotengine.org/en/latest/classes/class_variant.html">Godot docs</a></em></p>
+<h2><a class="header" href="#script" id="script">Script</a></h2>
+<p>Scripts are programmable building blocks that can be attached to nodes in the scene tree, in order to customize their behavior. Depending on the language in which the script is written, there are different classes which inherit the <code>Script</code> class; relevant here will be <code>NativeScript</code> for classes defined in Rust, and <code>GDScript</code> for classes defined in GDScript. Scripts are stored as Godot resources (like materials, textures, shaders etc), usually in their own separate file.</p>
+<p>Scripts <em>always</em> inherit another class from Godot's <code>Object</code> hierarchy, either an existing one from Godot or a user-defined one. In Rust, scripts are limited to inherit an existing Godot class; other scripts cannot be inherited. This makes each script a class on their own: they provide the properties and methods from their <em>base object</em>, plus all the properties and methods that you define in the script. </p>
+<p><em>See <code>Script</code> in
+<a href="https://docs.rs/gdnative/latest/gdnative/api/struct.Script.html">godot-rust docs</a>,
+<a href="https://docs.godotengine.org/en/latest/classes/class_script.html">Godot docs</a></em></p>
+<h1><a class="header" href="#ref-tref-and-instance" id="ref-tref-and-instance"><code>Ref</code>, <code>TRef</code> and <code>Instance</code></a></h1>
+<p>Objects from Godot, such as scene nodes, materials, or other resources are owned and maintained by the Godot engine. This means that your Rust code will store references to existing objects, not values. godot-rust provides special wrapper types to deal with these references, which are explained in this page.</p>
+<p>These classes stand in contrast to value types like <code>bool</code>, <code>int</code>, <code>Vector2</code>, <code>Color</code> etc., which are copied in GDScript, not referenced. In Rust, those types either map to built-in Rust types or structs implementing the <code>Copy</code> trait.</p>
+<h2><a class="header" href="#ref-persistent-reference" id="ref-persistent-reference"><code>Ref</code>: persistent reference</a></h2>
+<p>The generic smart pointer <code>gdnative::Ref&lt;T, Access&gt;</code> allows you to store <code>Object</code> instances in Rust. It comes with different access policies, depending on how the memory of the underlying object is managed (consult <a href="https://docs.rs/gdnative/latest/gdnative/struct.Ref.html">the docs</a> for details). Most of the time, you will be working with <code>Ref&lt;T&gt;</code>, which is the same as <code>Ref&lt;T, Shared&gt;</code> and the only access policy that is explained here. Its memory management mirrors that of the underlying type:</p>
+<ul>
+<li>for all Godot objects inheriting the <code>Reference</code> class, <code>Ref&lt;T&gt;</code> is reference-counted like <code>Arc&lt;T&gt;</code> and will clean up automatically.</li>
+<li>for all other types (i.e. the type <code>Object</code> and inheritors of <code>Node</code>), <code>Ref&lt;T&gt;</code> behaves like a raw pointer with manual memory management.</li>
+</ul>
+<p>For example, storing a reference to a Godot <code>Node2D</code> instance in a struct would look as follows:</p>
+<pre><pre class="playground"><code class="language-rust">
+<span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>struct GodotNode {
+	node_ref: Ref&lt;Node2D&gt;,
+}
+<span class="boring">}
+</span></code></pre></pre>
+<p><em>See <code>Ref</code> in
+<a href="https://docs.rs/gdnative/latest/gdnative/struct.Ref.html">godot-rust docs</a></em></p>
+<h2><a class="header" href="#tref-temporary-reference" id="tref-temporary-reference"><code>TRef</code>: temporary reference</a></h2>
+<p>While <code>Ref</code> is a persistent pointer to retain references to Godot objects for an extended period of time, it doesn't grant access to the underlying Godot object. The reason for this is that <code>Ref</code> cannot generally guarantee that the underlying object, which is managed by the Godot engine, is valid at the time of the access. However, you as a user are in control of GDScript code and the scene tree, thus you can assert that an object is valid at a certain point in time by using <code>assume_safe()</code>. This is an unsafe function that returns a <code>gdnative::TRef&lt;T, Access&gt;</code> object, which allows you to call methods on the node. You are responsible for this assumption to be correct; violating it can lead to undefined behavior.</p>
+<p>The following example demonstrates <code>TRef</code>. A node is stored inside a Rust struct, and its position is modified through <code>set_position()</code>. This approach could be used in an ECS (Entity-Component-System) architecture, where <code>GodotNode</code> is a component, updated by a system.</p>
+<pre><pre class="playground"><code class="language-rust">
+<span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>struct GodotNode {
+    node_ref: Ref&lt;Node2D&gt;,
+}
+
+fn update_position(node: &amp;GodotNode) {
+    let pos = Vector2::new(20, 30);
+  
+    // fetch temporary reference to the node
+    let node: TRef&lt;Node2D&gt; = unsafe { node.node_ref.assume_safe() };
+    
+    // call into the Godot engine
+    // this implicitly invokes deref(), turning TRef&lt;Node2D&gt; into &amp;Node2D
+    node.set_position(pos);
+}
+<span class="boring">}
+</span></code></pre></pre>
+<p>Note that the parameter type is <code>&amp;GodotNode</code>, not <code>&amp;mut GodotNode</code>. Then why is it possible to mutate the Godot object?</p>
+<p>All Godot classes in Rust (<code>Object</code> and its subtypes) have only methods that operate on <code>&amp;self</code>, not <code>&amp;mut self</code>. The reason for this choice is that <code>&amp;mut</code> is -- strictly speaking -- not a mutable reference, but rather an <a href="https://docs.rs/dtolnay/latest/dtolnay/macro._02__reference_types.html"><em>exclusive</em> reference</a>. The one and only thing it guarantees is that while it exists, no other reference to the same object can exist (no aliasing). Since all the Godot classes can be shared with the Godot engine, which is written in C++ and allows free aliasing, using <code>&amp;mut</code> references would potentially violate the exclusivity, leading to UB. This is why <code>&amp;T</code> is used, and just like e.g. <code>&amp;RefCell</code> it <em>does</em> allow mutation.</p>
+<p>This being said, it can still make sense to bring back some type safety on a higher level in your own code. For example, you could make the <code>update_position()</code> take a <code>&amp;mut GodotNode</code> parameter, to make sure that access to this <code>GodotNode</code> object is exclusive.</p>
+<p><em>See <code>TRef</code> in
+<a href="https://docs.rs/gdnative/latest/gdnative/struct.TRef.html">godot-rust docs</a></em></p>
+<h2><a class="header" href="#instance-reference-with-attached-rust-class" id="instance-reference-with-attached-rust-class"><code>Instance</code>: reference with attached Rust class</a></h2>
+<p>When working with classes that are provided by the engine or defined in GDScript, the <code>Ref</code> smart pointer is the ideal type for interfacing between Rust and Godot. However, when defining a custom class in Rust, that is registered with the Godot engine, there are two parts that need to be stored together:</p>
+<ol>
+<li><strong>GDNative script:</strong> the Rust struct object that implements the entire custom logic. The Rust struct is written by you.</li>
+<li><strong>Base object:</strong> the base class from which the script inherits, with its own state. This is always a Godot built-in class such as <code>Object</code>, <code>Reference</code> or <code>Node</code>.</li>
+</ol>
+<p>The <code>Instance</code> class simply wraps the two parts into a single type.</p>
+<p>When passing around your own Rust types, you will thus be working with <code>Instance</code>. The traits <code>ToVariant</code>, <code>FromVariant</code> and <code>OwnedToVariant</code> are automatically implemented for <code>Instance</code> types, allowing you to pass them from and to the Godot engine.</p>
+<h3><a class="header" href="#construction" id="construction">Construction</a></h3>
+<p>Let's use a straightforward example: a player with name and score. Exported methods and properties are omitted for simplicity; the full interfacing will be explained later in <a href="gdnative-overview/../rust-binding/calling-gdscript.html">Calling into GDScript from Rust</a>.</p>
+<pre><pre class="playground"><code class="language-rust">
+<span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>#[derive(NativeClass)]
+// no #[inherit], thus inherits Reference by default
+pub struct Player {
+    name: String,
+    score: u32,
+}
+
+#[methods]
+impl Player {
+    fn new(_owner: &amp;Reference) -&gt; Self {
+        Self {
+            name: &quot;New player&quot;.to_string(),
+            score: 0
+        }
+    }
+}
+<span class="boring">}
+</span></code></pre></pre>
+<p>To create a default instance, use <code>Instance::new_instance()</code>.<br />
+You can later use <code>map()</code> and <code>map_mut()</code> to access the <code>Instance</code> immutably and mutably.</p>
+<pre><pre class="playground"><code class="language-rust">
+<span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>let instance: Instance&lt;Reference, Unique&gt; = Instance::new();
+// or:
+let instance = Player::new_instance();
+
+// note: map_mut() takes &amp;self, so above is not 'let mut'
+instance.map_mut(|p: &amp;mut Player, _base: TRef&lt;Reference, Unique&gt;| {
+    p.name = &quot;Joe&quot;.to_string();
+    p.score = 120;
+});
+<span class="boring">}
+</span></code></pre></pre>
+<p>If you don't need a Godot-enabled default constructor, use the <code>#[no_constructor]</code> attribute and define your own Rust <code>new()</code> constructor.</p>
+<pre><pre class="playground"><code class="language-rust">
+<span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>#[derive(NativeClass)]
+#[no_constructor]
+pub struct Player {
+    name: String,
+    score: u32,
+}
+
+#[methods]
+impl Player {
+    pub fn new(name: &amp;str, score: u32) -&gt; Self {
+       Self { name: name.to_string(), score }
+    }
+}
+<span class="boring">}
+</span></code></pre></pre>
+<p>In this case, you can construct an <code>Instance</code> from an existing Rust object using <code>Instance::emplace()</code>:</p>
+<pre><pre class="playground"><code class="language-rust">
+<span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>let player = Player::new(&quot;Joe&quot;, 120);
+
+let instance = Instance::emplace(player);
+// or:
+let instance = player.emplace();
+<span class="boring">}
+</span></code></pre></pre>
+<p><em>See <code>Instance</code> in
+<a href="https://docs.rs/gdnative/latest/gdnative/nativescript/struct.Instance.html">godot-rust docs</a></em></p>
+<h1><a class="header" href="#binding-to-rust-code" id="binding-to-rust-code">Binding to Rust code</a></h1>
+<p>This chapter provides an exhaustive list of mechanisms to pass data through the Rust GDNative binding, in both directions: </p>
+<ul>
+<li><strong>GDScript -&gt; Rust</strong>, e.g. to react to an input event with custom Rust logic</li>
+<li><strong>Rust -&gt; GDScript</strong>, e.g. to apply a game logic change to a graphics node in Godot</li>
+</ul>
+<p>The goal is to serve as both an in-depth learning resource for newcomers and a reference to look up specific mechanisms at a later stage. Before delving into this chapter, make sure to read <a href="gdnative-overview.html">An Overview of GDNative</a>, which explains several fundamental concepts used here.</p>
+<p>The subchapters are intended to be read in order, but you can navigate to them directly:</p>
+<ol>
+<li><a href="rust-binding/classes.html">Class registration</a></li>
+<li><a href="rust-binding/methods.html">Exported methods</a></li>
+<li><a href="rust-binding/properties.html">Exported properties</a></li>
+<li><a href="./rust-binding/calling-gdscript.html">Calling into GDScript from Rust</a></li>
+</ol>
+<h1><a class="header" href="#class-registration" id="class-registration">Class registration</a></h1>
+<p>Classes are a fundamental data type of GDNative. They are used for Godot's own types (such as nodes) as well as custom ones defined by you. Here, we focus on defining <em>custom</em> classes and exposing them to Godot.</p>
+<h2><a class="header" href="#the-rust-entry-point" id="the-rust-entry-point">The Rust entry point</a></h2>
+<p>When working with godot-rust, your Rust code sits inside a dynamic library with C ABI (<code>cdylib</code>), which is loaded at runtime from the Godot engine. The engine works as the host application with the entry and exit point, and your Rust code will be loaded at some point after Godot starts and unloaded before it ends.</p>
+<p>This workflow implies that when you want to execute Rust code, you need to first pass control from Godot to it. To achieve this, every godot-rust application integrated with the engine must expose a public interface, through which Godot can invoke Rust code.</p>
+<p>Somewhere in your code, usually in <code>lib.rs</code>, you need to declare the functions that will be called by the engine when the native library is loaded and unloaded, as well as the registration function for native classes exposed to the engine. godot-rust provides the following macros (consult <a href="https://docs.rs/gdnative/latest/gdnative/index.html#macros">their documentation</a> for further info and customization):</p>
+<pre><pre class="playground"><code class="language-rust">
+<span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>godot_gdnative_init!();
+godot_nativescript_init!(init);
+godot_gdnative_terminate!();
+<span class="boring">}
+</span></code></pre></pre>
+<p>Or the equivalent short-hand:</p>
+<pre><pre class="playground"><code class="language-rust">
+<span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>godot_init!(init);
+<span class="boring">}
+</span></code></pre></pre>
+<p>The argument <code>init</code> refers to the function registering native script classes, which is also defined by you. For this chapter, let's assume you want to write a class <code>GodotApi</code>, which exposes a public interface to be invoked from Godot. The registration is then as follows:</p>
+<pre><pre class="playground"><code class="language-rust">
+<span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>// see details later
+struct GodotApi { ... }
+
+fn init(handle: InitHandle) {
+    handle.add_class::&lt;GodotApi&gt;();
+}
+<span class="boring">}
+</span></code></pre></pre>
+<h2><a class="header" href="#class-definition" id="class-definition">Class definition</a></h2>
+<p>Similar to the <a href="rust-binding/../getting-started/hello-world.html#overriding-a-godot-method">Hello World</a> example, we can define the <code>GodotApi</code> native class as follows:</p>
+<pre><pre class="playground"><code class="language-rust">
+<span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>// Tell godot-rust that this struct is exported as a native class 
+// (implements NativeClass trait)
+#[derive(NativeClass)]
+
+// Specify the base class (corresponds to 'extends' statement in GDScript).
+// * Like 'extends' in GDScript, this can be omitted. 
+//   In that case, the 'Reference' class is used as a base.
+// * Unlike 'extends' however, only existing Godot types are permitted,
+//   no other user-defined scripts.
+#[inherit(Node)]
+pub struct GodotApi {}
+
+// Exactly one impl block can have the #[methods] annotation, 
+// which registers methods in the background.
+#[methods]
+impl GodotApi {
+    // Constructor, either:
+    fn new(owner: &amp;Node) -&gt; Self { ... }
+    // or:
+    fn new(owner: TRef&lt;Node&gt;) -&gt; Self { ... }
+}
+<span class="boring">}
+</span></code></pre></pre>
+<p>The <a href="https://docs.rs/gdnative/latest/gdnative/derive.NativeClass.html"><code>#[derive(NativeClass)]</code> macro</a> enables a Rust type to be usable as a <em>native class</em> in Godot. It implements <a href="https://docs.rs/gdnative/latest/gdnative/nativescript/trait.NativeClass.html">the <code>NativeClass</code> trait</a>, which fills in the glue code required to make the class available in Godot. Among other information, this includes class name and registry of exported methods and properties. For the user, the utility methods <code>new_instance()</code> and <code>emplace()</code> are provided for constructing <code>Instance</code> objects.</p>
+<p>The function <code>new()</code> corresponds to <code>_init()</code> in GDScript. The <em>owner</em> is the base object of the script, and must correspond to the class specified in the <code>#[inherit]</code> attribute (or <code>Reference</code> if the attribute is absent). The parameter can be a shared reference <code>&amp;T</code> or a <code>TRef&lt;T&gt;</code>.</p>
+<p>With a <code>new()</code> method, you are able to write <code>GodotApi.new()</code> in GDScript. If you don't need this, you can add the <code>#[no_constructor]</code> attribute to the struct declaration.</p>
+<p>At this point, arguments cannot be passed into the constructor. Consult <a href="rust-binding/../faq.html#passing-additional-arguments-to-a-class-constructor">this FAQ entry</a> for available workarounds.</p>
+<h1><a class="header" href="#exported-methods" id="exported-methods">Exported methods</a></h1>
+<p>In order to receive data from Godot, you can export methods. With the <code>#[export]</code> attribute, godot-rust takes care of method registration and serialization. Note that the constructor is not annotated with <code>#[export]</code>.</p>
+<p>The exported method's first parameter is always <code>&amp;self</code> or <code>&amp;mut self</code> (operating on the Rust object), and the second parameter is <code>&amp;T</code> or <code>TRef&lt;T&gt;</code> (operating on the Godot base object, with <code>T</code> being the inherited type).</p>
+<pre><pre class="playground"><code class="language-rust">
+<span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>#[derive(NativeClass)]
+#[inherit(Node)]
+pub struct GodotApi {
+    enemy_count: i32,
+}
+
+#[methods]
+impl GodotApi {
+    fn new(_owner: &amp;Node) -&gt; Self {
+        // Print to both shell and Godot editor console
+        godot_print!(&quot;_init()&quot;);
+        Self { enemy_count: 0 }
+    }
+    
+    #[export]
+    fn create_enemy(
+        &amp;mut self,
+        _owner: &amp;Node,
+        typ: String,
+        pos: Vector2
+    ) {
+        godot_print!(&quot;create_enemy(): type '{}' at position {:?}&quot;, typ, pos);
+        self.enemy_count += 1;
+    }
+
+    #[export]
+    fn create_enemy2(
+        &amp;mut self,
+        _owner: &amp;Node,
+        typ: GodotString,
+        pos: Variant
+    ) {
+        godot_print!(&quot;create_enemy2(): type '{}' at position {:?}&quot;, typ, pos);
+        self.enemy_count += 1;
+    }
+
+    #[export]
+    fn count_enemies(&amp;self, _owner: &amp;Node) -&gt; i32 {
+        self.enemy_count
+    }  
+}
+<span class="boring">}
+</span></code></pre></pre>
+<p>The two creation methods are semantically equivalent, yet they demonstrate how godot-rust implicitly converts the values to the parameter types (unmarshalling). You could use <code>Variant</code> everywhere, however it is more type-safe and expressive to use specific types. The same applies to return types, you could use <code>Variant</code> instead of <code>i32</code>.
+<code>GodotString</code> is the Godot engine string type, but it can be converted to standard <code>String</code>. To choose between the two, consult <a href="https://docs.rs/gdnative/latest/gdnative/core_types/struct.GodotString.html">the docs</a>.</p>
+<p>In GDScript, you can then write this code:</p>
+<pre><code class="language-python">var api = GodotApi.new()
+
+api.create_enemy(&quot;Orc&quot;, Vector2(10, 20));
+api.create_enemy2(&quot;Elf&quot;, Vector2(50, 70));
+
+print(&quot;enemies: &quot;, api.count_enemies())
+
+# don't forget to add it to the scene tree, otherwise memory must be managed manually 
+self.add_child(api)
+</code></pre>
+<p>The output is:</p>
+<pre><code>_init()
+create_enemy(): type 'Orc' at position (10.0, 20.0)
+create_enemy2(): type 'Elf' at position Vector2((50, 70))
+enemies: 2
+</code></pre>
+<h2><a class="header" href="#passing-classes" id="passing-classes">Passing classes</a></h2>
+<p>The above examples have dealt with simple types such as strings and integers. What if we want to pass entire classes to Rust?</p>
+<p>Let's say we want to pass in an enemy from GDScript, instead of creating one locally. It could be represented by the <code>Node2D</code> class and directly configured in the Godot editor. What you then would do is use <a href="rust-binding/../gdnative-overview/wrappers.html">the <code>Ref</code> wrapper</a>:</p>
+<pre><pre class="playground"><code class="language-rust">
+<span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>#[derive(NativeClass)]
+#[inherit(Node)]
+pub struct GodotApi {
+    // Store references to all enemy nodes
+    enemies: Vec&lt;Ref&lt;Node2D&gt;&gt;,
+}
+
+#[methods]
+impl GodotApi {
+    // new() etc...
+
+    #[export]
+    fn add_enemy(
+        &amp;mut self,
+        _owner: &amp;Node,
+        enemy: Ref&lt;Node2D&gt; // pass in enemy
+    ) {
+        self.enemies.push(enemy);
+    }
+  
+    // You can even return the enemies directly with Vec.
+    // In GDScript, you will get an array of nodes.
+    // An alternative would be VariantArray, able to hold different types.
+    #[export]
+    fn get_enemies(
+        &amp;self,
+        _owner: &amp;Node
+    ) -&gt;  Vec&lt;Ref&lt;Node2D&gt;&gt; {
+        self.enemies.clone()
+    }
+}
+<span class="boring">}
+</span></code></pre></pre>
+<h2><a class="header" href="#special-methods" id="special-methods">Special methods</a></h2>
+<p>Godot offers some special methods. Most of them implement <a href="https://docs.godotengine.org/en/stable/getting_started/workflow/best_practices/godot_notifications.html">notifications</a>, i.e. callbacks from the engine to notify the class about a change.</p>
+<p>If you need to override a Godot special method, just declare it as a normal exported method, with the same name and signature as in GDScript:</p>
+<pre><pre class="playground"><code class="language-rust">
+<span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>#[export]
+fn _ready(&amp;mut self, _owner: &amp;Node) {...}
+
+#[export]
+fn _process(&amp;mut self, _owner: &amp;Node, delta: f32) {...}
+
+#[export]
+fn _physics_process(&amp;mut self, _owner: &amp;Node, delta: f32) {...}
+<span class="boring">}
+</span></code></pre></pre>
+<p>If you want to change how GDScript's default formatter in functions like <code>str()</code> or <code>print()</code> works, you can overload the <code>to_string</code> GDScript method, which corresponds to the following Rust method:</p>
+<pre><pre class="playground"><code class="language-rust">
+<span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>#[export]
+fn _to_string(&amp;self, _owner: &amp;Reference) -&gt; String {...}
+<span class="boring">}
+</span></code></pre></pre>
+<h2><a class="header" href="#errors" id="errors">Errors</a></h2>
+<p>If you pass arguments from GDScript that are incompatible with the Rust method's signature, the method invocation will fail. In this case, the code inside the method is not executed. An error message is printed on the Godot console, and the value <code>null</code> is returned for the GDScript function call.</p>
+<p>If code inside your method panics (e.g. by calling <code>unwrap()</code> on an empty option/result), the same happens: error message and return value <code>null</code>.</p>
+<h1><a class="header" href="#exported-properties" id="exported-properties">Exported properties</a></h1>
+<p>Like methods, properties can be exported. The <code>#[property]</code> attribute above a field declaration makes the field available to Godot, with its name and type.</p>
+<p>In the previous example, we could replace the <code>count_enemies()</code> method with a property <code>enemy_count</code>.</p>
+<pre><pre class="playground"><code class="language-rust">
+<span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>#[derive(NativeClass)]
+#[inherit(Node)]
+pub struct GodotApi {
+    #[property]
+    enemy_count: i32,
+}
+<span class="boring">}
+</span></code></pre></pre>
+<p>The GDScript code would be changed as follows.</p>
+<pre><code class="language-python">print(&quot;enemies: &quot;, api.enemy_count)
+</code></pre>
+<p>That's it.</p>
+<h1><a class="header" href="#calling-gdscript-from-rust" id="calling-gdscript-from-rust">Calling GDScript from Rust</a></h1>
+<p>To transport information from Rust back to GDScript, you have three options (of which the last can be achieved in different ways):</p>
+<ul>
+<li>Use return values in exported methods</li>
+<li>Use exported properties</li>
+<li>Call a Godot class method from Rust
+<ul>
+<li>invoke built-in method as part of the API (e.g. <code>set_position()</code> above)</li>
+<li>invoke custom GDScript method, through <code>call()</code> and overloads</li>
+<li>emit a signal, through <code>emit_signal()</code></li>
+</ul>
+</li>
+</ul>
+<p>Which one you need depends on your goals and your architecture. If you see Rust as a deterministic, functional machine in the sense of <em>input -&gt; processing -&gt; output</em>, you could stick to only returning data from Rust methods, and never directly calling a Godot method. This can be limiting however, and depending on your use case you end up manually dispatching back to different nodes on the GDScript side.</p>
+<h2><a class="header" href="#passing-custom-classes-to-gdscript" id="passing-custom-classes-to-gdscript">Passing custom classes to GDScript</a></h2>
+<p>On the previous pages, we explained how to export a class, so it can be instantiated and called from GDScript. This section explains how to construct a class locally in Rust.</p>
+<p>Let's define a class <code>Enemy</code> which acts as a simple data bundle, i.e. no functionality. We inherit it from <code>Reference</code>, such that memory is managed automatically. In addition, we define <code>_to_string()</code> and delegate it to the derived <code>Debug</code> trait implementation, to make it printable from GDScript.</p>
+<pre><pre class="playground"><code class="language-rust">
+<span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>#[derive(NativeClass, Debug)]
+// no #[inherit], thus inherits Reference by default
+#[no_constructor]
+pub struct Enemy {
+    #[property]
+    pos: Vector2,
+
+    #[property]
+    health: f32,
+
+    #[property]
+    name: String,
+}
+
+#[methods]
+impl Enemy {
+    #[export]
+    fn _to_string(&amp;self, _owner: &amp;Reference) -&gt; String {
+        format!(&quot;{:?}&quot;, self) // calls Debug::fmt()
+    }
+}
+<span class="boring">}
+</span></code></pre></pre>
+<p>Godot can only use classes that are registered, so let's do that:</p>
+<pre><pre class="playground"><code class="language-rust">
+<span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>fn init(handle: InitHandle) {
+    // ...
+    handle.add_class::&lt;Enemy&gt;();
+}
+<span class="boring">}
+</span></code></pre></pre>
+<p>Now, it's not possible to directly return <code>Enemy</code> instances in exported methods, so this won't work:</p>
+<pre><pre class="playground"><code class="language-rust">
+<span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>#[export]
+fn create_enemy(&amp;mut self, _owner: &amp;Node) -&gt; Enemy {...}
+<span class="boring">}
+</span></code></pre></pre>
+<p>Instead, you can wrap the object in a <code>Instance&lt;Enemy, Unique&gt;</code>, using <code>emplace()</code>. For an in-depth explanation of the <code>Instance</code> class, read <a href="http://localhost:3000/gdnative-overview/wrappers.html#instance-reference-with-attached-rust-class">this section</a>.</p>
+<pre><pre class="playground"><code class="language-rust">
+<span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>#[export]
+fn create_enemy(
+    &amp;self,
+    _owner: &amp;Node
+) -&gt; Instance&lt;Enemy, Unique&gt; {
+    let enemy = Enemy {
+        pos: Vector2::new(7.0, 2.0),
+        health: 100.0,
+        name: &quot;MyEnemy&quot;.to_string(),
+    };
+    
+    enemy.emplace()
+}
+<span class="boring">}
+</span></code></pre></pre>
+<p>When calling this method in GDScript:</p>
+<pre><code class="language-python">var api = GodotApi.new()
+var enemy = api.create_enemy()
+print(&quot;Enemy created: &quot;, enemy)
+</code></pre>
+<p>the output will be:</p>
+<pre><code>Enemy created: Enemy { pos: (7.0, 2.0), health: 100.0, name: &quot;MyEnemy&quot; }
+</code></pre>
+<p>If you want types to be default-constructible, e.g. to allow construction from GDScript, omit the <code>#[no_constructor]</code> attribute. You can default-construct from Rust using <code>Instance::new_instance()</code>.</p>
+<h2><a class="header" href="#function-calls" id="function-calls">Function calls</a></h2>
+<p>While you can export Rust methods to be called from GDScript, the opposite is also possible. Typical use cases for this include:</p>
+<ul>
+<li>Read or modify the scene tree directly from Rust (e.g. moving a node)</li>
+<li>Synchronizing logic state (Rust) with visual representation (Godot)</li>
+<li>Notify code in GDScript about changes in Rust</li>
+</ul>
+<p>Methods provided by Godot classes are mapped to regular Rust functions. Examples for these are <code>Node2D::rotate()</code>, <code>Button::set_text()</code>, <code>StaticBody::bounce()</code>. They can usually be invoked safely on a <code>&amp;T</code> or <code>TRef&lt;T&gt;</code> reference to the respective object.</p>
+<p>Custom GDScript methods (defined in .gd files) on the other hand need to be invoked dynamically. This means that there is no type-safe Rust signature, so you will use the <code>Variant</code> type. All Godot-compatible types can be converted to variants. For the actual call, <code>Object</code> provides multiple methods. Since every Godot class eventually dereferences to <code>Object</code>, you can invoke them on any Godot class object.</p>
+<p>The following GDScript method:</p>
+<pre><code class="language-python"># in UserInterface.gd
+extends CanvasItem
+
+func update_stats(mission_name: String, health: float, score: int) -&gt; bool:
+    # ...
+</code></pre>
+<p>can be invoked from Rust as follows:</p>
+<pre><pre class="playground"><code class="language-rust">
+<span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>use gdnative::core_types::ToVariant;
+
+fn update_mission_ui(ui_node: Ref&lt;CanvasItem&gt;) {
+    let mission_name = &quot;Thunderstorm&quot;.to_variant();
+    let health = 37.2.to_variant();
+    let score = 140.to_variant();
+
+    // both assume_safe() and call() are unsafe
+    let node: TRef&lt;CanvasItem&gt; = unsafe { ui_node.assume_safe() };
+    let result: Variant = unsafe {
+        node.call(&quot;update_stats&quot;, &amp;[mission_name, health, score])
+    };
+  
+    let success: bool = result.try_to_bool().expect(&quot;returns bool&quot;);
+}
+<span class="boring">}
+</span></code></pre></pre>
+<p>Besides <a href="https://docs.rs/gdnative/latest/gdnative/api/struct.Object.html#method.call"><code>Object::call()</code></a>, alternative methods <code>callv()</code> (accepting a <code>VariantArray</code>) and <code>call_deferred()</code> (calling the next frame) exist, but the principle stays the same.</p>
+<p>For long parameter lists, it often makes sense to bundle related functionality into a new class, let's say <code>Stats</code> in the above example. When working with classes, you can convert both <code>Ref</code> (for Godot/GDScript classes) and <code>Instance</code> (for native classes) to <code>Variant</code> by means of the <code>OwnedToVariant</code> trait:</p>
+<pre><pre class="playground"><code class="language-rust">
+<span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>use gdnative::core_types::OwnedToVariant; // owned_to_variant()
+use gdnative::nativescript::NativeClass; // emplace()
+
+// Native class bundling the update information
+#[derive(NativeClass)]
+#[no_constructor]
+struct Stats {
+    #[property]
+    mission_name: String,
+  
+    #[property]
+    health: f32,
+  
+    #[property]
+    score: i32,
+}
+
+fn update_mission_ui(ui_node: Ref&lt;CanvasItem&gt;) {
+    let stats = Stats {
+        mission_name: &quot;Thunderstorm&quot;.to_variant(),
+        health: 37.2.to_variant(),
+        score: 140.to_variant(),      
+    };
+  
+    let instance: Instance&lt;Stats, Unique&gt; = stats.emplace();
+    let variant: Variant = instance.owned_to_variant();
+
+    let node: TRef&lt;CanvasItem&gt; = unsafe { ui_node.assume_safe() };
+    
+    // let's say the method now returns a Stats object with previous stats
+    let result: Variant = unsafe { node.call(&quot;update_stats&quot;, &amp;[variant]) };
+  
+    // convert Variant -&gt; Ref -&gt; Instance
+    let base_obj: Ref&lt;Reference&gt; = result.try_to_object().expect(&quot;is Reference&quot;);
+    let instance: Instance&lt;Stats, Shared&gt; = Instance::from_base(base_obj).unwrap();
+    
+    instance.map(|prev_stats: &amp;Stats, _base| {
+        // read prev_stats here
+    });
+}
+<span class="boring">}
+</span></code></pre></pre>
+<h3><a class="header" href="#warning" id="warning">Warning</a></h3>
+<p>When calling GDScript functions from Rust, a few things need to be kept in mind.</p>
+<p><strong>Safety:</strong> Since the calls are dynamic, it is possible to invoke any other functions through them, including unsafe ones like <code>free()</code>. As a result, <code>call()</code> and its alternatives are unsafe.</p>
+<p><strong>Re-entrancy:</strong> When calling from Rust to GDScript, your Rust code is usually already running in an exported <code>#[export]</code> method, meaning that it has bound its receiver object via <code>&amp;T</code> or <code>&amp;mut T</code> reference. In the GDScript code, you must not invoke any method on the same Rust receiver, which would violate safety rules (aliasing of <code>&amp;mut</code>).</p>
+<h2><a class="header" href="#signal-emissions" id="signal-emissions">Signal emissions</a></h2>
+<p>Like methods, signals defined in GDScript can be emitted dynamically from Rust.</p>
+<p>The mechanism works analogously to function invocation, except that you use <a href="https://docs.rs/gdnative/latest/gdnative/api/struct.Object.html#method.emit_signal"><code>Object::emit_signal()</code></a> instead of <code>Object::call()</code>.</p>
 <h1><a class="header" href="#faq" id="faq">FAQ</a></h1>
 <h2><a class="header" href="#avoiding-a-borrowfailed-error-on-method-call" id="avoiding-a-borrowfailed-error-on-method-call">Avoiding a <code>BorrowFailed</code> error on method call</a></h2>
 <p><strong>Question</strong></p>
@@ -372,7 +960,7 @@ impl HelloWorld {
 <p>It's relatively easy to work around this problem, though: Because of how the user-data container works, it can only see the outermost layer of your script type - the entire structure. This is why it's stricter than what is actually required. If you run into this problem, you can <a href="https://doc.rust-lang.org/book/ch15-05-interior-mutability.html">introduce finer-grained interior mutability</a> in your own type, and modify the problematic exported methods to take <code>&amp;self</code> instead of <code>&amp;mut self</code>.</p>
 <h2><a class="header" href="#passing-additional-arguments-to-a-class-constructor" id="passing-additional-arguments-to-a-class-constructor">Passing additional arguments to a class constructor</a></h2>
 <p><strong>Question</strong></p>
-<p>A native script type needs to implement <code>fn new(owner: &amp;Node) -&gt; Self</code>.
+<p>A native script type needs to implement <code>fn new(owner: &amp;Node) -&gt; Self</code>.<br />
 Is it possible to pass additional arguments to <code>new</code>?</p>
 <p><strong>Answer</strong></p>
 <p>Unfortunately this is currently a general limitation of GDNative (see <a href="https://github.com/godotengine/godot/issues/23260">related issue</a>).</p>
@@ -380,27 +968,70 @@ Is it possible to pass additional arguments to <code>new</code>?</p>
 <pre><pre class="playground"><code class="language-rust">
 <span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
-</span>#[derive(NativeClass)]
-#[inherit(Object)]
-struct DataWrapper {
-    data: Option&lt;Data&gt;,
+</span>struct EnemyData {
+    name: String,
+    health: f32,
 }
 
-#[godot::methods]
-impl DataWrapper {
+#[derive(NativeClass)]
+#[inherit(Object)]
+struct Enemy {
+    data: Option&lt;EnemyData&gt;,
+}
+
+#[methods]
+impl Enemy {
     fn new(_owner: &amp;Object) -&gt; Self {
-        DataWrapper {
+        Enemy {
             data: None,
         }
     }
 
     #[export]
-    fn set_data(&amp;mut self, _owner: &amp;Object, additional_arg1: i32, additional_arg2: i32) {
-        self.data = Some(Data::new(additional_arg1, additional_arg2));
+    fn set_data(&amp;mut self, _owner: &amp;Object, name: String, health: f32) {
+        self.data = Some(EnemyData { name, health });
     }
 }
 <span class="boring">}
 </span></code></pre></pre>
+<p>This however has two disadvantages:</p>
+<ol>
+<li>You need to use an <code>Option</code> with the sole purpose of late initialization, and subsequent <code>unwrap()</code> calls or checks -- weaker invariants in short.</li>
+<li>An additional type <code>EnemyData</code> for each native class like <code>Enemy</code> is required (unless you have very few properties, or decide to add <code>Option</code> for each of them, which has its own disadvantages).</li>
+</ol>
+<p>An alternative is to register a separate factory class, which returns fully-constructed instances:</p>
+<pre><pre class="playground"><code class="language-rust">
+<span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>#[derive(NativeClass)]
+#[no_constructor] // disallow default constructor
+#[inherit(Object)]
+struct Enemy {
+    name: String,
+    health: f32,
+}
+
+#[methods]
+impl Enemy {
+    // nothing here
+}
+
+#[derive(NativeClass)]
+#[inherit(Reference)]
+struct EntityFactory {}
+
+#[methods]
+impl EntityFactory {
+    #[export]
+    fn enemy(&amp;self, _owner: &amp;Object, name: String, health: f32)
+    -&gt; Instance&lt;Enemy, Unique&gt; {
+        Enemy { name, health }.emplace()
+    }
+}
+<span class="boring">}
+</span></code></pre></pre>
+<p>So instead of <code>Enemy.new()</code> you can write <code>EntityFactory.enemy(args)</code> in GDScript.<br />
+This still needs an extra type <code>EntityFactory</code>, however you could reuse that for multiple classes.</p>
 <h2><a class="header" href="#static-methods" id="static-methods">Static methods</a></h2>
 <p><strong>Question</strong></p>
 <p>In GDScript, classes can have static methods.
@@ -417,7 +1048,7 @@ How can I implement a static method?</p>
 #[inherit(Object)]
 pub struct StaticUtil;
 
-#[godot::methods]
+#[methods]
 impl StaticUtil {
     #[export]
     fn compute_something(&amp;self, _owner: &amp;Object, input: i32) -&gt; i32 {
@@ -444,7 +1075,7 @@ How can I access the Rust type given the Variant?</p>
 <pre><pre class="playground"><code class="language-rust">
 <span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
-</span>#[godot::methods]
+</span>#[methods]
 impl AnotherNativeScript {
 
     #[export]
@@ -491,8 +1122,6 @@ impl AnotherNativeScript {
 <li>add <code>-Didea.max.intellisense.filesize=limitValue</code> line where <code>limitValue</code> is desired limit in KB, for example, 10240. Note, it cannot be more than 20 MB.</li>
 <li>restart IDE</li>
 </ul>
-<h1><a class="header" href="#an-overview-of-gdnative" id="an-overview-of-gdnative">An Overview of GDNative</a></h1>
-<p>TODO</p>
 <h1><a class="header" href="#testing" id="testing">Testing</a></h1>
 <p>TODO</p>
 <h1><a class="header" href="#structuring-code-for-testing" id="structuring-code-for-testing">Structuring Code for Testing</a></h1>

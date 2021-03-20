@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>(TODO) An Overview of GDNative - The godot-rust Book</title>
+        <title>An Overview of GDNative - The godot-rust Book</title>
         
         
 
@@ -89,7 +89,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded "><a href="introduction.html"><strong aria-hidden="true">1.</strong> Introduction</a></li><li class="chapter-item expanded "><a href="getting-started.html"><strong aria-hidden="true">2.</strong> Getting Started</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="getting-started/setup.html"><strong aria-hidden="true">2.1.</strong> Setup</a></li><li class="chapter-item expanded "><a href="getting-started/hello-world.html"><strong aria-hidden="true">2.2.</strong> Hello, world!</a></li></ol></li><li class="chapter-item expanded "><a href="faq.html"><strong aria-hidden="true">3.</strong> FAQ</a></li><li class="chapter-item expanded "><a href="gdnative-overview.html" class="active"><strong aria-hidden="true">4.</strong> (TODO) An Overview of GDNative</a></li><li class="chapter-item expanded "><a href="testing.html"><strong aria-hidden="true">5.</strong> (TODO) Testing</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="testing/structure.html"><strong aria-hidden="true">5.1.</strong> Structuring Code for Testing</a></li><li class="chapter-item expanded "><a href="testing/engine.html"><strong aria-hidden="true">5.2.</strong> Testing with the Engine</a></li></ol></li><li class="chapter-item expanded "><a href="exporting.html"><strong aria-hidden="true">6.</strong> Exporting</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="exporting/android.html"><strong aria-hidden="true">6.1.</strong> Android</a></li><li class="chapter-item expanded "><a href="exporting/ios.html"><strong aria-hidden="true">6.2.</strong> (TODO) iOS</a></li><li class="chapter-item expanded "><a href="exporting/macosx.html"><strong aria-hidden="true">6.3.</strong> Mac OS X</a></li></ol></li><li class="chapter-item expanded "><a href="advanced-guides.html"><strong aria-hidden="true">7.</strong> Advanced Guides</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="advanced-guides/custom-bindings.html"><strong aria-hidden="true">7.1.</strong> Using custom builds of Godot</a></li></ol></li><li class="chapter-item expanded "><a href="migrating-0-8.html"><strong aria-hidden="true">8.</strong> Migrating from godot-rust 0.8.x</a></li></ol>
+                <ol class="chapter"><li class="chapter-item expanded "><a href="introduction.html"><strong aria-hidden="true">1.</strong> Introduction</a></li><li class="chapter-item expanded "><a href="getting-started.html"><strong aria-hidden="true">2.</strong> Getting Started</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="getting-started/setup.html"><strong aria-hidden="true">2.1.</strong> Setup</a></li><li class="chapter-item expanded "><a href="getting-started/hello-world.html"><strong aria-hidden="true">2.2.</strong> Hello, world!</a></li></ol></li><li class="chapter-item expanded "><a href="gdnative-overview.html" class="active"><strong aria-hidden="true">3.</strong> An Overview of GDNative</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="gdnative-overview/data-representations.html"><strong aria-hidden="true">3.1.</strong> Data representations</a></li><li class="chapter-item expanded "><a href="gdnative-overview/wrappers.html"><strong aria-hidden="true">3.2.</strong> Ref, TRef and Instance -- wrappers for custom types</a></li></ol></li><li class="chapter-item expanded "><a href="rust-binding.html"><strong aria-hidden="true">4.</strong> Binding to Rust code</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="rust-binding/classes.html"><strong aria-hidden="true">4.1.</strong> Class registration</a></li><li class="chapter-item expanded "><a href="rust-binding/methods.html"><strong aria-hidden="true">4.2.</strong> Exported methods</a></li><li class="chapter-item expanded "><a href="rust-binding/properties.html"><strong aria-hidden="true">4.3.</strong> Exported properties</a></li><li class="chapter-item expanded "><a href="rust-binding/calling-gdscript.html"><strong aria-hidden="true">4.4.</strong> Calling into GDScript from Rust</a></li></ol></li><li class="chapter-item expanded "><a href="faq.html"><strong aria-hidden="true">5.</strong> FAQ</a></li><li class="chapter-item expanded "><a href="testing.html"><strong aria-hidden="true">6.</strong> (TODO) Testing</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="testing/structure.html"><strong aria-hidden="true">6.1.</strong> Structuring Code for Testing</a></li><li class="chapter-item expanded "><a href="testing/engine.html"><strong aria-hidden="true">6.2.</strong> Testing with the Engine</a></li></ol></li><li class="chapter-item expanded "><a href="exporting.html"><strong aria-hidden="true">7.</strong> Exporting</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="exporting/android.html"><strong aria-hidden="true">7.1.</strong> Android</a></li><li class="chapter-item expanded "><a href="exporting/ios.html"><strong aria-hidden="true">7.2.</strong> (TODO) iOS</a></li><li class="chapter-item expanded "><a href="exporting/macosx.html"><strong aria-hidden="true">7.3.</strong> Mac OS X</a></li></ol></li><li class="chapter-item expanded "><a href="advanced-guides.html"><strong aria-hidden="true">8.</strong> Advanced Guides</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="advanced-guides/custom-bindings.html"><strong aria-hidden="true">8.1.</strong> Using custom builds of Godot</a></li></ol></li><li class="chapter-item expanded "><a href="migrating-0-8.html"><strong aria-hidden="true">9.</strong> Migrating from godot-rust 0.8.x</a></li></ol>
             </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
@@ -156,20 +156,26 @@
                 <div id="content" class="content">
                     <main>
                         <h1><a class="header" href="#an-overview-of-gdnative" id="an-overview-of-gdnative">An Overview of GDNative</a></h1>
-<p>TODO</p>
+<p>GDNative is the interface between the Godot engine and bindings in native languages, such as C, C++ or Rust.</p>
+<p>This chapter gives a broad overview of basic GDNative concepts and godot-rust's approach to implement them in Rust. It is not a usage guide for exposing your Rust code to Godot; see chapter <a href="rust-binding.html">Binding to Rust code</a> for concrete examples.</p>
+<p>Subchapters:</p>
+<ol>
+<li><a href="gdnative-overview/data-representations.html">Data representations</a></li>
+<li><a href="gdnative-overview/wrappers.html"><code>Ref</code>, <code>TRef</code> and <code>Instance</code></a></li>
+</ol>
 
                     </main>
 
                     <nav class="nav-wrapper" aria-label="Page navigation">
                         <!-- Mobile navigation buttons -->
                         
-                            <a rel="prev" href="faq.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                            <a rel="prev" href="getting-started/hello-world.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                                 <i class="fa fa-angle-left"></i>
                             </a>
                         
 
                         
-                            <a rel="next" href="testing.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                            <a rel="next" href="gdnative-overview/data-representations.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                                 <i class="fa fa-angle-right"></i>
                             </a>
                         
@@ -181,13 +187,13 @@
 
             <nav class="nav-wide-wrapper" aria-label="Page navigation">
                 
-                    <a rel="prev" href="faq.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                    <a rel="prev" href="getting-started/hello-world.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                         <i class="fa fa-angle-left"></i>
                     </a>
                 
 
                 
-                    <a rel="next" href="testing.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                    <a rel="next" href="gdnative-overview/data-representations.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                         <i class="fa fa-angle-right"></i>
                     </a>
                 

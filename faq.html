@@ -89,7 +89,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded "><a href="introduction.html"><strong aria-hidden="true">1.</strong> Introduction</a></li><li class="chapter-item expanded "><a href="getting-started.html"><strong aria-hidden="true">2.</strong> Getting Started</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="getting-started/setup.html"><strong aria-hidden="true">2.1.</strong> Setup</a></li><li class="chapter-item expanded "><a href="getting-started/hello-world.html"><strong aria-hidden="true">2.2.</strong> Hello, world!</a></li></ol></li><li class="chapter-item expanded "><a href="faq.html" class="active"><strong aria-hidden="true">3.</strong> FAQ</a></li><li class="chapter-item expanded "><a href="gdnative-overview.html"><strong aria-hidden="true">4.</strong> (TODO) An Overview of GDNative</a></li><li class="chapter-item expanded "><a href="testing.html"><strong aria-hidden="true">5.</strong> (TODO) Testing</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="testing/structure.html"><strong aria-hidden="true">5.1.</strong> Structuring Code for Testing</a></li><li class="chapter-item expanded "><a href="testing/engine.html"><strong aria-hidden="true">5.2.</strong> Testing with the Engine</a></li></ol></li><li class="chapter-item expanded "><a href="exporting.html"><strong aria-hidden="true">6.</strong> Exporting</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="exporting/android.html"><strong aria-hidden="true">6.1.</strong> Android</a></li><li class="chapter-item expanded "><a href="exporting/ios.html"><strong aria-hidden="true">6.2.</strong> (TODO) iOS</a></li><li class="chapter-item expanded "><a href="exporting/macosx.html"><strong aria-hidden="true">6.3.</strong> Mac OS X</a></li></ol></li><li class="chapter-item expanded "><a href="advanced-guides.html"><strong aria-hidden="true">7.</strong> Advanced Guides</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="advanced-guides/custom-bindings.html"><strong aria-hidden="true">7.1.</strong> Using custom builds of Godot</a></li></ol></li><li class="chapter-item expanded "><a href="migrating-0-8.html"><strong aria-hidden="true">8.</strong> Migrating from godot-rust 0.8.x</a></li></ol>
+                <ol class="chapter"><li class="chapter-item expanded "><a href="introduction.html"><strong aria-hidden="true">1.</strong> Introduction</a></li><li class="chapter-item expanded "><a href="getting-started.html"><strong aria-hidden="true">2.</strong> Getting Started</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="getting-started/setup.html"><strong aria-hidden="true">2.1.</strong> Setup</a></li><li class="chapter-item expanded "><a href="getting-started/hello-world.html"><strong aria-hidden="true">2.2.</strong> Hello, world!</a></li></ol></li><li class="chapter-item expanded "><a href="gdnative-overview.html"><strong aria-hidden="true">3.</strong> An Overview of GDNative</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="gdnative-overview/data-representations.html"><strong aria-hidden="true">3.1.</strong> Data representations</a></li><li class="chapter-item expanded "><a href="gdnative-overview/wrappers.html"><strong aria-hidden="true">3.2.</strong> Ref, TRef and Instance -- wrappers for custom types</a></li></ol></li><li class="chapter-item expanded "><a href="rust-binding.html"><strong aria-hidden="true">4.</strong> Binding to Rust code</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="rust-binding/classes.html"><strong aria-hidden="true">4.1.</strong> Class registration</a></li><li class="chapter-item expanded "><a href="rust-binding/methods.html"><strong aria-hidden="true">4.2.</strong> Exported methods</a></li><li class="chapter-item expanded "><a href="rust-binding/properties.html"><strong aria-hidden="true">4.3.</strong> Exported properties</a></li><li class="chapter-item expanded "><a href="rust-binding/calling-gdscript.html"><strong aria-hidden="true">4.4.</strong> Calling into GDScript from Rust</a></li></ol></li><li class="chapter-item expanded "><a href="faq.html" class="active"><strong aria-hidden="true">5.</strong> FAQ</a></li><li class="chapter-item expanded "><a href="testing.html"><strong aria-hidden="true">6.</strong> (TODO) Testing</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="testing/structure.html"><strong aria-hidden="true">6.1.</strong> Structuring Code for Testing</a></li><li class="chapter-item expanded "><a href="testing/engine.html"><strong aria-hidden="true">6.2.</strong> Testing with the Engine</a></li></ol></li><li class="chapter-item expanded "><a href="exporting.html"><strong aria-hidden="true">7.</strong> Exporting</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="exporting/android.html"><strong aria-hidden="true">7.1.</strong> Android</a></li><li class="chapter-item expanded "><a href="exporting/ios.html"><strong aria-hidden="true">7.2.</strong> (TODO) iOS</a></li><li class="chapter-item expanded "><a href="exporting/macosx.html"><strong aria-hidden="true">7.3.</strong> Mac OS X</a></li></ol></li><li class="chapter-item expanded "><a href="advanced-guides.html"><strong aria-hidden="true">8.</strong> Advanced Guides</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="advanced-guides/custom-bindings.html"><strong aria-hidden="true">8.1.</strong> Using custom builds of Godot</a></li></ol></li><li class="chapter-item expanded "><a href="migrating-0-8.html"><strong aria-hidden="true">9.</strong> Migrating from godot-rust 0.8.x</a></li></ol>
             </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
@@ -164,7 +164,7 @@
 <p>It's relatively easy to work around this problem, though: Because of how the user-data container works, it can only see the outermost layer of your script type - the entire structure. This is why it's stricter than what is actually required. If you run into this problem, you can <a href="https://doc.rust-lang.org/book/ch15-05-interior-mutability.html">introduce finer-grained interior mutability</a> in your own type, and modify the problematic exported methods to take <code>&amp;self</code> instead of <code>&amp;mut self</code>.</p>
 <h2><a class="header" href="#passing-additional-arguments-to-a-class-constructor" id="passing-additional-arguments-to-a-class-constructor">Passing additional arguments to a class constructor</a></h2>
 <p><strong>Question</strong></p>
-<p>A native script type needs to implement <code>fn new(owner: &amp;Node) -&gt; Self</code>.
+<p>A native script type needs to implement <code>fn new(owner: &amp;Node) -&gt; Self</code>.<br />
 Is it possible to pass additional arguments to <code>new</code>?</p>
 <p><strong>Answer</strong></p>
 <p>Unfortunately this is currently a general limitation of GDNative (see <a href="https://github.com/godotengine/godot/issues/23260">related issue</a>).</p>
@@ -172,27 +172,70 @@ Is it possible to pass additional arguments to <code>new</code>?</p>
 <pre><pre class="playground"><code class="language-rust">
 <span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
-</span>#[derive(NativeClass)]
-#[inherit(Object)]
-struct DataWrapper {
-    data: Option&lt;Data&gt;,
+</span>struct EnemyData {
+    name: String,
+    health: f32,
 }
 
-#[godot::methods]
-impl DataWrapper {
+#[derive(NativeClass)]
+#[inherit(Object)]
+struct Enemy {
+    data: Option&lt;EnemyData&gt;,
+}
+
+#[methods]
+impl Enemy {
     fn new(_owner: &amp;Object) -&gt; Self {
-        DataWrapper {
+        Enemy {
             data: None,
         }
     }
 
     #[export]
-    fn set_data(&amp;mut self, _owner: &amp;Object, additional_arg1: i32, additional_arg2: i32) {
-        self.data = Some(Data::new(additional_arg1, additional_arg2));
+    fn set_data(&amp;mut self, _owner: &amp;Object, name: String, health: f32) {
+        self.data = Some(EnemyData { name, health });
     }
 }
 <span class="boring">}
 </span></code></pre></pre>
+<p>This however has two disadvantages:</p>
+<ol>
+<li>You need to use an <code>Option</code> with the sole purpose of late initialization, and subsequent <code>unwrap()</code> calls or checks -- weaker invariants in short.</li>
+<li>An additional type <code>EnemyData</code> for each native class like <code>Enemy</code> is required (unless you have very few properties, or decide to add <code>Option</code> for each of them, which has its own disadvantages).</li>
+</ol>
+<p>An alternative is to register a separate factory class, which returns fully-constructed instances:</p>
+<pre><pre class="playground"><code class="language-rust">
+<span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>#[derive(NativeClass)]
+#[no_constructor] // disallow default constructor
+#[inherit(Object)]
+struct Enemy {
+    name: String,
+    health: f32,
+}
+
+#[methods]
+impl Enemy {
+    // nothing here
+}
+
+#[derive(NativeClass)]
+#[inherit(Reference)]
+struct EntityFactory {}
+
+#[methods]
+impl EntityFactory {
+    #[export]
+    fn enemy(&amp;self, _owner: &amp;Object, name: String, health: f32)
+    -&gt; Instance&lt;Enemy, Unique&gt; {
+        Enemy { name, health }.emplace()
+    }
+}
+<span class="boring">}
+</span></code></pre></pre>
+<p>So instead of <code>Enemy.new()</code> you can write <code>EntityFactory.enemy(args)</code> in GDScript.<br />
+This still needs an extra type <code>EntityFactory</code>, however you could reuse that for multiple classes.</p>
 <h2><a class="header" href="#static-methods" id="static-methods">Static methods</a></h2>
 <p><strong>Question</strong></p>
 <p>In GDScript, classes can have static methods.
@@ -209,7 +252,7 @@ How can I implement a static method?</p>
 #[inherit(Object)]
 pub struct StaticUtil;
 
-#[godot::methods]
+#[methods]
 impl StaticUtil {
     #[export]
     fn compute_something(&amp;self, _owner: &amp;Object, input: i32) -&gt; i32 {
@@ -236,7 +279,7 @@ How can I access the Rust type given the Variant?</p>
 <pre><pre class="playground"><code class="language-rust">
 <span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
-</span>#[godot::methods]
+</span>#[methods]
 impl AnotherNativeScript {
 
     #[export]
@@ -289,13 +332,13 @@ impl AnotherNativeScript {
                     <nav class="nav-wrapper" aria-label="Page navigation">
                         <!-- Mobile navigation buttons -->
                         
-                            <a rel="prev" href="getting-started/hello-world.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                            <a rel="prev" href="rust-binding/calling-gdscript.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                                 <i class="fa fa-angle-left"></i>
                             </a>
                         
 
                         
-                            <a rel="next" href="gdnative-overview.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                            <a rel="next" href="testing.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                                 <i class="fa fa-angle-right"></i>
                             </a>
                         
@@ -307,13 +350,13 @@ impl AnotherNativeScript {
 
             <nav class="nav-wide-wrapper" aria-label="Page navigation">
                 
-                    <a rel="prev" href="getting-started/hello-world.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                    <a rel="prev" href="rust-binding/calling-gdscript.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                         <i class="fa fa-angle-left"></i>
                     </a>
                 
 
                 
-                    <a rel="next" href="gdnative-overview.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                    <a rel="next" href="testing.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                         <i class="fa fa-angle-right"></i>
                     </a>
                 
