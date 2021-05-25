@@ -16,6 +16,8 @@
 - [(TODO) Testing](./testing.md)
     - [Structuring Code for Testing](./testing/structure.md)
     - [Testing with the Engine](./testing/engine.md)
+- [Recipes](./recipes.md)
+    - [Rust Panic Hook](./recipes/rust_panic_handler.md)
 - [Exporting](./exporting.md)
     - [Android](./exporting/android.md)
     - [(TODO) iOS](./exporting/ios.md)
