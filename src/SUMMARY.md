@@ -24,4 +24,5 @@
     - [Mac OS X](./exporting/macosx.md)
 - [Advanced Guides](./advanced-guides.md)
     - [Using custom builds of Godot](./advanced-guides/custom-bindings.md)
+    - [Nix as A Development Environment](./advanced-guides/nix-build-system.md)
 - [Migrating from godot-rust 0.8.x](./migrating-0-8.md)
