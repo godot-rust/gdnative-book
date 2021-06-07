@@ -25,18 +25,16 @@ macro_rules! console_print {
 
 A more robust solution is to integrate an existing logging library.
 
-This recipe demonstrates using the log crate with flexi-logger. While most of this guide will work with other backends, the initialization and `LogWriter` implementation may differ.
+This recipe demonstrates using the `log` crate with `flexi-logger`. While most of this guide will work with other backends, the initialization and `LogWriter` implementation may differ.
 
-First add the following crates to your `Cargo.toml` file. 
+First add the following crates to your `Cargo.toml` file. You may want to check the crates.io pages of the crates for any updates.
 
 ```toml
 log = "0.4.14"
 flexi_logger = "0.17.1"
 ```
 
-As the logger will need to use Godot's logging methods, add a Writer implementation:
-
-When using flexi_logger it requires a LogWriter implementation that can point to the godot_print! macro. Note: this will vary by logging framework.
+Then, write some code that glues the logging crates with Godot's logging interface. `flexi-logger`, for example, requires a `LogWriter` implementation:
 
 ```rust
 use gdnative::prelude::*;
@@ -77,7 +75,7 @@ fn init(handle: InitHandle) {
         .log_target(flexi_logger::LogTarget::Writer(Box::new(crate::util::GodotLogWriter {})))
         .start()
         .expect("the logger should start");
-    /* Otherclass initialization goes here */ 
+    /* other initialization work goes here */ 
 }
 godot_init!(init);
 ```
@@ -159,9 +157,7 @@ impl DebugLogger {
 }
 ```
 
-After adding the above class with the `handle.add_class::<DebugLogger>()` in the `init(handle: InitHandle)` function, add it as an Autoload Singleton in your project and you can access the logging functionality with the following function.
-
-In the example below, I chose the name "game_logger" for the Autoload singleton.
+After adding the class above with `handle.add_class::<DebugLogger>()` in the `init` function, you may add it as an Autoload Singleton in your project for easy access. In the example below, the name "game_logger" is chosen for the Autoload singleton:
 
 ```gdscript
 game_logger.trace("name_of_script.gd", "this is a trace message")
