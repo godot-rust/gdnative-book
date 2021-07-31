@@ -92,7 +92,7 @@ This macro defines the necessary C callbacks used by Godot. You only need *one* 
 
 With the boilerplate put into place, you can now create your first Rust script! We will go step by step and discover what's needed to create script "classes". Intermediate code versions might not compile, but at the end of this section it should be working!
 
-A script is simply a Rust type that implements (derives) the `NativeScript` trait:
+A script is simply a Rust type that implements (derives) the `NativeClass` trait:
 
 ```rust
 /// The HelloWorld "class"
