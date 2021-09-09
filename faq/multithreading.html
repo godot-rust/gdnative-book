@@ -1,0 +1,222 @@
+<!DOCTYPE HTML>
+<html lang="en" class="sidebar-visible no-js light">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Multithreading - The godot-rust Book</title>
+                
+
+        <!-- Custom HTML head -->
+        
+
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff" />
+
+                <link rel="icon" href="../favicon.svg">
+                        <link rel="shortcut icon" href="../favicon.png">
+                <link rel="stylesheet" href="../css/variables.css">
+        <link rel="stylesheet" href="../css/general.css">
+        <link rel="stylesheet" href="../css/chrome.css">
+                <link rel="stylesheet" href="../css/print.css" media="print">
+        
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../FontAwesome/css/font-awesome.css">
+                <link rel="stylesheet" href="../fonts/fonts.css">
+        
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="../highlight.css">
+        <link rel="stylesheet" href="../tomorrow-night.css">
+        <link rel="stylesheet" href="../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+        
+            </head>
+    <body>
+        <!-- Provide site root to javascript -->
+        <script type="text/javascript">
+            var path_to_root = "../";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script type="text/javascript">
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script type="text/javascript">
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('no-js')
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add('js');
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script type="text/javascript">
+            var html = document.querySelector('html');
+            var sidebar = 'hidden';
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            }
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded "><a href="../introduction.html"><strong aria-hidden="true">1.</strong> Introduction</a></li><li class="chapter-item expanded "><a href="../getting-started.html"><strong aria-hidden="true">2.</strong> Getting Started</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../getting-started/setup.html"><strong aria-hidden="true">2.1.</strong> Setup</a></li><li class="chapter-item expanded "><a href="../getting-started/hello-world.html"><strong aria-hidden="true">2.2.</strong> Hello, world!</a></li></ol></li><li class="chapter-item expanded "><a href="../gdnative-overview.html"><strong aria-hidden="true">3.</strong> An Overview of GDNative</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../gdnative-overview/data-representations.html"><strong aria-hidden="true">3.1.</strong> Data representations</a></li><li class="chapter-item expanded "><a href="../gdnative-overview/wrappers.html"><strong aria-hidden="true">3.2.</strong> Ref, TRef and Instance -- wrappers for custom types</a></li></ol></li><li class="chapter-item expanded "><a href="../rust-binding.html"><strong aria-hidden="true">4.</strong> Binding to Rust code</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../rust-binding/classes.html"><strong aria-hidden="true">4.1.</strong> Class registration</a></li><li class="chapter-item expanded "><a href="../rust-binding/methods.html"><strong aria-hidden="true">4.2.</strong> Exported methods</a></li><li class="chapter-item expanded "><a href="../rust-binding/properties.html"><strong aria-hidden="true">4.3.</strong> Exported properties</a></li><li class="chapter-item expanded "><a href="../rust-binding/calling-gdscript.html"><strong aria-hidden="true">4.4.</strong> Calling into GDScript from Rust</a></li></ol></li><li class="chapter-item expanded "><a href="../faq.html"><strong aria-hidden="true">5.</strong> FAQ</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../faq/code.html"><strong aria-hidden="true">5.1.</strong> Code Questions</a></li><li class="chapter-item expanded "><a href="../faq/multithreading.html" class="active"><strong aria-hidden="true">5.2.</strong> Multithreading</a></li><li class="chapter-item expanded "><a href="../faq/configuration.html"><strong aria-hidden="true">5.3.</strong> Configuration</a></li><li class="chapter-item expanded "><a href="../faq/meta.html"><strong aria-hidden="true">5.4.</strong> Versioning and supported platforms</a></li><li class="chapter-item expanded "><a href="../faq/community.html"><strong aria-hidden="true">5.5.</strong> Community</a></li></ol></li><li class="chapter-item expanded "><a href="../testing.html"><strong aria-hidden="true">6.</strong> (TODO) Testing</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../testing/structure.html"><strong aria-hidden="true">6.1.</strong> Structuring Code for Testing</a></li><li class="chapter-item expanded "><a href="../testing/engine.html"><strong aria-hidden="true">6.2.</strong> Testing with the Engine</a></li></ol></li><li class="chapter-item expanded "><a href="../recipes.html"><strong aria-hidden="true">7.</strong> Recipes</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../recipes/rust_panic_handler.html"><strong aria-hidden="true">7.1.</strong> Rust Panic Hook</a></li><li class="chapter-item expanded "><a href="../recipes/logging.html"><strong aria-hidden="true">7.2.</strong> Logging</a></li></ol></li><li class="chapter-item expanded "><a href="../exporting.html"><strong aria-hidden="true">8.</strong> Exporting</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../exporting/android.html"><strong aria-hidden="true">8.1.</strong> Android</a></li><li class="chapter-item expanded "><a href="../exporting/ios.html"><strong aria-hidden="true">8.2.</strong> (TODO) iOS</a></li><li class="chapter-item expanded "><a href="../exporting/macosx.html"><strong aria-hidden="true">8.3.</strong> Mac OS X</a></li></ol></li><li class="chapter-item expanded "><a href="../advanced-guides.html"><strong aria-hidden="true">9.</strong> Advanced Guides</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../advanced-guides/custom-bindings.html"><strong aria-hidden="true">9.1.</strong> Using custom builds of Godot</a></li><li class="chapter-item expanded "><a href="../advanced-guides/nix-build-system.html"><strong aria-hidden="true">9.2.</strong> Nix as A Development Environment</a></li></ol></li><li class="chapter-item expanded "><a href="../migrating-0-8.html"><strong aria-hidden="true">10.</strong> Migrating from godot-rust 0.8.x</a></li></ol>            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky bordered">
+                    <div class="left-buttons">
+                        <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </button>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light (default)</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                                                <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                                            </div>
+
+                    <h1 class="menu-title">The godot-rust Book</h1>
+
+                    <div class="right-buttons">
+                                                <a href="../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                                                                        
+                    </div>
+                </div>
+
+                                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+                
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script type="text/javascript">
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="multithreading-faq"><a class="header" href="#multithreading-faq">Multithreading FAQ</a></h1>
+<h2 id="how-do-i-use-multithreading"><a class="header" href="#how-do-i-use-multithreading">How do I use multithreading?</a></h2>
+<p>Follow <a href="https://docs.godotengine.org/en/stable/tutorials/threads/index.html">Godot's thread safety guidelines</a> and change your settings to &quot;Multi-threaded&quot; in &quot;Project Settings &gt; Rendering &gt; Threading&quot;.</p>
+<h2 id="why-does-my-game-freeze-while-using-multiple-threads"><a class="header" href="#why-does-my-game-freeze-while-using-multiple-threads">Why does my game freeze while using multiple threads?</a></h2>
+<p>Make sure you have multi-threading enabled under &quot;Project Settings &gt; Rendering &gt; Threading&quot;.</p>
+<p>In addition, you will need to ensure that you are not ending up with a deadlock scenario within your Rust code.</p>
+<h2 id="why-is-accessing-the-servers-using-multiple-threads-is-slow"><a class="header" href="#why-is-accessing-the-servers-using-multiple-threads-is-slow">Why is accessing the servers using multiple threads is slow?</a></h2>
+<p>Aside from code Deadlocking issues, there are a few potential points to investigate when using Godot's Servers.</p>
+<h3 id="potential-cause-1---command-queue-is-too-small"><a class="header" href="#potential-cause-1---command-queue-is-too-small">Potential Cause #1 - Command queue is too small</a></h3>
+<p>For multi-threaded access the servers use a thread-safe command queue. This allows you to send multiple commands from any thread. These queues have a fixed size that can be set in the threading section of the Memory -&gt; Limits section of the Project settings.</p>
+<h3 id="potential-cause-2---using-rayon-parallel-iterators"><a class="header" href="#potential-cause-2---using-rayon-parallel-iterators">Potential Cause #2 - Using rayon parallel iterators</a></h3>
+<p>The reference created by a server method such as  <code>VisualServer::godot_singleton()</code> is not thread-safe. As such, you have to individually get a reference to the singleton and this can cause some severe slowdown that would not occur if the same job were run from a single thread.</p>
+<p>Multi-threading with Servers would require that you manually create a threadpool that can hold the reference to the Server. Additional testing is required to ensure that this is an actual optimization.</p>
+<h2 id="why-do-i-get-differentthread-error-when-calling-my-code-from-multiple-threads"><a class="header" href="#why-do-i-get-differentthread-error-when-calling-my-code-from-multiple-threads">Why do I get <code>DifferentThread</code> error when calling my code from multiple threads?</a></h2>
+<p>For example, what does the following error indicate?</p>
+<pre><pre class="playground"><code class="language-rust">
+<span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>ERROR: &lt;native&gt;: gdnative-core: method call failed with error: DifferentThread { original: ThreadId(1), current: ThreadId(2) }
+   At: src/path/to/class.rs:29
+ERROR: &lt;native&gt;: gdnative-core: check module level documentation on gdnative::user_data for more information
+   At: src/path/to/class.rs:29
+<span class="boring">}
+</span></code></pre></pre>
+<p>If you are calling certain code from Godot and receiving the following error, it is likely that you need to change the user_data that is implemented for your <code>NativeClass</code>. If no type is specified, it defaults to <code>LocalCellData</code> which can only be used from the thread it was created in.</p>
+<p>See the <a href="https://docs.rs/gdnative/latest/gdnative/nativescript/user_data/index.html">official docs</a> for more information on when you should use each type of data.</p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                                                    <a rel="prev" href="../faq/code.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+                        
+                                                    <a rel="next" href="../faq/configuration.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+                        
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                                    <a rel="prev" href="../faq/code.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+                
+                                    <a rel="next" href="../faq/configuration.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+                            </nav>
+
+        </div>
+
+        
+        
+        
+                <script type="text/javascript">
+            window.playground_copyable = true;
+        </script>
+        
+        
+                <script src="../elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../mark.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../searcher.js" type="text/javascript" charset="utf-8"></script>
+        
+        <script src="../clipboard.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../highlight.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../book.js" type="text/javascript" charset="utf-8"></script>
+
+        <!-- Custom JS scripts -->
+        
+        
+    </body>
+</html>
