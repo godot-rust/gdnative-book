@@ -51,6 +51,12 @@ library = ExtResource( 1 )
 
 ```
 
+## Why aren't my scripts showing up in the Add Node portion of the editor even though they inherit from  `Node`, `Node2D`, `Spatial` or `Control`?
+
+Due to limitations with Godot 3.x's version of GDNative, NativeScript types do not get registered in the class database. As such, these classes are not included in the "Create New Node" dialog.
+
+A workaround to this issue has been included in the recipe [Custom Nodes Plugin](../recipes/custom-nodes-plugin.md).
+
 ## Can I use Rust for a [toolscript](https://docs.godotengine.org/en/stable/tutorials/misc/running_code_in_the_editor.html)?
 
 Yes, any Rust struct that inherits from `NativeClass` can be also used as a tool class by using the `InitHandle::add_tool_class` during native script initialization instead of `InitHandle::add_class`.
