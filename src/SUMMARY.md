@@ -24,6 +24,7 @@
 - [Recipes](./recipes.md)
     - [Rust Panic Hook](./recipes/rust_panic_handler.md)
     - [Logging](./recipes/logging.md)
+    - [Loading external resources](./recipes/loading_external_resources.md)
 - [Exporting](./exporting.md)
     - [Android](./exporting/android.md)
     - [(TODO) iOS](./exporting/ios.md)
