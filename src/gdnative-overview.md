@@ -8,3 +8,4 @@ Subchapters:
 
 1. [Data representations](gdnative-overview/data-representations.md)
 1. [`Ref`, `TRef` and `Instance`](gdnative-overview/wrappers.md)
+1. [Game architecture](gdnative-overview/architecture.md)
