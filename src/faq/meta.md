@@ -10,7 +10,9 @@ godot-rust will not be considered stable until MAJOR version 1.x.x. As such, MIN
 
 ## Will godot-rust support Godot 4.0?
 
-This is still being discussed for how to approach Godot 4.0 support. Currently given the newly announced [4.0 native extension](https://twitter.com/reduzio/status/1429969607734042625?s=20) there are a number of unknowns before this project can commit to anything in particular.
+This is still being discussed for how to approach Godot 4.0 support. Currently the team has finished merging the new [GDExtension API](https://godotengine.org/article/introducing-gd-extensions) and introduced the progress in the Cpp extensions.
+
+More information about the Godot 4.0 can be found in the [dedicated FAQ Page](../faq/godot4.md).
 
 ## What is the scope of the godot-rust project?
 
