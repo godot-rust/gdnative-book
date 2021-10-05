@@ -19,6 +19,7 @@
   - [Configuration](./faq/configuration.md)
   - [Versioning and supported platforms](./faq/meta.md)
   - [Community](./faq/community.md)
+  - [Godot 4.0 Status](./faq/godot4.md)
 - [(TODO) Testing](./testing.md)
     - [Structuring Code for Testing](./testing/structure.md)
     - [Testing with the Engine](./testing/engine.md)
