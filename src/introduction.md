@@ -26,4 +26,4 @@ The `godot-rust` bindings, and this user guide, are licensed under the [MIT lice
 
 ## Help
 
-There are several active discords which discuss Godot-Rust. [Here is an invite to the official one](https://discord.gg/AbjQp6mjKS). 
+There are several active discords which discuss Godot-Rust. [Here is an invite to the godot-rust one](https://discord.gg/AbjQp6mjKS). 
