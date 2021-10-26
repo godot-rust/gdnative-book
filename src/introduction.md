@@ -12,7 +12,7 @@ The Godot Engine has rich user scripting support. Using a DLL binding system cal
 
 Your code is compiled into a dylib (often called a shared library or DLL) which is loaded by Godot and also has full access to Rust's entire feature set. You can read and write files, open network ports, connect to a custom server, run a custom website and more.
 
-Rust itself is a far more rigourous and complete language than GDScript, offering high level features such as traits or easy packing and unpacking of values. Rust also offers ridiculous performance, so if your game simulation is complex, rust is a good language to run it.
+Rust itself is a far more rigorous and complete language than GDScript, offering high level features such as traits or easy packing and unpacking of values. Rust offers very good performance that is comparable with C and C++, by designing most of them as zero-cost abstractions. so if your game simulation is complex, rust is a good language to run it.
 
 Once you have built your godot-rust project, you explain to Godot where to find the DLL and name each script, each using a little Godot resource file. Godot will open the compiled DLL and execute it when your game runs. See [Getting Started](./getting-started.md) to get an idea how this works.
 
