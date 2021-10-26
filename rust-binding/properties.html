@@ -161,6 +161,73 @@ pub struct GodotApi {
 <pre><code class="language-python">print(&quot;enemies: &quot;, api.enemy_count)
 </code></pre>
 <p>That's it.</p>
+<h2 id="export-options"><a class="header" href="#export-options">Export options</a></h2>
+<p>The <code>#[property]</code> attribute can accept a several options to refine the export behavior.</p>
+<p>You can specify default property value with the following argument:</p>
+<pre><pre class="playground"><code class="language-rust">
+<span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>#[property(default = 10)]
+enemy_count: i32,
+<span class="boring">}
+</span></code></pre></pre>
+<p>If you need to hide this property in Godot editor, use <code>no_editor</code> option:</p>
+<pre><pre class="playground"><code class="language-rust">
+<span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>#[property(no_editor)]
+enemy_count: i32,
+<span class="boring">}
+</span></code></pre></pre>
+<h2 id="property-access-hooks"><a class="header" href="#property-access-hooks">Property access hooks</a></h2>
+<p>You can add hooks to call methods before and after property value was retrieved or changed.</p>
+<p>Note that unlike <a href="https://docs.godotengine.org/en/3.3/getting_started/scripting/gdscript/gdscript_basics.html?#setters-getters">GDScript's <code>setget</code> keyword</a>, this does <em>not</em> register a custom setter or getter. Instead, it registers a callback which is invoked <em>before or after</em> the set/get occurs, and lacks both parameter and return value.</p>
+<pre><pre class="playground"><code class="language-rust">
+<span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>#[derive(NativeClass, Default)]
+#[inherit(Node)]
+struct GodotApi {
+    // before get
+    #[property(before_get = &quot;Self::before_get&quot;)]
+    prop_before_get: i32,
+
+    // before set
+    #[property(before_set = &quot;Self::before_set&quot;)]
+    prop_before_set: i32,
+
+    // after get
+    #[property(after_get = &quot;Self::after_get&quot;)]
+    prop_after_get: i32,
+
+    // after set
+    #[property(after_set = &quot;Self::after_set&quot;)]
+    prop_after_set: i32,
+}
+
+impl GodotApi {
+    fn new(_owner: &amp;Node) -&gt; Self {
+        Self::default()
+    }
+
+    fn before_get(&amp;self, _owner: TRef&lt;Node&gt;) {
+        godot_print!(&quot;Before get&quot;);
+    }
+
+    fn before_set(&amp;self, _owner: TRef&lt;Node&gt;) {
+        godot_print!(&quot;Before set&quot;);
+    }
+
+    fn after_get(&amp;self, _owner: TRef&lt;Node&gt;) {
+        godot_print!(&quot;After get&quot;);
+    }
+
+    fn after_set(&amp;self, _owner: TRef&lt;Node&gt;) {
+        godot_print!(&quot;After set&quot;);
+    }
+}
+<span class="boring">}
+</span></code></pre></pre>
 
                     </main>
 
