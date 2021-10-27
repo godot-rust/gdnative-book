@@ -37,7 +37,8 @@ If everything goes well, you can now update the dependencies of your GDNative li
 ```toml
 [dependencies]
 
-# Use the exact version corresponding to `gdnative-bindings`, and disable the default re-export.
+# Use the exact version corresponding to `gdnative-bindings`
+# and disable the default re-export.
 gdnative = { version = "=0.9.0", default-features = false, features = [] }
 
 # Use your custom bindings crate as a path dependency
@@ -47,6 +48,7 @@ gdnative-bindings-custom = { path = "/path/to/gdnative-bindings-custom" }
 Here, `gdnative` is specified using an exact version because the bindings generator is an internal dependency. When using custom binding crates, care must be taken to ensure that the version of the bindings crate used as the base matches the one specified in the `Cargo.toml` of the `gdnative` crate exactly, even for updates that are considered non-breaking in the `gdnative` crate. Using an exact version bound here helps prevent unintentional updates that may break the build.
 
 Finally, replace references to `gdnative::api` with `gdnative-bindings-custom`. You should now be able to use the APIs in your custom build in Rust!
+
 
 ## Generating documentation
 

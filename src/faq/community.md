@@ -1,4 +1,4 @@
-# Community FAQ
+# FAQ: Community
 
 ## I need help, where can I ask?
 

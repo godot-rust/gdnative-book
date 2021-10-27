@@ -4,6 +4,7 @@
 
 In order to export to Android, we need to compile our Rust source for the appropriate targets. Unlike compiling for our native targets, there are a few extra steps involved with cross-compiling for another target.
 
+
 ## Installing prerequisites
 
 First, we need to install the **Android SDK** with **NDK** enabled. This contains the necessary tools for each architecture. Once the Android SDK is installed, open Editor Settings in the Godot GUI (*Editor > Editor Settings > Export > Android*) and set the **absolute paths** to `adb`, `jarsigner`, and the debug keystore (`debug.keystore`), all of which can be found in the Android SDK installation.
@@ -47,6 +48,7 @@ apt-get update
 apt-get install g++-multilib gcc-multilib libc6-dev-i386 -y
 ```
 
+
 ## Setting up Cargo
 
 To make Cargo aware of the proper platform-specific linkers that it needs to use for Android targets, we need to put the paths to the binaries in the Cargo configuration file, which can be found (or created) at `$HOME/.cargo/config` on UNIX-like systems, or `%USERPROFILE%\.cargo\config` on Windows), using [`[target]` tables](https://doc.rust-lang.org/cargo/reference/config.html#target):
@@ -79,6 +81,7 @@ linker = "/usr/local/lib/android/sdk/ndk-bundle/toolchains/llvm/prebuilt/linux-x
 linker = "/usr/local/lib/android/sdk/ndk-bundle/toolchains/llvm/prebuilt/linux-x86_64/bin/x86_64-linux-android29-clang"
 ```
 
+
 ## Setting up environment variables for `gdnative-sys`
 
 The `gdnative-sys` crate can infer include paths for Android targets, but it requires the following environment variables:
@@ -100,6 +103,7 @@ $env:JAVA_HOME = "C:\path\to\jdk"
 $env:ANDROID_SDK_ROOT = "C:\path\to\android\sdk"
 ```
 
+
 ## Building the GDNative library
 
 Finally, we can now build the GDNative library with Cargo for one or multiple targets:
@@ -109,6 +113,7 @@ cargo build --release --target x86_64-linux-android
 ```
 
 **Important note**: ARM and x86 are, by design, different architectures. It is normal to get errors while running `cargo test` with a Rust library targeting ARMv7 on a x86-64 CPU, for example, since the CPU is unable to handle it.
+
 
 ## Exporting in Godot
 
