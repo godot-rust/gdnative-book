@@ -277,6 +277,8 @@ Also, you can always put a Mutex<HashMap> into a Rust static and load everything
 
 ## How do I keep a reference of `Node`?
 
+The idiomatic way to maintain a reference to a node in the SceneTree from Rust is to use `Option<Ref<T>>`. 
+
 For example, in the following GDScript code
 ```gdscript
 extends Node
@@ -312,6 +314,51 @@ impl MyNode {
 Note: As `TRef<T>` is a temporary pointer, it will be necessary to get the base pointer `Ref<T>` in order to continue to hold this value.
 
 This can be done with the [`TRef<T>::claim()`](https://docs.rs/gdnative/latest/gdnative/struct.TRef.html#method.claim) function that will return the persistent version of the pointer that you can store in your class.
+
+## What is the Rust equivalent to `onready var` in GDScript
+
+Rust does not have a direct equivalent to `onready var`. The most idiomatic workaround with Rust is to use `Option<Ref<T>>` of you need the Godot node type or `Option<Instance<T>>` if you are using a Rust based `NativeClass`.
+
+```gdscript
+extends Node
+class_name MyClass
+onready var node = $Node2d
+```
+You would need to use the following code.
+
+```rust
+#[derive(NativeClass)]
+#[inherit(Node)]
+#[no_constructor]
+struct MyNode {
+    node2d: Option<Ref<Node>>
+    instance: Option<Ref<MyClass>>,
+}
+
+#[methods]
+impl MyNode {
+    #[export]
+    fn _ready(&self, owner: TRef<Node>) {
+        // Get an existing child node that is a Godot class.
+        let node2d = owner
+            .get_node("Node2D")
+            .expect("this node must have a child with the path `Node2D`");
+        let node2d = unsafe { node2d.assume_safe() };
+        let node2d = node2d.cast::<Node2D>();
+        self.node2d = Some(node2d.claim());
+        // Get an existing child node that is a Rust class.
+        let instance = owner
+            .get_node("MyClass")
+            .expect("this node must have a child with the path `MyNode2D`");
+        let instance = unsafe { node2d.assume_safe() };
+        let instance = node2d.cast::<Node2D>();
+        let instance = godot_egui.cast_instance::<MyClass>()
+                        .expect("child `MyNode2D` must be type `MyClass`");
+        
+        self.instance = Some(instance.claim());
+    }
+}
+```
 
 ## What types are supported for passing through the GDNative API?
 
