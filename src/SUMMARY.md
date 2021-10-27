@@ -28,6 +28,7 @@
     - [Logging](./recipes/logging.md)
     - [Loading external resources](./recipes/loading_external_resources.md)
     - [Custom nodes Plugin](./recipes/custom-nodes-plugin.md)
+	- [Tokio Runtime](./recipes/tokio_runtime.md)
 - [Exporting](./exporting.md)
     - [Android](./exporting/android.md)
     - [(TODO) iOS](./exporting/ios.md)
