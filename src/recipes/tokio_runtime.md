@@ -2,6 +2,14 @@
 
 This recipe is based off of the test written for `gdnative-async`, which uses the `futures` crate in the executor. For cases where you may need a `tokio` runtime, it is possible to execute spawned tokio tasks in much the same way, with some alterations.
 
+## Requirements
+This recipe requires the following entries in your Cargo.toml file
+
+```toml
+tokio = { version = "1.10", features = ["rt"] }
+gdnative = { git = "https://github.com/godot-rust/godot-rust.git", features = ["async"]}
+```
+
 ## Defining the Executor
 The executor itself can be defined the same way.
 
@@ -61,7 +69,7 @@ impl AsyncExecutorDriver {
 }
 ```
 
-In the `_process` call of our `AsyncExecutorDriver`, we can block on `run_until` on the `LocalSet`, which will run or wake any of its local tasks.
+In the `_process` call of our `AsyncExecutorDriver`, we can block on `run_until` on the `LocalSet`. `run_until` will automatically resume all tasks on the local set until the provided future is completed. Since we don't want to block the frame, and we'd be checking every frame anyway, we just provide an empty task and await it.
 
 ```rust
 #[methods]
