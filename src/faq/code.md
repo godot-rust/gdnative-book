@@ -416,3 +416,6 @@ If you require insight into Rust code that is not exported to Godot or would lik
 **Note:** There are many more profilers than the ones listed and you should do your own research before selecting which one you wish to use. 
 
 For more information about profiling and other rust performance tips, please check out the [Rust performance book](https://nnethercote.github.io/perf-book/profiling.html).
+
+## How to use a rust class as a Reference from the Godot side?
+
