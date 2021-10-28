@@ -147,7 +147,22 @@
                         <h1 id="introduction"><a class="header" href="#introduction">Introduction</a></h1>
 <p>Welcome to the <code>godot-rust</code> book! This is a work-in-progress user guide for the Rust bindings to GDNative.</p>
 <p>If you're new to <code>godot-rust</code>, try the <a href="./getting-started.html">Getting Started</a> tutorial first!</p>
+<p>For more information about architecture with <code>godot-rust</code>, the <a href="gdnative-overview.html">GDNative Overview</a> gives a broad overview for <em>how</em> <code>godot-rust</code> can be used with a few different use-cases as well as some indepth information for the underlying API.</p>
+<p>If have specific code questions that are not covered in the Getting Started guide, please check out the <a href="faq.html">Frequently Asked Questions</a> or <a href="recipes.html">Recipes</a> for some additional resources related to configuring <code>godot-rust</code>.</p>
+<p>If you're new to Rust, before getting started, it is highly recommended that you familiarize yourself with all of the concepts outlined in the officially maintained <a href="https://doc.rust-lang.org/book/">Rust Book</a> before you getting started with <code>godot-rust</code>.</p>
 <p>If you have used earlier versions of <code>godot-rust</code> before, see <a href="./migrating-0-8.html">Migrating from godot-rust 0.8.x</a> for a quick guided tour to the new API.</p>
+<h2 id="about-godot-rust"><a class="header" href="#about-godot-rust">About godot-rust</a></h2>
+<p>This project specifically supports the <a href="https://www.rust-lang.org/">Rust Programming Language</a> bindings to the <a href="https://docs.godotengine.org/en/stable/tutorials/plugins/gdnative/gdnative-cpp-example.html">GDNative API</a> for the Godot Game Engine.</p>
+<p>Outside of personal preference, Rust may be a good choice for your game for some of the following reasons:</p>
+<ul>
+<li>Native levels of performance.</li>
+<li>Memory safety validated at compile time.*</li>
+<li><a href="https://blog.rust-lang.org/2015/04/10/Fearless-Concurrency.html">Fearless Concurrency</a>.*</li>
+<li>The leveraging the <a href="https://doc.rust-lang.org/stable/cargo/">cargo</a> build system to build the GDNative library. </li>
+<li>The ability to leverage Rust's crate ecosystem from <a href="https://crates.io/">crates.io</a>. </li>
+</ul>
+<p>*: Compile time memory and thread safety guarantees only apply to the Rust code. As the user is allowed to call into the Godot engine (C++ code, via GDNative Foreign Function Interface) or into user-defined scripts (GDScript), some of the validity checks are outside godot-rust's control. However, <code>godot-rust</code> guides the user by making clear which operations are potentially unsafe.</p>
+<p>For more information about the <code>godot-rust</code> project and how it may be useful to you, please refer to the <a href="faq/meta.html">FAQ Section</a> for project specific information.</p>
 <h2 id="contributing"><a class="header" href="#contributing">Contributing</a></h2>
 <p>The source repository for this book is <a href="https://github.com/godot-rust/book">hosted on GitHub</a>.</p>
 <h2 id="license"><a class="header" href="#license">License</a></h2>
@@ -1346,6 +1361,7 @@ impl AnotherNativeScript {
 <p>The ResourceLoader should be used in most cases.</p>
 <p>Also, you can always put a Mutex<HashMap> into a Rust static and load everything you need there during a loading screen.</p>
 <h2 id="how-do-i-keep-a-reference-of-node"><a class="header" href="#how-do-i-keep-a-reference-of-node">How do I keep a reference of <code>Node</code>?</a></h2>
+<p>The idiomatic way to maintain a reference to a node in the SceneTree from Rust is to use <code>Option&lt;Ref&lt;T&gt;&gt;</code>. </p>
 <p>For example, in the following GDScript code</p>
 <pre><code class="language-gdscript">extends Node
 class_name MyClass
@@ -1380,6 +1396,49 @@ impl MyNode {
 </span></code></pre></pre>
 <p>Note: As <code>TRef&lt;T&gt;</code> is a temporary pointer, it will be necessary to get the base pointer <code>Ref&lt;T&gt;</code> in order to continue to hold this value.</p>
 <p>This can be done with the <a href="https://docs.rs/gdnative/latest/gdnative/struct.TRef.html#method.claim"><code>TRef&lt;T&gt;::claim()</code></a> function that will return the persistent version of the pointer that you can store in your class.</p>
+<h2 id="what-is-the-rust-equivalent-to-onready-var-in-gdscript"><a class="header" href="#what-is-the-rust-equivalent-to-onready-var-in-gdscript">What is the Rust equivalent to <code>onready var</code> in GDScript</a></h2>
+<p>Rust does not have a direct equivalent to <code>onready var</code>. The most idiomatic workaround with Rust is to use <code>Option&lt;Ref&lt;T&gt;&gt;</code> of you need the Godot node type or <code>Option&lt;Instance&lt;T&gt;&gt;</code> if you are using a Rust based <code>NativeClass</code>.</p>
+<pre><code class="language-gdscript">extends Node
+class_name MyClass
+onready var node = $Node2d
+</code></pre>
+<p>You would need to use the following code.</p>
+<pre><pre class="playground"><code class="language-rust">
+<span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>#[derive(NativeClass)]
+#[inherit(Node)]
+#[no_constructor]
+struct MyNode {
+    node2d: Option&lt;Ref&lt;Node&gt;&gt;
+    instance: Option&lt;Ref&lt;MyClass&gt;&gt;,
+}
+
+#[methods]
+impl MyNode {
+    #[export]
+    fn _ready(&amp;self, owner: TRef&lt;Node&gt;) {
+        // Get an existing child node that is a Godot class.
+        let node2d = owner
+            .get_node(&quot;Node2D&quot;)
+            .expect(&quot;this node must have a child with the path `Node2D`&quot;);
+        let node2d = unsafe { node2d.assume_safe() };
+        let node2d = node2d.cast::&lt;Node2D&gt;();
+        self.node2d = Some(node2d.claim());
+        // Get an existing child node that is a Rust class.
+        let instance = owner
+            .get_node(&quot;MyClass&quot;)
+            .expect(&quot;this node must have a child with the path `MyNode2D`&quot;);
+        let instance = unsafe { node2d.assume_safe() };
+        let instance = node2d.cast::&lt;Node2D&gt;();
+        let instance = godot_egui.cast_instance::&lt;MyClass&gt;()
+                        .expect(&quot;child `MyNode2D` must be type `MyClass`&quot;);
+        
+        self.instance = Some(instance.claim());
+    }
+}
+<span class="boring">}
+</span></code></pre></pre>
 <h2 id="what-types-are-supported-for-passing-through-the-gdnative-api"><a class="header" href="#what-types-are-supported-for-passing-through-the-gdnative-api">What types are supported for passing through the GDNative API?</a></h2>
 <p>The GDNative API supports any type that implements the <a href="https://docs.rs/gdnative/latest/gdnative/core_types/trait.ToVariant.html"><code>ToVariant</code></a> and/or <a href="https://docs.rs/gdnative/latest/gdnative/core_types/trait.FromVariant.html"><code>FromVariant</code></a> traits.</p>
 <p>To use a type as a property, in addition to the above, the type will also need to implement the <a href="https://docs.rs/gdnative/latest/gdnative/nativescript/trait.Export.html"><code>Export</code></a> trait.</p>

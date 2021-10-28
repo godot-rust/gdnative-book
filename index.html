@@ -146,7 +146,22 @@
                         <h1 id="introduction"><a class="header" href="#introduction">Introduction</a></h1>
 <p>Welcome to the <code>godot-rust</code> book! This is a work-in-progress user guide for the Rust bindings to GDNative.</p>
 <p>If you're new to <code>godot-rust</code>, try the <a href="./getting-started.html">Getting Started</a> tutorial first!</p>
+<p>For more information about architecture with <code>godot-rust</code>, the <a href="gdnative-overview.html">GDNative Overview</a> gives a broad overview for <em>how</em> <code>godot-rust</code> can be used with a few different use-cases as well as some indepth information for the underlying API.</p>
+<p>If have specific code questions that are not covered in the Getting Started guide, please check out the <a href="faq.html">Frequently Asked Questions</a> or <a href="recipes.html">Recipes</a> for some additional resources related to configuring <code>godot-rust</code>.</p>
+<p>If you're new to Rust, before getting started, it is highly recommended that you familiarize yourself with all of the concepts outlined in the officially maintained <a href="https://doc.rust-lang.org/book/">Rust Book</a> before you getting started with <code>godot-rust</code>.</p>
 <p>If you have used earlier versions of <code>godot-rust</code> before, see <a href="./migrating-0-8.html">Migrating from godot-rust 0.8.x</a> for a quick guided tour to the new API.</p>
+<h2 id="about-godot-rust"><a class="header" href="#about-godot-rust">About godot-rust</a></h2>
+<p>This project specifically supports the <a href="https://www.rust-lang.org/">Rust Programming Language</a> bindings to the <a href="https://docs.godotengine.org/en/stable/tutorials/plugins/gdnative/gdnative-cpp-example.html">GDNative API</a> for the Godot Game Engine.</p>
+<p>Outside of personal preference, Rust may be a good choice for your game for some of the following reasons:</p>
+<ul>
+<li>Native levels of performance.</li>
+<li>Memory safety validated at compile time.*</li>
+<li><a href="https://blog.rust-lang.org/2015/04/10/Fearless-Concurrency.html">Fearless Concurrency</a>.*</li>
+<li>The leveraging the <a href="https://doc.rust-lang.org/stable/cargo/">cargo</a> build system to build the GDNative library. </li>
+<li>The ability to leverage Rust's crate ecosystem from <a href="https://crates.io/">crates.io</a>. </li>
+</ul>
+<p>*: Compile time memory and thread safety guarantees only apply to the Rust code. As the user is allowed to call into the Godot engine (C++ code, via GDNative Foreign Function Interface) or into user-defined scripts (GDScript), some of the validity checks are outside godot-rust's control. However, <code>godot-rust</code> guides the user by making clear which operations are potentially unsafe.</p>
+<p>For more information about the <code>godot-rust</code> project and how it may be useful to you, please refer to the <a href="faq/meta.html">FAQ Section</a> for project specific information.</p>
 <h2 id="contributing"><a class="header" href="#contributing">Contributing</a></h2>
 <p>The source repository for this book is <a href="https://github.com/godot-rust/book">hosted on GitHub</a>.</p>
 <h2 id="license"><a class="header" href="#license">License</a></h2>
