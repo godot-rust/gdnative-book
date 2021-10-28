@@ -19,10 +19,12 @@ $ mdbook serve
 
 This repository is for documentation only. Please make pull requests for the library itself in the [main repo](https://github.com/godot-rust/godot-rust).
 
+
 ## Contributing
 
 See the [contribution guidelines]([CONTRIBUTING.md](https://github.com/godot-rust/godot-rust/blob/book/CONTRIBUTING.md)) in the main repo.
 
+
 ## License
 
-Unless you explicitly state otherwise, any contribution intentionally submitted for inclusion in the work by you shall be licensed under the [MIT license](LICENSE.md), without any additional terms or conditions.
+Any contribution intentionally submitted for inclusion in the work by you shall be licensed under the [MIT license](LICENSE.md), without any additional terms or conditions.

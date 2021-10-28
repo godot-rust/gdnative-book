@@ -1,6 +1,7 @@
-# Migrating from godot-rust 0.8.x
+# Migrating from godot-rust 0.8
 
 In version 0.9, we are attempting to resolve many long-standing problems in the older API. As a result, there are many breaking changes in the public interface. This is a quick guide to the new API for users that have used older versions.
+
 
 ## Module organization and naming
 
@@ -60,6 +61,7 @@ object.connect("foo", owner, "_handle_foo", VariantArray, ConnectFlags::DEFERRED
 
 Typos in variant names of `VariantOperator` and `GodotError` are fixed. Change to the correct names if this breaks your code.
 
+
 ## Changes to derive macros
 
 The `NativeScript` derive macro now looks for `new` instead of `_init` as the constructor.
@@ -94,6 +96,7 @@ impl Thing {
     }
 }
 ```
+
 
 ## Argument casts
 
@@ -138,6 +141,7 @@ thing.set_script(Null::null());
 ```
 
 This is arguably less convenient, but passing explicit nulls should be rare enough a use case that the benefits of having polymorphic arguments are much more significant.
+
 
 ## Object semantics
 
@@ -284,6 +288,7 @@ where
 }
 ```
 
+
 ## Casting
 
 The casting API is made more convenient with 0.9, using the `SubClass` trait. Casting is now covered by two generic methods implemented on all object reference types: `cast` and `upcast`. Both methods enforce cast validity statically, which means that the compiler will complain about casts that will always fail at runtime. The generated `to_*` methods are removed in favor of `upcast`.
@@ -328,6 +333,7 @@ where
 ```
 
 Note that this function is also polymorphic over the `Access` typestate, which is explained the the following section.
+
 
 ## Typestates
 

@@ -1,4 +1,4 @@
-# Logging
+# Recipe: Logging
 
 Logging in Godot can be accessed by using the `godot_print!`, `godot_warn!`, and `godot_error!` macros.
 
@@ -121,7 +121,7 @@ But what about GDScript? It would be nice to have consistent log messages in bot
 ### Exposing to GDScript
 
 > ### Note
-> As the rust macros cannot get the GDScript name or resource_path, it is necessary to pass the log target from GDScript.
+> As the Rust macros cannot get the GDScript name or resource_path, it is necessary to pass the log target from GDScript.
 
 ```rust
 #[derive(NativeClass, Copy, Clone, Default)]

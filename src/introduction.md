@@ -10,7 +10,7 @@ If have specific code questions that are not covered in the Getting Started guid
 
 If you're new to Rust, before getting started, it is highly recommended that you familiarize yourself with all of the concepts outlined in the officially maintained [Rust Book](https://doc.rust-lang.org/book/) before you getting started with `godot-rust`.
 
-If you have used earlier versions of `godot-rust` before, see [Migrating from godot-rust 0.8.x](./migrating-0-8.md) for a quick guided tour to the new API.
+If you have used earlier versions of `godot-rust` before, see [Migrating from godot-rust 0.8](advanced-guides/migrating-0-8.md) for a quick guided tour to the new API.
 
 ## About godot-rust
 

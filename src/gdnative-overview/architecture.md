@@ -30,7 +30,7 @@ During development, you encounter a feature which you wish to develop in Rust wh
 In this case, you can write a GDNative class in Rust, with an API that exposes precisely the functionality you need -- no more and no less. godot-rust is only needed at the interface with GDScript. There are no calls into Godot from your Rust code, only exported methods.
 
 
-![Godot scene tree with GDScript, calling to an external Rust module](rust-module.png)
+![Godot scene tree with GDScript, calling to an external Rust module](img/rust-module.png)
 
 Pros:
 * Very easy to get started, especially for existing Godot codebases.
@@ -50,7 +50,7 @@ Instead of `.gd` script files, you use `.rs` files to implement native scripts, 
 
 It often makes sense to be pragmatic and not try to do everything in Rust. For example, tweaking parameters for particle emitters or animation works much better in GDScript and/or the Godot editor.
 
-![Rust NativeScripts directly inside the Godot tree](in-tree.png)
+![Rust NativeScripts directly inside the Godot tree](img/in-tree.png)
 
 Pros:
 * You can make full use of Godot's scene graph architecture while still writing the logic in Rust.
@@ -75,7 +75,7 @@ If you follow this pattern strictly, the Godot scene graph can be entirely deriv
 This can be the most scalable and "Rusty" workflow, but it also requires a lot of discipline. Several interactions, which the other workflows offer for free, need to be implemented manually.
 
 
-![Game in Rust, Godot scene tree with glue code in GDScript](rust-game.png)
+![Game in Rust, Godot scene tree with glue code in GDScript](img/rust-game.png)
 
 Pros:
 * You are completely free how you organize your Rust game logic. You can have your own entity hierarchy, use an ECS, or simply a few linear collections. 

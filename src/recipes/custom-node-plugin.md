@@ -1,4 +1,4 @@
-# Custom Nodes Plugin
+# Recipe: Custom node plugin
 
 While GDNative in Godot 3.x has some limitations, creating an `EditorPlugin` that registers custom nodes can be used to help integrate your types more tightly in the engine. Using a Custom Nodes plugin, you may register as many `NativeClass` scripts as you need in a single plugin.
 

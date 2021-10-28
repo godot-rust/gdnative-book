@@ -1,4 +1,4 @@
-# Loading External-Resource Files
+# Recipe: Loading external resource files
 
 If you need to use any files that aren't explicitly supported by Godot's [Resource Loader](https://docs.godotengine.org/en/stable/classes/class_resourceloader.html), it will be necessary to process and load the file yourself.
 

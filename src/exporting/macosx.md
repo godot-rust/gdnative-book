@@ -2,6 +2,7 @@
 
 **Disclaimer**: _Currently, the following steps are tested and confirmed to work on Linux only._
 
+
 ## Use case
 
 Exporting for Mac OS X is interesting if:
@@ -10,6 +11,7 @@ Exporting for Mac OS X is interesting if:
 * you want to build from a CI, typically on a Docker image
 
 If you have access to a real Mac, building natively is easier.
+
 
 ## Why is this complex ?
 
@@ -116,6 +118,7 @@ As a consequence, you do *not* need to put `$MACOSX_CROSS_COMPILER/cross-compile
 you only plan to export [godot-rust](https://github.com/godot-rust/godot-rust) based programs, as the
 binary needs to be explicitly overloaded.
 
+
 ## Exporting
 
 Once your `.dylib` file is built, a standard Godot export should work:
@@ -130,6 +133,7 @@ only available on Mac OS X. The `.zip` works fine though, it just contains `my.a
 folder, ready to use.
 
 Double-check your `.dylib` file is there.
+
 
 ## Useful links
 

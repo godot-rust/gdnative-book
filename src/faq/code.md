@@ -1,4 +1,4 @@
-# Common Code Questions
+# FAQ: Common code questions
 
 ## What is the `BorrowFailed` error and why do I keep getting it?
 
@@ -261,6 +261,7 @@ While a similar case applies for [`ShaderMaterial`](https://docs.rs/gdnative/lat
 
 Direct access to such properties is planned in [godot-rust/godot-rust#689](https://github.com/godot-rust/godot-rust/issues/689).
 
+
 ## What is the godot-rust equivalent of `preload`?
 
 Unfortunately, there is no equivalent to preload in languages other than GDScript, because preload is GDScript-specific magic that works at compile time. If you read the official documentation on preload, it says:
@@ -274,6 +275,7 @@ You can use ResourcePreloader as a separate node in your scene, which will work 
 The ResourceLoader should be used in most cases.
 
 Also, you can always put a Mutex<HashMap> into a Rust static and load everything you need there during a loading screen.
+
 
 ## How do I keep a reference of `Node`?
 
@@ -314,6 +316,7 @@ impl MyNode {
 Note: As `TRef<T>` is a temporary pointer, it will be necessary to get the base pointer `Ref<T>` in order to continue to hold this value.
 
 This can be done with the [`TRef<T>::claim()`](https://docs.rs/gdnative/latest/gdnative/struct.TRef.html#method.claim) function that will return the persistent version of the pointer that you can store in your class.
+
 
 ## What is the Rust equivalent to `onready var` in GDScript
 
@@ -374,6 +377,7 @@ Some concrete examples of types that can be used with the GDNative API are the f
 - [Godot Core Types](https://docs.rs/gdnative/latest/gdnative/core_types/index.html) such as [`Color`](https://docs.rs/gdnative/latest/gdnative/core_types/struct.Color.html), [`Aabb`](https://docs.rs/gdnative/latest/gdnative/core_types/struct.Aabb.html), [`Transform2D`](https://docs.rs/gdnative/latest/gdnative/core_types/type.Transform2D.html), [`Vector2`](https://docs.rs/gdnative/latest/gdnative/core_types/type.Vector2.html), etc.
 - Godot classes such as `Node`, `Reference`, etc. which must be accessed via [`Ref<T>`](https://docs.rs/gdnative/latest/gdnative/struct.Ref.html) (you can't pass them by value, because Godot owns them).
 - Any Rust struct that derives [`NativeClass`](https://docs.rs/gdnative/latest/gdnative/derive.NativeClass.html) through [`Instance<T>`](https://docs.rs/gdnative/latest/gdnative/nativescript/struct.Instance.html).
+
 
 ## How can I profile my code to determine the performance?
 

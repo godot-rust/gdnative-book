@@ -4,6 +4,7 @@ Follow this tutorial to learn how to create an empty project that simply prints 
 
 The full, finished code is available in the main repo: [https://github.com/godot-rust/godot-rust/tree/master/examples/hello_world](https://github.com/godot-rust/godot-rust/tree/master/examples/hello_world).
 
+
 ## Creating the project
 
 First, create an empty project using the Godot GUI. Then, create an empty crate *beside* the project folder using `cargo`:
@@ -45,6 +46,7 @@ gdnative = "0.9"
 > Previously, some third-party resources have recommended separating Rust code into multiple crates. While this is fine to do, godot-rust works best when there is a single `cdylib` crate acting as the entry point for all crates in the workspace. Script downcasting, for example, only works for types registered in the same GDNative library. Code from `std` and other dependencies can also lead to code bloat when duplicated in multiple binaries.
 > 
 > We suggest that users start projects as a single crate, and only split code into workspaces when necessary.
+
 
 ## Boilerplate
 
@@ -88,6 +90,7 @@ This macro defines the necessary C callbacks used by Godot. You only need *one* 
 >
 > The purposes of this macro will be discussed in detail in [_An Overview of GDNative_](../gdnative-overview.md). For now, treat it as a magic incantation.
 
+
 ## Your first script
 
 With the boilerplate put into place, you can now create your first Rust script! We will go step by step and discover what's needed to create script "classes". Intermediate code versions might not compile, but at the end of this section it should be working!
@@ -129,6 +132,7 @@ impl HelloWorld {
 
 The `HelloWorld` type is like any regular Rust type, and can have any number of ordinary `impl` blocks. However, it must have **one and only one** `impl` block with the `#[methods]` attribute, which tells godot-rust to generate code that automatically binds any exported methods to Godot.
 
+
 ## Creating the NativeScript resource
 
 You should now be able to build the dynamic library with a `HelloWorld` script class in it. However, we also need to tell Godot about it. To do this, build the library with `cargo build`.
@@ -140,6 +144,7 @@ To tell Godot about the `HelloWorld` class, a `GDNativeLibrary` resource has to 
 With the `GDNativeLibrary` resource created, the path to the generated binary can be set in the editor. After specifying the path, save the `GDNativeLibrary` resource into a resource file by clicking the "tool" button in the Inspector panel in the top right.
 
 Now, the `HelloWorld` class can be added to any node by clicking the "add script" button. In the popup, select "NativeScript" as the language, and set the class name to `HelloWorld`. Then, select the `NativeScript` resource in the Inspector, click the `library` field and point to the `GDNativeLibrary` resource that you created earlier.
+
 
 ## Overriding a Godot method
 
@@ -172,11 +177,13 @@ Here, the `#[export]` attribute is used to tell godot-rust to expose your method
 
 Now, re-compile the crate using `cargo build` and copy the resulting binary to the Godot project. Launch the project from the editor, and you should see `Hello, world!` in the Godot console!
 
+
 ## Wrapping it up
 
 Congratulations! You have just created your first Rust GDNative library. You have learned how to expose scripts and methods to Godot using the bindings, and how to use them in Godot. A lot of the details are still unexplained, but you're off to a good start!
 
 You can find the full code for this example in the main repo: [https://github.com/godot-rust/godot-rust/tree/master/examples/hello_world](https://github.com/godot-rust/godot-rust/tree/master/examples/hello_world).
+
 
 ## Work-in-progress
 

@@ -1,14 +1,17 @@
-# Tokio Runtime
+# Recipe: Async with Tokio runtime
 
 This recipe is based off of the test written for `gdnative-async`, which uses the `futures` crate in the executor. For cases where you may need a `tokio` runtime, it is possible to execute spawned tokio tasks in much the same way, with some alterations.
 
+
 ## Requirements
+
 This recipe requires the following entries in your Cargo.toml file
 
 ```toml
 tokio = { version = "1.10", features = ["rt"] }
 gdnative = { git = "https://github.com/godot-rust/godot-rust.git", features = ["async"]}
 ```
+
 
 ## Defining the Executor
 The executor itself can be defined the same way.
@@ -42,6 +45,7 @@ impl futures::task::LocalSpawn for SharedLocalPool {
 	}
 }
 ```
+
 
 ## The Executor Driver
 

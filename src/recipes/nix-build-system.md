@@ -1,4 +1,4 @@
-# Nix as A Development Environment
+# Recipe: Nix as development environment
 
 **Disclaimer**: _Currently the following steps are tested and confirmed to work on Linux only._
 
@@ -8,7 +8,8 @@ This tutorial assumes that Nix is [installed](https://nixos.org/download.html#ni
 
 To begin with, we are going to create a new project using the [Hello, world!](../getting-started/hello-world.md) guide in Getting Started. Note that the full source code for the project is available at https://github.com/godot-rust/godot-rust/tree/master/examples/hello_world. Because we aren't using the default build system explained in [setup](../getting-started/setup.md), you should only be worried about the content of the project rather than the dependencies.
 
-## Specifying Dependencies
+
+## Specifying dependencies
 
 Now to the Nix part of the tutorial. In the root directory of the project (where `project.godot` is located), create a new file called `shell.nix`. Later on, this file will be evaluated by Nix to define the dependencies of your project. Below are the default content of `shell.nix` to run the sample project. We will also explain it in brief about the meaning each line of code.
 
@@ -42,7 +43,7 @@ in
         # Point bindgen to where the clang library would be
         LIBCLANG_PATH = "${pkgs.libclang.lib}/lib";
 
-        # For rust language server and rust-analyzer
+        # For Rust language server and rust-analyzer
         RUST_SRC_PATH = "${pkgs.rust.packages.stable.rustPlatform.rustLibSrc}";
 
         # Alias the godot engine to use nixGL
@@ -52,10 +53,11 @@ in
     }
 ```
 
-## Activating The Nix Environment
+
+## Activating the Nix environment
 
 One of the simplest way to activate the nix environment is to use the `nix-shell` command. This program is installed automatically as you install Nix Package Manager.
 
 First, you need to open the root directory of your project. And then to activate your environment, run `nix-shell -v` into your terminal. The optional `-v` flag in the command will configure the command to be more verbose and display what kinds of things is getting installed. Because this is your first time using `nix-shell` on this particular project, it will take some time to download and install all the required dependencies. Subsequent run will be a lot faster after the installation.
 
-To run the project, first you need to compile the `hello-world` rust library using `cargo build`. After that, you can open the Godot Engine in your terminal using the command `godot`. As seen in `shell.nix`, this command is actually aliased to `nixGL godot -e` in which Godot will be opened using nixGL instead of opening it directly. After running the default scene, you should be able to see a single `hello, world.` printed in the Godot terminal.
+To run the project, first you need to compile the `hello-world` Rust library using `cargo build`. After that, you can open the Godot Engine in your terminal using the command `godot`. As seen in `shell.nix`, this command is actually aliased to `nixGL godot -e` in which Godot will be opened using nixGL instead of opening it directly. After running the default scene, you should be able to see a single `hello, world.` printed in the Godot terminal.

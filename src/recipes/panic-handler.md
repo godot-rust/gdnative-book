@@ -1,10 +1,11 @@
-# Rust Panic Handler
+# Recipe: Rust panic handler
 
 When using GDNative, Rust panics are ignored by Godot by default. This recipe can be used to catch those panics in the Godot editor at runtime.
 
 This recipe was written and tested with godot-rust 0.9.3 with Rust version 1.52.1
 
-## GDScript Hook
+
+## GDScript hook
 
 First create a GDScript with the following code named "rust_panic_hook.gd"
 
@@ -24,14 +25,15 @@ For this example, we are using the autoload name "rust_panic_hook".
 
 At this point we have our GDScript based  panic hook we can use in Rust.
 
-## GDNative Panic Hook Initialization
+
+## GDNative hook initialization
 
 In the GDNative library code's entry point (lib.rs by default).
 
 ```rust
 pub fn init_panic_hook() {
     // To enable backtrace, you will need the `backtrace` crate to be included in your cargo.toml, or 
-    // a version of rust where backtrace is included in the standard library (e.g. Rust nightly as of the date of publishing)
+    // a version of Rust where backtrace is included in the standard library (e.g. Rust nightly as of the date of publishing)
     // use backtrace::Backtrace;
     // use std::backtrace::Backtrace;
     let old_hook = std::panic::take_hook();
@@ -76,7 +78,7 @@ The details the process in the above code is as follows:
 The final step is to call `init_panic_hook()` at the end of the `init` function that you pass in the `godot_init(init)` macro such as in the following code.
 
 ```rust
-// GDnative entrypoint
+// GDNative entry point
 fn init(handle: InitHandle) {
     // -- class registration above
     init_panic_hook();
