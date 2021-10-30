@@ -12,6 +12,7 @@
     - [Class registration](./rust-binding/classes.md)
     - [Exported methods](./rust-binding/methods.md)
     - [Exported properties](./rust-binding/properties.md)
+    - [ToVariant, FromVariant and Export](./rust-binding/to-variant-from-variant-export.md)
     - [Calling into GDScript from Rust](./rust-binding/calling-gdscript.md)
 - [FAQ](./faq.md)
     - [Common code questions](./faq/code.md)
