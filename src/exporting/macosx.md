@@ -137,5 +137,5 @@ Double-check your `.dylib` file is there.
 
 ## Useful links
 
-* https://github.com/tpoechtrager/osxcross : tool used to install the Mac OS X SDK on Linux
-* https://wapl.es/rust/2019/02/17/rust-cross-compile-linux-to-macos.html : a complete tutorial on how to use osxcross
+* [https://github.com/tpoechtrager/osxcross](https://github.com/tpoechtrager/osxcross): tool used to install the Mac OS X SDK on Linux
+* [https://wapl.es/rust/2019/02/17/rust-cross-compile-linux-to-macos.html](https://wapl.es/rust/2019/02/17/rust-cross-compile-linux-to-macos.html): a complete tutorial on how to use osxcross
