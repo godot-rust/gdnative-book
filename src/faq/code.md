@@ -40,7 +40,7 @@ impl SignalEmitter {
 }
 ```
 
-The assumption with the above code is that `Signaller` is holding data that is too large to be feasible to clone into the signal. So the purpose of the signal is to notify other Nodes or Objects that this the data has been updated.
+The assumption with the above code is that `SignalEmitter` is holding data that is too large to be feasible to clone into the signal. So the purpose of the signal is to notify other Nodes or Objects that this the data has been updated.
 
 The problem is that, unless the nodes all connect with the `Object::CONNECT_DEFERRED` flag, they will be notified immediately and will attempt to borrow the data. This is the root cause of the `BorrowFailed` error.
 
@@ -85,19 +85,23 @@ Here is an example of some common `unsafe` usage that you will often see and use
 fn get_a_node(&self, owner: TRef<Node>) {
     // This is safe because it returns an option that Rust knows how to check.
     let child = owner.get_child("foo");
-    // This is safe because Rust panics if the returned `Option` is None. 
+    // This is safe because Rust panics if the returned `Option` is None.
     let child = child.expect("I know this should exist");
     // This is also safe because Rust panics if the returned `Option` is None.
     let child = child.cast_instance::<Foo>().expect("I know that it must be this type");
     // This is unsafe because the compiler cannot reason about the lifetime of `child`.
-    // It is the programmer's responsibility to ensure that `child` is not freed before it gets used.
+    // It is the programmer's responsibility to ensure that `child` is not freed before
+    // it gets used.
     let child: Instance<Foo> = unsafe { child.assume_safe() };
-    // This is safe because we have already asserted above that we are assuming that there should be no problem and Rust
-    // can statically analyze the safety of the functions
+    // This is safe because we have already asserted above that we are assuming that
+    // there should be no problem and Rust can statically analyze the safety of the
+    // functions.
     child.map_mut(|c, o| {
         c.bar(o);
     }).expect("this should not fail");
-    // This is unsafe because it relies on Godot for function dispatch and it is possible for it to call `Object.free()` or `Reference.unreference()` as well as other native code that may cause undefined behavior.
+    // This is unsafe because it relies on Godot for function dispatch and it is
+    // possible for it to call `Object.free()` or `Reference.unreference()` as
+    // well as other native code that may cause undefined behavior.
     unsafe {
         child.call("bar", &[])
     };
@@ -171,14 +175,14 @@ impl EntityFactory {
     }
 }
 ```
-So instead of `Enemy.new()` you can write `EntityFactory.enemy(args)` in GDScript.    
+So instead of `Enemy.new()` you can write `EntityFactory.enemy(args)` in GDScript.
 This still needs an extra type `EntityFactory`, however you could reuse that for multiple classes.
 
 
 ## How can I implement static methods in GDNative?
 
 In GDScript, classes can have static methods.
-However, due to a limitation of GDNative, static methods are not supported in general. 
+However, due to a limitation of GDNative, static methods are not supported in general.
 
 As a work-around, it is possible to use a ZST (zero-sized type):
 
@@ -207,7 +211,7 @@ Good places for instantiation are for instance:
 - as a [singleton auto-load object](https://docs.godotengine.org/en/stable/getting_started/step_by_step/singletons_autoload.html).
 
 
-## How to I convert from a `Variant` or other Godot Type to the underlying Rust type?
+## How do I convert from a `Variant` or other Godot Type to the underlying Rust type?
 
 Assuming that a method takes an argument `my_node` as a `Variant`
 
@@ -235,7 +239,7 @@ impl AnotherNativeScript {
                 .expect("Failed to convert my_node variant to object")
                 .assume_safe()
         };
-        // 2. Obtain a RefInstance which gives acccess to the Rust object's data
+        // 2. Obtain a RefInstance which gives access to the Rust object's data.
         let my_node = my_node
             .cast_instance::<MyNode2D>()
             .expect("Failed to cast my_node object to instance");
@@ -279,7 +283,7 @@ Also, you can always put a Mutex<HashMap> into a Rust static and load everything
 
 ## How do I keep a reference of `Node`?
 
-The idiomatic way to maintain a reference to a node in the SceneTree from Rust is to use `Option<Ref<T>>`. 
+The idiomatic way to maintain a reference to a node in the SceneTree from Rust is to use `Option<Ref<T>>`.
 
 For example, in the following GDScript code
 ```gdscript
@@ -357,7 +361,7 @@ impl MyNode {
         let instance = node2d.cast::<Node2D>();
         let instance = godot_egui.cast_instance::<MyClass>()
                         .expect("child `MyNode2D` must be type `MyClass`");
-        
+
         self.instance = Some(instance.claim());
     }
 }
@@ -417,6 +421,6 @@ impl MyClass {
 
 If you require insight into Rust code that is not exported to Godot or would like more in-depth information regarding how your Rust code is executing, it will be necessary to use a Rust compatible profiler such as [puffin](https://crates.io/crates/puffin) or [perf](https://perf.wiki.kernel.org/index.php/Main_Page). These tools can be used to more accurately determine bottlenecks and the general performance of your Rust code.
 
-**Note:** There are many more profilers than the ones listed and you should do your own research before selecting which one you wish to use. 
+**Note:** There are many more profilers than the ones listed and you should do your own research before selecting which one you wish to use.
 
 For more information about profiling and other rust performance tips, please check out the [Rust performance book](https://nnethercote.github.io/perf-book/profiling.html).
