@@ -1142,7 +1142,7 @@ impl SignalEmitter {
 }
 <span class="boring">}
 </span></code></pre></pre>
-<p>The assumption with the above code is that <code>Signaller</code> is holding data that is too large to be feasible to clone into the signal. So the purpose of the signal is to notify other Nodes or Objects that this the data has been updated.</p>
+<p>The assumption with the above code is that <code>SignalEmitter</code> is holding data that is too large to be feasible to clone into the signal. So the purpose of the signal is to notify other Nodes or Objects that this the data has been updated.</p>
 <p>The problem is that, unless the nodes all connect with the <code>Object::CONNECT_DEFERRED</code> flag, they will be notified immediately and will attempt to borrow the data. This is the root cause of the <code>BorrowFailed</code> error.</p>
 <p>There are two ways to solve it.</p>
 <ol>
@@ -1184,19 +1184,23 @@ For more information, please refer to <a href="https://docs.rs/dtolnay/latest/dt
 </span>fn get_a_node(&amp;self, owner: TRef&lt;Node&gt;) {
     // This is safe because it returns an option that Rust knows how to check.
     let child = owner.get_child(&quot;foo&quot;);
-    // This is safe because Rust panics if the returned `Option` is None. 
+    // This is safe because Rust panics if the returned `Option` is None.
     let child = child.expect(&quot;I know this should exist&quot;);
     // This is also safe because Rust panics if the returned `Option` is None.
     let child = child.cast_instance::&lt;Foo&gt;().expect(&quot;I know that it must be this type&quot;);
     // This is unsafe because the compiler cannot reason about the lifetime of `child`.
-    // It is the programmer's responsibility to ensure that `child` is not freed before it gets used.
+    // It is the programmer's responsibility to ensure that `child` is not freed before
+    // it gets used.
     let child: Instance&lt;Foo&gt; = unsafe { child.assume_safe() };
-    // This is safe because we have already asserted above that we are assuming that there should be no problem and Rust
-    // can statically analyze the safety of the functions
+    // This is safe because we have already asserted above that we are assuming that
+    // there should be no problem and Rust can statically analyze the safety of the
+    // functions.
     child.map_mut(|c, o| {
         c.bar(o);
     }).expect(&quot;this should not fail&quot;);
-    // This is unsafe because it relies on Godot for function dispatch and it is possible for it to call `Object.free()` or `Reference.unreference()` as well as other native code that may cause undefined behavior.
+    // This is unsafe because it relies on Godot for function dispatch and it is
+    // possible for it to call `Object.free()` or `Reference.unreference()` as
+    // well as other native code that may cause undefined behavior.
     unsafe {
         child.call(&quot;bar&quot;, &amp;[])
     };
@@ -1272,11 +1276,11 @@ impl EntityFactory {
 }
 <span class="boring">}
 </span></code></pre></pre>
-<p>So instead of <code>Enemy.new()</code> you can write <code>EntityFactory.enemy(args)</code> in GDScript.<br />
+<p>So instead of <code>Enemy.new()</code> you can write <code>EntityFactory.enemy(args)</code> in GDScript.
 This still needs an extra type <code>EntityFactory</code>, however you could reuse that for multiple classes.</p>
 <h2 id="how-can-i-implement-static-methods-in-gdnative"><a class="header" href="#how-can-i-implement-static-methods-in-gdnative">How can I implement static methods in GDNative?</a></h2>
 <p>In GDScript, classes can have static methods.
-However, due to a limitation of GDNative, static methods are not supported in general. </p>
+However, due to a limitation of GDNative, static methods are not supported in general.</p>
 <p>As a work-around, it is possible to use a ZST (zero-sized type):</p>
 <pre><pre class="playground"><code class="language-rust">
 <span class="boring">#![allow(unused)]
@@ -1303,7 +1307,7 @@ Good places for instantiation are for instance:</p>
 <li>as a member of a long-living util object,</li>
 <li>as a <a href="https://docs.godotengine.org/en/stable/getting_started/step_by_step/singletons_autoload.html">singleton auto-load object</a>.</li>
 </ul>
-<h2 id="how-to-i-convert-from-a-variant-or-other-godot-type-to-the-underlying-rust-type"><a class="header" href="#how-to-i-convert-from-a-variant-or-other-godot-type-to-the-underlying-rust-type">How to I convert from a <code>Variant</code> or other Godot Type to the underlying Rust type?</a></h2>
+<h2 id="how-do-i-convert-from-a-variant-or-other-godot-type-to-the-underlying-rust-type"><a class="header" href="#how-do-i-convert-from-a-variant-or-other-godot-type-to-the-underlying-rust-type">How do I convert from a <code>Variant</code> or other Godot Type to the underlying Rust type?</a></h2>
 <p>Assuming that a method takes an argument <code>my_node</code> as a <code>Variant</code></p>
 <p>You can convert <code>my_node</code> to a <code>Ref</code>, and then to an <code>Instance</code> or <code>RefInstance</code>, and mapping over it to access the Rust data type:</p>
 <pre><pre class="playground"><code class="language-rust">
@@ -1330,7 +1334,7 @@ impl AnotherNativeScript {
                 .expect(&quot;Failed to convert my_node variant to object&quot;)
                 .assume_safe()
         };
-        // 2. Obtain a RefInstance which gives acccess to the Rust object's data
+        // 2. Obtain a RefInstance which gives access to the Rust object's data.
         let my_node = my_node
             .cast_instance::&lt;MyNode2D&gt;()
             .expect(&quot;Failed to cast my_node object to instance&quot;);
@@ -1361,7 +1365,7 @@ impl AnotherNativeScript {
 <p>The ResourceLoader should be used in most cases.</p>
 <p>Also, you can always put a Mutex<HashMap> into a Rust static and load everything you need there during a loading screen.</p>
 <h2 id="how-do-i-keep-a-reference-of-node"><a class="header" href="#how-do-i-keep-a-reference-of-node">How do I keep a reference of <code>Node</code>?</a></h2>
-<p>The idiomatic way to maintain a reference to a node in the SceneTree from Rust is to use <code>Option&lt;Ref&lt;T&gt;&gt;</code>. </p>
+<p>The idiomatic way to maintain a reference to a node in the SceneTree from Rust is to use <code>Option&lt;Ref&lt;T&gt;&gt;</code>.</p>
 <p>For example, in the following GDScript code</p>
 <pre><code class="language-gdscript">extends Node
 class_name MyClass
@@ -1433,7 +1437,7 @@ impl MyNode {
         let instance = node2d.cast::&lt;Node2D&gt;();
         let instance = godot_egui.cast_instance::&lt;MyClass&gt;()
                         .expect(&quot;child `MyNode2D` must be type `MyClass`&quot;);
-        
+
         self.instance = Some(instance.claim());
     }
 }
@@ -1485,7 +1489,7 @@ impl MyClass {
 <span class="boring">}
 </span></code></pre></pre>
 <p>If you require insight into Rust code that is not exported to Godot or would like more in-depth information regarding how your Rust code is executing, it will be necessary to use a Rust compatible profiler such as <a href="https://crates.io/crates/puffin">puffin</a> or <a href="https://perf.wiki.kernel.org/index.php/Main_Page">perf</a>. These tools can be used to more accurately determine bottlenecks and the general performance of your Rust code.</p>
-<p><strong>Note:</strong> There are many more profilers than the ones listed and you should do your own research before selecting which one you wish to use. </p>
+<p><strong>Note:</strong> There are many more profilers than the ones listed and you should do your own research before selecting which one you wish to use.</p>
 <p>For more information about profiling and other rust performance tips, please check out the <a href="https://nnethercote.github.io/perf-book/profiling.html">Rust performance book</a>.</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="faq-multithreading"><a class="header" href="#faq-multithreading">FAQ: Multithreading</a></h1>
 <h2 id="how-do-i-use-multithreading"><a class="header" href="#how-do-i-use-multithreading">How do I use multithreading?</a></h2>
@@ -2508,8 +2512,8 @@ folder, ready to use.</p>
 <p>Double-check your <code>.dylib</code> file is there.</p>
 <h2 id="useful-links"><a class="header" href="#useful-links">Useful links</a></h2>
 <ul>
-<li>https://github.com/tpoechtrager/osxcross : tool used to install the Mac OS X SDK on Linux</li>
-<li>https://wapl.es/rust/2019/02/17/rust-cross-compile-linux-to-macos.html : a complete tutorial on how to use osxcross</li>
+<li><a href="https://github.com/tpoechtrager/osxcross">https://github.com/tpoechtrager/osxcross</a>: tool used to install the Mac OS X SDK on Linux</li>
+<li><a href="https://wapl.es/rust/2019/02/17/rust-cross-compile-linux-to-macos.html">https://wapl.es/rust/2019/02/17/rust-cross-compile-linux-to-macos.html</a>: a complete tutorial on how to use osxcross</li>
 </ul>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="advanced-guides"><a class="header" href="#advanced-guides">Advanced Guides</a></h1>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="using-custom-builds-of-godot"><a class="header" href="#using-custom-builds-of-godot">Using custom builds of Godot</a></h1>
