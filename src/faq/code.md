@@ -1,5 +1,8 @@
 # FAQ: Common code questions
 
+## Table of contents
+<!-- toc -->
+
 ## What is the `BorrowFailed` error and why do I keep getting it?
 
 In Rust, [there can only be *one* `&mut` reference to the same memory location at the same time](https://docs.rs/dtolnay/0.0.9/dtolnay/macro._02__reference_types.html). To enforce this while making simple use cases easier, the bindings make use of [interior mutability](https://doc.rust-lang.org/book/ch15-05-interior-mutability.html). This works like a lock: whenever a method with `&mut self` is called, it will try to obtain a lock on the `self` value, and hold it *until it returns*. As a result, if another method that takes `&mut self` is called in the meantime for whatever reason (e.g. signals), the lock will fail and an error (`BorrowFailed`) will be produced.

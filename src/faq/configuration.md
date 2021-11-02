@@ -1,5 +1,8 @@
 # FAQ: Configuration
 
+## Table of contents
+<!-- toc -->
+
 ## How do I create the library file for my GDNative binary?
 
 You can create .gdnlib files with either of the following methods.

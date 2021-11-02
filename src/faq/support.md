@@ -1,5 +1,8 @@
 # FAQ: Versioning and supported platforms
 
+## Table of contents
+<!-- toc -->
+
 ## What does godot-rust's version mean?
 
 godot-rust follows [Cargo's semantic versioning](https://doc.rust-lang.org/cargo/reference/semver.html) for the API breaking changes.
