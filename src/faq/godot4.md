@@ -1,5 +1,8 @@
 # FAQ: Godot 4.0 Status
 
+## Table of contents
+<!-- toc -->
+
 ## What is the status of Godot 4 Support?
 
 Currently we are still in the planning phase of determining how to support Godot 4.0 and where we will focus our efforts in the future.

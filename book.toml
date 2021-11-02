@@ -3,3 +3,8 @@ authors = ["The godot-rust developers"]
 multilingual = false
 src = "src"
 title = "The godot-rust Book"
+
+[preprocessor.toc]
+max-level = 2
+command = "mdbook-toc"
+renderer = ["html"]

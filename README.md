@@ -7,7 +7,7 @@ An online version of the book is available at [godot-rust.github.io/book/](https
 The book is built with [mdBook](https://github.com/rust-lang-nursery/mdBook). To build the book locally, you can run:
 
 ```
-$ cargo install mdbook
+$ cargo install mdbook mdbook-toc
 $ mdbook build
 ```
 

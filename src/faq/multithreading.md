@@ -1,5 +1,8 @@
 # FAQ: Multithreading
 
+## Table of contents
+<!-- toc -->
+
 ## How do I use multithreading?
 
 Follow [Godot's thread safety guidelines](https://docs.godotengine.org/en/stable/tutorials/threads/index.html) and change your settings to "Multi-threaded" in "Project Settings > Rendering > Threading".

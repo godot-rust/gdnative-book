@@ -1,5 +1,8 @@
 # FAQ: Community
 
+## Table of contents
+<!-- toc -->
+
 ## I need help, where can I ask?
 
 The godot-rust project uses several different sources for different kinds of information.
