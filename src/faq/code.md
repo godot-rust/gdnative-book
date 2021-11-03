@@ -325,6 +325,34 @@ Note: As `TRef<T>` is a temporary pointer, it will be necessary to get the base 
 This can be done with the [`TRef<T>::claim()`](https://docs.rs/gdnative/latest/gdnative/struct.TRef.html#method.claim) function that will return the persistent version of the pointer that you can store in your class.
 
 
+## How to implement function arguments that accept any Godot subclass (runtime polymorphism)?
+
+Let's assume you want to implement a helper function that should accept any kind of [`Container`](https://docs.godotengine.org/en/stable/classes/class_control.html#class-control). This can be solved by a combination of `SubClass` and `upcast`:
+
+```rust
+fn do_something_with_container<T>(container: TRef<'_, T>)
+	where T: GodotObject + SubClass<Container>
+{
+    // First upcast to a true container:
+	let container = container.upcast();
+    // Now you can call `Container` specific methods like:
+    container.set_size(...);
+}
+```
+
+This function can now be used with arbitrary subclasses, for instance:
+
+```rust
+fn some_usage() {
+	let panel_container: Ref<PanelContainer> = PanelContainer::new().into_shared();
+	let panel_container: TRef<PanelContainer> = unsafe { panel_container.assume_safe() };
+	do_something_with_container(panel_container);
+}
+```
+
+Note that `SubClass` is only a marker trait that models the inheritance relationship of Godot classes, and doesn't perform any conversion by itself. For instance, `x: Ref<T>` or `x: TRef<'_, T>` satisfying `T: GodotObject + SubClass<Container>` doesn't mean that `x` can be used as a `Container` directly. Rather, it ensures that e.g. `x.upcast::<Container>()` is guaranteed to work, because `T` is a subclass of `Container`. Therefore, it is a common pattern to use `SubClass` constraints in combination with `.upcast()` to convert to the base class, and actually use `x` as such.
+
+
 ## What is the Rust equivalent to `onready var` in GDScript
 
 Rust does not have a direct equivalent to `onready var`. The most idiomatic workaround with Rust is to use `Option<Ref<T>>` of you need the Godot node type or `Option<Instance<T>>` if you are using a Rust based `NativeClass`.
