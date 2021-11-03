@@ -1104,6 +1104,8 @@ fn update_mission_ui(ui_node: Ref&lt;CanvasItem&gt;) {
 <p>This is a list of frequently asked questions that have been pulled from various sources. This will be periodically updated with new information.</p>
 <p>Please select one of the categories in the side bar for more information.</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="faq-common-code-questions"><a class="header" href="#faq-common-code-questions">FAQ: Common code questions</a></h1>
+<h2 id="table-of-contents"><a class="header" href="#table-of-contents">Table of contents</a></h2>
+<!-- toc -->
 <h2 id="what-is-the-borrowfailed-error-and-why-do-i-keep-getting-it"><a class="header" href="#what-is-the-borrowfailed-error-and-why-do-i-keep-getting-it">What is the <code>BorrowFailed</code> error and why do I keep getting it?</a></h2>
 <p>In Rust, <a href="https://docs.rs/dtolnay/0.0.9/dtolnay/macro._02__reference_types.html">there can only be <em>one</em> <code>&amp;mut</code> reference to the same memory location at the same time</a>. To enforce this while making simple use cases easier, the bindings make use of <a href="https://doc.rust-lang.org/book/ch15-05-interior-mutability.html">interior mutability</a>. This works like a lock: whenever a method with <code>&amp;mut self</code> is called, it will try to obtain a lock on the <code>self</code> value, and hold it <em>until it returns</em>. As a result, if another method that takes <code>&amp;mut self</code> is called in the meantime for whatever reason (e.g. signals), the lock will fail and an error (<code>BorrowFailed</code>) will be produced.</p>
 <p>It's relatively easy to work around this problem, though: Because of how the user-data container works, it can only see the outermost layer of your script type - the entire structure. This is why it's stricter than what is actually required. If you run into this problem, you can <a href="https://doc.rust-lang.org/book/ch15-05-interior-mutability.html">introduce finer-grained interior mutability</a> in your own type, and modify the problematic exported methods to take <code>&amp;self</code> instead of <code>&amp;mut self</code>.</p>
@@ -1492,6 +1494,8 @@ impl MyClass {
 <p><strong>Note:</strong> There are many more profilers than the ones listed and you should do your own research before selecting which one you wish to use.</p>
 <p>For more information about profiling and other rust performance tips, please check out the <a href="https://nnethercote.github.io/perf-book/profiling.html">Rust performance book</a>.</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="faq-multithreading"><a class="header" href="#faq-multithreading">FAQ: Multithreading</a></h1>
+<h2 id="table-of-contents-1"><a class="header" href="#table-of-contents-1">Table of contents</a></h2>
+<!-- toc -->
 <h2 id="how-do-i-use-multithreading"><a class="header" href="#how-do-i-use-multithreading">How do I use multithreading?</a></h2>
 <p>Follow <a href="https://docs.godotengine.org/en/stable/tutorials/threads/index.html">Godot's thread safety guidelines</a> and change your settings to &quot;Multi-threaded&quot; in &quot;Project Settings &gt; Rendering &gt; Threading&quot;.</p>
 <h2 id="why-does-my-game-freeze-while-using-multiple-threads"><a class="header" href="#why-does-my-game-freeze-while-using-multiple-threads">Why does my game freeze while using multiple threads?</a></h2>
@@ -1518,6 +1522,8 @@ ERROR: &lt;native&gt;: gdnative-core: check module level documentation on gdnati
 <p>If you are calling certain code from Godot and receiving the following error, it is likely that you need to change the user_data that is implemented for your <code>NativeClass</code>. If no type is specified, it defaults to <code>LocalCellData</code> which can only be used from the thread it was created in.</p>
 <p>See the <a href="https://docs.rs/gdnative/latest/gdnative/nativescript/user_data/index.html">official docs</a> for more information on when you should use each type of data.</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="faq-configuration"><a class="header" href="#faq-configuration">FAQ: Configuration</a></h1>
+<h2 id="table-of-contents-2"><a class="header" href="#table-of-contents-2">Table of contents</a></h2>
+<!-- toc -->
 <h2 id="how-do-i-create-the-library-file-for-my-gdnative-binary"><a class="header" href="#how-do-i-create-the-library-file-for-my-gdnative-binary">How do I create the library file for my GDNative binary?</a></h2>
 <p>You can create .gdnlib files with either of the following methods.</p>
 <h3 id="editor"><a class="header" href="#editor">Editor</a></h3>
@@ -1638,6 +1644,8 @@ opt-level = 3
 opt-level=1
 </code></pre>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="faq-versioning-and-supported-platforms"><a class="header" href="#faq-versioning-and-supported-platforms">FAQ: Versioning and supported platforms</a></h1>
+<h2 id="table-of-contents-3"><a class="header" href="#table-of-contents-3">Table of contents</a></h2>
+<!-- toc -->
 <h2 id="what-does-godot-rusts-version-mean"><a class="header" href="#what-does-godot-rusts-version-mean">What does godot-rust's version mean?</a></h2>
 <p>godot-rust follows <a href="https://doc.rust-lang.org/cargo/reference/semver.html">Cargo's semantic versioning</a> for the API breaking changes.</p>
 <h2 id="is-godot-rust-stable"><a class="header" href="#is-godot-rust-stable">Is godot-rust stable?</a></h2>
@@ -1671,6 +1679,8 @@ Why does X function take Y parameters and return Z?</p>
 <p>The official Godot documentation <a href="https://docs.godotengine.org/en/stable/tutorials/platform/consoles.html">goes into more details</a> with how this works from a Godot perspective. Please keep in mind that this does not necessarily extend to GDNative.</p>
 <p>Regarding whether Rust can run on a console or not, as most modern consoles are using x86 processor architectures, it should be possible to compile for them. The primary issue will be whether the console manufacturer has a version of the Rust standard library that is building for their console. If not, it would be necessary to port it or leverage a port from another licensed developer.</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="faq-community"><a class="header" href="#faq-community">FAQ: Community</a></h1>
+<h2 id="table-of-contents-4"><a class="header" href="#table-of-contents-4">Table of contents</a></h2>
+<!-- toc -->
 <h2 id="i-need-help-where-can-i-ask"><a class="header" href="#i-need-help-where-can-i-ask">I need help, where can I ask?</a></h2>
 <p>The godot-rust project uses several different sources for different kinds of information.</p>
 <h3 id="1---the-godot-rust-documentation-is-hosted-at-a-hrefhttpsdocsrsgdnativedocsrsa"><a class="header" href="#1---the-godot-rust-documentation-is-hosted-at-a-hrefhttpsdocsrsgdnativedocsrsa">1 - The godot-rust documentation is hosted at <a href="https://docs.rs/gdnative/">docs.rs</a></a></h3>
@@ -1693,6 +1703,8 @@ Why does X function take Y parameters and return Z?</p>
 <p>Please note, due to the limited resources for maintaining this project, bugs generally take precendence over feature requests.</p>
 <p>In addition, Github issues are not intended for general questions as only project maintainers and contributors generally read and track new issues. As such, we would highly recommend seeking out one of the above options before opening an issue if you have a question.</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="faq-godot-40-status"><a class="header" href="#faq-godot-40-status">FAQ: Godot 4.0 Status</a></h1>
+<h2 id="table-of-contents-5"><a class="header" href="#table-of-contents-5">Table of contents</a></h2>
+<!-- toc -->
 <h2 id="what-is-the-status-of-godot-4-support"><a class="header" href="#what-is-the-status-of-godot-4-support">What is the status of Godot 4 Support?</a></h2>
 <p>Currently we are still in the planning phase of determining how to support Godot 4.0 and where we will focus our efforts in the future.</p>
 <h2 id="so-what-is-the-plan"><a class="header" href="#so-what-is-the-plan">So what is the plan?</a></h2>
