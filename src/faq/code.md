@@ -325,16 +325,18 @@ Note: As `TRef<T>` is a temporary pointer, it will be necessary to get the base 
 This can be done with the [`TRef<T>::claim()`](https://docs.rs/gdnative/latest/gdnative/struct.TRef.html#method.claim) function that will return the persistent version of the pointer that you can store in your class.
 
 
-## How to implement function arguments that accept any Godot subclass (runtime polymorphism)?
+## How do I implement function arguments that accept any Godot subclass (runtime polymorphism)?
 
-Let's assume you want to implement a helper function that should accept any kind of [`Container`](https://docs.godotengine.org/en/stable/classes/class_control.html#class-control). This can be solved by a combination of `SubClass` and `upcast`:
+This can be achieved by a combination of `SubClass` and `upcast`.
+
+For example, let's assume we want to implement a helper function that should accept any kind of [`Container`](https://docs.godotengine.org/en/stable/classes/class_control.html#class-control). The helper function can make use of `SubClass` and `upcast` as follows:
 
 ```rust
 fn do_something_with_container<T>(container: TRef<'_, T>)
-	where T: GodotObject + SubClass<Container>
+    where T: GodotObject + SubClass<Container>
 {
     // First upcast to a true container:
-	let container = container.upcast();
+    let container = container.upcast::<Container>();
     // Now you can call `Container` specific methods like:
     container.set_size(...);
 }
@@ -344,9 +346,9 @@ This function can now be used with arbitrary subclasses, for instance:
 
 ```rust
 fn some_usage() {
-	let panel_container: Ref<PanelContainer> = PanelContainer::new().into_shared();
-	let panel_container: TRef<PanelContainer> = unsafe { panel_container.assume_safe() };
-	do_something_with_container(panel_container);
+    let panel_container: Ref<PanelContainer> = PanelContainer::new().into_shared();
+    let panel_container: TRef<PanelContainer> = unsafe { panel_container.assume_safe() };
+    do_something_with_container(panel_container);
 }
 ```
 
