@@ -1,8 +1,8 @@
 ---
-name: API change notice
+name: Outdated API
 about: 'This should be used when an API change in the main repo would invalidate information in the user-guide.'
 title: ''
-labels: api
+labels: outdated-api
 assignees: jacobsky
 
 ---

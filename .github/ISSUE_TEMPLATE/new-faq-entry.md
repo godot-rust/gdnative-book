@@ -1,5 +1,5 @@
 ---
-name: New Question for the FAQ
+name: New question for the FAQ
 about: This is intended to request a specific question to be addressed that appears to be missing from the FAQ
 title: ""
 labels: faq
