@@ -1402,6 +1402,34 @@ impl MyNode {
 </span></code></pre></pre>
 <p>Note: As <code>TRef&lt;T&gt;</code> is a temporary pointer, it will be necessary to get the base pointer <code>Ref&lt;T&gt;</code> in order to continue to hold this value.</p>
 <p>This can be done with the <a href="https://docs.rs/gdnative/latest/gdnative/struct.TRef.html#method.claim"><code>TRef&lt;T&gt;::claim()</code></a> function that will return the persistent version of the pointer that you can store in your class.</p>
+<h2 id="how-do-i-implement-function-arguments-that-accept-any-godot-subclass-runtime-polymorphism"><a class="header" href="#how-do-i-implement-function-arguments-that-accept-any-godot-subclass-runtime-polymorphism">How do I implement function arguments that accept any Godot subclass (runtime polymorphism)?</a></h2>
+<p>This can be achieved by a combination of <code>SubClass</code> and <code>upcast</code>.</p>
+<p>For example, let's assume we want to implement a helper function that should accept any kind of <a href="https://docs.godotengine.org/en/stable/classes/class_control.html#class-control"><code>Container</code></a>. The helper function can make use of <code>SubClass</code> and <code>upcast</code> as follows:</p>
+<pre><pre class="playground"><code class="language-rust">
+<span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>fn do_something_with_container&lt;T&gt;(container: TRef&lt;'_, T&gt;)
+    where T: GodotObject + SubClass&lt;Container&gt;
+{
+    // First upcast to a true container:
+    let container = container.upcast::&lt;Container&gt;();
+    // Now you can call `Container` specific methods like:
+    container.set_size(...);
+}
+<span class="boring">}
+</span></code></pre></pre>
+<p>This function can now be used with arbitrary subclasses, for instance:</p>
+<pre><pre class="playground"><code class="language-rust">
+<span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>fn some_usage() {
+    let panel_container: Ref&lt;PanelContainer&gt; = PanelContainer::new().into_shared();
+    let panel_container: TRef&lt;PanelContainer&gt; = unsafe { panel_container.assume_safe() };
+    do_something_with_container(panel_container);
+}
+<span class="boring">}
+</span></code></pre></pre>
+<p>Note that <code>SubClass</code> is only a marker trait that models the inheritance relationship of Godot classes, and doesn't perform any conversion by itself. For instance, <code>x: Ref&lt;T&gt;</code> or <code>x: TRef&lt;'_, T&gt;</code> satisfying <code>T: GodotObject + SubClass&lt;Container&gt;</code> doesn't mean that <code>x</code> can be used as a <code>Container</code> directly. Rather, it ensures that e.g. <code>x.upcast::&lt;Container&gt;()</code> is guaranteed to work, because <code>T</code> is a subclass of <code>Container</code>. Therefore, it is a common pattern to use <code>SubClass</code> constraints in combination with <code>.upcast()</code> to convert to the base class, and actually use <code>x</code> as such.</p>
 <h2 id="what-is-the-rust-equivalent-to-onready-var-in-gdscript"><a class="header" href="#what-is-the-rust-equivalent-to-onready-var-in-gdscript">What is the Rust equivalent to <code>onready var</code> in GDScript</a></h2>
 <p>Rust does not have a direct equivalent to <code>onready var</code>. The most idiomatic workaround with Rust is to use <code>Option&lt;Ref&lt;T&gt;&gt;</code> of you need the Godot node type or <code>Option&lt;Instance&lt;T&gt;&gt;</code> if you are using a Rust based <code>NativeClass</code>.</p>
 <pre><code class="language-gdscript">extends Node
