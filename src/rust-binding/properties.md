@@ -87,11 +87,11 @@ impl GodotApi {
 }
 ```
 
-## Manual Property Registration
+## Manual property registration
 
 For cases not covered by the `#[property]` attribute, it may be necessary to manually register the properties instead.
 
-This is often the case where custom hint behaivor is desired for primitive types, such as an Integer value including an `IntEnum` hint.
+This is often the case where custom hint behavior is desired for primitive types, such as an Integer value including an `IntEnum` hint.
 
 To do so, you can use the [`ClassBuilder`](https://docs.rs/gdnative/0.9.3/gdnative/prelude/struct.ClassBuilder.html) -- such as in the following examples -- to manually register each property and customize how they interface in the editor.
 
@@ -117,6 +117,7 @@ impl MyNode {
             .with_getter(number_getter)
             .with_setter(numer_setter)
             .done();
+
         // Register the number as an Enum
         builder
             .add_property::<i32>("number_enum")
@@ -125,6 +126,7 @@ impl MyNode {
             .with_default(1)
             .with_hint(IntHint::Enum(EnumHint::new("a", "b", "c", "d")))
             .done();
+
         // Register a floating point value with a range from 0.0 to 100.0 with a step of 0.1
         builder
             .add_property::<f64>("float_range")
@@ -133,6 +135,7 @@ impl MyNode {
             .with_default(1.0)
             .with_hint(FloatHint::Range(RangeHint::new(0.0, 100.0).with_step(0.1)))
             .done();
+
         // Manually register a string as a file path for .txt and .dat files.
         builder
             .add_property::<String>("my_filepath")

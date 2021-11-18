@@ -1,6 +1,6 @@
 # ToVariant, FromVariant and Export
 
-As seen in [the previous section](./properties.md), the `#[property]` attribute of the [NativeClass] procedural macro is a powerful tool for to automatically configuring properties with your Godot.
+As seen in [the previous section](./properties.md), the `#[property]` attribute of the [`NativeClass`](https://docs.rs/gdnative/latest/gdnative/derive.NativeClass.html) procedural macro is a powerful tool to automatically configure properties with Godot.
 
 One constraint of the `#[property]` attribute is that it requires that all attributed property types implement `ToVariant`, `FromVariant` and `Export` in order to interface with Godot.
 
@@ -10,12 +10,12 @@ In Godot all types inherit from Variant.
 
 As per the [official Godot docs](https://docs.godotengine.org/en/stable/classes/class_variant.html), Variant is "The most important data type in Godot." This is a wrapper type that can store any [Godot Engine type](https://docs.godotengine.org/en/stable/classes/class_%40globalscope.html#enum-globalscope-variant-type)
 
-The ToVariant and FromVariant are conversion traits that allow Rust types to be converted between these types. All properties must implement both ToVariant and FromVariant while exported methods require `FromVariant` to be implemented for optional parameters and `ToVariant` to be implemented for return types.
+The `ToVariant` and `FromVariant` are conversion traits that allow Rust types to be converted between these types. All properties must implement both `ToVariant` and `FromVariant` while exported methods require `FromVariant` to be implemented for optional parameters and `ToVariant` to be implemented for return types.
 
-For many datatypes, it is possible to use the derive macros such as in the following example,
+For many datatypes, it is possible to use the derive macros such as in the following example:
 
 ```rust
-// Note: This struct does not implement `export` and cannot be used a property, see the following section for more information.
+// Note: This struct does not implement `Export` and cannot be used as a property, see the following section for more information.
 #[derive(ToVariant, FromVariant)]
 struct Foo {
     number: i32,
@@ -58,11 +58,11 @@ impl Export for Foo {
 }
 ```
 
-## Case Study: Exporting Rust enums to Godot and Back.
+## Case study: exporting Rust enums to Godot and back
 
 A common challenge that many developers may encounter when using godot-rust is that while [Rust enums](https://doc.rust-lang.org/std/keyword.enum.html) are [Algebraic Data Types](https://en.wikipedia.org/wiki/Algebraic_data_type), [Godot enums](https://docs.godotengine.org/en/stable/getting_started/scripting/gdscript/gdscript_basics.html#enums) are constants that correspond to integer types.
 
-By default, Rust enums are converted to a Dictionary representation with keys corresponding to each enum variant where the Enum Value corresponds to a Dictionary that contains the key-value pairs that corresponding to each propery.
+By default, Rust enums are converted to a Dictionary representation. Its keys correspond to the name of the enum variants, while the values correspond to a Dictionary with fields as key-value pairs.
 
 For example:
 
@@ -71,26 +71,26 @@ For example:
 enum MyEnum {
     A,
     B { inner: i32 },
-    C { inner: String}
+    C { inner: String }
 }
 ```
 
-Will convert to a the following dictionary
+Will convert to the following dictionary:
 
 ```gdscript
 # MyEnum::A
-"{ "A": {}}
-# MyEnum::B { inner: 0}
-{ "B": { "inner": 0 }}
+"{ "A": {} }
+# MyEnum::B { inner: 0 }
+{ "B": { "inner": 0 } }
 # MyEnum::C { inner: "value" }
-{ "C": {"inner": "value" }}
+{ "C": {"inner": "value" } }
 ```
 
 As of writing (gdnative 0.9.3), this default case is not configurable. If you want different behavior, it is necessary to implement `FromVariant` and `Export` manually for this data-type.
 
 ### Case 1: Rust Enum -> Godot Enum
 
-Consider the following code
+Consider the following code:
 
 ```rust
 enum MyIntEnum {
@@ -106,9 +106,9 @@ struct MyNode {
 }
 ```
 
-This defines a simple enum where each enum value refers to an integer value
+This code defines the enum `MyIntEnum`, where each enum value refers to an integer value.
 
-If you were to try to add this to a NativeClass as a follows property you will receive errors similar to the following:
+Without implementing the `FromVariant` and `Export` traits, attempting to export `MyIntEnum` as a property of `MyNode` will result in the following error:
 
 ```sh
 the trait bound `MyIntEnum: gdnative::prelude::FromVariant` is not satisfied
@@ -151,22 +151,23 @@ impl Export for MyIntEnum {
 
 ```
 
-After implementing export, you would also receive the following error:
+After implementing `FromVariant` and `Export`, running cargo check wouuld result in the following additional error:
 
 ```sh
 the trait bound `MyIntEnum: gdnative::prelude::ToVariant` is not satisfied
 the trait `gdnative::prelude::ToVariant` is not implemented for `MyIntEnum`
 ```
 
-If the default implementation were sufficient, we could use `#[derive(ToVariant)]` for `MyIntEnum` or implement this as follows:
+If the default implementation were sufficient, we could use `#[derive(ToVariant)]` for `MyIntEnum` or implement it manually with the following code:
 
 ```rust
+use gdnative::core_types::ToVariant;
 impl ToVariant for MyIntEnum {
     fn to_variant(&self) -> Variant {
         match self {
-            MyIntEnum::A => { Variant::from_i64(0) },
-            MyIntEnum::B => { Variant::from_i64(1) },
-            MyIntEnum::C => { Variant::from_i64(2) },
+            MyIntEnum::A => { 0.to_variant() },
+            MyIntEnum::B => { 1.to_variant() },
+            MyIntEnum::C => { 2.to_variant() },
         }
     }
 }
