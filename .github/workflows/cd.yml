@@ -1,0 +1,46 @@
+name: "Deploy to GitHub Pages"
+
+on:
+  push:
+    branches: [master]
+
+env:
+  # Use fixed versions for now, replace with 'latest' to auto-use latest
+  # Note: during build, there's a warning when using mdbook-toc compiled against an older mdbook version, should work though.
+  MDBOOK_VERSION: "0.4.14"
+  MDBOOK_TOC_VERSION: "0.7.0"
+  MDBOOK_BIN: "/tmp/mdbook-bin"
+
+jobs:
+  build_and_deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    # If using actions/checkout@v2, persist-credentials must be set to false in most cases for the deployment to work correctly.
+    - name: "Checkout"
+      uses: actions/checkout@v2
+      with:
+        persist-credentials: false
+
+    # Note: actions-rs/install@v0.1 was considered, but a full 'cargo install' is unnecessarily slow and the cache mechanism is not reliable
+    # (error "Unable to download mdbook == 0.4.14 from the tool cache: Error: Unexpected HTTP response: 403")
+    # So, directly pull the release from GitHub
+    - name: "Install mdbook + mdbook-toc"
+      run: |
+        wget https://github.com/rust-lang/mdBook/releases/download/v${MDBOOK_VERSION}/mdbook-v${MDBOOK_VERSION}-x86_64-unknown-linux-gnu.tar.gz -O /tmp/mdbook.tar.gz
+        wget https://github.com/badboy/mdbook-toc/releases/download/${MDBOOK_TOC_VERSION}/mdbook-toc-${MDBOOK_TOC_VERSION}-x86_64-unknown-linux-gnu.tar.gz -O /tmp/mdbook-toc.tar.gz
+        
+        mkdir ${MDBOOK_BIN}
+        echo ${MDBOOK_BIN} >> $GITHUB_PATH
+        tar -xvzf /tmp/mdbook.tar.gz -C ${MDBOOK_BIN}
+        tar -xvzf /tmp/mdbook-toc.tar.gz -C ${MDBOOK_BIN}
+
+    - name: "Build book"
+      run: mdbook build
+
+    - name: "Deploy"
+      uses: JamesIves/github-pages-deploy-action@releases/v3
+      with:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        BRANCH: gh-pages # The branch the action should deploy to.
+        FOLDER: book # The folder the action should deploy.
