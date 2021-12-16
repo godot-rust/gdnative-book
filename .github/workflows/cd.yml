@@ -1,40 +1,44 @@
-# This is a basic workflow to help you get started with Actions
+name: "Deploy to GitHub Pages"
 
-name: CI
-
-# Controls when the action will run. Triggers the workflow on push or pull request
-# events but only for the master branch
 on:
   push:
-    branches: [ master ]
+    branches: [master]
 
+env:
+  # Use fixed versions for now, replace with 'latest' to auto-use latest
+  # Note: during build, there's a warning when using mdbook-toc compiled against an older mdbook version, should work though.
+  MDBOOK_VERSION: "0.4.14"
+  MDBOOK_TOC_VERSION: "0.7.0"
+  MDBOOK_BIN: "/tmp/mdbook-bin"
 
-
-
-
-
-# A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  # This workflow contains a single job called "build"
-  build:
-    # The type of runner that the job will run on
+  build_and_deploy:
     runs-on: ubuntu-latest
 
-    # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-    - name: Checkout 🛎️
-      uses: actions/checkout@v2 # If you're using actions/checkout@v2 you must set persist-credentials to false in most cases for the deployment to work correctly.
+    # If using actions/checkout@v2, persist-credentials must be set to false in most cases for the deployment to work correctly.
+    - name: "Checkout"
+      uses: actions/checkout@v2
       with:
         persist-credentials: false
 
-    - name: Build book
+    # Note: actions-rs/install@v0.1 was considered, but a full 'cargo install' is unnecessarily slow and the cache mechanism is not reliable
+    # (error "Unable to download mdbook == 0.4.14 from the tool cache: Error: Unexpected HTTP response: 403")
+    # So, directly pull the release from GitHub
+    - name: "Install mdbook + mdbook-toc"
       run: |
-        wget https://github.com/rust-lang/mdBook/releases/download/v0.4.12/mdbook-v0.4.12-x86_64-unknown-linux-gnu.tar.gz -O /tmp/mdbook.tar.gz
-        /bin/tar -xvzf /tmp/mdbook.tar.gz -C /tmp
-        /tmp/mdbook build
+        wget https://github.com/rust-lang/mdBook/releases/download/v${MDBOOK_VERSION}/mdbook-v${MDBOOK_VERSION}-x86_64-unknown-linux-gnu.tar.gz -O /tmp/mdbook.tar.gz
+        wget https://github.com/badboy/mdbook-toc/releases/download/${MDBOOK_TOC_VERSION}/mdbook-toc-${MDBOOK_TOC_VERSION}-x86_64-unknown-linux-gnu.tar.gz -O /tmp/mdbook-toc.tar.gz
         
+        mkdir ${MDBOOK_BIN}
+        echo ${MDBOOK_BIN} >> $GITHUB_PATH
+        tar -xvzf /tmp/mdbook.tar.gz -C ${MDBOOK_BIN}
+        tar -xvzf /tmp/mdbook-toc.tar.gz -C ${MDBOOK_BIN}
 
-    - name: Deploy 🚀
+    - name: "Build book"
+      run: mdbook build
+
+    - name: "Deploy"
       uses: JamesIves/github-pages-deploy-action@releases/v3
       with:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
