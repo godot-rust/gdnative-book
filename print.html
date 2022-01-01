@@ -2816,6 +2816,27 @@ folder, ready to use.</p>
 </ul>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="advanced-guides"><a class="header" href="#advanced-guides">Advanced Guides</a></h1>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="using-custom-builds-of-godot"><a class="header" href="#using-custom-builds-of-godot">Using custom builds of Godot</a></h1>
+<p>As you probably know, godot-rust interacts with Godot via the GDNative interface. This interface is formally specified in a file called <code>api.json</code>, which lists all the classes, functions, constants and other symbols. In its build step, godot-rust reads this file and generates Rust code reflecting the GDNative interface.</p>
+<p>By default, godot-rust ships an <code>api.json</code> compatible with the latest Godot 3.x release. This makes it easy to use the latest version. But there are cases where you might want to use an older Godot version, or one that you built yourself (with custom compiler flags or modules). In the past, this needed quite a few manual steps; in the meantime, this process has been simplified.</p>
+<p>For using custom Godot builds, the first thing you need to do is to add the feature flag <code>custom-godot</code> when adding godot-rust as a dependency.
+For example, if you depend on the latest GitHub version of godot-rust, Cargo.toml would look like this:</p>
+<pre><code class="language-toml">gdnative = { git = &quot;https://github.com/godot-rust/godot-rust.git&quot;, features = [&quot;custom-godot&quot;] }
+</code></pre>
+<p>Next, godot-rust must be able to locate the Godot engine executable on your system.<br />
+There are two options:</p>
+<ol>
+<li>Your executable is called <code>godot</code> and available in the system PATH.<br />
+On Windows systems, this would also find a <code>godot.bat</code>, for example.</li>
+<li>You define an environment variable <code>GODOT_BIN</code> with the absolute path to your executable.<br />
+It is important that you include the filename -- this is not a directory path. </li>
+</ol>
+<p>That's it. During build, godot-rust will invoke Godot to generate a matching <code>api.json</code> -- you might see a short Godot window popping up.</p>
+<p>Keep in mind that we only support Godot versions &gt;= 3.2 and &lt; 4.0 for now. Also, the GDNative API varies between versions, so you may need to adjust your client code. </p>
+<h2 id="previous-approach"><a class="header" href="#previous-approach">Previous approach</a></h2>
+<blockquote>
+<p><em><strong>Note:</strong> this guide is now obsolete.</em><br />
+<em>You can still use it when working with godot-rust 0.9 or <code>master</code> versions before December 2021.</em></p>
+</blockquote>
 <p>Sometimes, users might need to use a different version of the engine that is different from the default one, or is a custom build. In order to use <code>godot-rust</code> with them, one would need to create a custom version of the <code>gdnative-bindings</code> crate, generated from an <code>api.json</code> from the custom build. This guide walks through the necessary steps to do so.</p>
 <p>First, obtain the source code for <code>gdnative-bindings</code> from crates.io. For this guide, we'll use <a href="https://github.com/Xion/cargo-download/"><code>cargo-download</code></a> to accomplish this:</p>
 <pre><code># Install the `cargo-download` sub-command if it isn't installed yet
