@@ -142,8 +142,60 @@ Examples include:</p>
 <li>Libraries that directly enhance the godot-rust experience</li>
 <li>Libraries that connect godot-rust with other crates in the Rust ecosystem</li>
 </ul>
-<p>This page should only provide a high-level description of each project (a couple sentences), plus relevant links and optionally one screenshot. It should <em>not</em> include tutorials or code examples, as they tend to become outdated very quickly. Instead, the project's repository or homepage is a much better place for advertising the concrete functionality the tool offers and providing introductory examples.</p>
-<h2 id="todo-add-project"><a class="header" href="#todo-add-project">(TODO: add project)</a></h2>
+<p>This page should only provide a high-level description of each project (a couple sentences), plus relevant links and optionally one screenshot. It should <em>not</em> include tutorials or extended code examples, as they tend to become outdated very quickly. Instead, the project's repository or homepage is a much better place for advertising the concrete functionality the tool offers and providing introductory examples.</p>
+<h3 id="table-of-contents"><a class="header" href="#table-of-contents">Table of contents</a></h3>
+<ul>
+<li><a href="#godot-egui">godot-egui</a></li>
+<li><a href="#godot-rust-cli">godot-rust-cli</a></li>
+<li><a href="#ftw">ftw</a></li>
+<li><a href="#gdrust">gdrust</a></li>
+</ul>
+<h2 id="godot-egui"><a class="header" href="#godot-egui">godot-egui</a></h2>
+<p><em><a href="https://github.com/setzer22/godot-egui">GitHub</a></em></p>
+<p><img src="img/godot-egui.gif" alt="" /></p>
+<p><strong>godot-egui</strong> is an <a href="https://github.com/emilk/egui">egui</a> backend for godot-rust. </p>
+<p>This crate enables using the immediate-mode UI library egui within Godot applications and games. Updating UI widgets and properties directly from Rust code becomes straightforward, without going through Godot nodes, signals and the intricacies of GDNative's ownership semantics.</p>
+<h2 id="godot-rust-cli"><a class="header" href="#godot-rust-cli">godot-rust-cli</a></h2>
+<p><em><a href="https://github.com/robertcorponoi/godot-rust-cli">GitHub</a></em></p>
+<p><strong>Godot Rust CLI</strong> is a simple command-line interface to help you create and update Rust components for your Godot projects.</p>
+<p>Example:</p>
+<pre><code class="language-sh"># create a Rust library `rust_modules` for the `platformer` Godot project
+godot-rust-cli new rust_modules platformer
+
+# create player.rs + player.gdns
+godot-rust-cli create Player 
+
+# generate dynamic library to be called by Godot, automatically watch changes
+godot-rust-cli build --watch
+</code></pre>
+<p>Note that there is also <a href="https://github.com/robertcorponoi/godot-rust-cli-upgrader">godot-rust-cli-upgrader</a> to upgrade the CLI.</p>
+<h2 id="ftw"><a class="header" href="#ftw">ftw</a></h2>
+<p><em><a href="https://github.com/macalimlim/ftw">GitHub</a></em></p>
+<p><strong>ftw</strong> is a command-line interface to manage your godot-rust project. It enables you to set up projects, add native classes which are automatically wired up, and run build commands.</p>
+<p>Example:</p>
+<pre><code class="language-sh"># create new project using the default template
+ftw new my-awesome-game
+
+# create a class that derives from `Area2D`
+ftw class MyHero Area2D
+
+# create a class called `MySingleton` that derives from `Node`
+ftw singleton MySingleton
+ 
+# build the library for the `linux-x86_64` platform using `debug` as default
+ftw build linux-x86_64
+</code></pre>
+<h2 id="gdrust"><a class="header" href="#gdrust">gdrust</a></h2>
+<p><em><a href="https://github.com/wyattjsmith1/gdrust">GitHub</a></em></p>
+<p><strong>gdrust</strong> is a an extension library to godot-rust. It adds ergonomic improvements and is an inspiration for godot-rust itself.</p>
+<p>Example:</p>
+<pre><code class="language-rs">#[gdrust]
+#[signal(signal_name(arg_name: I64, arg2_name: F64 = 10.0))]
+struct MyClass {
+    #[export_range(1, 10, 2, &quot;or_greater&quot;)]
+    my_range: i32,
+}
+</code></pre>
 
                     </main>
 
