@@ -51,17 +51,19 @@ apt-get install g++-multilib gcc-multilib libc6-dev-i386 -y
 
 ## Setting up Cargo
 
-To make Cargo aware of the proper platform-specific linkers that it needs to use for Android targets, we need to put the paths to the binaries in the Cargo configuration file, which can be found (or created) at `$HOME/.cargo/config` on UNIX-like systems, or `%USERPROFILE%\.cargo\config` on Windows), using [`[target]` tables](https://doc.rust-lang.org/cargo/reference/config.html#target):
+To make Cargo aware of the proper platform-specific linkers that it needs to use for Android targets, we need to put the paths to the binaries in the Cargo configuration file, which can be found (or created) at `$HOME/.cargo/config` on UNIX-like systems, or `%USERPROFILE%\.cargo\config` on Windows), using [`[target]` tables](https://doc.rust-lang.org/cargo/reference/config.html#targettriplelinker):
 
 ```toml
 [target.armv7-linux-androideabi]
-linker = "/usr/local/lib/android/sdk/ndk-bundle/toolchains/llvm/prebuilt/linux-x86_64/bin/armv7a-linux-androideabi29-clang"
+linker = "/usr/local/lib/android/sdk/ndk/21.4.7075529/toolchains/llvm/prebuilt/linux-x86_64/bin/armv7a-linux-androideabi29-clang"
 ```
 
-... where the value of `linker` is an **absolute path** to the Android SDK linker for the target triple. Assuming `$ANDROID_SDK_ROOT` is the Android SDK path, these binaries can be found at:
+... where the value of `linker` is an **absolute path** to the Android SDK linker for the target triple. Assuming `$ANDROID_SDK_ROOT` is the Android SDK path and `$ANDROID_NDK_VERSION` is the installed NDK instance version, these binaries can be found at:
 
-- Windows: `$ANDROID_SDK_ROOT\ndk\<NDK-VERSION>\toolchains\llvm\prebuilt\windows-x86_64\bin\`, where `<NDK-VERSION>` is the installed NDK instance version
-- UNIX-like systems: `$ANDROID_SDK_ROOT/ndk-bundle/toolchains/llvm/prebuilt/linux-x86_64/bin/`
+- Windows: `$ANDROID_SDK_ROOT\ndk\$ANDROID_NDK_VERSION\toolchains\llvm\prebuilt\windows-x86_64\bin\`
+- UNIX-like systems: `$ANDROID_SDK_ROOT/ndk/$ANDROID_NDK_VERSION/toolchains/llvm/prebuilt/linux-x86_64/bin/`
+
+> Alternatively, the NDK can be located under `$ANDROID_SDK_ROOT/ndk-bundle` instead of `$ANDROID_SDK_ROOT/ndk/$ANDROID_NDK_VERSION`, but this folder is deprecated because it doesn't allow for parallel versions installation.
 
 Repeat for all targets installed in the previous step, until we get something that looks like:
 
@@ -69,16 +71,25 @@ Repeat for all targets installed in the previous step, until we get something th
 # Example configuration on an UNIX-like system. `29` is the Android API version.
 
 [target.armv7-linux-androideabi]
-linker = "/usr/local/lib/android/sdk/ndk-bundle/toolchains/llvm/prebuilt/linux-x86_64/bin/armv7a-linux-androideabi29-clang"
+linker = "/usr/local/lib/android/sdk/ndk/21.4.7075529/toolchains/llvm/prebuilt/linux-x86_64/bin/armv7a-linux-androideabi29-clang"
 
 [target.aarch64-linux-android]
-linker = "/usr/local/lib/android/sdk/ndk-bundle/toolchains/llvm/prebuilt/linux-x86_64/bin/aarch64-linux-android29-clang"
+linker = "/usr/local/lib/android/sdk/ndk/21.4.7075529/toolchains/llvm/prebuilt/linux-x86_64/bin/aarch64-linux-android29-clang"
 
 [target.i686-linux-android]
-linker = "/usr/local/lib/android/sdk/ndk-bundle/toolchains/llvm/prebuilt/linux-x86_64/bin/i686-linux-android29-clang"
+linker = "/usr/local/lib/android/sdk/ndk/21.4.7075529/toolchains/llvm/prebuilt/linux-x86_64/bin/i686-linux-android29-clang"
 
 [target.x86_64-linux-android]
-linker = "/usr/local/lib/android/sdk/ndk-bundle/toolchains/llvm/prebuilt/linux-x86_64/bin/x86_64-linux-android29-clang"
+linker = "/usr/local/lib/android/sdk/ndk/21.4.7075529/toolchains/llvm/prebuilt/linux-x86_64/bin/x86_64-linux-android29-clang"
+```
+
+Alternatively, you can use cargo config environment variables:
+
+```bash
+export CARGO_TARGET_ARMV7_LINUX_ANDROIDEABI_LINKER="/usr/local/lib/android/sdk/ndk/21.4.7075529/toolchains/llvm/prebuilt/linux-x86_64/bin/armv7a-linux-androideabi29-clang"
+export CARGO_TARGET_AARCH64_LINUX_ANDROID_LINKER="/usr/local/lib/android/sdk/ndk/21.4.7075529/toolchains/llvm/prebuilt/linux-x86_64/bin/aarch64-linux-android29-clang"
+export CARGO_TARGET_I686_LINUX_ANDROID_LINKER="/usr/local/lib/android/sdk/ndk/21.4.7075529/toolchains/llvm/prebuilt/linux-x86_64/bin/i686-linux-android29-clang"
+export CARGO_TARGET_X86_64_LINUX_ANDROID_LINKER="/usr/local/lib/android/sdk/ndk/21.4.7075529/toolchains/llvm/prebuilt/linux-x86_64/bin/x86_64-linux-android29-clang"
 ```
 
 
@@ -86,21 +97,21 @@ linker = "/usr/local/lib/android/sdk/ndk-bundle/toolchains/llvm/prebuilt/linux-x
 
 The `gdnative-sys` crate can infer include paths for Android targets, but it requires the following environment variables:
 
-- `$JAVA_HOME`, which should point to the installed JDK instance.
-- `$ANDROID_SDK_ROOT`, which should point to the Android SDK root (which contains the `ndk-bundle` directory).
+- `$ANDROID_SDK_ROOT`, which should point to the Android SDK root (which contains the `ndk` or `ndk-bundle` directory).
+- `$ANDROID_NDK_VERSION`, which should contain the selected ndk version (if omitted, the latest version available is used and a warning is issued).
 
 Depending on your installation, these environment variables might have already been set. Otherwise, the variables may be set in bash:
 
 ```bash
-export JAVA_HOME=/path/to/jdk
 export ANDROID_SDK_ROOT=/path/to/android/sdk
+export ANDROID_NDK_VERSION=21.4.7075529
 ```
 
 ... or in PowerShell on Windows:
 
 ```powershell
-$env:JAVA_HOME = "C:\path\to\jdk"
 $env:ANDROID_SDK_ROOT = "C:\path\to\android\sdk"
+$env:ANDROID_NDK_VERSION = "21.4.7075529"
 ```
 
 
