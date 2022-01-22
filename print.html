@@ -2720,43 +2720,52 @@ rustup target add i686-linux-android       # for x86 (32-bit)
 apt-get install g++-multilib gcc-multilib libc6-dev-i386 -y
 </code></pre>
 <h2 id="setting-up-cargo"><a class="header" href="#setting-up-cargo">Setting up Cargo</a></h2>
-<p>To make Cargo aware of the proper platform-specific linkers that it needs to use for Android targets, we need to put the paths to the binaries in the Cargo configuration file, which can be found (or created) at <code>$HOME/.cargo/config</code> on UNIX-like systems, or <code>%USERPROFILE%\.cargo\config</code> on Windows), using <a href="https://doc.rust-lang.org/cargo/reference/config.html#target"><code>[target]</code> tables</a>:</p>
+<p>To make Cargo aware of the proper platform-specific linkers that it needs to use for Android targets, we need to put the paths to the binaries in the Cargo configuration file, which can be found (or created) at <code>$HOME/.cargo/config</code> on UNIX-like systems, or <code>%USERPROFILE%\.cargo\config</code> on Windows), using <a href="https://doc.rust-lang.org/cargo/reference/config.html#targettriplelinker"><code>[target]</code> tables</a>:</p>
 <pre><code class="language-toml">[target.armv7-linux-androideabi]
-linker = &quot;/usr/local/lib/android/sdk/ndk-bundle/toolchains/llvm/prebuilt/linux-x86_64/bin/armv7a-linux-androideabi29-clang&quot;
+linker = &quot;/usr/local/lib/android/sdk/ndk/21.4.7075529/toolchains/llvm/prebuilt/linux-x86_64/bin/armv7a-linux-androideabi29-clang&quot;
 </code></pre>
-<p>... where the value of <code>linker</code> is an <strong>absolute path</strong> to the Android SDK linker for the target triple. Assuming <code>$ANDROID_SDK_ROOT</code> is the Android SDK path, these binaries can be found at:</p>
+<p>... where the value of <code>linker</code> is an <strong>absolute path</strong> to the Android SDK linker for the target triple. Assuming <code>$ANDROID_SDK_ROOT</code> is the Android SDK path and <code>$ANDROID_NDK_VERSION</code> is the installed NDK instance version, these binaries can be found at:</p>
 <ul>
-<li>Windows: <code>$ANDROID_SDK_ROOT\ndk\&lt;NDK-VERSION&gt;\toolchains\llvm\prebuilt\windows-x86_64\bin\</code>, where <code>&lt;NDK-VERSION&gt;</code> is the installed NDK instance version</li>
-<li>UNIX-like systems: <code>$ANDROID_SDK_ROOT/ndk-bundle/toolchains/llvm/prebuilt/linux-x86_64/bin/</code></li>
+<li>Windows: <code>$ANDROID_SDK_ROOT\ndk\$ANDROID_NDK_VERSION\toolchains\llvm\prebuilt\windows-x86_64\bin\</code></li>
+<li>UNIX-like systems: <code>$ANDROID_SDK_ROOT/ndk/$ANDROID_NDK_VERSION/toolchains/llvm/prebuilt/linux-x86_64/bin/</code></li>
 </ul>
+<blockquote>
+<p>Alternatively, the NDK can be located under <code>$ANDROID_SDK_ROOT/ndk-bundle</code> instead of <code>$ANDROID_SDK_ROOT/ndk/$ANDROID_NDK_VERSION</code>, but this folder is deprecated because it doesn't allow for parallel versions installation.</p>
+</blockquote>
 <p>Repeat for all targets installed in the previous step, until we get something that looks like:</p>
 <pre><code class="language-toml"># Example configuration on an UNIX-like system. `29` is the Android API version.
 
 [target.armv7-linux-androideabi]
-linker = &quot;/usr/local/lib/android/sdk/ndk-bundle/toolchains/llvm/prebuilt/linux-x86_64/bin/armv7a-linux-androideabi29-clang&quot;
+linker = &quot;/usr/local/lib/android/sdk/ndk/21.4.7075529/toolchains/llvm/prebuilt/linux-x86_64/bin/armv7a-linux-androideabi29-clang&quot;
 
 [target.aarch64-linux-android]
-linker = &quot;/usr/local/lib/android/sdk/ndk-bundle/toolchains/llvm/prebuilt/linux-x86_64/bin/aarch64-linux-android29-clang&quot;
+linker = &quot;/usr/local/lib/android/sdk/ndk/21.4.7075529/toolchains/llvm/prebuilt/linux-x86_64/bin/aarch64-linux-android29-clang&quot;
 
 [target.i686-linux-android]
-linker = &quot;/usr/local/lib/android/sdk/ndk-bundle/toolchains/llvm/prebuilt/linux-x86_64/bin/i686-linux-android29-clang&quot;
+linker = &quot;/usr/local/lib/android/sdk/ndk/21.4.7075529/toolchains/llvm/prebuilt/linux-x86_64/bin/i686-linux-android29-clang&quot;
 
 [target.x86_64-linux-android]
-linker = &quot;/usr/local/lib/android/sdk/ndk-bundle/toolchains/llvm/prebuilt/linux-x86_64/bin/x86_64-linux-android29-clang&quot;
+linker = &quot;/usr/local/lib/android/sdk/ndk/21.4.7075529/toolchains/llvm/prebuilt/linux-x86_64/bin/x86_64-linux-android29-clang&quot;
+</code></pre>
+<p>Alternatively, you can use cargo config environment variables:</p>
+<pre><code class="language-bash">export CARGO_TARGET_ARMV7_LINUX_ANDROIDEABI_LINKER=&quot;/usr/local/lib/android/sdk/ndk/21.4.7075529/toolchains/llvm/prebuilt/linux-x86_64/bin/armv7a-linux-androideabi29-clang&quot;
+export CARGO_TARGET_AARCH64_LINUX_ANDROID_LINKER=&quot;/usr/local/lib/android/sdk/ndk/21.4.7075529/toolchains/llvm/prebuilt/linux-x86_64/bin/aarch64-linux-android29-clang&quot;
+export CARGO_TARGET_I686_LINUX_ANDROID_LINKER=&quot;/usr/local/lib/android/sdk/ndk/21.4.7075529/toolchains/llvm/prebuilt/linux-x86_64/bin/i686-linux-android29-clang&quot;
+export CARGO_TARGET_X86_64_LINUX_ANDROID_LINKER=&quot;/usr/local/lib/android/sdk/ndk/21.4.7075529/toolchains/llvm/prebuilt/linux-x86_64/bin/x86_64-linux-android29-clang&quot;
 </code></pre>
 <h2 id="setting-up-environment-variables-for-gdnative-sys"><a class="header" href="#setting-up-environment-variables-for-gdnative-sys">Setting up environment variables for <code>gdnative-sys</code></a></h2>
 <p>The <code>gdnative-sys</code> crate can infer include paths for Android targets, but it requires the following environment variables:</p>
 <ul>
-<li><code>$JAVA_HOME</code>, which should point to the installed JDK instance.</li>
-<li><code>$ANDROID_SDK_ROOT</code>, which should point to the Android SDK root (which contains the <code>ndk-bundle</code> directory).</li>
+<li><code>$ANDROID_SDK_ROOT</code>, which should point to the Android SDK root (which contains the <code>ndk</code> or <code>ndk-bundle</code> directory).</li>
+<li><code>$ANDROID_NDK_VERSION</code>, which should contain the selected ndk version (if omitted, the latest version available is used and a warning is issued).</li>
 </ul>
 <p>Depending on your installation, these environment variables might have already been set. Otherwise, the variables may be set in bash:</p>
-<pre><code class="language-bash">export JAVA_HOME=/path/to/jdk
-export ANDROID_SDK_ROOT=/path/to/android/sdk
+<pre><code class="language-bash">export ANDROID_SDK_ROOT=/path/to/android/sdk
+export ANDROID_NDK_VERSION=21.4.7075529
 </code></pre>
 <p>... or in PowerShell on Windows:</p>
-<pre><code class="language-powershell">$env:JAVA_HOME = &quot;C:\path\to\jdk&quot;
-$env:ANDROID_SDK_ROOT = &quot;C:\path\to\android\sdk&quot;
+<pre><code class="language-powershell">$env:ANDROID_SDK_ROOT = &quot;C:\path\to\android\sdk&quot;
+$env:ANDROID_NDK_VERSION = &quot;21.4.7075529&quot;
 </code></pre>
 <h2 id="building-the-gdnative-library"><a class="header" href="#building-the-gdnative-library">Building the GDNative library</a></h2>
 <p>Finally, we can now build the GDNative library with Cargo for one or multiple targets:</p>
