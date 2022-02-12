@@ -22,9 +22,9 @@ Please note: you only need to include paths for the targets you plan on building
 
 ```toml
 [entry]
-X11.64="res://path/to/lib{name_of_binary}.so"
-OSX.64="res://path/to/lib{name_of_binary}.dylib"
-Windows.64="res://path/to/{name_of_binary}.dll"
+X11.64="res://path/to/lib{binary-name}.so"
+OSX.64="res://path/to/lib{binary-name}.dylib"
+Windows.64="res://path/to/{binary-name}.dll"
 
 [dependencies]
 X11.64=[  ]
@@ -48,13 +48,24 @@ Script files can be created in two ways.
 ```toml
 [gd_resource type="NativeScript" load_steps=2 format=2]
 
-[ext_resource path="res://path/to/{name of file}.gdnlib" type="GDNativeLibrary" id=1]
+[ext_resource path="res://path/to/{filename}.gdnlib" type="GDNativeLibrary" id=1]
 
 [resource]
-resource_name = "{class name}"
-class_name = "{class name}"
+resource_name = "{class-name}"
+class_name = "{class-name}"
 library = ExtResource( 1 )
 ```
+
+
+## C headers not found by bindgen
+
+When building the library, `bindgen` may produce errors that look like this:
+
+```
+godot-rust/gdnative-sys/godot_headers/gdnative/string.h:39:10: fatal error: 'wchar.h' file not found
+```
+
+This means that `bindgen` was unable to find the C system headers for your platform. If you can locate the headers manually, you may try setting the `C_INCLUDE_PATH` environment variable so `libclang` could find them. If on Windows, you may try building from the Visual Studio "developer console", which should setup the appropriate variables for you.
 
 
 ## Why aren't my scripts showing up in the _Add Node_ portion of the editor, even though they inherit from  `Node`, `Node2D`, `Spatial` or `Control`?
