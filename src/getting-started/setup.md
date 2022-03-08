@@ -42,6 +42,9 @@ After installation, check that LLVM was installed properly:
 clang -v
 ```
 
+`bindgen` may complain about a missing `llvm-config` binary, but it is not actually required to build the `gdnative` crate. If you see a warning about `llvm-config` and a failed build, it's likely that you're having a different problem!
+
+
 ## Using the template
 
 We also provide an experimental [template](https://github.com/godot-rust/godot-rust-template) to get you started right away. All the boilerplate stuff is already done for you. If you have decided to use the template, you can skip section 2.2. Check out the [wiki](https://github.com/godot-rust/godot-rust-template/wiki) for instructions.
