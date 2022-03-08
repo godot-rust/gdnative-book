@@ -139,6 +139,7 @@
 <ul>
 <li><a href="#how-do-i-create-the-library-file-for-my-gdnative-binary">How do I create the library file for my GDNative binary?</a></li>
 <li><a href="#once-i-create-the-gdnlib-file-how-do-i-create-the-native-script-so-that-i-can-attach-it-to-the-nodes-in-the-scene-tree">Once I create the <code>.gdnlib</code> file, how do I create the native script, so that I can attach it to the nodes in the scene tree?</a></li>
+<li><a href="#c-headers-not-found-by-bindgen">C headers not found by bindgen</a></li>
 <li><a href="#why-arent-my-scripts-showing-up-in-the-add-node-portion-of-the-editor-even-though-they-inherit-from--node-node2d-spatial-or-control">Why aren't my scripts showing up in the Add Node portion of the editor, even though they inherit from  <code>Node</code>, <code>Node2D</code>, <code>Spatial</code> or <code>Control</code>?</a></li>
 <li><a href="#can-i-use-rust-for-a-tool-script">Can I use Rust for a tool script?</a></li>
 <li><a href="#is-it-possible-to-use-multiple-libraries-with-gdnative">Is it possible to use multiple libraries with GDNative?</a></li>
@@ -161,9 +162,9 @@
 <p>Create a text file with the <code>.gdnlib</code> extension with the following content.
 Please note: you only need to include paths for the targets you plan on building for.</p>
 <pre><code class="language-toml">[entry]
-X11.64=&quot;res://path/to/lib{name_of_binary}.so&quot;
-OSX.64=&quot;res://path/to/lib{name_of_binary}.dylib&quot;
-Windows.64=&quot;res://path/to/{name_of_binary}.dll&quot;
+X11.64=&quot;res://path/to/lib{binary-name}.so&quot;
+OSX.64=&quot;res://path/to/lib{binary-name}.dylib&quot;
+Windows.64=&quot;res://path/to/{binary-name}.dll&quot;
 
 [dependencies]
 X11.64=[  ]
@@ -184,13 +185,18 @@ reloadable=true
 </ol>
 <pre><code class="language-toml">[gd_resource type=&quot;NativeScript&quot; load_steps=2 format=2]
 
-[ext_resource path=&quot;res://path/to/{name of file}.gdnlib&quot; type=&quot;GDNativeLibrary&quot; id=1]
+[ext_resource path=&quot;res://path/to/{filename}.gdnlib&quot; type=&quot;GDNativeLibrary&quot; id=1]
 
 [resource]
-resource_name = &quot;{class name}&quot;
-class_name = &quot;{class name}&quot;
+resource_name = &quot;{class-name}&quot;
+class_name = &quot;{class-name}&quot;
 library = ExtResource( 1 )
 </code></pre>
+<h2 id="c-headers-not-found-by-bindgen"><a class="header" href="#c-headers-not-found-by-bindgen">C headers not found by bindgen</a></h2>
+<p>When building the library, <code>bindgen</code> may produce errors that look like this:</p>
+<pre><code>godot-rust/gdnative-sys/godot_headers/gdnative/string.h:39:10: fatal error: 'wchar.h' file not found
+</code></pre>
+<p>This means that <code>bindgen</code> was unable to find the C system headers for your platform. If you can locate the headers manually, you may try setting the <code>C_INCLUDE_PATH</code> environment variable so <code>libclang</code> could find them. If on Windows, you may try building from the Visual Studio &quot;developer console&quot;, which should setup the appropriate variables for you.</p>
 <h2 id="why-arent-my-scripts-showing-up-in-the-add-node-portion-of-the-editor-even-though-they-inherit-from--node-node2d-spatial-or-control"><a class="header" href="#why-arent-my-scripts-showing-up-in-the-add-node-portion-of-the-editor-even-though-they-inherit-from--node-node2d-spatial-or-control">Why aren't my scripts showing up in the <em>Add Node</em> portion of the editor, even though they inherit from  <code>Node</code>, <code>Node2D</code>, <code>Spatial</code> or <code>Control</code>?</a></h2>
 <p>Due to limitations with Godot 3.x's version of GDNative, NativeScript types do not get registered in the class database. As such, these classes are not included in the <em>Create New Node</em> dialog.</p>
 <p>A workaround to this issue has been included in the recipe <a href="../recipes/custom-node-plugin.html">Custom Nodes Plugin</a>.</p>
