@@ -53,13 +53,12 @@ The template is currently a work-in-progress, and might not work in all setups w
 
 ### Setup
 ```shell
-$ cargo install cargo-generate
+$ cargo install cargo-generate cargo-make
 ```
 
 ### Usage
 ```shell
 $ cargo generate --git https://github.com/godot-rust/godot-rust-template --name my-awesome-game
 $ cd my-awesome-game
-$ cargo install cargo-make
 $ cargo make run
 ```
