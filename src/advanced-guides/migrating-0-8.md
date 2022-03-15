@@ -1,4 +1,4 @@
-# Migrating from godot-rust 0.8
+# Migrating from godot-rust 0.8 to 0.9.x
 
 In version 0.9, we are attempting to resolve many long-standing problems in the older API. As a result, there are many breaking changes in the public interface. This is a quick guide to the new API for users that have used older versions.
 
