@@ -60,5 +60,6 @@ $ cargo install cargo-generate
 ```shell
 $ cargo generate --git https://github.com/godot-rust/godot-rust-template --name my-awesome-game
 $ cd my-awesome-game
-$ make run
+$ cargo install cargo-make
+$ cargo make run
 ```
