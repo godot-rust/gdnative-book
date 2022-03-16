@@ -47,18 +47,8 @@ clang -v
 
 ## Using the template
 
-One way to get started with godot-rust is a full-fledged (inofficial) template, which can be found [here](https://github.com/macalimlim/godot-rust-template) to get you started right away. All the boilerplate stuff is already done for you. If you have decided to use the template, you can skip section 2.2. Check out the [wiki](https://github.com/godot-rust/godot-rust-template/wiki) for instructions.
+> If you have decided to use the template, you can skip section 2.2.
 
-The template is currently a work-in-progress, and might not work in all setups where the base library would be compatible. If you encounter any issues with the template, please report them at its [issue tracker](https://github.com/macalimlim/godot-rust-template/issues/).
+One way to get started with godot-rust is a full-fledged (inofficial) template, which can be found [here](https://github.com/macalimlim/godot-rust-template) to get you started right away. All the boilerplate stuff is already done for you, however, using the template requires you to set up extra dependencies and toolchains. Check out the [wiki](https://github.com/macalimlim/godot-rust-template/wiki) for instructions on how to get started with the template.
 
-### Setup
-```shell
-$ cargo install cargo-generate cargo-make
-```
-
-### Usage
-```shell
-$ cargo generate --git https://github.com/godot-rust/godot-rust-template --name my-awesome-game
-$ cd my-awesome-game
-$ cargo make run
-```
+The template is not maintained by us, and might not work in all setups where the base library would be compatible. If you encounter any issues with the template, please report them at its [issue tracker](https://github.com/macalimlim/godot-rust-template/issues/).
