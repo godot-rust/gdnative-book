@@ -163,16 +163,8 @@ clang -v
 </code></pre>
 <p><code>bindgen</code> may complain about a missing <code>llvm-config</code> binary, but it is not actually required to build the <code>gdnative</code> crate. If you see a warning about <code>llvm-config</code> and a failed build, it's likely that you're having a different problem!</p>
 <h2 id="using-the-template"><a class="header" href="#using-the-template">Using the template</a></h2>
-<p>We also provide an experimental <a href="https://github.com/godot-rust/godot-rust-template">template</a> to get you started right away. All the boilerplate stuff is already done for you. If you have decided to use the template, you can skip section 2.2. Check out the <a href="https://github.com/godot-rust/godot-rust-template/wiki">wiki</a> for instructions.</p>
-<p>The template is currently a work-in-progress, and might not work in all setups where the base library would be compatible. If you encounter any issues with the template, please report them at its <a href="https://github.com/godot-rust/godot-rust-template/issues/">issue tracker</a>.</p>
-<h3 id="setup-1"><a class="header" href="#setup-1">Setup</a></h3>
-<pre><code class="language-shell">$ cargo install cargo-generate
-</code></pre>
-<h3 id="usage"><a class="header" href="#usage">Usage</a></h3>
-<pre><code class="language-shell">$ cargo generate --git https://github.com/godot-rust/godot-rust-template --name my-awesome-game
-$ cd my-awesome-game
-$ make run
-</code></pre>
+<p>One way to get started with godot-rust is a full-fledged (inofficial) template, which can be found <a href="https://github.com/macalimlim/godot-rust-template">here</a> to get you started right away. All the boilerplate stuff is already done for you, however, using the template requires you to set up extra dependencies and toolchains. Check out the <a href="https://github.com/macalimlim/godot-rust-template/wiki">wiki</a> for instructions on how to get started with the template.</p>
+<p>The template is not maintained by us, and might not work in all setups where the base library would be compatible. If you encounter any issues with the template, please report them at its <a href="https://github.com/macalimlim/godot-rust-template/issues/">issue tracker</a>.</p>
 
                     </main>
 
