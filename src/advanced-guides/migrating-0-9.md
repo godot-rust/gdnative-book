@@ -39,6 +39,8 @@ The module structure has been simplified to ensure there is only 1 module per sy
 | TypedArray | PoolArray |
 | Element | PoolElement |
 | SignalArgument | SignalParam |
+| Point2 | Vector2 |
+| Size2 | Vector2 |
 
 - Geometric types have been renamed for API consistency from x, y, z to a, b, c
 - The following methods have been renamed:
@@ -87,3 +89,105 @@ While these are not breaking changes, the following may be useful to consider wh
 - Async Foundations have been completed so you can now make use of Rust Async runtimes with Godot more easily. We have a recipe for using [async with the tokio runtime](../recipes/async-tokio.md)
 - custom godot builds are now supported. The advanced guide for [custom godot](./custom-godot.md) has been updated accordingly.
 
+## Migrations
+
+### Variant/VariantDispatch
+
+If you were using the `Variant::from_*` methods, this is no longer necessary and the functions no longer exist.
+
+In 0.9.x you would need to use the specific constructor
+
+```rust
+let variant = Variant::from_i64(42);
+let variant = Variant::from_f64(42.0);
+let variant2 = Variant::from_object(object);
+```
+
+In 0.10.x, `new()` is sufficient for any type that implements ToVarant 
+
+```rust
+let variant = Variant::new(42);
+let variant = Variant::new(42.0);
+let variant2 = Variant::new(object);
+```
+
+### Transforms
+
+Previously Transforms were defined by the matrix identities such as m11, m12, now they are referred by the vector name for consistency.
+
+For example: When creating a identity Transform2D in 0.9.x it would be:
+
+```rust
+let tform = Transform2D::new(1.0, 0.0, 0.0, 1.0, 1.0, 1.0)
+```
+
+In 0.10.x it is defined as
+
+```rust
+Transform2D::from_basis_origin(
+    Vector2::new(1.0, 0.0),
+    Vector2::new(0.0, 1.0),
+    Vector2::new(1.0, 1.0),
+  )
+)
+```
+
+## Vector Types
+
+The underlying vector library as well as the implementation. In 0.9.x, many of the goemetrics previously were thinnly wrapping a separate libary. This lead to several different wrapping classes such as Point2, Size2 being removed as they were essentially an alias to Vector2. In addition other Geometric types -- such as Rect2, Quat, Transform, Plane -- have all been changed and some convenience functions may not be available anymore depending upon the struct.
+
+For example: Rect2 no longer has width() or height()
+
+### ClassBuilder
+
+The [`ClassBuilder`](https://docs.rs/gdnative/latest/gdnative/prelude/struct.ClassBuilder.html) has been extended to use the builder pattern when registering signals and properties.
+
+In 0.9.x registering a signal would look like the following:
+
+```rust
+fn register_signals(builder: &ClassBuilder<Self>) {
+  builder.add_signal(
+    Signal {
+      name: "signal1",
+      args: &[],
+    }
+  );
+  builder.add_signal(
+    Signal {
+      name: "signal2",
+      args: &[SignalArgument {
+          name: "myArg",
+          default: 42.0.to_variant(),
+          export_info: ExportInfo::new(VariantType::F64),
+          usage: PropertyUsage::DEFAULT,
+      }],
+  });
+}
+```
+
+In 0.10.0 this changes to
+
+```rust
+fn register_signals(builder: &ClassBuilder<Self>) {
+  builder.signal("signal1").done();
+  
+  builder.signal("signal2")
+    .with_param_custom(
+      SignalParam {
+          name: "myArg",
+          default: 42.0.to_variant(),
+          export_info: ExportInfo::new(VariantType::F64),
+          usage: PropertyUsage::DEFAULT,
+      },
+    ).done();
+
+  // If you only need a default value, you can also register a signal like this
+  builder.signal("signal3")
+    .with_param_default("myArg", 42.0.to_variant())
+    .done()
+}
+```
+
+### Server Singletons
+
+Godot's Server Singletons have received a safety overhaul and many functions that were previously marked "safe" now are marked unsafe. This change was necessary as it was identified that it was relatively trivial to create Undefined Behavior.
