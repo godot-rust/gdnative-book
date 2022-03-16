@@ -47,8 +47,6 @@ clang -v
 
 ## Using the template
 
-> If you have decided to use the template, you can skip section 2.2.
-
 One way to get started with godot-rust is a full-fledged (inofficial) template, which can be found [here](https://github.com/macalimlim/godot-rust-template) to get you started right away. All the boilerplate stuff is already done for you, however, using the template requires you to set up extra dependencies and toolchains. Check out the [wiki](https://github.com/macalimlim/godot-rust-template/wiki) for instructions on how to get started with the template.
 
 The template is not maintained by us, and might not work in all setups where the base library would be compatible. If you encounter any issues with the template, please report them at its [issue tracker](https://github.com/macalimlim/godot-rust-template/issues/).
