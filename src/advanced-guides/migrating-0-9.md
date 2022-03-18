@@ -1,6 +1,7 @@
 # Migrating from godot-rust 0.9.x to 0.10.x
 
-In version 0.10, many improvements to ergonomics, naming consistency, and resolving a number of bugs have been made. This has resulted in a number of the underlying 
+In version 0.10, many improvements to ergonomics, naming consistency, and resolving a number of bugs have been made as outlined in this guide.
+
 ## Minimum Supported Rust Version
 
 This has been changed to 1.56, when migrating you will need to ensure that you are using **at least** Rust 1.56 or later or your projects may fail to build.
@@ -18,7 +19,7 @@ Please refer to the [changelog](https://github.com/godot-rust/godot-rust/blob/ma
 The module structure has been simplified to ensure there is only 1 module per symbol.
 - `nativescript` has been renamed to `export`
 - `nativescript::{Instance, RefInstance}` has been moved to `object`
-- `macrosgodot_gdnative_init`, `godot_gdnative_terminate`, `godot_nativescript_init`, `godot_site` have been removed from the prelude
+- macros `godot_gdnative_init`, `godot_gdnative_terminate`, `godot_nativescript_init`, `godot_site` have been removed from the prelude
 - Unnecessary nested modules have also been removed, if you were depending upon the exact path, you will need to use the new path
 
 ### Changes to Core Types
@@ -49,6 +50,7 @@ The module structure has been simplified to ensure there is only 1 module per sy
 | Basis::to_scale | scale |
 | Basis::from_elements | from_rows |
 | Transform2D::from_axis_origin | from_basis_origin |
+| StringName::get_name | to_godot_string |
 
 - The following deprecated symbols have been removed:
   - Reference::init_ref (unsound)
@@ -68,6 +70,7 @@ The module structure has been simplified to ensure there is only 1 module per sy
   - Basis::tdoty
   - Basis::tdotz
   - Rid::operator_less
+  - StringName::operator_less
 
 ### Changes to Procedural Macros
 
@@ -145,6 +148,8 @@ impl Foo {
 
 ## Migrations
 
+This section elaborates on APIs with non-trivial changes and guides you through the process of updating your code.
+
 ### Variant/VariantDispatch
 
 If you were using the `Variant::from_*` methods, this is no longer necessary and the functions no longer exist.
@@ -176,10 +181,10 @@ let object = ObjectType::from_variant(&variant_object).unwrap();
 In 0.10.x, you can now cast your variants by using the `to()` function, such as the following:
 
 ```rust
-// Note: If the compiler cannot infer your type, you may need to use the turbofish `::<T>` to compile
-let integer64 = variant_i64.to().unwrap();
-let float64 = variant_f64.to().unwrap();
-let object = variant_object.to().unwrap();
+// Note: If the compiler can infer your type, the turbofish `::<T>` is optional
+let integer64 = variant_i64.to::<i64>().unwrap();
+let float64 = variant_f64.to::<f64>().unwrap();
+let object = variant_object.to::<ObjectType>().unwrap();
 ```
 
 ### Transforms
@@ -189,21 +194,21 @@ Previously Transforms were defined by the matrix identities such as m11, m12, no
 For example: When creating a identity Transform2D in 0.9.x, you would create it using the following code:
 
 ```rust
-let tform = Transform2D::new(1.0, 0.0, 0.0, 1.0, 1.0, 1.0)
+let tform = Transform2D::new(1.0, 0.0, 0.0, 1.0, 1.0, 1.0);
 ```
 
 In 0.10.x you now need to create it using `from_basis_origin` and use `a`, `b`, and `origin` vectors, such as the following:
 
 ```rust
-Transform2D::from_basis_origin(
+let tform = Transform2D::from_basis_origin(
     Vector2::new(1.0, 0.0),
     Vector2::new(0.0, 1.0),
     Vector2::new(1.0, 1.0),
   )
-)
+);
 ```
 
-## Vector Types
+### Vector Types
 
 The underlying vector library as well as the implementation. In 0.9.x, many of the goemetrics previously were thinnly wrapping a separate libary. This lead to several different wrapping classes such as Point2, Size2 being removed as they were aliases to Vector2. In addition other Geometric types -- such as Rect2, Quat, Transform, Plane -- have all been changed and some convenience functions may not be available anymore depending upon the struct.
 
@@ -282,7 +287,7 @@ unsafe {
 ```
 #### Additional UB Notes
 
-This was due to [Issue 836](https://github.com/godot-rust/godot-rust/issues/836) being raised that demonstrated that you can cause Undefined Behavior trivially by doing the following:
+The reason for this change was due to [Issue 836](https://github.com/godot-rust/godot-rust/issues/836) being raised. They were able to demonstrate that you could easily cause Undefined Behavior trivially when using any function that accepted `Rid` as a parameter such as the following:
 
 ```rust
 let vs = unsafe { VisualServer::godot_singleton() };
