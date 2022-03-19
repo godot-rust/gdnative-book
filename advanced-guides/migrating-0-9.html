@@ -1,0 +1,488 @@
+<!DOCTYPE HTML>
+<html lang="en" class="sidebar-visible no-js light">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Migrating from godot-rust 0.9 - The godot-rust Book</title>
+        <!-- Custom HTML head -->
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff" />
+
+        <link rel="icon" href="../favicon.svg">
+        <link rel="shortcut icon" href="../favicon.png">
+        <link rel="stylesheet" href="../css/variables.css">
+        <link rel="stylesheet" href="../css/general.css">
+        <link rel="stylesheet" href="../css/chrome.css">
+        <link rel="stylesheet" href="../css/print.css" media="print">
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../fonts/fonts.css">
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="../highlight.css">
+        <link rel="stylesheet" href="../tomorrow-night.css">
+        <link rel="stylesheet" href="../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+    </head>
+    <body>
+        <!-- Provide site root to javascript -->
+        <script type="text/javascript">
+            var path_to_root = "../";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script type="text/javascript">
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script type="text/javascript">
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('no-js')
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add('js');
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script type="text/javascript">
+            var html = document.querySelector('html');
+            var sidebar = 'hidden';
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            }
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded "><a href="../introduction.html"><strong aria-hidden="true">1.</strong> Introduction</a></li><li class="chapter-item expanded "><a href="../getting-started.html"><strong aria-hidden="true">2.</strong> Getting Started</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../getting-started/setup.html"><strong aria-hidden="true">2.1.</strong> Setup</a></li><li class="chapter-item expanded "><a href="../getting-started/hello-world.html"><strong aria-hidden="true">2.2.</strong> Hello, world!</a></li></ol></li><li class="chapter-item expanded "><a href="../gdnative-overview.html"><strong aria-hidden="true">3.</strong> An Overview of GDNative</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../gdnative-overview/data-representations.html"><strong aria-hidden="true">3.1.</strong> Data representations</a></li><li class="chapter-item expanded "><a href="../gdnative-overview/wrappers.html"><strong aria-hidden="true">3.2.</strong> Ref, TRef and Instance</a></li><li class="chapter-item expanded "><a href="../gdnative-overview/architecture.html"><strong aria-hidden="true">3.3.</strong> Game architecture</a></li></ol></li><li class="chapter-item expanded "><a href="../rust-binding.html"><strong aria-hidden="true">4.</strong> Binding to Rust code</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../rust-binding/classes.html"><strong aria-hidden="true">4.1.</strong> Class registration</a></li><li class="chapter-item expanded "><a href="../rust-binding/methods.html"><strong aria-hidden="true">4.2.</strong> Exported methods</a></li><li class="chapter-item expanded "><a href="../rust-binding/properties.html"><strong aria-hidden="true">4.3.</strong> Exported properties</a></li><li class="chapter-item expanded "><a href="../rust-binding/to-variant-from-variant-export.html"><strong aria-hidden="true">4.4.</strong> ToVariant, FromVariant and Export</a></li><li class="chapter-item expanded "><a href="../rust-binding/calling-gdscript.html"><strong aria-hidden="true">4.5.</strong> Calling into GDScript from Rust</a></li></ol></li><li class="chapter-item expanded "><a href="../faq.html"><strong aria-hidden="true">5.</strong> FAQ</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../faq/code.html"><strong aria-hidden="true">5.1.</strong> Common code questions</a></li><li class="chapter-item expanded "><a href="../faq/multithreading.html"><strong aria-hidden="true">5.2.</strong> Multithreading</a></li><li class="chapter-item expanded "><a href="../faq/configuration.html"><strong aria-hidden="true">5.3.</strong> Configuration</a></li><li class="chapter-item expanded "><a href="../faq/support.html"><strong aria-hidden="true">5.4.</strong> Versioning and supported platforms</a></li><li class="chapter-item expanded "><a href="../faq/community.html"><strong aria-hidden="true">5.5.</strong> Community</a></li><li class="chapter-item expanded "><a href="../faq/godot4.html"><strong aria-hidden="true">5.6.</strong> Godot 4.0 Status</a></li></ol></li><li class="chapter-item expanded "><a href="../testing.html"><strong aria-hidden="true">6.</strong> (TODO) Testing</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../testing/structure.html"><strong aria-hidden="true">6.1.</strong> Structuring code for testing</a></li><li class="chapter-item expanded "><a href="../testing/engine.html"><strong aria-hidden="true">6.2.</strong> Testing with the engine</a></li></ol></li><li class="chapter-item expanded "><a href="../recipes.html"><strong aria-hidden="true">7.</strong> Recipes</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../recipes/async-tokio.html"><strong aria-hidden="true">7.1.</strong> Async with Tokio runtime</a></li><li class="chapter-item expanded "><a href="../recipes/custom-node-plugin.html"><strong aria-hidden="true">7.2.</strong> Custom node plugin</a></li><li class="chapter-item expanded "><a href="../recipes/external-resources.html"><strong aria-hidden="true">7.3.</strong> Loading external resources</a></li><li class="chapter-item expanded "><a href="../recipes/logging.html"><strong aria-hidden="true">7.4.</strong> Logging</a></li><li class="chapter-item expanded "><a href="../recipes/nix-build-system.html"><strong aria-hidden="true">7.5.</strong> Nix as development environment</a></li><li class="chapter-item expanded "><a href="../recipes/panic-handler.html"><strong aria-hidden="true">7.6.</strong> Rust panic handler</a></li></ol></li><li class="chapter-item expanded "><a href="../projects.html"><strong aria-hidden="true">8.</strong> Third-party projects</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../projects/games.html"><strong aria-hidden="true">8.1.</strong> Games</a></li><li class="chapter-item expanded "><a href="../projects/tools.html"><strong aria-hidden="true">8.2.</strong> Tools and integrations</a></li><li class="chapter-item expanded "><a href="../projects/applications.html"><strong aria-hidden="true">8.3.</strong> Applications</a></li></ol></li><li class="chapter-item expanded "><a href="../exporting.html"><strong aria-hidden="true">9.</strong> Exporting</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../exporting/android.html"><strong aria-hidden="true">9.1.</strong> Android</a></li><li class="chapter-item expanded "><a href="../exporting/ios.html"><strong aria-hidden="true">9.2.</strong> (TODO) iOS</a></li><li class="chapter-item expanded "><a href="../exporting/macosx.html"><strong aria-hidden="true">9.3.</strong> Mac OS X</a></li></ol></li><li class="chapter-item expanded "><a href="../advanced-guides.html"><strong aria-hidden="true">10.</strong> Advanced Guides</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../advanced-guides/custom-godot.html"><strong aria-hidden="true">10.1.</strong> Using custom Godot versions</a></li><li class="chapter-item expanded "><a href="../advanced-guides/migrating-0-8.html"><strong aria-hidden="true">10.2.</strong> Migrating from godot-rust 0.8</a></li><li class="chapter-item expanded "><a href="../advanced-guides/migrating-0-9.html" class="active"><strong aria-hidden="true">10.3.</strong> Migrating from godot-rust 0.9</a></li></ol></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky bordered">
+                    <div class="left-buttons">
+                        <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </button>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light (default)</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">The godot-rust Book</h1>
+
+                    <div class="right-buttons">
+                        <a href="../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script type="text/javascript">
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="migrating-from-godot-rust-09x-to-010x"><a class="header" href="#migrating-from-godot-rust-09x-to-010x">Migrating from godot-rust 0.9.x to 0.10.x</a></h1>
+<p>Version 0.10 implements many improvements to ergonomics, naming consistency and bugfixes. Tooling and CI has been majorly overhauled, providing fast 
+feedback cycles, higher confidence and easier-to-read documentation.</p>
+<p>This guide outlines what actions users of godot-rust need to take to update their code.</p>
+<h2 id="minimum-supported-rust-version"><a class="header" href="#minimum-supported-rust-version">Minimum supported Rust version</a></h2>
+<p>The MSRV has been increased to 1.56. When migrating, you will need to ensure that you are using <strong>at least</strong> Rust 1.56 or later or your projects may fail to build.</p>
+<p>We use the Rust 2021 edition; in your own code you may use any edition.</p>
+<h2 id="breaking-api-changes"><a class="header" href="#breaking-api-changes">Breaking API changes</a></h2>
+<p>This is a brief overview of the smaller breaking changes in the library API. Please refer to the <a href="https://github.com/godot-rust/godot-rust/blob/master/CHANGELOG.md">changelog</a> for a comprehensive list. </p>
+<p>More sophisticated breaking changes are explained further down in section <a href="#Migrations"><em>Migrations</em></a>.</p>
+<h3 id="changes-to-modules"><a class="header" href="#changes-to-modules">Changes to modules</a></h3>
+<p>The module structure has been simplified to ensure there is only one module per symbol:</p>
+<ul>
+<li>Module <code>nativescript</code> has been renamed to <code>export</code>.</li>
+<li>Types <code>nativescript::{Instance, RefInstance}</code> have been moved to <code>object</code>.</li>
+<li>Less often used macros <code>godot_gdnative_init</code>, <code>godot_gdnative_terminate</code>, <code>godot_nativescript_init</code>, <code>godot_site</code> have been removed from the prelude.</li>
+<li>Unnecessarily nested modules have also been removed. If you were depending upon the exact path, you will need to use the new path.</li>
+</ul>
+<h3 id="changes-to-core-types"><a class="header" href="#changes-to-core-types">Changes to core types</a></h3>
+<ul>
+<li>
+<p>The euclid vector library has been removed and replaced with <a href="https://docs.rs/glam/latest/glam/">glam</a>.</p>
+</li>
+<li>
+<p><code>Variant</code> has a redesigned conversion API.</p>
+</li>
+<li>
+<p>Matrix types -- <code>Transform2D</code>, <code>Transform</code> and <code>Basis</code> -- have had their basis vectors renamed from <code>x/y/z</code> to <code>a/b/c</code>, to avoid confusion with the <code>x/y/z</code> vector components.</p>
+</li>
+<li>
+<p>The following deprecated symbols have been removed:</p>
+<ul>
+<li><code>Reference::init_ref</code>(unsound)</li>
+<li><code>ClassBuilder::add_method</code>, <code>add_method_advanced</code>, <code>add_method_with_rpc_mode</code></li>
+<li><code>ScriptMethod</code></li>
+<li><code>ScriptMethodFn</code> </li>
+<li><code>ScriptMethodAttributes</code></li>
+</ul>
+</li>
+<li>
+<p>The following methods were removed due to being redundant:</p>
+<ul>
+<li>unsafe access methods for <code>VariantArray&lt;Shared&gt;</code> (available in <code>VariantArray&lt;Unique&gt;</code>)</li>
+<li><code>Basis::invert</code></li>
+<li><code>Basis::orthonormalize</code></li>
+<li><code>Basis::rotate</code></li>
+<li><code>Basis::tdotx</code></li>
+<li><code>Basis::tdoty</code></li>
+<li><code>Basis::tdotz</code></li>
+<li><code>Rid::operator_less</code></li>
+<li><code>StringName::operator_less</code></li>
+</ul>
+</li>
+</ul>
+<p>Various type names have been changed to improve clarity and consistency:</p>
+<table><thead><tr><th>Old Type Name</th><th>New Type Name</th></tr></thead><tbody>
+<tr><td><code>RefInstance</code></td><td><code>TInstance</code></td></tr>
+<tr><td><code>RefKind</code></td><td><code>Memory</code></td></tr>
+<tr><td><code>ThreadAccess</code></td><td><code>Ownership</code></td></tr>
+<tr><td><code>TypedArray</code></td><td><code>PoolArray</code></td></tr>
+<tr><td><code>Element</code></td><td><code>PoolElement</code></td></tr>
+<tr><td><code>SignalArgument</code></td><td><code>SignalParam</code></td></tr>
+<tr><td><code>Point2</code></td><td><code>Vector2</code></td></tr>
+<tr><td><code>Size2</code></td><td><code>Vector2</code></td></tr>
+</tbody></table>
+<p>The following methods have been renamed:</p>
+<table><thead><tr><th>Old Method</th><th>New Method</th></tr></thead><tbody>
+<tr><td><code>{String,Variant}::forget</code></td><td><code>leak</code></td></tr>
+<tr><td><code>Color::{rgb,rgba}</code></td><td><code>{from_rgb,from_rgba}</code></td></tr>
+<tr><td><code>Rid::is_valid</code></td><td><code>is_occupied</code></td></tr>
+<tr><td><code>Basis::to_scale</code></td><td><code>scale</code></td></tr>
+<tr><td><code>Basis::from_elements</code></td><td><code>from_rows</code></td></tr>
+<tr><td><code>Transform2D::from_axis_origin</code></td><td><code>from_basis_origin</code></td></tr>
+<tr><td><code>StringName::get_name</code></td><td><code>to_godot_string</code></td></tr>
+</tbody></table>
+<h3 id="changes-to-procedural-macros"><a class="header" href="#changes-to-procedural-macros">Changes to procedural macros</a></h3>
+<ul>
+<li><code>#[inherit]</code> is now optional and defaults to <code>Reference</code> instead of <code>Node</code>.</li>
+<li><code>#[property(before_set)]</code> and its siblings are replaced with <code>#[property(set)]</code> etc.; see below. </li>
+</ul>
+<h3 id="ownership-changes"><a class="header" href="#ownership-changes">Ownership Changes</a></h3>
+<ul>
+<li><code>Instance</code> and <code>TInstance</code> now use <code>Own=Shared</code> by default. Some adjustments to your assumptions should be re-evaluated as needed.</li>
+</ul>
+<h2 id="new-features"><a class="header" href="#new-features">New features</a></h2>
+<p>In addition to new functionality outlined here, it can be interesting to check the <em>Added</em> section in the changelog.</p>
+<h3 id="cargo-features"><a class="header" href="#cargo-features">Cargo features</a></h3>
+<p>While these are not breaking changes, the following may be useful to consider when migrating, particularly if you were previously using a custom solution for either of the following:</p>
+<ul>
+<li><a href="https://serde.rs/">serde</a> is now supported for <code>VariantDispatch</code> and types in the <code>core_types</code> module.</li>
+<li>Async Foundations have been completed, so you can now make use of Rust <code>async</code> runtimes with Godot more easily. We have a recipe for using <a href="../recipes/async-tokio.html">async with the tokio runtime</a>.</li>
+<li>Custom Godot builds are now supported. The advanced guide for <a href="./custom-godot.html">Custom Godot</a> has been updated accordingly.</li>
+</ul>
+<h3 id="custom-property-exports"><a class="header" href="#custom-property-exports">Custom property exports</a></h3>
+<p>In godot-rust 0.9, it was necessary to manually register properties using the class builder such as the following:</p>
+<pre><pre class="playground"><code class="language-rust">
+<span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>#[derive(NativeClass)]
+#[inherit(Reference)]
+struct Foo {
+    #[property]
+    bar: i64,
+}
+
+#[methods] 
+impl Foo {
+  fn register_properties(builder: &amp;ClassBuilder&lt;Foo&gt;) {
+    builder
+        .add_property::&lt;String&gt;(&quot;bar&quot;)
+        .with_getter(get_bar)
+        .with_setter(set_bar)
+        .with_default(0)
+        .done();
+  }
+  #[export]
+  fn set_bar(&amp;mut self, _owner: &amp;Reference, value: i64) {
+      self.bar = value;
+  }
+
+  #[export]
+  fn get_bar(&amp;mut self, _owner: &amp;Reference) -&gt; i64 {
+      self.bar
+  }
+}
+<span class="boring">}
+</span></code></pre></pre>
+<p>In 0.10, this can be automated with the <code>#[property]</code> procedural macro, such as the following:</p>
+<pre><pre class="playground"><code class="language-rust">
+<span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>#[derive(NativeClass)]
+#[inherit(Reference)]
+struct Foo {
+    #[property(name = &quot;bar&quot;, set = &quot;set_bar&quot;, get = &quot;get_bar&quot;, default = 0)]
+    bar: i64,
+}
+
+#[methods] 
+impl Foo {
+    #[export]
+    fn set_bar(&amp;mut self, _owner: &amp;Reference, value: i64) {
+        self.bar = value;
+    }
+
+    #[export]
+    fn get_bar(&amp;mut self, _owner: &amp;Reference) -&gt; i64 {
+        self.bar
+    }
+}
+<span class="boring">}
+</span></code></pre></pre>
+<h3 id="variantdispatch"><a class="header" href="#variantdispatch"><code>VariantDispatch</code></a></h3>
+<p><code>VariantDispatch</code> is an newly introduced type in godot-rust 0.10. This enum lets you treat <code>Variant</code> in a more rust-idiomatic way, e.g. by pattern-matching its contents:</p>
+<pre><pre class="playground"><code class="language-rust">
+<span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>let variant = 42.to_variant();
+
+let number_as_float = match variant.dispatch() {
+    VariantDispatch::I64(i) =&gt; i as f64,
+    VariantDispatch::F64(f) =&gt; f,
+    _ =&gt; panic!(&quot;not a number&quot;),
+};
+
+approx::assert_relative_eq!(42.0, number_as_float);
+<span class="boring">}
+</span></code></pre></pre>
+<h2 id="migrations"><a class="header" href="#migrations">Migrations</a></h2>
+<p>This section elaborates on APIs with non-trivial changes and guides you through the process of updating your code.</p>
+<h3 id="variant"><a class="header" href="#variant"><code>Variant</code></a></h3>
+<p>If you were using the <code>Variant::from_*</code> methods, those no longer exist.</p>
+<p>In 0.9.x you would need to use the specific constructor, such as the following:</p>
+<pre><pre class="playground"><code class="language-rust">
+<span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>let variant = Variant::from_i64(42);
+let variant = Variant::from_f64(42.0);
+let variant2 = Variant::from_object(object);
+<span class="boring">}
+</span></code></pre></pre>
+<p>In 0.10.x, <code>new()</code> is sufficient for any type that implements <code>ToVariant</code>, such as the following:</p>
+<pre><pre class="playground"><code class="language-rust">
+<span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>let variant = Variant::new(42);
+let variant = Variant::new(42.0);
+let variant2 = Variant::new(object);
+<span class="boring">}
+</span></code></pre></pre>
+<p>When converting from a variant to a Rust type, it previously was necessary to do the following:</p>
+<pre><pre class="playground"><code class="language-rust">
+<span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>let integer64 = i64::from_variant(&amp;variant_i64).unwrap();
+let float64 = f64::from_variant(&amp;variant_f64).unwrap();
+let object = ObjectType::from_variant(&amp;variant_object).unwrap();
+<span class="boring">}
+</span></code></pre></pre>
+<p>In 0.10.x, you can now cast your variants by using the <code>to()</code> function on <code>FromVariant</code>-enabled types, such as the following:</p>
+<pre><pre class="playground"><code class="language-rust">
+<span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>// Note: If the compiler can infer your type, the turbofish `::&lt;T&gt;` is optional
+let integer64 = variant.to::&lt;i64&gt;().unwrap();
+let float64 = variant.to::&lt;f64&gt;().unwrap();
+let object = variant.to_object::&lt;ObjectType&gt;().unwrap(); // returns Ref&lt;ObjectType&gt;
+<span class="boring">}
+</span></code></pre></pre>
+<h3 id="transforms"><a class="header" href="#transforms">Transforms</a></h3>
+<p>Previously, transforms were defined by the matrix identities such as <code>m11</code>, <code>m12</code>; now, they are referred by the vector name for consistency.</p>
+<p>For example: When creating an identity <code>Transform2D</code> in 0.9.x, you would create it using the following code:</p>
+<pre><pre class="playground"><code class="language-rust">
+<span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>let tform = Transform2D::new(1.0, 0.0, 0.0, 1.0, 1.0, 1.0);
+<span class="boring">}
+</span></code></pre></pre>
+<p>In 0.10.x you now need to create it using <code>from_basis_origin</code> and use <code>a</code>, <code>b</code>, and <code>origin</code> vectors, such as the following:</p>
+<pre><pre class="playground"><code class="language-rust">
+<span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>let tform = Transform2D::from_basis_origin(
+    Vector2::new(1.0, 0.0),
+    Vector2::new(0.0, 1.0),
+    Vector2::new(1.0, 1.0),
+);
+<span class="boring">}
+</span></code></pre></pre>
+<h3 id="vector-types"><a class="header" href="#vector-types">Vector types</a></h3>
+<p>The underlying vector library as well as the implementation have been fundamentally replaced. In 0.9.x, many of the goemetric types were thinly wrapping a separate library. This led to several wrapping classes such as <code>Point2</code>, <code>Size2</code> being removed now. In addition, other geometric types -- for example <code>Rect2</code>, <code>Quat</code>, <code>Transform</code>, <code>Plane</code> -- have all been changed, and certain convenience functions may not be available anymore, depending upon the struct.</p>
+<p>For example: <code>Rect2</code> no longer has <code>width()</code> or <code>height()</code>, but lets you directly access its <code>size.x</code> or <code>size.y</code> fields.</p>
+<h3 id="classbuilder"><a class="header" href="#classbuilder"><code>ClassBuilder</code></a></h3>
+<p>The <a href="https://docs.rs/gdnative/latest/gdnative/prelude/struct.ClassBuilder.html"><code>ClassBuilder</code></a> type has been extended to use the builder pattern when registering signals and properties.</p>
+<p>In 0.9, registering a signal would look like the following:</p>
+<pre><pre class="playground"><code class="language-rust">
+<span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>fn register_signals(builder: &amp;ClassBuilder&lt;Self&gt;) {
+  builder.add_signal(
+    Signal {
+      name: &quot;signal1&quot;,
+      args: &amp;[],
+    }
+  );
+  builder.add_signal(
+    Signal {
+      name: &quot;signal2&quot;,
+      args: &amp;[SignalArgument {
+          name: &quot;myArg&quot;,
+          default: 42.0.to_variant(),
+          export_info: ExportInfo::new(VariantType::F64),
+          usage: PropertyUsage::DEFAULT,
+      }],
+  });
+}
+<span class="boring">}
+</span></code></pre></pre>
+<p>In 0.10, this changes to:</p>
+<pre><pre class="playground"><code class="language-rust">
+<span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>fn register_signals(builder: &amp;ClassBuilder&lt;Self&gt;) {
+  builder.signal(&quot;signal1&quot;).done();
+  
+  builder.signal(&quot;signal2&quot;)
+    .with_param_custom(
+      SignalParam {
+          name: &quot;myArg&quot;,
+          default: 42.0.to_variant(),
+          export_info: ExportInfo::new(VariantType::F64),
+          usage: PropertyUsage::DEFAULT,
+      },
+    ).done();
+
+  // If you only need a default value, you can also register a signal like this:
+  builder.signal(&quot;signal3&quot;)
+    .with_param_default(&quot;myArg&quot;, 42.0.to_variant())
+    .done()
+}
+<span class="boring">}
+</span></code></pre></pre>
+<h3 id="server-singletons"><a class="header" href="#server-singletons">Server singletons</a></h3>
+<p>Godot's server singletons have received a safety overhaul. As a result, all functions that take one or more parameters of type <code>Rid</code> are now marked <code>unsafe</code> and thus require being used inside an <code>unsafe</code> block or <code>unsafe</code> function.</p>
+<p>In 0.9.x, creating a canvas_item and attaching it to a parent would be done as follows:</p>
+<pre><pre class="playground"><code class="language-rust">
+<span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>let vs = unsafe { VisualServer::godot_singleton() };
+let canvas = vs.canvas_create();
+let ci = vs.canvas_item_create();
+vs.canvas_item_set_parent(ci, canvas);
+<span class="boring">}
+</span></code></pre></pre>
+<p>In 0.10.x, you now must wrap the <code>canvas_item_set_parent</code> function in an <code>unsafe</code> block, such as follows:</p>
+<pre><pre class="playground"><code class="language-rust">
+<span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>let vs = unsafe { VisualServer::godot_singleton() };
+let canvas = vs.canvas_create();
+let ci = vs.canvas_item_create();
+unsafe {
+  vs.canvas_item_set_parent(ci, canvas);
+}
+<span class="boring">}
+</span></code></pre></pre>
+<h4 id="additional-ub-notes"><a class="header" href="#additional-ub-notes">Additional UB notes</a></h4>
+<p>The reason for this change was due to <a href="https://github.com/godot-rust/godot-rust/issues/836">issue #836</a> being raised. Developers were able to demonstrate that you could easily cause undefined behavior when using any function that accepted <code>Rid</code> as a parameter, such as the following:</p>
+<pre><pre class="playground"><code class="language-rust">
+<span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>let vs = unsafe { VisualServer::godot_singleton() };
+let canvas = vs.canvas_create();
+let vp = vs.viewport_create();
+vs.canvas_item_set_parent(vp, canvas); // crashes immediately
+vs.canvas_item_set_parent(canvas, canvas); // crashes at shutdown
+<span class="boring">}
+</span></code></pre></pre>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../advanced-guides/migrating-0-8.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../advanced-guides/migrating-0-8.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+        <script type="text/javascript">
+            window.playground_copyable = true;
+        </script>
+        <script src="../elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../mark.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../searcher.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../clipboard.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../highlight.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../book.js" type="text/javascript" charset="utf-8"></script>
+
+        <!-- Custom JS scripts -->
+    </body>
+</html>
