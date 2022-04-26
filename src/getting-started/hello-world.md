@@ -182,7 +182,7 @@ Now, re-compile the crate using `cargo build` and copy the resulting binary to t
 
 Congratulations! You have just created your first Rust GDNative library. You have learned how to expose scripts and methods to Godot using the bindings, and how to use them in Godot. A lot of the details are still unexplained, but you're off to a good start!
 
-You can find the full code for this example in the main repo: [https://github.com/godot-rust/godot-rust/tree/master/examples/hello_world](https://github.com/godot-rust/godot-rust/tree/master/examples/hello_world).
+You can find the full code for this example in the main repo: [https://github.com/godot-rust/godot-rust/tree/master/examples/hello-world](https://github.com/godot-rust/godot-rust/tree/master/examples/hello-world).
 
 
 ## Work-in-progress
