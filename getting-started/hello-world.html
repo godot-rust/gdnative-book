@@ -136,7 +136,7 @@
                     <main>
                         <h1 id="hello-world"><a class="header" href="#hello-world">Hello, world!</a></h1>
 <p>Follow this tutorial to learn how to create an empty project that simply prints &quot;Hello, world!&quot; to the Godot console on ready. The code might not compile or work as intended while it's in-progress, but at the end of this section, the code will be compiling and working fine.</p>
-<p>The full, finished code is available in the main repo: <a href="https://github.com/godot-rust/godot-rust/tree/master/examples/hello_world">https://github.com/godot-rust/godot-rust/tree/master/examples/hello_world</a>.</p>
+<p>The full, finished code is available in the main repo: <a href="https://github.com/godot-rust/godot-rust/tree/master/examples/hello-world">https://github.com/godot-rust/godot-rust/tree/master/examples/hello-world</a>.</p>
 <h2 id="creating-the-project"><a class="header" href="#creating-the-project">Creating the project</a></h2>
 <p>First, create an empty project using the Godot GUI. Then, create an empty crate <em>beside</em> the project folder using <code>cargo</code>:</p>
 <pre><code class="language-sh">cargo init --lib my-gdnative-lib
@@ -286,7 +286,7 @@ impl HelloWorld {
 <p>Now, re-compile the crate using <code>cargo build</code> and copy the resulting binary to the Godot project. Launch the project from the editor, and you should see <code>Hello, world!</code> in the Godot console!</p>
 <h2 id="wrapping-it-up"><a class="header" href="#wrapping-it-up">Wrapping it up</a></h2>
 <p>Congratulations! You have just created your first Rust GDNative library. You have learned how to expose scripts and methods to Godot using the bindings, and how to use them in Godot. A lot of the details are still unexplained, but you're off to a good start!</p>
-<p>You can find the full code for this example in the main repo: <a href="https://github.com/godot-rust/godot-rust/tree/master/examples/hello_world">https://github.com/godot-rust/godot-rust/tree/master/examples/hello_world</a>.</p>
+<p>You can find the full code for this example in the main repo: <a href="https://github.com/godot-rust/godot-rust/tree/master/examples/hello-world">https://github.com/godot-rust/godot-rust/tree/master/examples/hello-world</a>.</p>
 <h2 id="work-in-progress"><a class="header" href="#work-in-progress">Work-in-progress</a></h2>
 <p><strong>The Getting Started tutorial is a work-in-progress, and unfortunately it ends here for now!</strong> To learn more about the API, you'll have to dive into the <a href="https://docs.rs/gdnative/0.9">documentation on docs.rs</a>, and the <a href="https://github.com/godot-rust/godot-rust/tree/master/examples/">other examples in the main repo</a>. If you have any questions using the bindings, ask away in the <code>#gdnative_dev</code> channel on the <a href="https://godotengine.org/community">Godot Engine community Discord server</a>!</p>
 

@@ -159,7 +159,7 @@
 <h2 id="license"><a class="header" href="#license">License</a></h2>
 <p>The <code>godot-rust</code> bindings, and this user guide, are licensed under the <a href="LICENSE.html">MIT license</a>.</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="getting-started"><a class="header" href="#getting-started">Getting Started</a></h1>
-<p>The getting started tutorial will introduce you to basic godot-rust concepts. At the end of the tutorial, you'll have a working copy of the <a href="https://github.com/godot-rust/godot-rust/tree/master/examples/dodge_the_creeps">dodge-the-creeps example</a> from the main repo.</p>
+<p>The getting started tutorial will introduce you to basic godot-rust concepts. At the end of the tutorial, you'll have a working copy of the <a href="https://github.com/godot-rust/godot-rust/tree/master/examples/dodge-the-creeps">dodge-the-creeps example</a> from the main repo.</p>
 <p>This tutorial assumes some experience with Godot's GUI and GDScript. It assumes a basic understanding of Rust itself.</p>
 <h2 id="work-in-progress"><a class="header" href="#work-in-progress">Work-in-progress</a></h2>
 <p><strong>The Getting Started tutorial is a work-in-progress, and currently it only covers up to the hello-world example!</strong> To learn more about the API after the tutorial, you'll have to dive into the <a href="https://docs.rs/gdnative/0.9">documentation on docs.rs</a>, and the <a href="https://github.com/godot-rust/godot-rust/tree/master/examples/">other examples in the main repo</a>. If you have any questions using the bindings, ask away in the <code>#gdnative_dev</code> channel on the <a href="https://godotengine.org/community">Godot Engine community Discord server</a>!</p>
@@ -196,7 +196,7 @@ clang -v
 <p>The template is not maintained by us, and might not work in all setups where the base library would be compatible. If you encounter any issues with the template, please report them at its <a href="https://github.com/macalimlim/godot-rust-template/issues/">issue tracker</a>.</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="hello-world"><a class="header" href="#hello-world">Hello, world!</a></h1>
 <p>Follow this tutorial to learn how to create an empty project that simply prints &quot;Hello, world!&quot; to the Godot console on ready. The code might not compile or work as intended while it's in-progress, but at the end of this section, the code will be compiling and working fine.</p>
-<p>The full, finished code is available in the main repo: <a href="https://github.com/godot-rust/godot-rust/tree/master/examples/hello_world">https://github.com/godot-rust/godot-rust/tree/master/examples/hello_world</a>.</p>
+<p>The full, finished code is available in the main repo: <a href="https://github.com/godot-rust/godot-rust/tree/master/examples/hello-world">https://github.com/godot-rust/godot-rust/tree/master/examples/hello-world</a>.</p>
 <h2 id="creating-the-project"><a class="header" href="#creating-the-project">Creating the project</a></h2>
 <p>First, create an empty project using the Godot GUI. Then, create an empty crate <em>beside</em> the project folder using <code>cargo</code>:</p>
 <pre><code class="language-sh">cargo init --lib my-gdnative-lib
@@ -346,7 +346,7 @@ impl HelloWorld {
 <p>Now, re-compile the crate using <code>cargo build</code> and copy the resulting binary to the Godot project. Launch the project from the editor, and you should see <code>Hello, world!</code> in the Godot console!</p>
 <h2 id="wrapping-it-up"><a class="header" href="#wrapping-it-up">Wrapping it up</a></h2>
 <p>Congratulations! You have just created your first Rust GDNative library. You have learned how to expose scripts and methods to Godot using the bindings, and how to use them in Godot. A lot of the details are still unexplained, but you're off to a good start!</p>
-<p>You can find the full code for this example in the main repo: <a href="https://github.com/godot-rust/godot-rust/tree/master/examples/hello_world">https://github.com/godot-rust/godot-rust/tree/master/examples/hello_world</a>.</p>
+<p>You can find the full code for this example in the main repo: <a href="https://github.com/godot-rust/godot-rust/tree/master/examples/hello-world">https://github.com/godot-rust/godot-rust/tree/master/examples/hello-world</a>.</p>
 <h2 id="work-in-progress-1"><a class="header" href="#work-in-progress-1">Work-in-progress</a></h2>
 <p><strong>The Getting Started tutorial is a work-in-progress, and unfortunately it ends here for now!</strong> To learn more about the API, you'll have to dive into the <a href="https://docs.rs/gdnative/0.9">documentation on docs.rs</a>, and the <a href="https://github.com/godot-rust/godot-rust/tree/master/examples/">other examples in the main repo</a>. If you have any questions using the bindings, ask away in the <code>#gdnative_dev</code> channel on the <a href="https://godotengine.org/community">Godot Engine community Discord server</a>!</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="an-overview-of-gdnative"><a class="header" href="#an-overview-of-gdnative">An Overview of GDNative</a></h1>
@@ -1861,7 +1861,7 @@ fn init(handle: InitHandle) {
 }
 <span class="boring">}
 </span></code></pre></pre>
-<p>Please also see the <a href="https://github.com/godot-rust/godot-rust/tree/master/examples/native_plugin">native_plugin</a> that is the Rust version of the <a href="https://docs.godotengine.org/en/stable/tutorials/plugins/editor/index.html">editor plugin</a> tutorial.</p>
+<p>Please also see the <a href="https://github.com/godot-rust/godot-rust/tree/master/examples/native-plugin">native-plugin</a> that is the Rust version of the <a href="https://docs.godotengine.org/en/stable/tutorials/plugins/editor/index.html">editor plugin</a> tutorial.</p>
 <p><strong>Important</strong></p>
 <ul>
 <li>Editor plugins do not support the hot reload feature. If making use of tool classes, your <code>GDNativeLibrary</code> must have <code>reloadable=false</code> or the plugins will crash when the editor loses focus.</li>
@@ -2440,7 +2440,7 @@ func _ready() -&gt; void:
 <p><strong>Disclaimer</strong>: <em>Currently the following steps are tested and confirmed to work on Linux only.</em></p>
 <p><a href="https://nixos.org/">Nix</a> is a package manager that employs a pure functional approach to dependency management. Nix packages are built and ran in isolated environments. It makes them more portable, but also harder to author. This tutorial will walk you through the process of setting up a package for Godot, GDNative and Rust with Nix.</p>
 <p>This tutorial assumes that Nix is <a href="https://nixos.org/download.html#nix-quick-install">installed</a> in your system.</p>
-<p>To begin with, we are going to create a new project using the <a href="recipes/../getting-started/hello-world.html">Hello, world!</a> guide in Getting Started. Note that the full source code for the project is available at https://github.com/godot-rust/godot-rust/tree/master/examples/hello_world. Because we aren't using the default build system explained in <a href="recipes/../getting-started/setup.html">setup</a>, you should only be worried about the content of the project rather than the dependencies.</p>
+<p>To begin with, we are going to create a new project using the <a href="recipes/../getting-started/hello-world.html">Hello, world!</a> guide in Getting Started. Note that the full source code for the project is available at https://github.com/godot-rust/godot-rust/tree/master/examples/hello-world. Because we aren't using the default build system explained in <a href="recipes/../getting-started/setup.html">setup</a>, you should only be worried about the content of the project rather than the dependencies.</p>
 <h2 id="specifying-dependencies"><a class="header" href="#specifying-dependencies">Specifying dependencies</a></h2>
 <p>Now to the Nix part of the tutorial. In the root directory of the project (where <code>project.godot</code> is located), create a new file called <code>shell.nix</code>. Later on, this file will be evaluated by Nix to define the dependencies of your project. Below are the default content of <code>shell.nix</code> to run the sample project. We will also explain it in brief about the meaning each line of code.</p>
 <pre><code class="language-nix">let
