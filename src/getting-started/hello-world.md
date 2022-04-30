@@ -2,7 +2,7 @@
 
 Follow this tutorial to learn how to create an empty project that simply prints "Hello, world!" to the Godot console on ready. The code might not compile or work as intended while it's in-progress, but at the end of this section, the code will be compiling and working fine.
 
-The full, finished code is available in the main repo: [https://github.com/godot-rust/godot-rust/tree/master/examples/hello_world](https://github.com/godot-rust/godot-rust/tree/master/examples/hello_world).
+The full, finished code is available in the main repo: [https://github.com/godot-rust/godot-rust/tree/master/examples/hello-world](https://github.com/godot-rust/godot-rust/tree/master/examples/hello-world).
 
 
 ## Creating the project
