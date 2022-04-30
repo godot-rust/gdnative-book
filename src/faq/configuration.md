@@ -95,7 +95,7 @@ fn init(handle: InitHandle) {
 }
 ```
 
-Please also see the [native_plugin](https://github.com/godot-rust/godot-rust/tree/master/examples/native-plugin) that is the Rust version of the [editor plugin](https://docs.godotengine.org/en/stable/tutorials/plugins/editor/index.html) tutorial.
+Please also see the [native-plugin](https://github.com/godot-rust/godot-rust/tree/master/examples/native-plugin) that is the Rust version of the [editor plugin](https://docs.godotengine.org/en/stable/tutorials/plugins/editor/index.html) tutorial.
 
 **Important**
 
