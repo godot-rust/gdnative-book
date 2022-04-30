@@ -1,6 +1,6 @@
 # Getting Started
 
-The getting started tutorial will introduce you to basic godot-rust concepts. At the end of the tutorial, you'll have a working copy of the [dodge-the-creeps example](https://github.com/godot-rust/godot-rust/tree/master/examples/dodge_the_creeps) from the main repo.
+The getting started tutorial will introduce you to basic godot-rust concepts. At the end of the tutorial, you'll have a working copy of the [dodge-the-creeps example](https://github.com/godot-rust/godot-rust/tree/master/examples/dodge-the-creeps) from the main repo.
 
 This tutorial assumes some experience with Godot's GUI and GDScript. It assumes a basic understanding of Rust itself.
 
