@@ -93,7 +93,7 @@ For cases not covered by the `#[property]` attribute, it may be necessary to man
 
 This is often the case where custom hint behavior is desired for primitive types, such as an Integer value including an `IntEnum` hint.
 
-To do so, you can use the [`ClassBuilder`](https://docs.rs/gdnative/0.9.3/gdnative/prelude/struct.ClassBuilder.html) -- such as in the following examples -- to manually register each property and customize how they interface in the editor.
+To do so, you can use the [`ClassBuilder`](https://docs.rs/gdnative/latest/gdnative/prelude/struct.ClassBuilder.html) -- such as in the following examples -- to manually register each property and customize how they interface in the editor.
 
 ```rust
 #[derive(NativeClass)]

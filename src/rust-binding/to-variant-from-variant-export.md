@@ -31,7 +31,7 @@ For more information about how you can customize the behavior of the dervive mac
 
 ## Export Trait
 
-The Godot editor retrieves property information from [Object::get_property_list](https://docs.godotengine.org/en/stable/classes/class_object.html#id2). To populate this data, `godot-rust` requires that the [`Export`](https://docs.rs/gdnative/0.9.3/gdnative/nativescript/trait.Export.html) trait be implemented for each type Rust struct.
+The Godot editor retrieves property information from [Object::get_property_list](https://docs.godotengine.org/en/stable/classes/class_object.html#id2). To populate this data, `godot-rust` requires that the [`Export`](https://docs.rs/gdnative/latest/gdnative/nativescript/trait.Export.html) trait be implemented for each type Rust struct.
 
 There are no derive macros that can be used for `Export` but many of the primitive types have it implemented by default.
 
@@ -47,7 +47,7 @@ struct Foo {
 }
 
 impl Export for Foo {
-    // This type should normally be one of the types defined in [gdnative::nativescript::hint](https://docs.rs/gdnative/0.9.3/gdnative/nativescript/init/property/hint/index.html).
+    // This type should normally be one of the types defined in [gdnative::nativescript::hint](https://docs.rs/gdnative/latest/gdnative/nativescript/init/property/hint/index.html).
     // Or it can be any custom type for differentiating the hint types.
     // In this case it is unused, so it is left as ()
     type Hint = ();
