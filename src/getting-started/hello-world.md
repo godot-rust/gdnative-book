@@ -36,7 +36,7 @@ Once the project is created, open `Cargo.toml`, change the crate type to `cdylib
 crate-type = ["cdylib"]
 
 [dependencies]
-gdnative = "0.9"
+gdnative = "0.10"
 ```
 
 > ### Organization of Rust code
