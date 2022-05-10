@@ -205,7 +205,7 @@ impl StaticUtil {
 }
 ```
 
-[`Aether`](https://docs.rs/gdnative/latest/gdnative/prelude/struct.Aether.html) is a special user-data wrapper intended for zero-sized types, that does not perform any allocation or synchronization at runtime.
+[`Aether`](https://docs.rs/gdnative/latest/gdnative/export/user_data/struct.Aether.html) is a special user-data wrapper intended for zero-sized types, that does not perform any allocation or synchronization at runtime.
 
 The type needs to be instantiated somewhere on GDScript level.
 Good places for instantiation are for instance:
