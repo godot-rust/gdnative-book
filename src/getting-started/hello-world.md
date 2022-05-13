@@ -36,7 +36,7 @@ Once the project is created, open `Cargo.toml`, change the crate type to `cdylib
 crate-type = ["cdylib"]
 
 [dependencies]
-gdnative = "0.9"
+gdnative = "0.10"
 ```
 
 > ### Organization of Rust code
@@ -187,4 +187,4 @@ You can find the full code for this example in the main repo: [https://github.co
 
 ## Work-in-progress
 
-**The Getting Started tutorial is a work-in-progress, and unfortunately it ends here for now!** To learn more about the API, you'll have to dive into the [documentation on docs.rs](https://docs.rs/gdnative/0.9), and the [other examples in the main repo]( https://github.com/godot-rust/godot-rust/tree/master/examples/). If you have any questions using the bindings, ask away in the `#gdnative_dev` channel on the [Godot Engine community Discord server](https://godotengine.org/community)!
+**The Getting Started tutorial is a work-in-progress, and unfortunately it ends here for now!** To learn more about the API, you'll have to dive into the [documentation on docs.rs](https://docs.rs/gdnative/latest), and the [other examples in the main repo]( https://github.com/godot-rust/godot-rust/tree/master/examples/). If you have any questions using the bindings, ask away in the `#gdnative_dev` channel on the [Godot Engine community Discord server](https://godotengine.org/community)!
