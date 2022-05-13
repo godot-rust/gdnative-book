@@ -162,7 +162,7 @@
 <p>The getting started tutorial will introduce you to basic godot-rust concepts. At the end of the tutorial, you'll have a working copy of the <a href="https://github.com/godot-rust/godot-rust/tree/master/examples/dodge-the-creeps">dodge-the-creeps example</a> from the main repo.</p>
 <p>This tutorial assumes some experience with Godot's GUI and GDScript. It assumes a basic understanding of Rust itself.</p>
 <h2 id="work-in-progress"><a class="header" href="#work-in-progress">Work-in-progress</a></h2>
-<p><strong>The Getting Started tutorial is a work-in-progress, and currently it only covers up to the hello-world example!</strong> To learn more about the API after the tutorial, you'll have to dive into the <a href="https://docs.rs/gdnative/0.9">documentation on docs.rs</a>, and the <a href="https://github.com/godot-rust/godot-rust/tree/master/examples/">other examples in the main repo</a>. If you have any questions using the bindings, ask away in the <code>#gdnative_dev</code> channel on the <a href="https://godotengine.org/community">Godot Engine community Discord server</a>!</p>
+<p><strong>The Getting Started tutorial is a work-in-progress, and currently it only covers up to the hello-world example!</strong> To learn more about the API after the tutorial, you'll have to dive into the <a href="https://docs.rs/gdnative/latest">documentation on docs.rs</a>, and the <a href="https://github.com/godot-rust/godot-rust/tree/master/examples/">other examples in the main repo</a>. If you have any questions using the bindings, ask away in the <code>#gdnative_dev</code> channel on the <a href="https://godotengine.org/community">Godot Engine community Discord server</a>!</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="setup"><a class="header" href="#setup">Setup</a></h1>
 <p>Before we can start creating a hello-world project using godot-rust, we'll need to install the necessary software.</p>
 <h2 id="godot-engine"><a class="header" href="#godot-engine">Godot Engine</a></h2>
@@ -218,7 +218,7 @@ clang -v
 crate-type = [&quot;cdylib&quot;]
 
 [dependencies]
-gdnative = &quot;0.9&quot;
+gdnative = &quot;0.10&quot;
 </code></pre>
 <blockquote>
 <h3 id="organization-of-rust-code"><a class="header" href="#organization-of-rust-code">Organization of Rust code</a></h3>
@@ -348,7 +348,7 @@ impl HelloWorld {
 <p>Congratulations! You have just created your first Rust GDNative library. You have learned how to expose scripts and methods to Godot using the bindings, and how to use them in Godot. A lot of the details are still unexplained, but you're off to a good start!</p>
 <p>You can find the full code for this example in the main repo: <a href="https://github.com/godot-rust/godot-rust/tree/master/examples/hello-world">https://github.com/godot-rust/godot-rust/tree/master/examples/hello-world</a>.</p>
 <h2 id="work-in-progress-1"><a class="header" href="#work-in-progress-1">Work-in-progress</a></h2>
-<p><strong>The Getting Started tutorial is a work-in-progress, and unfortunately it ends here for now!</strong> To learn more about the API, you'll have to dive into the <a href="https://docs.rs/gdnative/0.9">documentation on docs.rs</a>, and the <a href="https://github.com/godot-rust/godot-rust/tree/master/examples/">other examples in the main repo</a>. If you have any questions using the bindings, ask away in the <code>#gdnative_dev</code> channel on the <a href="https://godotengine.org/community">Godot Engine community Discord server</a>!</p>
+<p><strong>The Getting Started tutorial is a work-in-progress, and unfortunately it ends here for now!</strong> To learn more about the API, you'll have to dive into the <a href="https://docs.rs/gdnative/latest">documentation on docs.rs</a>, and the <a href="https://github.com/godot-rust/godot-rust/tree/master/examples/">other examples in the main repo</a>. If you have any questions using the bindings, ask away in the <code>#gdnative_dev</code> channel on the <a href="https://godotengine.org/community">Godot Engine community Discord server</a>!</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="an-overview-of-gdnative"><a class="header" href="#an-overview-of-gdnative">An Overview of GDNative</a></h1>
 <p>GDNative is the interface between the Godot engine and bindings in native languages, such as C, C++ or Rust.</p>
 <p>This chapter gives a broad overview of basic GDNative concepts and godot-rust's approach to implement them in Rust. It is not a usage guide for exposing your Rust code to Godot; see chapter <a href="rust-binding.html">Binding to Rust code</a> for concrete examples.</p>
@@ -391,7 +391,7 @@ Data set that is loaded from disk and cached in memory, for example 3D meshes, m
 <h2 id="variant"><a class="header" href="#variant">Variant</a></h2>
 <p><code>Variant</code> is a type that can hold an instance of <em>any</em> type in Godot. This includes all classes (of type <code>Object</code>) as well as all built-in types such as <code>int</code>, <code>String</code>, <code>Vector2</code> etc.</p>
 <p>Since GDScript is a dynamic language, you often deal with variants implicitly. Variables which are not type-annotated can have values of multiple types throughout their lifetime. In static languages like Rust, every value must have a defined type, thus untyped values in GDScript correspond to <code>Variant</code> in Rust. Godot APIs which accept any type as parameter are declared as <code>Variant</code> in the GDNative bindings (and thus godot-rust library). Sometimes, godot-rust also provides transparent mapping from/to concrete types behind the scenes.</p>
-<p>Variants also have a second role as a serialization format between Godot and Rust. It is possible to extend this beyond the built-in Godot types. To make your own types convertible from and to variants, implement the traits <a href="https://docs.rs/gdnative/latest/gdnative/core_types/trait.FromVariant.html"><code>FromVariant</code></a> and <a href="https://docs.rs/gdnative/latest/gdnative/core_types/trait.ToVariant.html"><code>ToVariant</code></a>. Types that can only be safely converted to variants by giving up ownership can use <a href="https://docs.rs/gdnative/0.9.3/gdnative/core_types/trait.OwnedToVariant.html">OwnedToVariant</a>, which is similar to the Rust <code>Into</code> trait.</p>
+<p>Variants also have a second role as a serialization format between Godot and Rust. It is possible to extend this beyond the built-in Godot types. To make your own types convertible from and to variants, implement the traits <a href="https://docs.rs/gdnative/latest/gdnative/core_types/trait.FromVariant.html"><code>FromVariant</code></a> and <a href="https://docs.rs/gdnative/latest/gdnative/core_types/trait.ToVariant.html"><code>ToVariant</code></a>. Types that can only be safely converted to variants by giving up ownership can use <a href="https://docs.rs/gdnative/latest/gdnative/core_types/trait.OwnedToVariant.html">OwnedToVariant</a>, which is similar to the Rust <code>Into</code> trait.</p>
 <p><em>See <code>Variant</code> in
 <a href="https://docs.rs/gdnative/latest/gdnative/core_types/struct.Variant.html">godot-rust docs</a>,
 <a href="https://docs.godotengine.org/en/latest/classes/class_variant.html">Godot docs</a></em></p>
@@ -907,7 +907,7 @@ impl GodotApi {
 <h2 id="manual-property-registration"><a class="header" href="#manual-property-registration">Manual property registration</a></h2>
 <p>For cases not covered by the <code>#[property]</code> attribute, it may be necessary to manually register the properties instead.</p>
 <p>This is often the case where custom hint behavior is desired for primitive types, such as an Integer value including an <code>IntEnum</code> hint.</p>
-<p>To do so, you can use the <a href="https://docs.rs/gdnative/0.9.3/gdnative/prelude/struct.ClassBuilder.html"><code>ClassBuilder</code></a> -- such as in the following examples -- to manually register each property and customize how they interface in the editor.</p>
+<p>To do so, you can use the <a href="https://docs.rs/gdnative/latest/gdnative/prelude/struct.ClassBuilder.html"><code>ClassBuilder</code></a> -- such as in the following examples -- to manually register each property and customize how they interface in the editor.</p>
 <pre><pre class="playground"><code class="language-rust">
 <span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
@@ -996,7 +996,7 @@ struct Foo {
 <li><a href="https://docs.rs/gdnative/latest/gdnative/core_types/trait.FromVariant.html">FromVariant</a></li>
 </ul>
 <h2 id="export-trait"><a class="header" href="#export-trait">Export Trait</a></h2>
-<p>The Godot editor retrieves property information from <a href="https://docs.godotengine.org/en/stable/classes/class_object.html#id2">Object::get_property_list</a>. To populate this data, <code>godot-rust</code> requires that the <a href="https://docs.rs/gdnative/0.9.3/gdnative/nativescript/trait.Export.html"><code>Export</code></a> trait be implemented for each type Rust struct.</p>
+<p>The Godot editor retrieves property information from <a href="https://docs.godotengine.org/en/stable/classes/class_object.html#id2">Object::get_property_list</a>. To populate this data, <code>godot-rust</code> requires that the <a href="https://docs.rs/gdnative/latest/gdnative/nativescript/trait.Export.html"><code>Export</code></a> trait be implemented for each type Rust struct.</p>
 <p>There are no derive macros that can be used for <code>Export</code> but many of the primitive types have it implemented by default.</p>
 <p>To implement <code>Export</code> for the previous Rust data type, you can do so as in the following example:</p>
 <pre><pre class="playground"><code class="language-rust">
@@ -1011,7 +1011,7 @@ struct Foo {
 }
 
 impl Export for Foo {
-    // This type should normally be one of the types defined in [gdnative::nativescript::hint](https://docs.rs/gdnative/0.9.3/gdnative/nativescript/init/property/hint/index.html).
+    // This type should normally be one of the types defined in [gdnative::export::hint](https://docs.rs/gdnative/latest/gdnative/export/hint/index.html).
     // Or it can be any custom type for differentiating the hint types.
     // In this case it is unused, so it is left as ()
     type Hint = ();
@@ -1523,7 +1523,7 @@ impl StaticUtil {
 }
 <span class="boring">}
 </span></code></pre></pre>
-<p><a href="https://docs.rs/gdnative/0.9/gdnative/prelude/struct.Aether.html"><code>Aether</code></a> is a special user-data wrapper intended for zero-sized types, that does not perform any allocation or synchronization at runtime.</p>
+<p><a href="https://docs.rs/gdnative/latest/gdnative/export/user_data/struct.Aether.html"><code>Aether</code></a> is a special user-data wrapper intended for zero-sized types, that does not perform any allocation or synchronization at runtime.</p>
 <p>The type needs to be instantiated somewhere on GDScript level.
 Good places for instantiation are for instance:</p>
 <ul>
