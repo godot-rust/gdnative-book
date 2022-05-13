@@ -47,7 +47,7 @@ struct Foo {
 }
 
 impl Export for Foo {
-    // This type should normally be one of the types defined in [gdnative::nativescript::hint](https://docs.rs/gdnative/latest/gdnative/export/hint/index.html).
+    // This type should normally be one of the types defined in [gdnative::export::hint](https://docs.rs/gdnative/latest/gdnative/export/hint/index.html).
     // Or it can be any custom type for differentiating the hint types.
     // In this case it is unused, so it is left as ()
     type Hint = ();
