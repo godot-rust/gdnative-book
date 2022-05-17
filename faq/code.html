@@ -137,21 +137,57 @@
                         <h1 id="faq-common-code-questions"><a class="header" href="#faq-common-code-questions">FAQ: Common code questions</a></h1>
 <h2 id="table-of-contents"><a class="header" href="#table-of-contents">Table of contents</a></h2>
 <ul>
-<li><a href="#what-is-the-borrowfailed-error-and-why-do-i-keep-getting-it">What is the <code>BorrowFailed</code> error and why do I keep getting it?</a></li>
-<li><a href="#why-are-methods-on-all-godot-api-classes-using-self-even-when-they-should-cause-mutations">Why are methods on all Godot API classes using <code>&amp;self</code> even when they should cause mutations?</a></li>
+<li><a href="#how-do-i-store-a-reference-of-node">How do I store a reference of <code>Node</code>?</a></li>
+<li><a href="#borrow-failed-a-mut-reference-was-requested">Borrow failed; a &amp;mut reference was requested</a></li>
+<li><a href="#why-do-mutating-godot-methods-take-self-and-not-mut-self">Why do mutating Godot methods take <code>&amp;self</code> and not <code>&amp;mut self</code>?</a></li>
 <li><a href="#why-is-there-so-much-unsafe-in-godot-rust">Why is there so much <code>unsafe</code> in godot-rust?</a></li>
-<li><a href="#as-a-native-script-type-needs-to-implement-fn-newowner-node---self-is-it-possible-to-pass-additional-arguments-to-new">As a native script type needs to implement <code>fn new(owner: &amp;Node) -&gt; Self</code>, is it possible to pass additional arguments to <code>new</code>?</a></li>
-<li><a href="#how-can-i-implement-static-methods-in-gdnative">How can I implement static methods in GDNative?</a></li>
-<li><a href="#how-do-i-convert-from-a-variant-or-other-godot-type-to-the-underlying-rust-type">How do I convert from a <code>Variant</code> or other Godot Type to the underlying Rust type?</a></li>
-<li><a href="#is-it-possible-to-set-subproperties-of-a-godot-type-such-as-a-material">Is it possible to set subproperties of a Godot type, such as a Material?</a></li>
-<li><a href="#what-is-the-godot-rust-equivalent-of-preload">What is the godot-rust equivalent of <code>preload</code>?</a></li>
-<li><a href="#how-do-i-keep-a-reference-of-node">How do I keep a reference of <code>Node</code>?</a></li>
-<li><a href="#how-do-i-implement-function-arguments-that-accept-any-godot-subclass-runtime-polymorphism">How do I implement function arguments that accept any Godot subclass (runtime polymorphism)?</a></li>
-<li><a href="#what-is-the-rust-equivalent-to-onready-var-in-gdscript">What is the Rust equivalent to <code>onready var</code> in GDScript</a></li>
+<li><a href="#can-the-new-constructor-have-additional-parameters">Can the <code>new</code> constructor have additional parameters?</a></li>
+<li><a href="#can-i-implement-static-methods-in-gdnative">Can I implement static methods in GDNative?</a></li>
+<li><a href="#how-do-i-convert-from-a-variant-to-the-underlying-rust-type">How do I convert from a <code>Variant</code> to the underlying Rust type?</a></li>
+<li><a href="#is-it-possible-to-set-subproperties-of-a-godot-type-such-as-a-material">Is it possible to set subproperties of a Godot type, such as a <code>Material</code>?</a></li>
+<li><a href="#what-is-the-rust-equivalent-of-preload">What is the Rust equivalent of <code>preload</code>?</a></li>
+<li><a href="#how-can-function-parameters-accept-godot-subclasses-polymorphism">How can function parameters accept Godot subclasses (polymorphism)?</a></li>
+<li><a href="#what-is-the-rust-equivalent-of-onready-var">What is the Rust equivalent of <code>onready var</code>?</a></li>
 <li><a href="#what-types-are-supported-for-passing-through-the-gdnative-api">What types are supported for passing through the GDNative API?</a></li>
-<li><a href="#how-can-i-profile-my-code-to-determine-the-performance">How can I profile my code to determine the performance?</a></li>
+<li><a href="#how-can-i-profile-my-code-to-measure-performance">How can I profile my code to measure performance?</a></li>
 </ul>
-<h2 id="what-is-the-borrowfailed-error-and-why-do-i-keep-getting-it"><a class="header" href="#what-is-the-borrowfailed-error-and-why-do-i-keep-getting-it">What is the <code>BorrowFailed</code> error and why do I keep getting it?</a></h2>
+<h2 id="how-do-i-store-a-reference-of-node"><a class="header" href="#how-do-i-store-a-reference-of-node">How do I store a reference of <code>Node</code>?</a></h2>
+<p>The idiomatic way to maintain a reference to a node in the SceneTree from Rust is to use <code>Option&lt;Ref&lt;T&gt;&gt;</code>.</p>
+<p>For example, the following GDScript code:</p>
+<pre><code class="language-gdscript">extends Node
+class_name MyClass
+var node
+
+func _ready():
+  node = Node.new()
+  self.add_child(node, false)
+
+</code></pre>
+<p>could be translated to this Rust snippet:</p>
+<pre><pre class="playground"><code class="language-rust">
+<span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>#[derive(NativeClass)]
+#[inherit(Node)]
+#[no_constructor]
+struct MyNode {
+    node_ref: Option&lt;Ref&lt;Node&gt;&gt;
+}
+
+#[methods]
+impl MyNode {
+    #[export]
+    fn _ready(&amp;self, owner: TRef&lt;Node&gt;) {
+        let node = Node::new();
+        owner.add_child(node);
+        self.node_ref = Some(node.claim());
+    }
+}
+<span class="boring">}
+</span></code></pre></pre>
+<p>Note: As <code>TRef&lt;T&gt;</code> is a temporary pointer, it will be necessary to get the base pointer <code>Ref&lt;T&gt;</code> in order to continue to hold this value.</p>
+<p>This can be done with the <a href="https://docs.rs/gdnative/latest/gdnative/struct.TRef.html#method.claim"><code>TRef&lt;T&gt;::claim()</code></a> function that returns the persistent version of the pointer, which you can store in your class.</p>
+<h2 id="borrow-failed-a-mut-reference-was-requested"><a class="header" href="#borrow-failed-a-mut-reference-was-requested">Borrow failed; a &amp;mut reference was requested</a></h2>
 <p>In Rust, <a href="https://docs.rs/dtolnay/0.0.9/dtolnay/macro._02__reference_types.html">there can only be <em>one</em> <code>&amp;mut</code> reference to the same memory location at the same time</a>. To enforce this while making simple use cases easier, the bindings make use of <a href="https://doc.rust-lang.org/book/ch15-05-interior-mutability.html">interior mutability</a>. This works like a lock: whenever a method with <code>&amp;mut self</code> is called, it will try to obtain a lock on the <code>self</code> value, and hold it <em>until it returns</em>. As a result, if another method that takes <code>&amp;mut self</code> is called in the meantime for whatever reason (e.g. signals), the lock will fail and an error (<code>BorrowFailed</code>) will be produced.</p>
 <p>It's relatively easy to work around this problem, though: Because of how the user-data container works, it can only see the outermost layer of your script type - the entire structure. This is why it's stricter than what is actually required. If you run into this problem, you can <a href="https://doc.rust-lang.org/book/ch15-05-interior-mutability.html">introduce finer-grained interior mutability</a> in your own type, and modify the problematic exported methods to take <code>&amp;self</code> instead of <code>&amp;mut self</code>.</p>
 <p>This issue also can often occur when using signals to indicate an update such as in the following code.</p>
@@ -209,21 +245,21 @@ impl SignalEmitter {
 <span class="boring">}
 </span></code></pre></pre>
 <p>In both instances you will not encounter the reentrant errors.</p>
-<h2 id="why-are-methods-on-all-godot-api-classes-using-self-even-when-they-should-cause-mutations"><a class="header" href="#why-are-methods-on-all-godot-api-classes-using-self-even-when-they-should-cause-mutations">Why are methods on all Godot API classes using <code>&amp;self</code> even when they should cause mutations?</a></h2>
+<h2 id="why-do-mutating-godot-methods-take-self-and-not-mut-self"><a class="header" href="#why-do-mutating-godot-methods-take-self-and-not-mut-self">Why do mutating Godot methods take <code>&amp;self</code> and not <code>&amp;mut self</code>?</a></h2>
 <ol>
 <li><code>&amp;mut</code> means that only one reference can exist simultaneously (no aliasing), <em>not</em> that the object is mutable. Mutability is often a <em>consequence</em> of the exclusiveness. Since Godot objects are managed by the engine, Rust cannot guarantee that references are exclusive, as such using <code>&amp;mut</code> would cause undefined behavior. Instead, an interior mutability pattern based on <code>&amp;T</code> is used. For godot-rust, it is probably more useful to consider <code>&amp;</code> and <code>&amp;mut</code> as &quot;shared&quot; and &quot;unique&quot; respectively.
 For more information, please refer to <a href="https://docs.rs/dtolnay/latest/dtolnay/macro._02__reference_types.html">this explanation</a> for more information.</li>
-<li>Why godot-rust does not use RefCell (or some other form of interior mutability) is because the types already have interior mutability as they exist in Godot (and can't be tracked by Rust).</li>
+<li>Why godot-rust does not use <code>RefCell</code> (or some other form of interior mutability) is because the types already have interior mutability as they exist in Godot (and can't be tracked by Rust). For example, does <code>call()</code> modify its own object? This depends on the arguments. There are <a href="https://github.com/godot-rust/godot-rust/issues/808#issuecomment-964034258">many such cases</a> which are much more subtle.</li>
 </ol>
 <h2 id="why-is-there-so-much-unsafe-in-godot-rust"><a class="header" href="#why-is-there-so-much-unsafe-in-godot-rust">Why is there so much <code>unsafe</code> in godot-rust?</a></h2>
-<p>Short Answer: Because all code in Godot is in C++ which cannot be statically analyzed by the compiler to guarantee safety.</p>
-<p>Longer Answer: The reasons why <code>unsafe</code> is required is related to the following:</p>
+<p>Short Answer: Godot is written in C++, which cannot be statically analyzed by the Rust compiler to guarantee safety.</p>
+<p>Longer Answer: <code>unsafe</code> is required for different reasons:</p>
 <ul>
-<li>Object lifetimes: Godot manages memory of objects independently of Rust. This means that Rust references can be invalidated when Godot destroys referred-to objects. This usually happens due to bugs in GDScript code, like calling free()/queue_free() of something actively in use.</li>
-<li>Thread safety: while Rust has a type system to ensure thread safety statically (Send, Sync), such mechanisms do not exist in either GDScript or C++. Even user-defined GDScript code has direct access to Thread API.</li>
-<li>C FFI: Any interactions that cross the C Foreign Function Interface will be unsafe by default as Rust cannot guarantee safety. While many functions may be safely reasoned about, there are still some functions which will be inherently unsafe due to their potential effects on object lifetimes.</li>
+<li><strong>Object lifetimes:</strong> Godot manages memory of objects independently of Rust. This means that Rust references can be invalidated when Godot destroys referred-to objects. This usually happens due to bugs in GDScript code, like calling <code>free()</code> of something actively in use.</li>
+<li><strong>Thread safety:</strong> while Rust has a type system to ensure thread safety statically (<code>Send</code>, <code>Sync</code>), such mechanisms do not exist in either GDScript or C++. Even user-defined GDScript code has direct access to the <code>Thread</code> API.</li>
+<li><strong>C FFI:</strong> any interactions that cross the C Foreign Function Interface will be unsafe by default as Rust cannot inspect the other side. While many functions may be safely reasoned about, there are still some functions which will be inherently unsafe due to their potential effects on object lifetimes.</li>
 </ul>
-<p>One of the ways that godot-rust avoids large <code>unsafe</code> blocks is by using the <a href="http://cliffle.com/blog/rust-typestate/">TypeState pattern</a> with the Temporary References such as <code>TRef</code> and <code>RefInstance</code>. For more information see <a href="../../src/gdnative-overview/wrappers.html"><code>Ref</code>, <code>TRef</code> and <code>Instance</code></a>.</p>
+<p>One of the ways that godot-rust avoids large <code>unsafe</code> blocks is by using the <a href="http://cliffle.com/blog/rust-typestate/">TypeState pattern</a> with <em>temporary references</em> such as <code>TRef</code> and <code>TInstance</code>. For more information see <a href="../../src/gdnative-overview/wrappers.html"><code>Ref</code>, <code>TRef</code> and <code>Instance</code></a>.</p>
 <p>Here is an example of some common <code>unsafe</code> usage that you will often see and use in your own games.</p>
 <pre><pre class="playground"><code class="language-rust">
 <span class="boring">#![allow(unused)]
@@ -254,10 +290,10 @@ For more information, please refer to <a href="https://docs.rs/dtolnay/latest/dt
 }
 <span class="boring">}
 </span></code></pre></pre>
-<h2 id="as-a-native-script-type-needs-to-implement-fn-newowner-node---self-is-it-possible-to-pass-additional-arguments-to-new"><a class="header" href="#as-a-native-script-type-needs-to-implement-fn-newowner-node---self-is-it-possible-to-pass-additional-arguments-to-new">As a native script type needs to implement <code>fn new(owner: &amp;Node) -&gt; Self</code>, is it possible to pass additional arguments to <code>new</code>?</a></h2>
-<p>Short Answer: No. It is not possible.</p>
-<p>Longer Answer: Unfortunately this is currently a general limitation of GDNative (see <a href="https://github.com/godotengine/godot/issues/23260">related issue</a>).</p>
-<p>As a result, a common pattern to work-around this limitation is to use explicit initialization methods. For instance:</p>
+<p>By the way, safety rules are subject to an <a href="https://github.com/godot-rust/godot-rust/issues/808">ongoing discussion</a> and likely to be relaxed in future godot-rust versions.</p>
+<h2 id="can-the-new-constructor-have-additional-parameters"><a class="header" href="#can-the-new-constructor-have-additional-parameters">Can the <code>new</code> constructor have additional parameters?</a></h2>
+<p>Unfortunately this is currently not possible, due to a general limitation of GDNative (see <a href="https://github.com/godotengine/godot/issues/23260">related issue</a>).</p>
+<p>As a result, a common pattern to work around this limitation is to use explicit initialization methods. For instance:</p>
 <pre><pre class="playground"><code class="language-rust">
 <span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
@@ -325,9 +361,8 @@ impl EntityFactory {
 </span></code></pre></pre>
 <p>So instead of <code>Enemy.new()</code> you can write <code>EntityFactory.enemy(args)</code> in GDScript.
 This still needs an extra type <code>EntityFactory</code>, however you could reuse that for multiple classes.</p>
-<h2 id="how-can-i-implement-static-methods-in-gdnative"><a class="header" href="#how-can-i-implement-static-methods-in-gdnative">How can I implement static methods in GDNative?</a></h2>
-<p>In GDScript, classes can have static methods.
-However, due to a limitation of GDNative, static methods are not supported in general.</p>
+<h2 id="can-i-implement-static-methods-in-gdnative"><a class="header" href="#can-i-implement-static-methods-in-gdnative">Can I implement static methods in GDNative?</a></h2>
+<p>In GDScript, classes can have static methods. However, GDNative currently doesn't allow to register static methods from bindings.</p>
 <p>As a work-around, it is possible to use a ZST (zero-sized type):</p>
 <pre><pre class="playground"><code class="language-rust">
 <span class="boring">#![allow(unused)]
@@ -351,12 +386,12 @@ impl StaticUtil {
 <p>The type needs to be instantiated somewhere on GDScript level.
 Good places for instantiation are for instance:</p>
 <ul>
-<li>as a member of a long-living util object,</li>
-<li>as a <a href="https://docs.godotengine.org/en/stable/getting_started/step_by_step/singletons_autoload.html">singleton auto-load object</a>.</li>
+<li>a member of a long-living util object,</li>
+<li>a <a href="https://docs.godotengine.org/en/stable/getting_started/step_by_step/singletons_autoload.html">singleton auto-load object</a>.</li>
 </ul>
-<h2 id="how-do-i-convert-from-a-variant-or-other-godot-type-to-the-underlying-rust-type"><a class="header" href="#how-do-i-convert-from-a-variant-or-other-godot-type-to-the-underlying-rust-type">How do I convert from a <code>Variant</code> or other Godot Type to the underlying Rust type?</a></h2>
+<h2 id="how-do-i-convert-from-a-variant-to-the-underlying-rust-type"><a class="header" href="#how-do-i-convert-from-a-variant-to-the-underlying-rust-type">How do I convert from a <code>Variant</code> to the underlying Rust type?</a></h2>
 <p>Assuming that a method takes an argument <code>my_node</code> as a <code>Variant</code></p>
-<p>You can convert <code>my_node</code> to a <code>Ref</code>, and then to an <code>Instance</code> or <code>RefInstance</code>, and mapping over it to access the Rust data type:</p>
+<p>You can convert <code>my_node</code> to a <code>Ref</code>, and then to an <code>Instance</code> or <code>TInstance</code>, and mapping over it to access the Rust data type:</p>
 <pre><pre class="playground"><code class="language-rust">
 <span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
@@ -367,9 +402,10 @@ struct MyNode2D { ... }
 
 /// Utility script that uses MyNode2D
 #[derive(NativeClass, Copy, Clone, Default)]
-#[user_data(Aether&lt;StaticUtil&gt;)]
+#[user_data(Aether&lt;AnotherNativeScript&gt;)] // ZST, see above
 #[inherit(Reference)]
 pub struct AnotherNativeScript;
+
 #[methods]
 impl AnotherNativeScript {
     #[export]
@@ -381,11 +417,13 @@ impl AnotherNativeScript {
                 .expect(&quot;Failed to convert my_node variant to object&quot;)
                 .assume_safe()
         };
-        // 2. Obtain a RefInstance which gives access to the Rust object's data.
+        
+        // 2. Obtain a TInstance which gives access to the Rust object's data.
         let my_node = my_node
             .cast_instance::&lt;MyNode2D&gt;()
             .expect(&quot;Failed to cast my_node object to instance&quot;);
-        // 3. Map over the RefInstance to extract the underlying user data.
+        
+        // 3. Map over the RefInstance to process the underlying user data.
         my_node
             .map(|my_node, _owner| {
                 // Now my_node is of type MyNode2D.
@@ -397,64 +435,29 @@ impl AnotherNativeScript {
 
 <span class="boring">}
 </span></code></pre></pre>
-<h2 id="is-it-possible-to-set-subproperties-of-a-godot-type-such-as-a-material"><a class="header" href="#is-it-possible-to-set-subproperties-of-a-godot-type-such-as-a-material">Is it possible to set subproperties of a Godot type, such as a Material?</a></h2>
-<p>Yes, it is possible to set this, but it will depend on the type.</p>
-<p>For example, with <a href="https://docs.rs/gdnative/latest/gdnative/api/struct.SpatialMaterial.html"><code>SpatialMaterial</code></a> when you need to set an <code>albedo_texture</code> onto the material, it will be necessary to use the generic <a href="https://docs.rs/gdnative/latest/gdnative/api/struct.SpatialMaterial.html#method.set_texture"><code>set_texture</code></a> function with the parameter index.</p>
-<p>While a similar case applies for <a href="https://docs.rs/gdnative/latest/gdnative/api/shader_material/struct.ShaderMaterial.html"><code>ShaderMaterial</code></a> in the case of shader material, to set the shader parameters, you will need to use the <a href="https://docs.rs/gdnative/latest/gdnative/api/shader_material/struct.ShaderMaterial.html#method.set_shader_param"><code>set_param</code></a> method with the relevant parameter name and value.</p>
+<h2 id="is-it-possible-to-set-subproperties-of-a-godot-type-such-as-a-material"><a class="header" href="#is-it-possible-to-set-subproperties-of-a-godot-type-such-as-a-material">Is it possible to set subproperties of a Godot type, such as a <code>Material</code>?</a></h2>
+<p>Yes, it is possible, but it will depend on the type.</p>
+<p>For example, when you need to set an <code>albedo_texture</code> on the <a href="https://docs.rs/gdnative/latest/gdnative/api/struct.SpatialMaterial.html"><code>SpatialMaterial</code></a>, it will be necessary to use the generic <a href="https://docs.rs/gdnative/latest/gdnative/api/struct.SpatialMaterial.html#method.set_texture"><code>set_texture()</code></a> function with the parameter <code>index</code>.</p>
+<p>While a similar case applies for <a href="https://docs.rs/gdnative/latest/gdnative/api/struct.ShaderMaterial.html"><code>ShaderMaterial</code></a> in the case of shader material, to set the shader parameters, you will need to use the <a href="https://docs.rs/gdnative/latest/gdnative/api/struct.ShaderMaterial.html#method.set_shader_param"><code>set_param()</code></a> method with the relevant parameter name and value.</p>
 <p>Direct access to such properties is planned in <a href="https://github.com/godot-rust/godot-rust/issues/689">godot-rust/godot-rust#689</a>.</p>
-<h2 id="what-is-the-godot-rust-equivalent-of-preload"><a class="header" href="#what-is-the-godot-rust-equivalent-of-preload">What is the godot-rust equivalent of <code>preload</code>?</a></h2>
+<h2 id="what-is-the-rust-equivalent-of-preload"><a class="header" href="#what-is-the-rust-equivalent-of-preload">What is the Rust equivalent of <code>preload</code>?</a></h2>
 <p>Unfortunately, there is no equivalent to preload in languages other than GDScript, because preload is GDScript-specific magic that works at compile time. If you read the official documentation on preload, it says:</p>
 <blockquote>
 <p>&quot;Returns a resource from the filesystem that is <em>loaded during script parsing.</em>&quot; <strong>(emphasis mine)</strong></p>
 </blockquote>
 <p>This is only possible in GDScript because the parser is deeply integrated into the engine.</p>
-<p>You can use ResourcePreloader as a separate node in your scene, which will work regardless of whether you're using Rust or GDScript. However, note that if you create a ResourcePreloader in your code, you will still be loading these resources at the time of construction, because there is no way for the engine to know what resources are being added before actually running the code.</p>
-<p>The ResourceLoader should be used in most cases.</p>
-<p>Also, you can always put a Mutex<HashMap> into a Rust static and load everything you need there during a loading screen.</p>
-<h2 id="how-do-i-keep-a-reference-of-node"><a class="header" href="#how-do-i-keep-a-reference-of-node">How do I keep a reference of <code>Node</code>?</a></h2>
-<p>The idiomatic way to maintain a reference to a node in the SceneTree from Rust is to use <code>Option&lt;Ref&lt;T&gt;&gt;</code>.</p>
-<p>For example, in the following GDScript code</p>
-<pre><code class="language-gdscript">extends Node
-class_name MyClass
-var node
-
-func _ready():
-  node = Node.new()
-  self.add_child(node, false)
-
-</code></pre>
-<p>You would need to use the following code.</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
-</span><span class="boring">fn main() {
-</span>#[derive(NativeClass)]
-#[inherit(Node)]
-#[no_constructor]
-struct MyNode {
-    node_ref: Option&lt;Ref&lt;Node&gt;&gt;
-}
-
-#[methods]
-impl MyNode {
-    #[export]
-    fn _ready(&amp;self, owner: TRef&lt;Node&gt;) {
-        let node = Node::new();
-        owner.add_child(node);
-        self.node_ref = Some(node.claim());
-    }
-}
-<span class="boring">}
-</span></code></pre></pre>
-<p>Note: As <code>TRef&lt;T&gt;</code> is a temporary pointer, it will be necessary to get the base pointer <code>Ref&lt;T&gt;</code> in order to continue to hold this value.</p>
-<p>This can be done with the <a href="https://docs.rs/gdnative/latest/gdnative/struct.TRef.html#method.claim"><code>TRef&lt;T&gt;::claim()</code></a> function that will return the persistent version of the pointer that you can store in your class.</p>
-<h2 id="how-do-i-implement-function-arguments-that-accept-any-godot-subclass-runtime-polymorphism"><a class="header" href="#how-do-i-implement-function-arguments-that-accept-any-godot-subclass-runtime-polymorphism">How do I implement function arguments that accept any Godot subclass (runtime polymorphism)?</a></h2>
-<p>This can be achieved by a combination of <code>SubClass</code> and <code>upcast</code>.</p>
-<p>For example, let's assume we want to implement a helper function that should accept any kind of <a href="https://docs.godotengine.org/en/stable/classes/class_control.html#class-control"><code>Container</code></a>. The helper function can make use of <code>SubClass</code> and <code>upcast</code> as follows:</p>
+<p>You can use <a href="https://docs.rs/gdnative/latest/gdnative/api/struct.ResourcePreloader.html"><code>ResourcePreloader</code></a> as a separate node in your scene, which will work regardless of whether you use Rust or GDScript. However, note that if you create a <code>ResourcePreloader</code> in your code, you will still be loading these resources at the time of execution, because there is no way for the engine to know what resources are being added before actually running the code.</p>
+<p>The <a href="https://docs.rs/gdnative/latest/gdnative/api/struct.ResourceLoader.html"><code>ResourceLoader</code></a> should be used in most cases.</p>
+<p>Also, you can go with a <code>static Mutex&lt;HashMap&lt;..&gt;&gt;</code> variable and load everything you need there during a loading screen.</p>
+<h2 id="how-can-function-parameters-accept-godot-subclasses-polymorphism"><a class="header" href="#how-can-function-parameters-accept-godot-subclasses-polymorphism">How can function parameters accept Godot subclasses (polymorphism)?</a></h2>
+<p><em>Static</em> (compile-time) polymorphism can be achieved by a combination of the <code>SubClass</code> trait and <code>upcast()</code>.</p>
+<p>For example, let's assume we want to implement a helper function that should accept any kind of <a href="https://docs.godotengine.org/en/stable/classes/class_control.html#class-control"><code>Container</code></a>. The helper function can make use of <code>SubClass</code> and <code>upcast()</code> as follows:</p>
 <pre><pre class="playground"><code class="language-rust">
 <span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>fn do_something_with_container&lt;T&gt;(container: TRef&lt;'_, T&gt;)
     where T: GodotObject + SubClass&lt;Container&gt;
+// this means: accept any TRef&lt;T&gt; where T inherits `Container`
 {
     // First upcast to a true container:
     let container = container.upcast::&lt;Container&gt;();
@@ -468,14 +471,27 @@ impl MyNode {
 <span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>fn some_usage() {
-    let panel_container: Ref&lt;PanelContainer&gt; = PanelContainer::new().into_shared();
-    let panel_container: TRef&lt;PanelContainer&gt; = unsafe { panel_container.assume_safe() };
-    do_something_with_container(panel_container);
+    let panel: Ref&lt;PanelContainer&gt; = PanelContainer::new().into_shared();
+    let panel: TRef&lt;PanelContainer&gt; = unsafe { panel.assume_safe() };
+    do_something_with_container(panel);
 }
 <span class="boring">}
 </span></code></pre></pre>
 <p>Note that <code>SubClass</code> is only a marker trait that models the inheritance relationship of Godot classes, and doesn't perform any conversion by itself. For instance, <code>x: Ref&lt;T&gt;</code> or <code>x: TRef&lt;'_, T&gt;</code> satisfying <code>T: GodotObject + SubClass&lt;Container&gt;</code> doesn't mean that <code>x</code> can be used as a <code>Container</code> directly. Rather, it ensures that e.g. <code>x.upcast::&lt;Container&gt;()</code> is guaranteed to work, because <code>T</code> is a subclass of <code>Container</code>. Therefore, it is a common pattern to use <code>SubClass</code> constraints in combination with <code>.upcast()</code> to convert to the base class, and actually use <code>x</code> as such.</p>
-<h2 id="what-is-the-rust-equivalent-to-onready-var-in-gdscript"><a class="header" href="#what-is-the-rust-equivalent-to-onready-var-in-gdscript">What is the Rust equivalent to <code>onready var</code> in GDScript</a></h2>
+<p>Of course, you could also delegate the work to upcast to the call site:</p>
+<pre><pre class="playground"><code class="language-rust">
+<span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>fn do_something_with_container(container: TRef&lt;Container&gt;) { ... }
+
+fn some_usage() {
+    let panel: TRef&lt;PanelContainer&gt; = ...;
+    do_something_with_container(panel.upcast());
+}
+<span class="boring">}
+</span></code></pre></pre>
+<p>This would also support <em>dynamic</em> (runtime) polymorphism -- <code>Ref&lt;T&gt;</code> can also store subclasses of <code>T</code>.</p>
+<h2 id="what-is-the-rust-equivalent-of-onready-var"><a class="header" href="#what-is-the-rust-equivalent-of-onready-var">What is the Rust equivalent of <code>onready var</code>?</a></h2>
 <p>Rust does not have a direct equivalent to <code>onready var</code>. The most idiomatic workaround with Rust is to use <code>Option&lt;Ref&lt;T&gt;&gt;</code> of you need the Godot node type or <code>Option&lt;Instance&lt;T&gt;&gt;</code> if you are using a Rust based <code>NativeClass</code>.</p>
 <pre><code class="language-gdscript">extends Node
 class_name MyClass
@@ -485,11 +501,13 @@ onready var node = $Node2d
 <pre><pre class="playground"><code class="language-rust">
 <span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
-</span>#[derive(NativeClass)]
+</span>#[derive(NativeClass, Default)]
 #[inherit(Node)]
 #[no_constructor]
 struct MyNode {
-    node2d: Option&lt;Ref&lt;Node&gt;&gt;
+    // late-initialization is modeled with Option
+    // the Default derive will initialize both to None 
+    node2d: Option&lt;Ref&lt;Node&gt;&gt;,
     instance: Option&lt;Ref&lt;MyClass&gt;&gt;,
 }
 
@@ -504,15 +522,14 @@ impl MyNode {
         let node2d = unsafe { node2d.assume_safe() };
         let node2d = node2d.cast::&lt;Node2D&gt;();
         self.node2d = Some(node2d.claim());
+      
         // Get an existing child node that is a Rust class.
         let instance = owner
             .get_node(&quot;MyClass&quot;)
-            .expect(&quot;this node must have a child with the path `MyNode2D`&quot;);
-        let instance = unsafe { node2d.assume_safe() };
-        let instance = node2d.cast::&lt;Node2D&gt;();
-        let instance = godot_egui.cast_instance::&lt;MyClass&gt;()
-                        .expect(&quot;child `MyNode2D` must be type `MyClass`&quot;);
-
+            .expect(&quot;this node must have a child with the path `MyClass`&quot;);
+        let instance = unsafe { instance.assume_safe() };
+        let instance = instance.cast_instance::&lt;MyClass&gt;()
+                        .expect(&quot;child must be type `MyClass`&quot;);
         self.instance = Some(instance.claim());
     }
 }
@@ -526,22 +543,22 @@ impl MyNode {
 <li><a href="https://docs.rs/gdnative/latest/gdnative/core_types/struct.Variant.html"><code>Variant</code></a>, this is Godot's &quot;any&quot; type. It must be converted before it can be used.</li>
 <li>A subset of scalar types such as <code>i64</code>, <code>f64</code>, <code>bool</code>, etc.</li>
 <li><a href="https://doc.rust-lang.org/std/string/struct.String.html"><code>String</code></a> and <a href="https://docs.rs/gdnative/latest/gdnative/core_types/struct.GodotString.html"><code>GodotString</code></a>.</li>
-<li><a href="https://docs.rs/gdnative/latest/gdnative/core_types/index.html">Godot Core Types</a> such as <a href="https://docs.rs/gdnative/latest/gdnative/core_types/struct.Color.html"><code>Color</code></a>, <a href="https://docs.rs/gdnative/latest/gdnative/core_types/struct.Aabb.html"><code>Aabb</code></a>, <a href="https://docs.rs/gdnative/latest/gdnative/core_types/type.Transform2D.html"><code>Transform2D</code></a>, <a href="https://docs.rs/gdnative/latest/gdnative/core_types/type.Vector2.html"><code>Vector2</code></a>, etc.</li>
+<li><a href="https://docs.rs/gdnative/latest/gdnative/core_types/index.html">Godot core types</a> such as <a href="https://docs.rs/gdnative/latest/gdnative/core_types/struct.Color.html"><code>Color</code></a>, <a href="https://docs.rs/gdnative/latest/gdnative/core_types/struct.Aabb.html"><code>Aabb</code></a>, <a href="https://docs.rs/gdnative/latest/gdnative/core_types/type.Transform2D.html"><code>Transform2D</code></a>, <a href="https://docs.rs/gdnative/latest/gdnative/core_types/type.Vector2.html"><code>Vector2</code></a>, etc.</li>
 <li>Godot classes such as <code>Node</code>, <code>Reference</code>, etc. which must be accessed via <a href="https://docs.rs/gdnative/latest/gdnative/struct.Ref.html"><code>Ref&lt;T&gt;</code></a> (you can't pass them by value, because Godot owns them).</li>
-<li>Any Rust struct that derives <a href="https://docs.rs/gdnative/latest/gdnative/derive.NativeClass.html"><code>NativeClass</code></a> through <a href="https://docs.rs/gdnative/latest/gdnative/nativescript/struct.Instance.html"><code>Instance&lt;T&gt;</code></a>.</li>
+<li>Any Rust struct that derives <a href="https://docs.rs/gdnative/latest/gdnative/derive.NativeClass.html"><code>NativeClass</code></a>, through <a href="https://docs.rs/gdnative/latest/gdnative/nativescript/struct.Instance.html"><code>Instance&lt;T&gt;</code></a>.</li>
 </ul>
-<h2 id="how-can-i-profile-my-code-to-determine-the-performance"><a class="header" href="#how-can-i-profile-my-code-to-determine-the-performance">How can I profile my code to determine the performance?</a></h2>
-<p>There are a lot of ways to profile your code and they will vary in complexity.</p>
-<p>The simplest way to profile your code is by using the <code>#[gdnative::profiled]</code> procedural macro that enable the Godot to profile the attributed function. This option is useful for comparing performance gains when porting GDScript code to Rust or as a way to understand the relative &quot;frame time&quot; of your code.</p>
-<p>For more information about the Godot profiler, please refer to the <a href="https://docs.godotengine.org/en/stable/tutorials/debug/debugger_panel.html?highlight=profiler#profiler">Official Documentation</a>.</p>
-<p>In order for Godot to profile your function all of the following must be true:</p>
+<h2 id="how-can-i-profile-my-code-to-measure-performance"><a class="header" href="#how-can-i-profile-my-code-to-measure-performance">How can I profile my code to measure performance?</a></h2>
+<p>There are a lot of ways to profile your code and they vary in complexity.</p>
+<p>The simplest way is to use the <code>#[gdnative::profiled]</code> procedural macro that enables Godot to profile the attributed function. This option is useful for comparing performance gains when porting GDScript code to Rust or as a way to understand the relative &quot;frame time&quot; of your code. Don't forget to compile Rust code with <code>--release</code>!</p>
+<p>For more information about the Godot profiler, please refer to the <a href="https://docs.godotengine.org/en/stable/tutorials/debug/debugger_panel.html?highlight=profiler#profiler">official documentation</a>.</p>
+<p>In order for Godot to profile your function, all the following must be true:</p>
 <ul>
-<li>The function belongs to a struct that derives <code>NativeClass</code></li>
+<li>The function belongs to a struct that derives <code>NativeClass</code>.</li>
 <li>The function is included in an <code>impl</code> block that is attributed with the <code>#[methods]</code> attribute.</li>
 <li>The function is attributed with <code>#[export]</code> attribute.</li>
 </ul>
-<p>As such, this method is <em>only</em> useful for exported code and is subject to the Godot's profiler's limitations, such as millisecond accuracy in the profiler's metrics.</p>
-<p>The following example illustrates how your code should look when being profiled.</p>
+<p>As such, this method is <em>only</em> useful for exported code and is subject to the Godot profiler's limitations, such as millisecond accuracy in profiler metrics.</p>
+<p>The following example illustrates how your code should look when being profiled:</p>
 <pre><pre class="playground"><code class="language-rust">
 <span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
@@ -563,7 +580,7 @@ impl MyClass {
 }
 <span class="boring">}
 </span></code></pre></pre>
-<p>If you require insight into Rust code that is not exported to Godot or would like more in-depth information regarding how your Rust code is executing, it will be necessary to use a Rust compatible profiler such as <a href="https://crates.io/crates/puffin">puffin</a> or <a href="https://perf.wiki.kernel.org/index.php/Main_Page">perf</a>. These tools can be used to more accurately determine bottlenecks and the general performance of your Rust code.</p>
+<p>If you require insight into Rust code that is not exported to Godot, or would like more in-depth information regarding execution of your program, it will be necessary to use a Rust compatible profiler such as <a href="https://crates.io/crates/puffin">puffin</a> or <a href="https://perf.wiki.kernel.org/index.php/Main_Page">perf</a>. These tools can be used to more accurately determine bottlenecks and the general performance of your Rust code.</p>
 <p><strong>Note:</strong> There are many more profilers than the ones listed and you should do your own research before selecting which one you wish to use.</p>
 <p>For more information about profiling and other rust performance tips, please check out the <a href="https://nnethercote.github.io/perf-book/profiling.html">Rust performance book</a>.</p>
 
