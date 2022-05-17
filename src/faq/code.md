@@ -3,7 +3,48 @@
 ## Table of contents
 <!-- toc -->
 
-## What is the `BorrowFailed` error and why do I keep getting it?
+## How do I store a reference of `Node`?
+
+The idiomatic way to maintain a reference to a node in the SceneTree from Rust is to use `Option<Ref<T>>`.
+
+For example, the following GDScript code:
+```gdscript
+extends Node
+class_name MyClass
+var node
+
+func _ready():
+  node = Node.new()
+  self.add_child(node, false)
+
+```
+
+could be translated to this Rust snippet:
+```rust
+#[derive(NativeClass)]
+#[inherit(Node)]
+#[no_constructor]
+struct MyNode {
+    node_ref: Option<Ref<Node>>
+}
+
+#[methods]
+impl MyNode {
+    #[export]
+    fn _ready(&self, owner: TRef<Node>) {
+        let node = Node::new();
+        owner.add_child(node);
+        self.node_ref = Some(node.claim());
+    }
+}
+```
+
+Note: As `TRef<T>` is a temporary pointer, it will be necessary to get the base pointer `Ref<T>` in order to continue to hold this value.
+
+This can be done with the [`TRef<T>::claim()`](https://docs.rs/gdnative/latest/gdnative/struct.TRef.html#method.claim) function that returns the persistent version of the pointer, which you can store in your class.
+
+
+## Borrow failed; a &mut reference was requested
 
 In Rust, [there can only be *one* `&mut` reference to the same memory location at the same time](https://docs.rs/dtolnay/0.0.9/dtolnay/macro._02__reference_types.html). To enforce this while making simple use cases easier, the bindings make use of [interior mutability](https://doc.rust-lang.org/book/ch15-05-interior-mutability.html). This works like a lock: whenever a method with `&mut self` is called, it will try to obtain a lock on the `self` value, and hold it *until it returns*. As a result, if another method that takes `&mut self` is called in the meantime for whatever reason (e.g. signals), the lock will fail and an error (`BorrowFailed`) will be produced.
 
@@ -64,23 +105,25 @@ There are two ways to solve it.
 
 In both instances you will not encounter the reentrant errors.
 
-## Why are methods on all Godot API classes using `&self` even when they should cause mutations?
+
+## Why do mutating Godot methods take `&self` and not `&mut self`?
 
 1. `&mut` means that only one reference can exist simultaneously (no aliasing), _not_ that the object is mutable. Mutability is often a _consequence_ of the exclusiveness. Since Godot objects are managed by the engine, Rust cannot guarantee that references are exclusive, as such using `&mut` would cause undefined behavior. Instead, an interior mutability pattern based on `&T` is used. For godot-rust, it is probably more useful to consider `&` and `&mut` as "shared" and "unique" respectively.
   For more information, please refer to [this explanation](https://docs.rs/dtolnay/latest/dtolnay/macro._02__reference_types.html) for more information.
-2. Why godot-rust does not use RefCell (or some other form of interior mutability) is because the types already have interior mutability as they exist in Godot (and can't be tracked by Rust).
+2. Why godot-rust does not use `RefCell` (or some other form of interior mutability) is because the types already have interior mutability as they exist in Godot (and can't be tracked by Rust). For example, does `call()` modify its own object? This depends on the arguments. There are [many such cases](https://github.com/godot-rust/godot-rust/issues/808#issuecomment-964034258) which are much more subtle.
+
 
 ## Why is there so much `unsafe` in godot-rust?
 
-Short Answer: Because all code in Godot is in C++ which cannot be statically analyzed by the compiler to guarantee safety.
+Short Answer: Godot is written in C++, which cannot be statically analyzed by the Rust compiler to guarantee safety.
 
-Longer Answer: The reasons why `unsafe` is required is related to the following:
+Longer Answer: `unsafe` is required for different reasons:
 
-- Object lifetimes: Godot manages memory of objects independently of Rust. This means that Rust references can be invalidated when Godot destroys referred-to objects. This usually happens due to bugs in GDScript code, like calling free()/queue_free() of something actively in use.
-- Thread safety: while Rust has a type system to ensure thread safety statically (Send, Sync), such mechanisms do not exist in either GDScript or C++. Even user-defined GDScript code has direct access to Thread API.
-- C FFI: Any interactions that cross the C Foreign Function Interface will be unsafe by default as Rust cannot guarantee safety. While many functions may be safely reasoned about, there are still some functions which will be inherently unsafe due to their potential effects on object lifetimes.
+- **Object lifetimes:** Godot manages memory of objects independently of Rust. This means that Rust references can be invalidated when Godot destroys referred-to objects. This usually happens due to bugs in GDScript code, like calling `free()` of something actively in use.
+- **Thread safety:** while Rust has a type system to ensure thread safety statically (`Send`, `Sync`), such mechanisms do not exist in either GDScript or C++. Even user-defined GDScript code has direct access to the `Thread` API.
+- **C FFI:** any interactions that cross the C Foreign Function Interface will be unsafe by default as Rust cannot inspect the other side. While many functions may be safely reasoned about, there are still some functions which will be inherently unsafe due to their potential effects on object lifetimes.
 
-One of the ways that godot-rust avoids large `unsafe` blocks is by using the [TypeState pattern](http://cliffle.com/blog/rust-typestate/) with the Temporary References such as `TRef` and `RefInstance`. For more information see [`Ref`, `TRef` and `Instance`](../../src/gdnative-overview/wrappers.md).
+One of the ways that godot-rust avoids large `unsafe` blocks is by using the [TypeState pattern](http://cliffle.com/blog/rust-typestate/) with _temporary references_ such as `TRef` and `TInstance`. For more information see [`Ref`, `TRef` and `Instance`](../../src/gdnative-overview/wrappers.md).
 
 Here is an example of some common `unsafe` usage that you will often see and use in your own games.
 
@@ -111,13 +154,14 @@ fn get_a_node(&self, owner: TRef<Node>) {
 }
 ```
 
-## As a native script type needs to implement `fn new(owner: &Node) -> Self`, is it possible to pass additional arguments to `new`?
+By the way, safety rules are subject to an [ongoing discussion](https://github.com/godot-rust/godot-rust/issues/808) and likely to be relaxed in future godot-rust versions.
 
-Short Answer: No. It is not possible.
 
-Longer Answer: Unfortunately this is currently a general limitation of GDNative (see [related issue](https://github.com/godotengine/godot/issues/23260)).
+## Can the `new` constructor have additional parameters?
 
-As a result, a common pattern to work-around this limitation is to use explicit initialization methods. For instance:
+Unfortunately this is currently not possible, due to a general limitation of GDNative (see [related issue](https://github.com/godotengine/godot/issues/23260)).
+
+As a result, a common pattern to work around this limitation is to use explicit initialization methods. For instance:
 
 ```rust
 struct EnemyData {
@@ -182,10 +226,9 @@ So instead of `Enemy.new()` you can write `EntityFactory.enemy(args)` in GDScrip
 This still needs an extra type `EntityFactory`, however you could reuse that for multiple classes.
 
 
-## How can I implement static methods in GDNative?
+## Can I implement static methods in GDNative?
 
-In GDScript, classes can have static methods.
-However, due to a limitation of GDNative, static methods are not supported in general.
+In GDScript, classes can have static methods. However, GDNative currently doesn't allow to register static methods from bindings.
 
 As a work-around, it is possible to use a ZST (zero-sized type):
 
@@ -210,15 +253,15 @@ impl StaticUtil {
 The type needs to be instantiated somewhere on GDScript level.
 Good places for instantiation are for instance:
 
-- as a member of a long-living util object,
-- as a [singleton auto-load object](https://docs.godotengine.org/en/stable/getting_started/step_by_step/singletons_autoload.html).
+* a member of a long-living util object,
+* a [singleton auto-load object](https://docs.godotengine.org/en/stable/getting_started/step_by_step/singletons_autoload.html).
 
 
-## How do I convert from a `Variant` or other Godot Type to the underlying Rust type?
+## How do I convert from a `Variant` to the underlying Rust type?
 
 Assuming that a method takes an argument `my_node` as a `Variant`
 
-You can convert `my_node` to a `Ref`, and then to an `Instance` or `RefInstance`, and mapping over it to access the Rust data type:
+You can convert `my_node` to a `Ref`, and then to an `Instance` or `TInstance`, and mapping over it to access the Rust data type:
 
 ```rust
 /// My class that has data
@@ -228,9 +271,10 @@ struct MyNode2D { ... }
 
 /// Utility script that uses MyNode2D
 #[derive(NativeClass, Copy, Clone, Default)]
-#[user_data(Aether<StaticUtil>)]
+#[user_data(Aether<AnotherNativeScript>)] // ZST, see above
 #[inherit(Reference)]
 pub struct AnotherNativeScript;
+
 #[methods]
 impl AnotherNativeScript {
     #[export]
@@ -242,11 +286,13 @@ impl AnotherNativeScript {
                 .expect("Failed to convert my_node variant to object")
                 .assume_safe()
         };
-        // 2. Obtain a RefInstance which gives access to the Rust object's data.
+        
+        // 2. Obtain a TInstance which gives access to the Rust object's data.
         let my_node = my_node
             .cast_instance::<MyNode2D>()
             .expect("Failed to cast my_node object to instance");
-        // 3. Map over the RefInstance to extract the underlying user data.
+        
+        // 3. Map over the RefInstance to process the underlying user data.
         my_node
             .map(|my_node, _owner| {
                 // Now my_node is of type MyNode2D.
@@ -258,18 +304,18 @@ impl AnotherNativeScript {
 
 ```
 
-## Is it possible to set subproperties of a Godot type, such as a Material?
+## Is it possible to set subproperties of a Godot type, such as a `Material`?
 
-Yes, it is possible to set this, but it will depend on the type.
+Yes, it is possible, but it will depend on the type.
 
-For example, with [`SpatialMaterial`](https://docs.rs/gdnative/latest/gdnative/api/struct.SpatialMaterial.html) when you need to set an `albedo_texture` onto the material, it will be necessary to use the generic [`set_texture`](https://docs.rs/gdnative/latest/gdnative/api/struct.SpatialMaterial.html#method.set_texture) function with the parameter index.
+For example, when you need to set an `albedo_texture` on the [`SpatialMaterial`](https://docs.rs/gdnative/latest/gdnative/api/struct.SpatialMaterial.html), it will be necessary to use the generic [`set_texture()`](https://docs.rs/gdnative/latest/gdnative/api/struct.SpatialMaterial.html#method.set_texture) function with the parameter `index`.
 
-While a similar case applies for [`ShaderMaterial`](https://docs.rs/gdnative/latest/gdnative/api/shader_material/struct.ShaderMaterial.html) in the case of shader material, to set the shader parameters, you will need to use the [`set_param`](https://docs.rs/gdnative/latest/gdnative/api/shader_material/struct.ShaderMaterial.html#method.set_shader_param) method with the relevant parameter name and value.
+While a similar case applies for [`ShaderMaterial`](https://docs.rs/gdnative/latest/gdnative/api/struct.ShaderMaterial.html) in the case of shader material, to set the shader parameters, you will need to use the [`set_param()`](https://docs.rs/gdnative/latest/gdnative/api/struct.ShaderMaterial.html#method.set_shader_param) method with the relevant parameter name and value.
 
 Direct access to such properties is planned in [godot-rust/godot-rust#689](https://github.com/godot-rust/godot-rust/issues/689).
 
 
-## What is the godot-rust equivalent of `preload`?
+## What is the Rust equivalent of `preload`?
 
 Unfortunately, there is no equivalent to preload in languages other than GDScript, because preload is GDScript-specific magic that works at compile time. If you read the official documentation on preload, it says:
 
@@ -277,63 +323,23 @@ Unfortunately, there is no equivalent to preload in languages other than GDScrip
 
 This is only possible in GDScript because the parser is deeply integrated into the engine.
 
-You can use ResourcePreloader as a separate node in your scene, which will work regardless of whether you're using Rust or GDScript. However, note that if you create a ResourcePreloader in your code, you will still be loading these resources at the time of construction, because there is no way for the engine to know what resources are being added before actually running the code.
+You can use [`ResourcePreloader`](https://docs.rs/gdnative/latest/gdnative/api/struct.ResourcePreloader.html) as a separate node in your scene, which will work regardless of whether you use Rust or GDScript. However, note that if you create a `ResourcePreloader` in your code, you will still be loading these resources at the time of execution, because there is no way for the engine to know what resources are being added before actually running the code.
 
-The ResourceLoader should be used in most cases.
+The [`ResourceLoader`](https://docs.rs/gdnative/latest/gdnative/api/struct.ResourceLoader.html) should be used in most cases.
 
-Also, you can always put a Mutex<HashMap> into a Rust static and load everything you need there during a loading screen.
-
-
-## How do I keep a reference of `Node`?
-
-The idiomatic way to maintain a reference to a node in the SceneTree from Rust is to use `Option<Ref<T>>`.
-
-For example, in the following GDScript code
-```gdscript
-extends Node
-class_name MyClass
-var node
-
-func _ready():
-  node = Node.new()
-  self.add_child(node, false)
-
-```
-You would need to use the following code.
-
-```rust
-#[derive(NativeClass)]
-#[inherit(Node)]
-#[no_constructor]
-struct MyNode {
-    node_ref: Option<Ref<Node>>
-}
-
-#[methods]
-impl MyNode {
-    #[export]
-    fn _ready(&self, owner: TRef<Node>) {
-        let node = Node::new();
-        owner.add_child(node);
-        self.node_ref = Some(node.claim());
-    }
-}
-```
-
-Note: As `TRef<T>` is a temporary pointer, it will be necessary to get the base pointer `Ref<T>` in order to continue to hold this value.
-
-This can be done with the [`TRef<T>::claim()`](https://docs.rs/gdnative/latest/gdnative/struct.TRef.html#method.claim) function that will return the persistent version of the pointer that you can store in your class.
+Also, you can go with a `static Mutex<HashMap<..>>` variable and load everything you need there during a loading screen.
 
 
-## How do I implement function arguments that accept any Godot subclass (runtime polymorphism)?
+## How can function parameters accept Godot subclasses (polymorphism)?
 
-This can be achieved by a combination of `SubClass` and `upcast`.
+_Static_ (compile-time) polymorphism can be achieved by a combination of the `SubClass` trait and `upcast()`.
 
-For example, let's assume we want to implement a helper function that should accept any kind of [`Container`](https://docs.godotengine.org/en/stable/classes/class_control.html#class-control). The helper function can make use of `SubClass` and `upcast` as follows:
+For example, let's assume we want to implement a helper function that should accept any kind of [`Container`](https://docs.godotengine.org/en/stable/classes/class_control.html#class-control). The helper function can make use of `SubClass` and `upcast()` as follows:
 
 ```rust
 fn do_something_with_container<T>(container: TRef<'_, T>)
     where T: GodotObject + SubClass<Container>
+// this means: accept any TRef<T> where T inherits `Container`
 {
     // First upcast to a true container:
     let container = container.upcast::<Container>();
@@ -346,16 +352,28 @@ This function can now be used with arbitrary subclasses, for instance:
 
 ```rust
 fn some_usage() {
-    let panel_container: Ref<PanelContainer> = PanelContainer::new().into_shared();
-    let panel_container: TRef<PanelContainer> = unsafe { panel_container.assume_safe() };
-    do_something_with_container(panel_container);
+    let panel: Ref<PanelContainer> = PanelContainer::new().into_shared();
+    let panel: TRef<PanelContainer> = unsafe { panel.assume_safe() };
+    do_something_with_container(panel);
 }
 ```
 
 Note that `SubClass` is only a marker trait that models the inheritance relationship of Godot classes, and doesn't perform any conversion by itself. For instance, `x: Ref<T>` or `x: TRef<'_, T>` satisfying `T: GodotObject + SubClass<Container>` doesn't mean that `x` can be used as a `Container` directly. Rather, it ensures that e.g. `x.upcast::<Container>()` is guaranteed to work, because `T` is a subclass of `Container`. Therefore, it is a common pattern to use `SubClass` constraints in combination with `.upcast()` to convert to the base class, and actually use `x` as such.
 
+Of course, you could also delegate the work to upcast to the call site:
 
-## What is the Rust equivalent to `onready var` in GDScript
+```rust
+fn do_something_with_container(container: TRef<Container>) { ... }
+
+fn some_usage() {
+    let panel: TRef<PanelContainer> = ...;
+    do_something_with_container(panel.upcast());
+}
+```
+This would also support _dynamic_ (runtime) polymorphism -- `Ref<T>` can also store subclasses of `T`.
+
+
+## What is the Rust equivalent of `onready var`?
 
 Rust does not have a direct equivalent to `onready var`. The most idiomatic workaround with Rust is to use `Option<Ref<T>>` of you need the Godot node type or `Option<Instance<T>>` if you are using a Rust based `NativeClass`.
 
@@ -367,11 +385,13 @@ onready var node = $Node2d
 You would need to use the following code.
 
 ```rust
-#[derive(NativeClass)]
+#[derive(NativeClass, Default)]
 #[inherit(Node)]
 #[no_constructor]
 struct MyNode {
-    node2d: Option<Ref<Node>>
+    // late-initialization is modeled with Option
+    // the Default derive will initialize both to None 
+    node2d: Option<Ref<Node>>,
     instance: Option<Ref<MyClass>>,
 }
 
@@ -386,15 +406,14 @@ impl MyNode {
         let node2d = unsafe { node2d.assume_safe() };
         let node2d = node2d.cast::<Node2D>();
         self.node2d = Some(node2d.claim());
+      
         // Get an existing child node that is a Rust class.
         let instance = owner
             .get_node("MyClass")
-            .expect("this node must have a child with the path `MyNode2D`");
-        let instance = unsafe { node2d.assume_safe() };
-        let instance = node2d.cast::<Node2D>();
-        let instance = godot_egui.cast_instance::<MyClass>()
-                        .expect("child `MyNode2D` must be type `MyClass`");
-
+            .expect("this node must have a child with the path `MyClass`");
+        let instance = unsafe { instance.assume_safe() };
+        let instance = instance.cast_instance::<MyClass>()
+                        .expect("child must be type `MyClass`");
         self.instance = Some(instance.claim());
     }
 }
@@ -411,27 +430,27 @@ Some concrete examples of types that can be used with the GDNative API are the f
 - [`Variant`](https://docs.rs/gdnative/latest/gdnative/core_types/struct.Variant.html), this is Godot's "any" type. It must be converted before it can be used.
 - A subset of scalar types such as `i64`, `f64`, `bool`, etc.
 - [`String`](https://doc.rust-lang.org/std/string/struct.String.html) and [`GodotString`](https://docs.rs/gdnative/latest/gdnative/core_types/struct.GodotString.html).
-- [Godot Core Types](https://docs.rs/gdnative/latest/gdnative/core_types/index.html) such as [`Color`](https://docs.rs/gdnative/latest/gdnative/core_types/struct.Color.html), [`Aabb`](https://docs.rs/gdnative/latest/gdnative/core_types/struct.Aabb.html), [`Transform2D`](https://docs.rs/gdnative/latest/gdnative/core_types/type.Transform2D.html), [`Vector2`](https://docs.rs/gdnative/latest/gdnative/core_types/type.Vector2.html), etc.
+- [Godot core types](https://docs.rs/gdnative/latest/gdnative/core_types/index.html) such as [`Color`](https://docs.rs/gdnative/latest/gdnative/core_types/struct.Color.html), [`Aabb`](https://docs.rs/gdnative/latest/gdnative/core_types/struct.Aabb.html), [`Transform2D`](https://docs.rs/gdnative/latest/gdnative/core_types/type.Transform2D.html), [`Vector2`](https://docs.rs/gdnative/latest/gdnative/core_types/type.Vector2.html), etc.
 - Godot classes such as `Node`, `Reference`, etc. which must be accessed via [`Ref<T>`](https://docs.rs/gdnative/latest/gdnative/struct.Ref.html) (you can't pass them by value, because Godot owns them).
-- Any Rust struct that derives [`NativeClass`](https://docs.rs/gdnative/latest/gdnative/derive.NativeClass.html) through [`Instance<T>`](https://docs.rs/gdnative/latest/gdnative/nativescript/struct.Instance.html).
+- Any Rust struct that derives [`NativeClass`](https://docs.rs/gdnative/latest/gdnative/derive.NativeClass.html), through [`Instance<T>`](https://docs.rs/gdnative/latest/gdnative/nativescript/struct.Instance.html).
 
 
-## How can I profile my code to determine the performance?
+## How can I profile my code to measure performance?
 
-There are a lot of ways to profile your code and they will vary in complexity.
+There are a lot of ways to profile your code and they vary in complexity.
 
-The simplest way to profile your code is by using the `#[gdnative::profiled]` procedural macro that enable the Godot to profile the attributed function. This option is useful for comparing performance gains when porting GDScript code to Rust or as a way to understand the relative "frame time" of your code.
+The simplest way is to use the `#[gdnative::profiled]` procedural macro that enables Godot to profile the attributed function. This option is useful for comparing performance gains when porting GDScript code to Rust or as a way to understand the relative "frame time" of your code. Don't forget to compile Rust code with `--release`!
 
-For more information about the Godot profiler, please refer to the [Official Documentation](https://docs.godotengine.org/en/stable/tutorials/debug/debugger_panel.html?highlight=profiler#profiler).
+For more information about the Godot profiler, please refer to the [official documentation](https://docs.godotengine.org/en/stable/tutorials/debug/debugger_panel.html?highlight=profiler#profiler).
 
-In order for Godot to profile your function all of the following must be true:
-- The function belongs to a struct that derives `NativeClass`
+In order for Godot to profile your function, all the following must be true:
+- The function belongs to a struct that derives `NativeClass`.
 - The function is included in an `impl` block that is attributed with the `#[methods]` attribute.
 - The function is attributed with `#[export]` attribute.
 
-As such, this method is _only_ useful for exported code and is subject to the Godot's profiler's limitations, such as millisecond accuracy in the profiler's metrics.
+As such, this method is _only_ useful for exported code and is subject to the Godot profiler's limitations, such as millisecond accuracy in profiler metrics.
 
-The following example illustrates how your code should look when being profiled.
+The following example illustrates how your code should look when being profiled:
 
 ```rust
 #[derive(NativeClass)]
@@ -452,7 +471,7 @@ impl MyClass {
 }
 ```
 
-If you require insight into Rust code that is not exported to Godot or would like more in-depth information regarding how your Rust code is executing, it will be necessary to use a Rust compatible profiler such as [puffin](https://crates.io/crates/puffin) or [perf](https://perf.wiki.kernel.org/index.php/Main_Page). These tools can be used to more accurately determine bottlenecks and the general performance of your Rust code.
+If you require insight into Rust code that is not exported to Godot, or would like more in-depth information regarding execution of your program, it will be necessary to use a Rust compatible profiler such as [puffin](https://crates.io/crates/puffin) or [perf](https://perf.wiki.kernel.org/index.php/Main_Page). These tools can be used to more accurately determine bottlenecks and the general performance of your Rust code.
 
 **Note:** There are many more profilers than the ones listed and you should do your own research before selecting which one you wish to use.
 

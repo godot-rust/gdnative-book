@@ -5,17 +5,14 @@
 
 ## What is the status of Godot 4 Support?
 
-Currently we are still in the planning phase of determining how to support Godot 4.0 and where we will focus our efforts in the future.
+Currently we are still in the planning phase of determining how to support Godot 4.0 and where we will focus our efforts in the future.  
+You can follow [this GitHub issue](https://github.com/godot-rust/godot-rust/issues/824) for updates.
 
-
-## So what is the plan?
-
-We don't have any specifics at this time. This page will be updated as soon as we have a more concrete plan to share.
 
 
 ## What is GDExtension? Why aren't we just upgrading GDNative?
 
-Currently the Godot team has officially announced [GDExtension](https://godotengine.org/article/introducing-gd-extensions) as the __replacement__ for GDNative. GDNative appears to be no longer supported in Godot 4.0.
+The Godot team has officially announced [GDExtension](https://godotengine.org/article/introducing-gd-extensions) as the **replacement** for GDNative. GDNative is no longer supported in Godot 4.
 
 
 ## What do we know so far?

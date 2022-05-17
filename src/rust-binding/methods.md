@@ -5,7 +5,7 @@ In order to receive data from Godot, you can export methods. With the `#[export]
 > #### Upcoming API changes
 > `#[export]` is being renamed as `#[godot]` and will soon be deprecated, and later removed in godot-rust 0.11.
 >
-> For more information, see [gdnative::derive::NativeClass](https://godot-rust.github.io/docs/gdnative/derive/derive.NativeClass.html).
+> For more information, see [`gdnative::derive::NativeClass`](https://godot-rust.github.io/docs/gdnative/derive/derive.NativeClass.html).
 
 The exported method's first parameter is always `&self` or `&mut self` (operating on the Rust object), and the second parameter is `&T` or `TRef<T>` (operating on the Godot base object, with `T` being the inherited type).
 
