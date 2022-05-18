@@ -21,6 +21,7 @@
     - [Versioning and supported platforms](./faq/support.md)
     - [Community](./faq/community.md)
     - [Godot 4.0 Status](./faq/godot4.md)
+    - [GDScript method alternatives](./faq/gdscript-builtins.md)
 - [(TODO) Testing](./testing.md)
     - [Structuring code for testing](./testing/structure.md)
     - [Testing with the engine](./testing/engine.md)
