@@ -1533,7 +1533,7 @@ struct EntityFactory {}
 #[methods]
 impl EntityFactory {
     #[export]
-    fn enemy(&amp;self, _owner: &amp;Object, name: String, health: f32)
+    fn enemy(&amp;self, _owner: &amp;Reference, name: String, health: f32)
     -&gt; Instance&lt;Enemy, Unique&gt; {
         Enemy { name, health }.emplace()
     }
@@ -1598,12 +1598,12 @@ impl AnotherNativeScript {
                 .expect(&quot;Failed to convert my_node variant to object&quot;)
                 .assume_safe()
         };
-        
+
         // 2. Obtain a TInstance which gives access to the Rust object's data.
         let my_node = my_node
             .cast_instance::&lt;MyNode2D&gt;()
             .expect(&quot;Failed to cast my_node object to instance&quot;);
-        
+
         // 3. Map over the RefInstance to process the underlying user data.
         my_node
             .map(|my_node, _owner| {
@@ -1687,7 +1687,7 @@ onready var node = $Node2d
 #[no_constructor]
 struct MyNode {
     // late-initialization is modeled with Option
-    // the Default derive will initialize both to None 
+    // the Default derive will initialize both to None
     node2d: Option&lt;Ref&lt;Node&gt;&gt;,
     instance: Option&lt;Ref&lt;MyClass&gt;&gt;,
 }
@@ -1703,7 +1703,7 @@ impl MyNode {
         let node2d = unsafe { node2d.assume_safe() };
         let node2d = node2d.cast::&lt;Node2D&gt;();
         self.node2d = Some(node2d.claim());
-      
+
         // Get an existing child node that is a Rust class.
         let instance = owner
             .get_node(&quot;MyClass&quot;)
