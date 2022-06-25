@@ -39,6 +39,7 @@
     - [Android](./exporting/android.md)
     - [(TODO) iOS](./exporting/ios.md)
     - [Mac OS X](./exporting/macosx.md)
+    - [HTML5](./exporting/html5.md)
 - [Advanced Guides](./advanced-guides.md)
     - [Using custom Godot versions](./advanced-guides/custom-godot.md)
     - [Migrating from godot-rust 0.8](advanced-guides/migrating-0-8.md)
