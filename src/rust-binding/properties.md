@@ -49,6 +49,7 @@ Default get/set functions can be registered as per the following example:
 #[inherit(Node)]
 struct GodotApi {
     // property registration
+    // Note: This is actually equivalent to #[property]
     #[property(get, set)]
     prop: i32,
 }
@@ -104,7 +105,7 @@ struct GodotApi {
 
 impl GodotApi {
     fn new(_owner: &Node) -> Self {
-        GodotApi { prop: "".to_owned() }
+        GodotApi { prop: String::new() }
     }
 }
 
@@ -196,8 +197,7 @@ impl MyNode {
 
 Sometimes it can be useful to expose a value as a property instead of as a function. Properties of this type serve as a `marker` for the existence of a property and allows it to be viewed in the editor, even if it doesn't exist by itself.
 
-This can be useful for data (similar to the first sample) where you want to have a property visible in the editor without having to have a concrete data type.
-For example in the following:
+This can be useful for data (similar to the first sample) where the count serves more as a property of `enemies` rather than as it's own distinct data, such as the following: 
 
 ```rs
 struct Enemy {
@@ -206,13 +206,14 @@ struct Enemy {
 #[derive(NativeClass)]
 struct GodotApi {
     enemies: Vec<Enemy>,
+    // Note: As the property is a "marker" property, this will never be used in code.
     #[allow(dead_code)]
     #[property(get = "Self::get_size")]
     enemy_count: Property<u32>,
 }
 
 #[methods]
-impl MyVec {
+impl GodotApi {
     //...
 
     fn get_size(&self, _owner: TRef<Reference>) -> u32 {
