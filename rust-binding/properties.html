@@ -170,51 +170,85 @@ enemy_count: i32,
 enemy_count: i32,
 <span class="boring">}
 </span></code></pre></pre>
-<h2 id="property-access-hooks"><a class="header" href="#property-access-hooks">Property access hooks</a></h2>
-<p>You can add hooks to call methods before and after property value was retrieved or changed.</p>
-<p>Note that unlike <a href="https://docs.godotengine.org/en/3.3/getting_started/scripting/gdscript/gdscript_basics.html?#setters-getters">GDScript's <code>setget</code> keyword</a>, this does <em>not</em> register a custom setter or getter. Instead, it registers a callback which is invoked <em>before or after</em> the set/get occurs, and lacks both parameter and return value.</p>
+<h2 id="property-getset"><a class="header" href="#property-getset">Property get/set</a></h2>
+<p>Properties can register <code>set</code> and <code>get</code> methods to be called from Godot.</p>
+<p>Default get/set functions can be registered as per the following example:</p>
+<pre><code class="language-rs">
+#[derive(NativeClass, Default)]
+#[inherit(Node)]
+struct GodotApi {
+    // property registration
+    // Note: This is actually equivalent to #[property]
+    #[property(get, set)]
+    prop: i32,
+}
+</code></pre>
+<p>If you need custom setters and getters, you can set them in the <code>property</code> attribute such as in the following example:</p>
 <pre><pre class="playground"><code class="language-rust">
 <span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
-</span>#[derive(NativeClass, Default)]
+</span>#[derive(NativeClass)]
+#[inherit(Node)]
+struct HelloWorld {
+    // property registration
+    #[property(get = &quot;Self::get&quot;, set = &quot;Self::set&quot;)]
+    prop: i32,
+}
+
+impl HelloWorld {
+    fn new(_owner: &amp;Node) -&gt; Self {
+        HelloWorld { prop: 0i32 }
+    }
+}
+
+#[methods]
+impl HelloWorld {
+    fn get(&amp;self, _owner: TRef&lt;Node&gt;) -&gt; i32 {
+        godot_print!(&quot;get() -&gt; {}&quot;, &amp;self.prop);
+        self.prop
+    }
+
+    fn set(&amp;mut self, _owner: TRef&lt;Node&gt;, value: i32) {
+        godot_print!(&quot;set({})&quot;, &amp;value);
+        self.prop = value;
+    }
+}
+<span class="boring">}
+</span></code></pre></pre>
+<h3 id="note-get-vs-get_ref"><a class="header" href="#note-get-vs-get_ref">Note: <code>get</code> vs <code>get_ref</code></a></h3>
+<p>There are two ways to return the property.</p>
+<ul>
+<li><code>get</code> will return a value of <code>T</code> which <em>must</em> result in the value being cloned. </li>
+<li><code>get_ref</code> must point to a function that returns <code>&amp;T</code>, this is useful when working with large data that would be very expensive to copy unnecessarily.</li>
+</ul>
+<p>Modifying the previous example accordingly results in the following:</p>
+<pre><pre class="playground"><code class="language-rust">
+<span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>#[derive(NativeClass)]
 #[inherit(Node)]
 struct GodotApi {
-    // before get
-    #[property(before_get = &quot;Self::before_get&quot;)]
-    prop_before_get: i32,
-
-    // before set
-    #[property(before_set = &quot;Self::before_set&quot;)]
-    prop_before_set: i32,
-
-    // after get
-    #[property(after_get = &quot;Self::after_get&quot;)]
-    prop_after_get: i32,
-
-    // after set
-    #[property(after_set = &quot;Self::after_set&quot;)]
-    prop_after_set: i32,
+    // property registration
+    #[property(get_ref = &quot;Self::get&quot;, set = &quot;Self::set&quot;)]
+    prop: String,
 }
 
 impl GodotApi {
     fn new(_owner: &amp;Node) -&gt; Self {
-        Self::default()
+        GodotApi { prop: String::new() }
+    }
+}
+
+#[methods]
+impl GodotApi {
+    fn get(&amp;self, _owner: TRef&lt;Node&gt;) -&gt; &amp;String {
+        godot_print!(&quot;get() -&gt; {}&quot;, &amp;self.prop);
+        &amp;self.prop
     }
 
-    fn before_get(&amp;self, _owner: TRef&lt;Node&gt;) {
-        godot_print!(&quot;Before get&quot;);
-    }
-
-    fn before_set(&amp;self, _owner: TRef&lt;Node&gt;) {
-        godot_print!(&quot;Before set&quot;);
-    }
-
-    fn after_get(&amp;self, _owner: TRef&lt;Node&gt;) {
-        godot_print!(&quot;After get&quot;);
-    }
-
-    fn after_set(&amp;self, _owner: TRef&lt;Node&gt;) {
-        godot_print!(&quot;After set&quot;);
+    fn set(&amp;mut self, _owner: TRef&lt;Node&gt;, value: String) {
+        godot_print!(&quot;set({})&quot;, &amp;value);
+        self.prop = value;
     }
 }
 <span class="boring">}
@@ -225,41 +259,43 @@ impl GodotApi {
 <p>To do so, you can use the <a href="https://docs.rs/gdnative/latest/gdnative/prelude/struct.ClassBuilder.html"><code>ClassBuilder</code></a> -- such as in the following examples -- to manually register each property and customize how they interface in the editor.</p>
 <pre><pre class="playground"><code class="language-rust">
 <span class="boring">#![allow(unused)]
-</span><span class="boring">fn main() {
+</span>
+<span class="boring">fn main() {
 </span>#[derive(NativeClass)]
-#[inherit(gdnative::api::Node)]
+#[inherit(Node)]
 #[register_with(Self::register_properties)]
+#[no_constructor]
 pub struct MyNode {
     number: i32,
     number_enum: i32,
-    float_range: f32,
+    float_range: f64,
     my_filepath: String,
 }
 
-#[gdnative::methods]
+#[methods]
 impl MyNode {
     fn register_properties(builder: &amp;ClassBuilder&lt;MyNode&gt;) {
-        use gdnative::nativescript::property::StringHint;
+        use gdnative::export::hint::*;
         // Add a number with a getter and setter. 
         // (This is the equivalent of adding the `#[property]` attribute for `number`)
         builder
-            .add_property::&lt;i32&gt;(&quot;number&quot;)
-            .with_getter(number_getter)
-            .with_setter(numer_setter)
+            .property::&lt;i32&gt;(&quot;number&quot;)
+            .with_getter(Self::number_getter)
+            .with_setter(Self::number_setter)
             .done();
 
         // Register the number as an Enum
         builder
-            .add_property::&lt;i32&gt;(&quot;number_enum&quot;)
+            .property::&lt;i32&gt;(&quot;number_enum&quot;)
             .with_getter(move |my_node: &amp;MyNode, _owner: TRef&lt;Node&gt;| my_node.number_enum)
             .with_setter(move |my_node: &amp;mut MyNode, _owner: TRef&lt;Node&gt;, new_value| my_node.number_enum = new_value)
             .with_default(1)
-            .with_hint(IntHint::Enum(EnumHint::new(&quot;a&quot;, &quot;b&quot;, &quot;c&quot;, &quot;d&quot;)))
+            .with_hint(IntHint::Enum(EnumHint::new(vec![&quot;a&quot;.to_owned(), &quot;b&quot;.to_owned(), &quot;c&quot;.to_owned(), &quot;d&quot;.to_owned()])))
             .done();
 
         // Register a floating point value with a range from 0.0 to 100.0 with a step of 0.1
         builder
-            .add_property::&lt;f64&gt;(&quot;float_range&quot;)
+            .property::&lt;f64&gt;(&quot;float_range&quot;)
             .with_getter(move |my_node: &amp;MyNode, _owner: TRef&lt;Node&gt;| my_node.float_range)
             .with_setter(move |my_node: &amp;mut MyNode, _owner: TRef&lt;Node&gt;, new_value| my_node.float_range = new_value)
             .with_default(1.0)
@@ -268,8 +304,8 @@ impl MyNode {
 
         // Manually register a string as a file path for .txt and .dat files.
         builder
-            .add_property::&lt;String&gt;(&quot;my_filepath&quot;)
-            .with_getter(move |my_node: &amp;MyNode, _owner: TRef&lt;Node&gt;| my_node.my_filepath.clone())
+            .property::&lt;String&gt;(&quot;my_filepath&quot;)
+            .with_ref_getter(move |my_node: &amp;MyNode, _owner: TRef&lt;Node&gt;| &amp;my_node.my_filepath)
             .with_setter(move |my_node: &amp;mut MyNode, _owner: TRef&lt;Node&gt;, new_value: String| my_node.my_filepath = new_value)
             .with_default(&quot;&quot;.to_owned())
             .with_hint(StringHint::File(EnumHint::new(vec![&quot;*.txt&quot;.to_owned(), &quot;*.dat&quot;.to_owned()])))
@@ -285,6 +321,30 @@ impl MyNode {
 }
 <span class="boring">}
 </span></code></pre></pre>
+<h2 id="propertyt-and-when-to-use-it"><a class="header" href="#propertyt-and-when-to-use-it"><code>Property&lt;T&gt;</code> and when to use it</a></h2>
+<p>Sometimes it can be useful to expose a value as a property instead of as a function. Properties of this type serve as a <em>marker</em> that can be registered with Godot and viewed in the editor without containing any data in Rust.</p>
+<p>This can be useful for data (similar to the first sample) where the count serves more as a property of <code>enemies</code> rather than as its own distinct data, such as the following: </p>
+<pre><code class="language-rs">struct Enemy {
+    // Enemy Data
+}
+#[derive(NativeClass)]
+struct GodotApi {
+    enemies: Vec&lt;Enemy&gt;,
+    // Note: As the property is a &quot;marker&quot; property, this will never be used in code.
+    #[allow(dead_code)]
+    #[property(get = &quot;Self::get_size&quot;)]
+    enemy_count: Property&lt;u32&gt;,
+}
+
+#[methods]
+impl GodotApi {
+    //...
+
+    fn get_size(&amp;self, _owner: TRef&lt;Reference&gt;) -&gt; u32 {
+        self.enemies.len() as u32
+    }
+}
+</code></pre>
 
                     </main>
 
