@@ -195,9 +195,9 @@ impl MyNode {
 
 ## `Property<T>` and when to use it
 
-Sometimes it can be useful to expose a value as a property instead of as a function. Properties of this type serve as a `marker` for the existence of a property and allows it to be viewed in the editor, even if it doesn't exist by itself.
+Sometimes it can be useful to expose a value as a property instead of as a function. Properties of this type serve as a _marker_ that can be registered with Godot and viewed in the editor without containing any data in Rust.
 
-This can be useful for data (similar to the first sample) where the count serves more as a property of `enemies` rather than as it's own distinct data, such as the following: 
+This can be useful for data (similar to the first sample) where the count serves more as a property of `enemies` rather than as its own distinct data, such as the following: 
 
 ```rs
 struct Enemy {
