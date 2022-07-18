@@ -392,7 +392,7 @@ struct MyNode {
     // late-initialization is modeled with Option
     // the Default derive will initialize both to None
     node2d: Option<Ref<Node>>,
-    instance: Option<Ref<MyClass>>,
+    instance: Option<Instance<MyClass>>,
 }
 
 #[methods]
