@@ -404,7 +404,8 @@ impl MyNode {
             .get_node("Node2D")
             .expect("this node must have a child with the path `Node2D`");
         let node2d = unsafe { node2d.assume_safe() };
-        let node2d = node2d.cast::<Node2D>();
+        let node2d = node2d.cast::<Node2D>()
+                        .expect("child must be of type 'Node2D'");
         self.node2d = Some(node2d.claim());
 
         // Get an existing child node that is a Rust class.
