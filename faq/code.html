@@ -205,7 +205,7 @@ struct SignalEmitter {
 #[methods]
 impl SignalEmitter {
     fn register_signals(builder: &amp;ClassBuilder&lt;Self&gt;) {
-        builder.add_signal(Signal { name: &quot;updated&quot;, args: &amp;[] });
+        builder.signal(&quot;updated&quot;).done();
     }
 
     fn new(_owner: &amp;Node) -&gt; Self {
