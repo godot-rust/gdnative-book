@@ -131,22 +131,9 @@ godot_gdnative_terminate!(_ as my_symbol_prefix_gdnative_terminate);
 
 Yes, with NativeScript so long as you can create a `NativeScript` wrapper you can create GDScript bindings for a Rust crate. See the [logging recipe](../recipes/logging.md) for an example of wrapping a Rust logging crate for use with GDScript.
 
-
-## How do I get auto-completion with rust-analyzer?
-
-`godot-rust` generates most of the gdnative type's code at compile-time. Editors using [rust-analyzer](https://github.com/rust-analyzer/rust-analyzer) struggle to autocomplete those types:
-
-![no-completion](img/no-completion.png)
-
-
-People [reported](https://github.com/rust-analyzer/rust-analyzer/issues/5040) similar issues and found that switching on the `"rust-analyzer.cargo.loadOutDirsFromCheck": true` setting fixed it:
-
-![completion](img/completion.png)
-
-
 ## How do I get auto-completion with IntelliJ-Rust plugin?
 
-Similar to rust-analyzer, IntelliJ-Family IDEs struggle to autocomplete gdnative types generated at compile-time.
+IntelliJ-Family IDEs struggle to autocomplete gdnative types generated at compile-time.
 
 There are two problems preventing autocompletion of gdnative types in IntelliJ-Rust.
 
