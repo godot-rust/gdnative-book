@@ -144,7 +144,6 @@
 <li><a href="#can-i-use-rust-for-a-tool-script">Can I use Rust for a tool script?</a></li>
 <li><a href="#is-it-possible-to-use-multiple-libraries-with-gdnative">Is it possible to use multiple libraries with GDNative?</a></li>
 <li><a href="#can-i-expose-insert-rust-crate-name-for-use-with-godot-and-gdscript">Can I expose {insert Rust crate name} for use with Godot and GDScript?</a></li>
-<li><a href="#how-do-i-get-auto-completion-with-rust-analyzer">How do I get auto-completion with rust-analyzer?</a></li>
 <li><a href="#how-do-i-get-auto-completion-with-intellij-rust-plugin">How do I get auto-completion with IntelliJ-Rust plugin?</a></li>
 <li><a href="#how-can-i-make-my-debug-builds-more-performant">How can I make my debug builds more performant?</a></li>
 </ul>
@@ -248,13 +247,8 @@ godot_gdnative_terminate!(_ as my_symbol_prefix_gdnative_terminate);
 </span></code></pre></pre>
 <h2 id="can-i-expose-insert-rust-crate-name-for-use-with-godot-and-gdscript"><a class="header" href="#can-i-expose-insert-rust-crate-name-for-use-with-godot-and-gdscript">Can I expose {insert Rust crate name} for use with Godot and GDScript?</a></h2>
 <p>Yes, with NativeScript so long as you can create a <code>NativeScript</code> wrapper you can create GDScript bindings for a Rust crate. See the <a href="../recipes/logging.html">logging recipe</a> for an example of wrapping a Rust logging crate for use with GDScript.</p>
-<h2 id="how-do-i-get-auto-completion-with-rust-analyzer"><a class="header" href="#how-do-i-get-auto-completion-with-rust-analyzer">How do I get auto-completion with rust-analyzer?</a></h2>
-<p><code>godot-rust</code> generates most of the gdnative type's code at compile-time. Editors using <a href="https://github.com/rust-analyzer/rust-analyzer">rust-analyzer</a> struggle to autocomplete those types:</p>
-<p><img src="img/no-completion.png" alt="no-completion" /></p>
-<p>People <a href="https://github.com/rust-analyzer/rust-analyzer/issues/5040">reported</a> similar issues and found that switching on the <code>&quot;rust-analyzer.cargo.loadOutDirsFromCheck&quot;: true</code> setting fixed it:</p>
-<p><img src="img/completion.png" alt="completion" /></p>
 <h2 id="how-do-i-get-auto-completion-with-intellij-rust-plugin"><a class="header" href="#how-do-i-get-auto-completion-with-intellij-rust-plugin">How do I get auto-completion with IntelliJ-Rust plugin?</a></h2>
-<p>Similar to rust-analyzer, IntelliJ-Family IDEs struggle to autocomplete gdnative types generated at compile-time.</p>
+<p>IntelliJ-Family IDEs struggle to autocomplete gdnative types generated at compile-time.</p>
 <p>There are two problems preventing autocompletion of gdnative types in IntelliJ-Rust.</p>
 <p>First, the features necessary are (as of writing) considered experimental and must be enabled. Press <code>shift</code> twice to open the find all dialog and type <code>Experimental features...</code> and click the checkbox for <code>org.rust.cargo.evaluate.build.scripts</code>.  Note that <code>org.rust.cargo.fetch.out.dir</code> will also work, but is known to be less performant and may be phased out.</p>
 <p>Second, the bindings files generated (~8mb) are above the 2mb limit for files to be processed. As <a href="https://github.com/intellij-rust/intellij-rust/issues/6571#">reported</a> you can increase the limit with the steps below.</p>
