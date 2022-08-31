@@ -85,7 +85,7 @@ Yes, any Rust struct that inherits from `NativeClass` can be also used as a tool
 stuct MyTool {}
 #[methods]
 impl MyTool {
-    fn new (_owner: &Node) -> Self {
+    fn new (_base: &Node) -> Self {
         Self {}
     }
 }

@@ -36,8 +36,8 @@ pub struct Enemy {
 
 #[methods]
 impl Enemy {
-    #[export]
-    fn _to_string(&self, _owner: &Reference) -> String {
+    #[method]
+    fn _to_string(&self) -> String {
         format!("{:?}", self) // calls Debug::fmt()
     }
 }
@@ -51,16 +51,13 @@ fn init(handle: InitHandle) {
 ```
 Now, it's not possible to directly return `Enemy` instances in exported methods, so this won't work:
 ```rust
-#[export]
-fn create_enemy(&mut self, _owner: &Node) -> Enemy {...}
+#[method]
+fn create_enemy(&mut self) -> Enemy {...}
 ```
 Instead, you can wrap the object in a `Instance<Enemy, Unique>`, using `emplace()`. For an in-depth explanation of the `Instance` class, read [this section](../gdnative-overview/wrappers.md#instance-reference-with-attached-rust-class).
 ```rust
-#[export]
-fn create_enemy(
-    &self,
-    _owner: &Node
-) -> Instance<Enemy, Unique> {
+#[method]
+fn create_enemy(&self) -> Instance<Enemy, Unique> {
     let enemy = Enemy {
         pos: Vector2::new(7.0, 2.0),
         health: 100.0,
@@ -177,7 +174,7 @@ When calling GDScript functions from Rust, a few things need to be kept in mind.
 
 **Safety:** Since the calls are dynamic, it is possible to invoke any other functions through them, including unsafe ones like `free()`. As a result, `call()` and its alternatives are unsafe.
 
-**Re-entrancy:** When calling from Rust to GDScript, your Rust code is usually already running in an exported `#[export]` method, meaning that it has bound its receiver object via `&T` or `&mut T` reference. In the GDScript code, you must not invoke any method on the same Rust receiver, which would violate safety rules (aliasing of `&mut`).
+**Re-entrancy:** When calling from Rust to GDScript, your Rust code is usually already running in an exported `#[method]` method, meaning that it has bound its receiver object via `&T` or `&mut T` reference. In the GDScript code, you must not invoke any method on the same Rust receiver, which would violate safety rules (aliasing of `&mut`).
 
 
 ## Signal emissions

@@ -52,15 +52,15 @@ pub struct GodotApi {}
 #[methods]
 impl GodotApi {
     // Constructor, either:
-    fn new(owner: &Node) -> Self { ... }
+    fn new(base: &Node) -> Self { ... }
     // or:
-    fn new(owner: TRef<Node>) -> Self { ... }
+    fn new(base: TRef<Node>) -> Self { ... }
 }
 ```
 
 The [`#[derive(NativeClass)]` macro](https://docs.rs/gdnative/latest/gdnative/derive.NativeClass.html) enables a Rust type to be usable as a _native class_ in Godot. It implements [the `NativeClass` trait](https://docs.rs/gdnative/latest/gdnative/nativescript/trait.NativeClass.html), which fills in the glue code required to make the class available in Godot. Among other information, this includes class name and registry of exported methods and properties. For the user, the utility methods `new_instance()` and `emplace()` are provided for constructing `Instance` objects.
 
-The function `new()` corresponds to `_init()` in GDScript. The _owner_ is the base object of the script, and must correspond to the class specified in the `#[inherit]` attribute (or `Reference` if the attribute is absent). The parameter can be a shared reference `&T` or a `TRef<T>`.
+The function `new()` corresponds to `_init()` in GDScript. The _base_ is the base object of the script, and must correspond to the class specified in the `#[inherit]` attribute (or `Reference` if the attribute is absent). The parameter can be a shared reference `&T` or a `TRef<T>`.
 
 With a `new()` method, you are able to write `GodotApi.new()` in GDScript. If you don't need this, you can add the `#[no_constructor]` attribute to the struct declaration.
 

@@ -101,7 +101,7 @@ enum MyIntEnum {
 #[inherit(Node)]
 #[no_constructor]
 struct MyNode {
-    #[export]
+    #[property]
     int_enum: MyIntEnum
 }
 ```

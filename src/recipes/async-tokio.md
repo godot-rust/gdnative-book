@@ -61,7 +61,7 @@ struct AsyncExecutorDriver {
 }
 
 impl AsyncExecutorDriver {
-	fn new(_owner: &Node) -> Self {
+	fn new(_base: &Node) -> Self {
 		AsyncExecutorDriver {
 			runtime: Builder::new_current_thread()
 				.enable_io() 	// optional, depending on your needs
@@ -78,8 +78,8 @@ In the `_process` call of our `AsyncExecutorDriver`, we can block on `run_until`
 ```rust
 #[methods]
 impl AsyncExecutorDriver {
-	#[export]
-	fn _process(&self, _owner: &Node, _delta: f64) {
+	#[method]
+	fn _process(&self, #[base] _base: &Node, _delta: f64) {
 		EXECUTOR.with(|e| {
 			self.runtime
 				.block_on(async {

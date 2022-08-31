@@ -67,19 +67,19 @@ struct HelloWorld {
 }
 
 impl HelloWorld {
-    fn new(_owner: &Node) -> Self {
+    fn new(_base: &Node) -> Self {
         HelloWorld { prop: 0i32 }
     }
 }
 
 #[methods]
 impl HelloWorld {
-    fn get(&self, _owner: TRef<Node>) -> i32 {
+    fn get(&self, _base: TRef<Node>) -> i32 {
         godot_print!("get() -> {}", &self.prop);
         self.prop
     }
 
-    fn set(&mut self, _owner: TRef<Node>, value: i32) {
+    fn set(&mut self, _base: TRef<Node>, value: i32) {
         godot_print!("set({})", &value);
         self.prop = value;
     }
@@ -104,19 +104,19 @@ struct GodotApi {
 }
 
 impl GodotApi {
-    fn new(_owner: &Node) -> Self {
+    fn new(_base: &Node) -> Self {
         GodotApi { prop: String::new() }
     }
 }
 
 #[methods]
 impl GodotApi {
-    fn get(&self, _owner: TRef<Node>) -> &String {
+    fn get(&self, _base: TRef<Node>) -> &String {
         godot_print!("get() -> {}", &self.prop);
         &self.prop
     }
 
-    fn set(&mut self, _owner: TRef<Node>, value: String) {
+    fn set(&mut self, _base: TRef<Node>, value: String) {
         godot_print!("set({})", &value);
         self.prop = value;
     }
@@ -159,8 +159,8 @@ impl MyNode {
         // Register the number as an Enum
         builder
             .property::<i32>("number_enum")
-            .with_getter(move |my_node: &MyNode, _owner: TRef<Node>| my_node.number_enum)
-            .with_setter(move |my_node: &mut MyNode, _owner: TRef<Node>, new_value| my_node.number_enum = new_value)
+            .with_getter(move |my_node: &MyNode, _base: TRef<Node>| my_node.number_enum)
+            .with_setter(move |my_node: &mut MyNode, _base: TRef<Node>, new_value| my_node.number_enum = new_value)
             .with_default(1)
             .with_hint(IntHint::Enum(EnumHint::new(vec!["a".to_owned(), "b".to_owned(), "c".to_owned(), "d".to_owned()])))
             .done();
@@ -168,8 +168,8 @@ impl MyNode {
         // Register a floating point value with a range from 0.0 to 100.0 with a step of 0.1
         builder
             .property::<f64>("float_range")
-            .with_getter(move |my_node: &MyNode, _owner: TRef<Node>| my_node.float_range)
-            .with_setter(move |my_node: &mut MyNode, _owner: TRef<Node>, new_value| my_node.float_range = new_value)
+            .with_getter(move |my_node: &MyNode, _base: TRef<Node>| my_node.float_range)
+            .with_setter(move |my_node: &mut MyNode, _base: TRef<Node>, new_value| my_node.float_range = new_value)
             .with_default(1.0)
             .with_hint(FloatHint::Range(RangeHint::new(0.0, 100.0).with_step(0.1)))
             .done();
@@ -177,17 +177,17 @@ impl MyNode {
         // Manually register a string as a file path for .txt and .dat files.
         builder
             .property::<String>("my_filepath")
-            .with_ref_getter(move |my_node: &MyNode, _owner: TRef<Node>| &my_node.my_filepath)
-            .with_setter(move |my_node: &mut MyNode, _owner: TRef<Node>, new_value: String| my_node.my_filepath = new_value)
+            .with_ref_getter(move |my_node: &MyNode, _base: TRef<Node>| &my_node.my_filepath)
+            .with_setter(move |my_node: &mut MyNode, _base: TRef<Node>, new_value: String| my_node.my_filepath = new_value)
             .with_default("".to_owned())
             .with_hint(StringHint::File(EnumHint::new(vec!["*.txt".to_owned(), "*.dat".to_owned()])))
             .done();
     }
-    fn number_getter(&self, _owner: TRef<Node>) -> i32 {
+    fn number_getter(&self, _base: TRef<Node>) -> i32 {
         self.number
     }
 
-    fn number_setter(&mut self, _owner: TRef<Node>, new_value: i32) {
+    fn number_setter(&mut self, _base: TRef<Node>, new_value: i32) {
         self.number = new_value
     }
 }
@@ -216,7 +216,7 @@ struct GodotApi {
 impl GodotApi {
     //...
 
-    fn get_size(&self, _owner: TRef<Reference>) -> u32 {
+    fn get_size(&self, _base: TRef<Reference>) -> u32 {
         self.enemies.len() as u32
     }
 }
