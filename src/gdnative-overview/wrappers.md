@@ -78,7 +78,7 @@ pub struct Player {
 
 #[methods]
 impl Player {
-    fn new(_owner: &Reference) -> Self {
+    fn new(_base: &Reference) -> Self {
         Self {
             name: "New player".to_string(),
             score: 0

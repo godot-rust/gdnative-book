@@ -134,24 +134,24 @@ impl DebugLogger {
     fn new(_: &Node) -> Self {
         Self {}
     }
-    #[export]
-    fn error(&self, _owner: &Node, target: String, message: String) {
+    #[method]
+    fn error(&self, target: String, message: String) {
         log::error!(target: &target, "{}", message);
     }
-    #[export]
-    fn warn(&self, _: &Node, target: String, message: String) {
+    #[method]
+    fn warn(&self, target: String, message: String) {
         log::warn!(target: &target, "{}", message);
     }
-    #[export]
-    fn info(&self, _: &Node, target: String, message: String) {
+    #[method]
+    fn info(&self, target: String, message: String) {
         log::info!(target: &target, "{}", message);
     }
-    #[export]
-    fn debug(&self, _: &Node, target: String, message: String) {
+    #[method]
+    fn debug(&self, target: String, message: String) {
         log::debug!(target: &target, "{}", message);
     }
-    #[export]
-    fn trace(&self, _: &Node, target: String, message: String) {
+    #[method]
+    fn trace(&self, target: String, message: String) {
         log::trace!(target: &target, "{}", message);
     }
 }

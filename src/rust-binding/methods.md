@@ -1,9 +1,9 @@
 # Exported methods
 
-In order to receive data from Godot, you can export methods. With the `#[export]` attribute, godot-rust takes care of method registration and serialization. Note that the constructor is not annotated with `#[export]`.
+In order to receive data from Godot, you can export methods. With the `#[method]` attribute, godot-rust takes care of method registration and serialization. Note that the constructor is not annotated with `#[method]`.
 
-> #### Upcoming API changes
-> `#[export]` is being renamed as `#[godot]` and will soon be deprecated, and later removed in godot-rust 0.11.
+> #### Recent API changes
+> `#[export]` is being renamed as `#[method]` and will soon be deprecated, and later removed in godot-rust 0.11.
 >
 > For more information, see [`gdnative::derive::NativeClass`](https://godot-rust.github.io/docs/gdnative/derive/derive.NativeClass.html).
 
@@ -18,16 +18,15 @@ pub struct GodotApi {
 
 #[methods]
 impl GodotApi {
-    fn new(_owner: &Node) -> Self {
+    fn new(_base: &Node) -> Self {
         // Print to both shell and Godot editor console
         godot_print!("_init()");
         Self { enemy_count: 0 }
     }
     
-    #[export]
+    #[method]
     fn create_enemy(
         &mut self,
-        _owner: &Node,
         typ: String,
         pos: Vector2
     ) {
@@ -35,10 +34,9 @@ impl GodotApi {
         self.enemy_count += 1;
     }
 
-    #[export]
+    #[method]
     fn create_enemy2(
         &mut self,
-        _owner: &Node,
         typ: GodotString,
         pos: Variant
     ) {
@@ -46,8 +44,8 @@ impl GodotApi {
         self.enemy_count += 1;
     }
 
-    #[export]
-    fn count_enemies(&self, _owner: &Node) -> i32 {
+    #[method]
+    fn count_enemies(&self) -> i32 {
         self.enemy_count
     }  
 }
@@ -93,10 +91,9 @@ pub struct GodotApi {
 impl GodotApi {
     // new() etc...
 
-    #[export]
+    #[method]
     fn add_enemy(
         &mut self,
-        _owner: &Node,
         enemy: Ref<Node2D> // pass in enemy
     ) {
         self.enemies.push(enemy);
@@ -105,10 +102,9 @@ impl GodotApi {
     // You can even return the enemies directly with Vec.
     // In GDScript, you will get an array of nodes.
     // An alternative would be VariantArray, able to hold different types.
-    #[export]
+    #[method]
     fn get_enemies(
         &self,
-        _owner: &Node
     ) ->  Vec<Ref<Node2D>> {
         self.enemies.clone()
     }
@@ -119,22 +115,22 @@ impl GodotApi {
 
 Godot offers some special methods. Most of them implement [notifications](https://docs.godotengine.org/en/stable/getting_started/workflow/best_practices/godot_notifications.html), i.e. callbacks from the engine to notify the class about a change.
 
-If you need to override a Godot special method, just declare it as a normal exported method, with the same name and signature as in GDScript:
+If you need to override a Godot special method, just declare it as a normal exported method, with the same name and signature as in GDScript. You can also omit the base parameter if you don't need it.
 ```rust
-#[export]
-fn _ready(&mut self, _owner: &Node) {...}
+#[method]
+fn _ready(&mut self, #[base] base: &Node) {...}
 
-#[export]
-fn _process(&mut self, _owner: &Node, delta: f32) {...}
+#[method]
+fn _process(&mut self, #[base] base: &Node, delta: f32) {...}
 
-#[export]
-fn _physics_process(&mut self, _owner: &Node, delta: f32) {...}
+#[method]
+fn _physics_process(&mut self, #[base] base: &Node, delta: f32) {...}
 ```
 
 If you want to change how GDScript's default formatter in functions like `str()` or `print()` works, you can overload the `to_string` GDScript method, which corresponds to the following Rust method:
 ```rust
-#[export]
-fn _to_string(&self, _owner: &Reference) -> String {...}
+#[method]
+fn _to_string(&self, #[base] base: &Node) -> String {...}
 ```
 
 

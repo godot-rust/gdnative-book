@@ -30,10 +30,10 @@ struct MyNode {
 
 #[methods]
 impl MyNode {
-    #[export]
-    fn _ready(&self, owner: TRef<Node>) {
+    #[method]
+    fn _ready(&self, #[base] base: TRef<Node>) {
         let node = Node::new();
-        owner.add_child(node);
+        base.add_child(node);
         self.node_ref = Some(node.claim());
     }
 }
@@ -67,18 +67,20 @@ impl SignalEmitter {
         builder.signal("updated").done();
     }
 
-    fn new(_owner: &Node) -> Self {
+    fn new(_base: &Node) -> Self {
         SignalEmitter {
             data: "initial",
         }
     }
-    #[export]
-    fn update_data(&mut self, owner: TRef<Node>, data: LargeData) {
+    
+    #[method]
+    fn update_data(&mut self, #[base] base: TRef<Node>, data: LargeData) {
         self.data = data;
-        owner.emit_signal("updated", &[]);
+      base.emit_signal("updated", &[]);
     }
-    #[export]
-    fn get_data(&self, owner: TRef<Node>) -> &LargeData {
+    
+    #[method]
+    fn get_data(&self) -> &LargeData {
         &self.data
     }
 }
@@ -94,13 +96,14 @@ There are two ways to solve it.
 2. Store `data` in a `RefCell<LargeData>` if it should only be accessed from the same thread (such as with signals) or `Mutex<LargeData>` if you need thread-safety. Then you can modify `update_data()` to the following snippet:
 
 ```rust
-    fn update_data(&self, owner: TRef<Node>, data: LargeData) {
-        // If using RefCell
-        self.data.replace(data);
-        // If using Mutex
-        // *self.data.lock().expect("this should work") = data;
-        owner.emit_signal("updated", &[]);
-    }
+#[method]
+fn update_data(&self, #[base] base: TRef<Node>, data: LargeData) {
+    // If using RefCell
+    self.data.replace(data);
+    // If using Mutex
+    // *self.data.lock().expect("this should work") = data;
+    base.emit_signal("updated", &[]);
+}
 ```
 
 In both instances you will not encounter the reentrant errors.
@@ -128,9 +131,9 @@ One of the ways that godot-rust avoids large `unsafe` blocks is by using the [Ty
 Here is an example of some common `unsafe` usage that you will often see and use in your own games.
 
 ```rust
-fn get_a_node(&self, owner: TRef<Node>) {
+fn get_a_node(&self, #[base] base: TRef<Node>) {
     // This is safe because it returns an option that Rust knows how to check.
-    let child = owner.get_child("foo");
+    let child = base.get_child("foo");
     // This is safe because Rust panics if the returned `Option` is None.
     let child = child.expect("I know this should exist");
     // This is also safe because Rust panics if the returned `Option` is None.
@@ -177,14 +180,14 @@ struct Enemy {
 
 #[methods]
 impl Enemy {
-    fn new(_owner: &Object) -> Self {
+    fn new(_base: &Object) -> Self {
         Enemy {
             data: None,
         }
     }
 
-    #[export]
-    fn set_data(&mut self, _owner: &Object, name: String, health: f32) {
+    #[method]
+    fn set_data(&mut self, name: String, health: f32) {
         self.data = Some(EnemyData { name, health });
     }
 }
@@ -215,8 +218,8 @@ struct EntityFactory {}
 
 #[methods]
 impl EntityFactory {
-    #[export]
-    fn enemy(&self, _owner: &Reference, name: String, health: f32)
+    #[method]
+    fn enemy(&self, name: String, health: f32)
     -> Instance<Enemy, Unique> {
         Enemy { name, health }.emplace()
     }
@@ -240,8 +243,8 @@ pub struct StaticUtil;
 
 #[methods]
 impl StaticUtil {
-    #[export]
-    fn compute_something(&self, _owner: &Object, input: i32) -> i32 {
+    #[method]
+    fn compute_something(&self, input: i32) -> i32 {
         godot_print!("pseudo-static computation");
         2 * input
     }
@@ -277,8 +280,8 @@ pub struct AnotherNativeScript;
 
 #[methods]
 impl AnotherNativeScript {
-    #[export]
-    pub fn method_accepting_my_node(&self, _owner: &Reference, my_node: Variant) {
+    #[method]
+    pub fn method_accepting_my_node(&self, my_node: Variant) {
         // 1. Cast Variant to Ref of associated Godot type, and convert to TRef.
         let my_node = unsafe {
             my_node
@@ -294,7 +297,7 @@ impl AnotherNativeScript {
 
         // 3. Map over the RefInstance to process the underlying user data.
         my_node
-            .map(|my_node, _owner| {
+            .map(|my_node, _base| {
                 // Now my_node is of type MyNode2D.
             })
             .expect("Failed to map over my_node instance");
@@ -397,10 +400,10 @@ struct MyNode {
 
 #[methods]
 impl MyNode {
-    #[export]
-    fn _ready(&self, owner: TRef<Node>) {
+    #[method]
+    fn _ready(&self, #[base] base: TRef<Node>) {
         // Get an existing child node that is a Godot class.
-        let node2d = owner
+        let node2d = base
             .get_node("Node2D")
             .expect("this node must have a child with the path `Node2D`");
         let node2d = unsafe { node2d.assume_safe() };
@@ -409,7 +412,7 @@ impl MyNode {
         self.node2d = Some(node2d.claim());
 
         // Get an existing child node that is a Rust class.
-        let instance = owner
+        let instance = base
             .get_node("MyClass")
             .expect("this node must have a child with the path `MyClass`");
         let instance = unsafe { instance.assume_safe() };
@@ -447,7 +450,7 @@ For more information about the Godot profiler, please refer to the [official doc
 In order for Godot to profile your function, all the following must be true:
 - The function belongs to a struct that derives `NativeClass`.
 - The function is included in an `impl` block that is attributed with the `#[methods]` attribute.
-- The function is attributed with `#[export]` attribute.
+- The function is attributed with `#[method]` attribute.
 
 As such, this method is _only_ useful for exported code and is subject to the Godot profiler's limitations, such as millisecond accuracy in profiler metrics.
 
@@ -460,13 +463,13 @@ struct MyClass {}
 
 #[methods]
 impl MyClass {
-    fn new(_owner: &Node) -> Self {
+    fn new(_base: &Node) -> Self {
         Self {}
     }
 
-    #[export]
+    #[method]
     #[gdnative::profiled]
-    fn my_profiled_function(&self, _owner: &Node) {
+    fn my_profiled_function(&self, #[base] _base: &Node) {
         // Any code in this function will be profiled.
     }
 }

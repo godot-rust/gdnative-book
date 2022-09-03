@@ -118,7 +118,7 @@ Unfortunately, this won't compile just yet: Rust will complain about the lack of
 // You may add any number of ordinary `impl` blocks as you want. However, ...
 impl HelloWorld {
     /// The "constructor" of the class.
-    fn new(_owner: &Node) -> Self {
+    fn new(_base: &Node) -> Self {
         HelloWorld
     }
 }
@@ -156,24 +156,24 @@ You can now run your project from the editor! If all goes correctly, it should l
 #[methods]
 impl HelloWorld {
 
-    // To make a method known to Godot, use the #[export] attribute.
+    // To make a method known to Godot, use the #[method] attribute.
     // In Godot, script "classes" do not actually inherit the parent class.
-    // Instead, they are "attached" to the parent object, called the "owner".
+    // Instead, they are "attached" to the parent object, called the "base".
     //
-    // In order to enable access to the owner, it is passed as the second
-    // argument to every single exposed method. As a result, all exposed
-    // methods MUST have `owner: &BaseClass` as their second arguments,
-    // before all other arguments in the signature.
-    #[export]
-    fn _ready(&self, _owner: &Node) {
+    // If access to the base instance is desired, the 2nd parameter can be
+    // annotated with #[base]. It must have type `&T` or `TRef<T>`, where `T`
+    // is the base type specified in #[inherit]. If you don't need this parameter,
+    // feel free to omit it entirely.
+    #[method]
+    fn _ready(&self, #[base] base: &Node) {
         // The `godot_print!` macro works like `println!` but prints to the Godot-editor
         // output tab as well.
-        godot_print!("Hello, world!");
+        godot_print!("Hello world from node {}!", base.to_string());
     }
 }
 ```
 
-Here, the `#[export]` attribute is used to tell godot-rust to expose your methods to Godot. In this case, we are overriding [`_ready`](https://docs.godotengine.org/en/stable/classes/class_node.html#class-node-method-ready) and printing a line of text.
+Here, the `#[method]` attribute is used to tell godot-rust to expose your methods to Godot. In this case, we are overriding [`_ready`](https://docs.godotengine.org/en/stable/classes/class_node.html#class-node-method-ready) and printing a line of text.
 
 Now, re-compile the crate using `cargo build` and copy the resulting binary to the Godot project. Launch the project from the editor, and you should see `Hello, world!` in the Godot console!
 
