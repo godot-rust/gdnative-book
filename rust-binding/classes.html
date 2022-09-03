@@ -189,14 +189,14 @@ pub struct GodotApi {}
 #[methods]
 impl GodotApi {
     // Constructor, either:
-    fn new(owner: &amp;Node) -&gt; Self { ... }
+    fn new(base: &amp;Node) -&gt; Self { ... }
     // or:
-    fn new(owner: TRef&lt;Node&gt;) -&gt; Self { ... }
+    fn new(base: TRef&lt;Node&gt;) -&gt; Self { ... }
 }
 <span class="boring">}
 </span></code></pre></pre>
 <p>The <a href="https://docs.rs/gdnative/latest/gdnative/derive.NativeClass.html"><code>#[derive(NativeClass)]</code> macro</a> enables a Rust type to be usable as a <em>native class</em> in Godot. It implements <a href="https://docs.rs/gdnative/latest/gdnative/nativescript/trait.NativeClass.html">the <code>NativeClass</code> trait</a>, which fills in the glue code required to make the class available in Godot. Among other information, this includes class name and registry of exported methods and properties. For the user, the utility methods <code>new_instance()</code> and <code>emplace()</code> are provided for constructing <code>Instance</code> objects.</p>
-<p>The function <code>new()</code> corresponds to <code>_init()</code> in GDScript. The <em>owner</em> is the base object of the script, and must correspond to the class specified in the <code>#[inherit]</code> attribute (or <code>Reference</code> if the attribute is absent). The parameter can be a shared reference <code>&amp;T</code> or a <code>TRef&lt;T&gt;</code>.</p>
+<p>The function <code>new()</code> corresponds to <code>_init()</code> in GDScript. The <em>base</em> is the base object of the script, and must correspond to the class specified in the <code>#[inherit]</code> attribute (or <code>Reference</code> if the attribute is absent). The parameter can be a shared reference <code>&amp;T</code> or a <code>TRef&lt;T&gt;</code>.</p>
 <p>With a <code>new()</code> method, you are able to write <code>GodotApi.new()</code> in GDScript. If you don't need this, you can add the <code>#[no_constructor]</code> attribute to the struct declaration.</p>
 <p>At this point, arguments cannot be passed into the constructor. Consult <a href="../faq.html#passing-additional-arguments-to-a-class-constructor">this FAQ entry</a> for available workarounds.</p>
 

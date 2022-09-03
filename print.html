@@ -296,7 +296,7 @@ fn init(handle: InitHandle) {
 </span>// You may add any number of ordinary `impl` blocks as you want. However, ...
 impl HelloWorld {
     /// The &quot;constructor&quot; of the class.
-    fn new(_owner: &amp;Node) -&gt; Self {
+    fn new(_base: &amp;Node) -&gt; Self {
         HelloWorld
     }
 }
@@ -325,24 +325,24 @@ impl HelloWorld {
 #[methods]
 impl HelloWorld {
 
-    // To make a method known to Godot, use the #[export] attribute.
+    // To make a method known to Godot, use the #[method] attribute.
     // In Godot, script &quot;classes&quot; do not actually inherit the parent class.
-    // Instead, they are &quot;attached&quot; to the parent object, called the &quot;owner&quot;.
+    // Instead, they are &quot;attached&quot; to the parent object, called the &quot;base&quot;.
     //
-    // In order to enable access to the owner, it is passed as the second
-    // argument to every single exposed method. As a result, all exposed
-    // methods MUST have `owner: &amp;BaseClass` as their second arguments,
-    // before all other arguments in the signature.
-    #[export]
-    fn _ready(&amp;self, _owner: &amp;Node) {
+    // If access to the base instance is desired, the 2nd parameter can be
+    // annotated with #[base]. It must have type `&amp;T` or `TRef&lt;T&gt;`, where `T`
+    // is the base type specified in #[inherit]. If you don't need this parameter,
+    // feel free to omit it entirely.
+    #[method]
+    fn _ready(&amp;self, #[base] base: &amp;Node) {
         // The `godot_print!` macro works like `println!` but prints to the Godot-editor
         // output tab as well.
-        godot_print!(&quot;Hello, world!&quot;);
+        godot_print!(&quot;Hello world from node {}!&quot;, base.to_string());
     }
 }
 <span class="boring">}
 </span></code></pre></pre>
-<p>Here, the <code>#[export]</code> attribute is used to tell godot-rust to expose your methods to Godot. In this case, we are overriding <a href="https://docs.godotengine.org/en/stable/classes/class_node.html#class-node-method-ready"><code>_ready</code></a> and printing a line of text.</p>
+<p>Here, the <code>#[method]</code> attribute is used to tell godot-rust to expose your methods to Godot. In this case, we are overriding <a href="https://docs.godotengine.org/en/stable/classes/class_node.html#class-node-method-ready"><code>_ready</code></a> and printing a line of text.</p>
 <p>Now, re-compile the crate using <code>cargo build</code> and copy the resulting binary to the Godot project. Launch the project from the editor, and you should see <code>Hello, world!</code> in the Godot console!</p>
 <h2 id="wrapping-it-up"><a class="header" href="#wrapping-it-up">Wrapping it up</a></h2>
 <p>Congratulations! You have just created your first Rust GDNative library. You have learned how to expose scripts and methods to Godot using the bindings, and how to use them in Godot. A lot of the details are still unexplained, but you're off to a good start!</p>
@@ -470,7 +470,7 @@ pub struct Player {
 
 #[methods]
 impl Player {
-    fn new(_owner: &amp;Reference) -&gt; Self {
+    fn new(_base: &amp;Reference) -&gt; Self {
         Self {
             name: &quot;New player&quot;.to_string(),
             score: 0
@@ -675,21 +675,21 @@ pub struct GodotApi {}
 #[methods]
 impl GodotApi {
     // Constructor, either:
-    fn new(owner: &amp;Node) -&gt; Self { ... }
+    fn new(base: &amp;Node) -&gt; Self { ... }
     // or:
-    fn new(owner: TRef&lt;Node&gt;) -&gt; Self { ... }
+    fn new(base: TRef&lt;Node&gt;) -&gt; Self { ... }
 }
 <span class="boring">}
 </span></code></pre></pre>
 <p>The <a href="https://docs.rs/gdnative/latest/gdnative/derive.NativeClass.html"><code>#[derive(NativeClass)]</code> macro</a> enables a Rust type to be usable as a <em>native class</em> in Godot. It implements <a href="https://docs.rs/gdnative/latest/gdnative/nativescript/trait.NativeClass.html">the <code>NativeClass</code> trait</a>, which fills in the glue code required to make the class available in Godot. Among other information, this includes class name and registry of exported methods and properties. For the user, the utility methods <code>new_instance()</code> and <code>emplace()</code> are provided for constructing <code>Instance</code> objects.</p>
-<p>The function <code>new()</code> corresponds to <code>_init()</code> in GDScript. The <em>owner</em> is the base object of the script, and must correspond to the class specified in the <code>#[inherit]</code> attribute (or <code>Reference</code> if the attribute is absent). The parameter can be a shared reference <code>&amp;T</code> or a <code>TRef&lt;T&gt;</code>.</p>
+<p>The function <code>new()</code> corresponds to <code>_init()</code> in GDScript. The <em>base</em> is the base object of the script, and must correspond to the class specified in the <code>#[inherit]</code> attribute (or <code>Reference</code> if the attribute is absent). The parameter can be a shared reference <code>&amp;T</code> or a <code>TRef&lt;T&gt;</code>.</p>
 <p>With a <code>new()</code> method, you are able to write <code>GodotApi.new()</code> in GDScript. If you don't need this, you can add the <code>#[no_constructor]</code> attribute to the struct declaration.</p>
 <p>At this point, arguments cannot be passed into the constructor. Consult <a href="rust-binding/../faq.html#passing-additional-arguments-to-a-class-constructor">this FAQ entry</a> for available workarounds.</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="exported-methods"><a class="header" href="#exported-methods">Exported methods</a></h1>
-<p>In order to receive data from Godot, you can export methods. With the <code>#[export]</code> attribute, godot-rust takes care of method registration and serialization. Note that the constructor is not annotated with <code>#[export]</code>.</p>
+<p>In order to receive data from Godot, you can export methods. With the <code>#[method]</code> attribute, godot-rust takes care of method registration and serialization. Note that the constructor is not annotated with <code>#[method]</code>.</p>
 <blockquote>
-<h4 id="upcoming-api-changes"><a class="header" href="#upcoming-api-changes">Upcoming API changes</a></h4>
-<p><code>#[export]</code> is being renamed as <code>#[godot]</code> and will soon be deprecated, and later removed in godot-rust 0.11.</p>
+<h4 id="recent-api-changes"><a class="header" href="#recent-api-changes">Recent API changes</a></h4>
+<p><code>#[export]</code> is being renamed as <code>#[method]</code> and will soon be deprecated, and later removed in godot-rust 0.11.</p>
 <p>For more information, see <a href="https://godot-rust.github.io/docs/gdnative/derive/derive.NativeClass.html"><code>gdnative::derive::NativeClass</code></a>.</p>
 </blockquote>
 <p>The exported method's first parameter is always <code>&amp;self</code> or <code>&amp;mut self</code> (operating on the Rust object), and the second parameter is <code>&amp;T</code> or <code>TRef&lt;T&gt;</code> (operating on the Godot base object, with <code>T</code> being the inherited type).</p>
@@ -704,16 +704,15 @@ pub struct GodotApi {
 
 #[methods]
 impl GodotApi {
-    fn new(_owner: &amp;Node) -&gt; Self {
+    fn new(_base: &amp;Node) -&gt; Self {
         // Print to both shell and Godot editor console
         godot_print!(&quot;_init()&quot;);
         Self { enemy_count: 0 }
     }
     
-    #[export]
+    #[method]
     fn create_enemy(
         &amp;mut self,
-        _owner: &amp;Node,
         typ: String,
         pos: Vector2
     ) {
@@ -721,10 +720,9 @@ impl GodotApi {
         self.enemy_count += 1;
     }
 
-    #[export]
+    #[method]
     fn create_enemy2(
         &amp;mut self,
-        _owner: &amp;Node,
         typ: GodotString,
         pos: Variant
     ) {
@@ -732,8 +730,8 @@ impl GodotApi {
         self.enemy_count += 1;
     }
 
-    #[export]
-    fn count_enemies(&amp;self, _owner: &amp;Node) -&gt; i32 {
+    #[method]
+    fn count_enemies(&amp;self) -&gt; i32 {
         self.enemy_count
     }  
 }
@@ -775,10 +773,9 @@ pub struct GodotApi {
 impl GodotApi {
     // new() etc...
 
-    #[export]
+    #[method]
     fn add_enemy(
         &amp;mut self,
-        _owner: &amp;Node,
         enemy: Ref&lt;Node2D&gt; // pass in enemy
     ) {
         self.enemies.push(enemy);
@@ -787,10 +784,9 @@ impl GodotApi {
     // You can even return the enemies directly with Vec.
     // In GDScript, you will get an array of nodes.
     // An alternative would be VariantArray, able to hold different types.
-    #[export]
+    #[method]
     fn get_enemies(
         &amp;self,
-        _owner: &amp;Node
     ) -&gt;  Vec&lt;Ref&lt;Node2D&gt;&gt; {
         self.enemies.clone()
     }
@@ -799,26 +795,26 @@ impl GodotApi {
 </span></code></pre></pre>
 <h2 id="special-methods"><a class="header" href="#special-methods">Special methods</a></h2>
 <p>Godot offers some special methods. Most of them implement <a href="https://docs.godotengine.org/en/stable/getting_started/workflow/best_practices/godot_notifications.html">notifications</a>, i.e. callbacks from the engine to notify the class about a change.</p>
-<p>If you need to override a Godot special method, just declare it as a normal exported method, with the same name and signature as in GDScript:</p>
+<p>If you need to override a Godot special method, just declare it as a normal exported method, with the same name and signature as in GDScript. You can also omit the base parameter if you don't need it.</p>
 <pre><pre class="playground"><code class="language-rust">
 <span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
-</span>#[export]
-fn _ready(&amp;mut self, _owner: &amp;Node) {...}
+</span>#[method]
+fn _ready(&amp;mut self, #[base] base: &amp;Node) {...}
 
-#[export]
-fn _process(&amp;mut self, _owner: &amp;Node, delta: f32) {...}
+#[method]
+fn _process(&amp;mut self, #[base] base: &amp;Node, delta: f32) {...}
 
-#[export]
-fn _physics_process(&amp;mut self, _owner: &amp;Node, delta: f32) {...}
+#[method]
+fn _physics_process(&amp;mut self, #[base] base: &amp;Node, delta: f32) {...}
 <span class="boring">}
 </span></code></pre></pre>
 <p>If you want to change how GDScript's default formatter in functions like <code>str()</code> or <code>print()</code> works, you can overload the <code>to_string</code> GDScript method, which corresponds to the following Rust method:</p>
 <pre><pre class="playground"><code class="language-rust">
 <span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
-</span>#[export]
-fn _to_string(&amp;self, _owner: &amp;Reference) -&gt; String {...}
+</span>#[method]
+fn _to_string(&amp;self, #[base] base: &amp;Node) -&gt; String {...}
 <span class="boring">}
 </span></code></pre></pre>
 <h2 id="errors"><a class="header" href="#errors">Errors</a></h2>
@@ -886,19 +882,19 @@ struct HelloWorld {
 }
 
 impl HelloWorld {
-    fn new(_owner: &amp;Node) -&gt; Self {
+    fn new(_base: &amp;Node) -&gt; Self {
         HelloWorld { prop: 0i32 }
     }
 }
 
 #[methods]
 impl HelloWorld {
-    fn get(&amp;self, _owner: TRef&lt;Node&gt;) -&gt; i32 {
+    fn get(&amp;self, _base: TRef&lt;Node&gt;) -&gt; i32 {
         godot_print!(&quot;get() -&gt; {}&quot;, &amp;self.prop);
         self.prop
     }
 
-    fn set(&amp;mut self, _owner: TRef&lt;Node&gt;, value: i32) {
+    fn set(&amp;mut self, _base: TRef&lt;Node&gt;, value: i32) {
         godot_print!(&quot;set({})&quot;, &amp;value);
         self.prop = value;
     }
@@ -924,19 +920,19 @@ struct GodotApi {
 }
 
 impl GodotApi {
-    fn new(_owner: &amp;Node) -&gt; Self {
+    fn new(_base: &amp;Node) -&gt; Self {
         GodotApi { prop: String::new() }
     }
 }
 
 #[methods]
 impl GodotApi {
-    fn get(&amp;self, _owner: TRef&lt;Node&gt;) -&gt; &amp;String {
+    fn get(&amp;self, _base: TRef&lt;Node&gt;) -&gt; &amp;String {
         godot_print!(&quot;get() -&gt; {}&quot;, &amp;self.prop);
         &amp;self.prop
     }
 
-    fn set(&amp;mut self, _owner: TRef&lt;Node&gt;, value: String) {
+    fn set(&amp;mut self, _base: TRef&lt;Node&gt;, value: String) {
         godot_print!(&quot;set({})&quot;, &amp;value);
         self.prop = value;
     }
@@ -977,8 +973,8 @@ impl MyNode {
         // Register the number as an Enum
         builder
             .property::&lt;i32&gt;(&quot;number_enum&quot;)
-            .with_getter(move |my_node: &amp;MyNode, _owner: TRef&lt;Node&gt;| my_node.number_enum)
-            .with_setter(move |my_node: &amp;mut MyNode, _owner: TRef&lt;Node&gt;, new_value| my_node.number_enum = new_value)
+            .with_getter(move |my_node: &amp;MyNode, _base: TRef&lt;Node&gt;| my_node.number_enum)
+            .with_setter(move |my_node: &amp;mut MyNode, _base: TRef&lt;Node&gt;, new_value| my_node.number_enum = new_value)
             .with_default(1)
             .with_hint(IntHint::Enum(EnumHint::new(vec![&quot;a&quot;.to_owned(), &quot;b&quot;.to_owned(), &quot;c&quot;.to_owned(), &quot;d&quot;.to_owned()])))
             .done();
@@ -986,8 +982,8 @@ impl MyNode {
         // Register a floating point value with a range from 0.0 to 100.0 with a step of 0.1
         builder
             .property::&lt;f64&gt;(&quot;float_range&quot;)
-            .with_getter(move |my_node: &amp;MyNode, _owner: TRef&lt;Node&gt;| my_node.float_range)
-            .with_setter(move |my_node: &amp;mut MyNode, _owner: TRef&lt;Node&gt;, new_value| my_node.float_range = new_value)
+            .with_getter(move |my_node: &amp;MyNode, _base: TRef&lt;Node&gt;| my_node.float_range)
+            .with_setter(move |my_node: &amp;mut MyNode, _base: TRef&lt;Node&gt;, new_value| my_node.float_range = new_value)
             .with_default(1.0)
             .with_hint(FloatHint::Range(RangeHint::new(0.0, 100.0).with_step(0.1)))
             .done();
@@ -995,17 +991,17 @@ impl MyNode {
         // Manually register a string as a file path for .txt and .dat files.
         builder
             .property::&lt;String&gt;(&quot;my_filepath&quot;)
-            .with_ref_getter(move |my_node: &amp;MyNode, _owner: TRef&lt;Node&gt;| &amp;my_node.my_filepath)
-            .with_setter(move |my_node: &amp;mut MyNode, _owner: TRef&lt;Node&gt;, new_value: String| my_node.my_filepath = new_value)
+            .with_ref_getter(move |my_node: &amp;MyNode, _base: TRef&lt;Node&gt;| &amp;my_node.my_filepath)
+            .with_setter(move |my_node: &amp;mut MyNode, _base: TRef&lt;Node&gt;, new_value: String| my_node.my_filepath = new_value)
             .with_default(&quot;&quot;.to_owned())
             .with_hint(StringHint::File(EnumHint::new(vec![&quot;*.txt&quot;.to_owned(), &quot;*.dat&quot;.to_owned()])))
             .done();
     }
-    fn number_getter(&amp;self, _owner: TRef&lt;Node&gt;) -&gt; i32 {
+    fn number_getter(&amp;self, _base: TRef&lt;Node&gt;) -&gt; i32 {
         self.number
     }
 
-    fn number_setter(&amp;mut self, _owner: TRef&lt;Node&gt;, new_value: i32) {
+    fn number_setter(&amp;mut self, _base: TRef&lt;Node&gt;, new_value: i32) {
         self.number = new_value
     }
 }
@@ -1030,7 +1026,7 @@ struct GodotApi {
 impl GodotApi {
     //...
 
-    fn get_size(&amp;self, _owner: TRef&lt;Reference&gt;) -&gt; u32 {
+    fn get_size(&amp;self, _base: TRef&lt;Reference&gt;) -&gt; u32 {
         self.enemies.len() as u32
     }
 }
@@ -1124,7 +1120,7 @@ enum MyEnum {
 #[inherit(Node)]
 #[no_constructor]
 struct MyNode {
-    #[export]
+    #[property]
     int_enum: MyIntEnum
 }
 <span class="boring">}
@@ -1228,8 +1224,8 @@ pub struct Enemy {
 
 #[methods]
 impl Enemy {
-    #[export]
-    fn _to_string(&amp;self, _owner: &amp;Reference) -&gt; String {
+    #[method]
+    fn _to_string(&amp;self) -&gt; String {
         format!(&quot;{:?}&quot;, self) // calls Debug::fmt()
     }
 }
@@ -1249,19 +1245,16 @@ impl Enemy {
 <pre><pre class="playground"><code class="language-rust">
 <span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
-</span>#[export]
-fn create_enemy(&amp;mut self, _owner: &amp;Node) -&gt; Enemy {...}
+</span>#[method]
+fn create_enemy(&amp;mut self) -&gt; Enemy {...}
 <span class="boring">}
 </span></code></pre></pre>
 <p>Instead, you can wrap the object in a <code>Instance&lt;Enemy, Unique&gt;</code>, using <code>emplace()</code>. For an in-depth explanation of the <code>Instance</code> class, read <a href="rust-binding/../gdnative-overview/wrappers.html#instance-reference-with-attached-rust-class">this section</a>.</p>
 <pre><pre class="playground"><code class="language-rust">
 <span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
-</span>#[export]
-fn create_enemy(
-    &amp;self,
-    _owner: &amp;Node
-) -&gt; Instance&lt;Enemy, Unique&gt; {
+</span>#[method]
+fn create_enemy(&amp;self) -&gt; Instance&lt;Enemy, Unique&gt; {
     let enemy = Enemy {
         pos: Vector2::new(7.0, 2.0),
         health: 100.0,
@@ -1368,7 +1361,7 @@ fn update_mission_ui(ui_node: Ref&lt;CanvasItem&gt;) {
 <h3 id="warning"><a class="header" href="#warning">Warning</a></h3>
 <p>When calling GDScript functions from Rust, a few things need to be kept in mind.</p>
 <p><strong>Safety:</strong> Since the calls are dynamic, it is possible to invoke any other functions through them, including unsafe ones like <code>free()</code>. As a result, <code>call()</code> and its alternatives are unsafe.</p>
-<p><strong>Re-entrancy:</strong> When calling from Rust to GDScript, your Rust code is usually already running in an exported <code>#[export]</code> method, meaning that it has bound its receiver object via <code>&amp;T</code> or <code>&amp;mut T</code> reference. In the GDScript code, you must not invoke any method on the same Rust receiver, which would violate safety rules (aliasing of <code>&amp;mut</code>).</p>
+<p><strong>Re-entrancy:</strong> When calling from Rust to GDScript, your Rust code is usually already running in an exported <code>#[method]</code> method, meaning that it has bound its receiver object via <code>&amp;T</code> or <code>&amp;mut T</code> reference. In the GDScript code, you must not invoke any method on the same Rust receiver, which would violate safety rules (aliasing of <code>&amp;mut</code>).</p>
 <h2 id="signal-emissions"><a class="header" href="#signal-emissions">Signal emissions</a></h2>
 <p>Like methods, signals defined in GDScript can be emitted dynamically from Rust.</p>
 <p>The mechanism works analogously to function invocation, except that you use <a href="https://docs.rs/gdnative/latest/gdnative/api/struct.Object.html#method.emit_signal"><code>Object::emit_signal()</code></a> instead of <code>Object::call()</code>.</p>
@@ -1417,10 +1410,10 @@ struct MyNode {
 
 #[methods]
 impl MyNode {
-    #[export]
-    fn _ready(&amp;self, owner: TRef&lt;Node&gt;) {
+    #[method]
+    fn _ready(&amp;self, #[base] base: TRef&lt;Node&gt;) {
         let node = Node::new();
-        owner.add_child(node);
+        base.add_child(node);
         self.node_ref = Some(node.claim());
     }
 }
@@ -1449,18 +1442,20 @@ impl SignalEmitter {
         builder.signal(&quot;updated&quot;).done();
     }
 
-    fn new(_owner: &amp;Node) -&gt; Self {
+    fn new(_base: &amp;Node) -&gt; Self {
         SignalEmitter {
             data: &quot;initial&quot;,
         }
     }
-    #[export]
-    fn update_data(&amp;mut self, owner: TRef&lt;Node&gt;, data: LargeData) {
+    
+    #[method]
+    fn update_data(&amp;mut self, #[base] base: TRef&lt;Node&gt;, data: LargeData) {
         self.data = data;
-        owner.emit_signal(&quot;updated&quot;, &amp;[]);
+      base.emit_signal(&quot;updated&quot;, &amp;[]);
     }
-    #[export]
-    fn get_data(&amp;self, owner: TRef&lt;Node&gt;) -&gt; &amp;LargeData {
+    
+    #[method]
+    fn get_data(&amp;self) -&gt; &amp;LargeData {
         &amp;self.data
     }
 }
@@ -1476,13 +1471,14 @@ impl SignalEmitter {
 <pre><pre class="playground"><code class="language-rust">
 <span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
-</span>    fn update_data(&amp;self, owner: TRef&lt;Node&gt;, data: LargeData) {
-        // If using RefCell
-        self.data.replace(data);
-        // If using Mutex
-        // *self.data.lock().expect(&quot;this should work&quot;) = data;
-        owner.emit_signal(&quot;updated&quot;, &amp;[]);
-    }
+</span>#[method]
+fn update_data(&amp;self, #[base] base: TRef&lt;Node&gt;, data: LargeData) {
+    // If using RefCell
+    self.data.replace(data);
+    // If using Mutex
+    // *self.data.lock().expect(&quot;this should work&quot;) = data;
+    base.emit_signal(&quot;updated&quot;, &amp;[]);
+}
 <span class="boring">}
 </span></code></pre></pre>
 <p>In both instances you will not encounter the reentrant errors.</p>
@@ -1505,9 +1501,9 @@ For more information, please refer to <a href="https://docs.rs/dtolnay/latest/dt
 <pre><pre class="playground"><code class="language-rust">
 <span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
-</span>fn get_a_node(&amp;self, owner: TRef&lt;Node&gt;) {
+</span>fn get_a_node(&amp;self, #[base] base: TRef&lt;Node&gt;) {
     // This is safe because it returns an option that Rust knows how to check.
-    let child = owner.get_child(&quot;foo&quot;);
+    let child = base.get_child(&quot;foo&quot;);
     // This is safe because Rust panics if the returned `Option` is None.
     let child = child.expect(&quot;I know this should exist&quot;);
     // This is also safe because Rust panics if the returned `Option` is None.
@@ -1551,14 +1547,14 @@ struct Enemy {
 
 #[methods]
 impl Enemy {
-    fn new(_owner: &amp;Object) -&gt; Self {
+    fn new(_base: &amp;Object) -&gt; Self {
         Enemy {
             data: None,
         }
     }
 
-    #[export]
-    fn set_data(&amp;mut self, _owner: &amp;Object, name: String, health: f32) {
+    #[method]
+    fn set_data(&amp;mut self, name: String, health: f32) {
         self.data = Some(EnemyData { name, health });
     }
 }
@@ -1592,8 +1588,8 @@ struct EntityFactory {}
 
 #[methods]
 impl EntityFactory {
-    #[export]
-    fn enemy(&amp;self, _owner: &amp;Reference, name: String, health: f32)
+    #[method]
+    fn enemy(&amp;self, name: String, health: f32)
     -&gt; Instance&lt;Enemy, Unique&gt; {
         Enemy { name, health }.emplace()
     }
@@ -1615,8 +1611,8 @@ pub struct StaticUtil;
 
 #[methods]
 impl StaticUtil {
-    #[export]
-    fn compute_something(&amp;self, _owner: &amp;Object, input: i32) -&gt; i32 {
+    #[method]
+    fn compute_something(&amp;self, input: i32) -&gt; i32 {
         godot_print!(&quot;pseudo-static computation&quot;);
         2 * input
     }
@@ -1649,8 +1645,8 @@ pub struct AnotherNativeScript;
 
 #[methods]
 impl AnotherNativeScript {
-    #[export]
-    pub fn method_accepting_my_node(&amp;self, _owner: &amp;Reference, my_node: Variant) {
+    #[method]
+    pub fn method_accepting_my_node(&amp;self, my_node: Variant) {
         // 1. Cast Variant to Ref of associated Godot type, and convert to TRef.
         let my_node = unsafe {
             my_node
@@ -1666,7 +1662,7 @@ impl AnotherNativeScript {
 
         // 3. Map over the RefInstance to process the underlying user data.
         my_node
-            .map(|my_node, _owner| {
+            .map(|my_node, _base| {
                 // Now my_node is of type MyNode2D.
             })
             .expect(&quot;Failed to map over my_node instance&quot;);
@@ -1754,10 +1750,10 @@ struct MyNode {
 
 #[methods]
 impl MyNode {
-    #[export]
-    fn _ready(&amp;self, owner: TRef&lt;Node&gt;) {
+    #[method]
+    fn _ready(&amp;self, #[base] base: TRef&lt;Node&gt;) {
         // Get an existing child node that is a Godot class.
-        let node2d = owner
+        let node2d = base
             .get_node(&quot;Node2D&quot;)
             .expect(&quot;this node must have a child with the path `Node2D`&quot;);
         let node2d = unsafe { node2d.assume_safe() };
@@ -1766,7 +1762,7 @@ impl MyNode {
         self.node2d = Some(node2d.claim());
 
         // Get an existing child node that is a Rust class.
-        let instance = owner
+        let instance = base
             .get_node(&quot;MyClass&quot;)
             .expect(&quot;this node must have a child with the path `MyClass`&quot;);
         let instance = unsafe { instance.assume_safe() };
@@ -1797,7 +1793,7 @@ impl MyNode {
 <ul>
 <li>The function belongs to a struct that derives <code>NativeClass</code>.</li>
 <li>The function is included in an <code>impl</code> block that is attributed with the <code>#[methods]</code> attribute.</li>
-<li>The function is attributed with <code>#[export]</code> attribute.</li>
+<li>The function is attributed with <code>#[method]</code> attribute.</li>
 </ul>
 <p>As such, this method is <em>only</em> useful for exported code and is subject to the Godot profiler's limitations, such as millisecond accuracy in profiler metrics.</p>
 <p>The following example illustrates how your code should look when being profiled:</p>
@@ -1810,13 +1806,13 @@ struct MyClass {}
 
 #[methods]
 impl MyClass {
-    fn new(_owner: &amp;Node) -&gt; Self {
+    fn new(_base: &amp;Node) -&gt; Self {
         Self {}
     }
 
-    #[export]
+    #[method]
     #[gdnative::profiled]
-    fn my_profiled_function(&amp;self, _owner: &amp;Node) {
+    fn my_profiled_function(&amp;self, #[base] _base: &amp;Node) {
         // Any code in this function will be profiled.
     }
 }
@@ -1971,7 +1967,7 @@ library = ExtResource( 1 )
 stuct MyTool {}
 #[methods]
 impl MyTool {
-    fn new (_owner: &amp;Node) -&gt; Self {
+    fn new (_base: &amp;Node) -&gt; Self {
         Self {}
     }
 }
@@ -2188,7 +2184,7 @@ struct AsyncExecutorDriver {
 }
 
 impl AsyncExecutorDriver {
-	fn new(_owner: &amp;Node) -&gt; Self {
+	fn new(_base: &amp;Node) -&gt; Self {
 		AsyncExecutorDriver {
 			runtime: Builder::new_current_thread()
 				.enable_io() 	// optional, depending on your needs
@@ -2206,8 +2202,8 @@ impl AsyncExecutorDriver {
 </span><span class="boring">fn main() {
 </span>#[methods]
 impl AsyncExecutorDriver {
-	#[export]
-	fn _process(&amp;self, _owner: &amp;Node, _delta: f64) {
+	#[method]
+	fn _process(&amp;self, #[base] _base: &amp;Node, _delta: f64) {
 		EXECUTOR.with(|e| {
 			self.runtime
 				.block_on(async {
@@ -2485,24 +2481,24 @@ impl DebugLogger {
     fn new(_: &amp;Node) -&gt; Self {
         Self {}
     }
-    #[export]
-    fn error(&amp;self, _owner: &amp;Node, target: String, message: String) {
+    #[method]
+    fn error(&amp;self, target: String, message: String) {
         log::error!(target: &amp;target, &quot;{}&quot;, message);
     }
-    #[export]
-    fn warn(&amp;self, _: &amp;Node, target: String, message: String) {
+    #[method]
+    fn warn(&amp;self, target: String, message: String) {
         log::warn!(target: &amp;target, &quot;{}&quot;, message);
     }
-    #[export]
-    fn info(&amp;self, _: &amp;Node, target: String, message: String) {
+    #[method]
+    fn info(&amp;self, target: String, message: String) {
         log::info!(target: &amp;target, &quot;{}&quot;, message);
     }
-    #[export]
-    fn debug(&amp;self, _: &amp;Node, target: String, message: String) {
+    #[method]
+    fn debug(&amp;self, target: String, message: String) {
         log::debug!(target: &amp;target, &quot;{}&quot;, message);
     }
-    #[export]
-    fn trace(&amp;self, _: &amp;Node, target: String, message: String) {
+    #[method]
+    fn trace(&amp;self, target: String, message: String) {
         log::trace!(target: &amp;target, &quot;{}&quot;, message);
     }
 }

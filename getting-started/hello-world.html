@@ -236,7 +236,7 @@ fn init(handle: InitHandle) {
 </span>// You may add any number of ordinary `impl` blocks as you want. However, ...
 impl HelloWorld {
     /// The &quot;constructor&quot; of the class.
-    fn new(_owner: &amp;Node) -&gt; Self {
+    fn new(_base: &amp;Node) -&gt; Self {
         HelloWorld
     }
 }
@@ -265,24 +265,24 @@ impl HelloWorld {
 #[methods]
 impl HelloWorld {
 
-    // To make a method known to Godot, use the #[export] attribute.
+    // To make a method known to Godot, use the #[method] attribute.
     // In Godot, script &quot;classes&quot; do not actually inherit the parent class.
-    // Instead, they are &quot;attached&quot; to the parent object, called the &quot;owner&quot;.
+    // Instead, they are &quot;attached&quot; to the parent object, called the &quot;base&quot;.
     //
-    // In order to enable access to the owner, it is passed as the second
-    // argument to every single exposed method. As a result, all exposed
-    // methods MUST have `owner: &amp;BaseClass` as their second arguments,
-    // before all other arguments in the signature.
-    #[export]
-    fn _ready(&amp;self, _owner: &amp;Node) {
+    // If access to the base instance is desired, the 2nd parameter can be
+    // annotated with #[base]. It must have type `&amp;T` or `TRef&lt;T&gt;`, where `T`
+    // is the base type specified in #[inherit]. If you don't need this parameter,
+    // feel free to omit it entirely.
+    #[method]
+    fn _ready(&amp;self, #[base] base: &amp;Node) {
         // The `godot_print!` macro works like `println!` but prints to the Godot-editor
         // output tab as well.
-        godot_print!(&quot;Hello, world!&quot;);
+        godot_print!(&quot;Hello world from node {}!&quot;, base.to_string());
     }
 }
 <span class="boring">}
 </span></code></pre></pre>
-<p>Here, the <code>#[export]</code> attribute is used to tell godot-rust to expose your methods to Godot. In this case, we are overriding <a href="https://docs.godotengine.org/en/stable/classes/class_node.html#class-node-method-ready"><code>_ready</code></a> and printing a line of text.</p>
+<p>Here, the <code>#[method]</code> attribute is used to tell godot-rust to expose your methods to Godot. In this case, we are overriding <a href="https://docs.godotengine.org/en/stable/classes/class_node.html#class-node-method-ready"><code>_ready</code></a> and printing a line of text.</p>
 <p>Now, re-compile the crate using <code>cargo build</code> and copy the resulting binary to the Godot project. Launch the project from the editor, and you should see <code>Hello, world!</code> in the Godot console!</p>
 <h2 id="wrapping-it-up"><a class="header" href="#wrapping-it-up">Wrapping it up</a></h2>
 <p>Congratulations! You have just created your first Rust GDNative library. You have learned how to expose scripts and methods to Godot using the bindings, and how to use them in Godot. A lot of the details are still unexplained, but you're off to a good start!</p>

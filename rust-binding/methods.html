@@ -135,10 +135,10 @@
                 <div id="content" class="content">
                     <main>
                         <h1 id="exported-methods"><a class="header" href="#exported-methods">Exported methods</a></h1>
-<p>In order to receive data from Godot, you can export methods. With the <code>#[export]</code> attribute, godot-rust takes care of method registration and serialization. Note that the constructor is not annotated with <code>#[export]</code>.</p>
+<p>In order to receive data from Godot, you can export methods. With the <code>#[method]</code> attribute, godot-rust takes care of method registration and serialization. Note that the constructor is not annotated with <code>#[method]</code>.</p>
 <blockquote>
-<h4 id="upcoming-api-changes"><a class="header" href="#upcoming-api-changes">Upcoming API changes</a></h4>
-<p><code>#[export]</code> is being renamed as <code>#[godot]</code> and will soon be deprecated, and later removed in godot-rust 0.11.</p>
+<h4 id="recent-api-changes"><a class="header" href="#recent-api-changes">Recent API changes</a></h4>
+<p><code>#[export]</code> is being renamed as <code>#[method]</code> and will soon be deprecated, and later removed in godot-rust 0.11.</p>
 <p>For more information, see <a href="https://godot-rust.github.io/docs/gdnative/derive/derive.NativeClass.html"><code>gdnative::derive::NativeClass</code></a>.</p>
 </blockquote>
 <p>The exported method's first parameter is always <code>&amp;self</code> or <code>&amp;mut self</code> (operating on the Rust object), and the second parameter is <code>&amp;T</code> or <code>TRef&lt;T&gt;</code> (operating on the Godot base object, with <code>T</code> being the inherited type).</p>
@@ -153,16 +153,15 @@ pub struct GodotApi {
 
 #[methods]
 impl GodotApi {
-    fn new(_owner: &amp;Node) -&gt; Self {
+    fn new(_base: &amp;Node) -&gt; Self {
         // Print to both shell and Godot editor console
         godot_print!(&quot;_init()&quot;);
         Self { enemy_count: 0 }
     }
     
-    #[export]
+    #[method]
     fn create_enemy(
         &amp;mut self,
-        _owner: &amp;Node,
         typ: String,
         pos: Vector2
     ) {
@@ -170,10 +169,9 @@ impl GodotApi {
         self.enemy_count += 1;
     }
 
-    #[export]
+    #[method]
     fn create_enemy2(
         &amp;mut self,
-        _owner: &amp;Node,
         typ: GodotString,
         pos: Variant
     ) {
@@ -181,8 +179,8 @@ impl GodotApi {
         self.enemy_count += 1;
     }
 
-    #[export]
-    fn count_enemies(&amp;self, _owner: &amp;Node) -&gt; i32 {
+    #[method]
+    fn count_enemies(&amp;self) -&gt; i32 {
         self.enemy_count
     }  
 }
@@ -224,10 +222,9 @@ pub struct GodotApi {
 impl GodotApi {
     // new() etc...
 
-    #[export]
+    #[method]
     fn add_enemy(
         &amp;mut self,
-        _owner: &amp;Node,
         enemy: Ref&lt;Node2D&gt; // pass in enemy
     ) {
         self.enemies.push(enemy);
@@ -236,10 +233,9 @@ impl GodotApi {
     // You can even return the enemies directly with Vec.
     // In GDScript, you will get an array of nodes.
     // An alternative would be VariantArray, able to hold different types.
-    #[export]
+    #[method]
     fn get_enemies(
         &amp;self,
-        _owner: &amp;Node
     ) -&gt;  Vec&lt;Ref&lt;Node2D&gt;&gt; {
         self.enemies.clone()
     }
@@ -248,26 +244,26 @@ impl GodotApi {
 </span></code></pre></pre>
 <h2 id="special-methods"><a class="header" href="#special-methods">Special methods</a></h2>
 <p>Godot offers some special methods. Most of them implement <a href="https://docs.godotengine.org/en/stable/getting_started/workflow/best_practices/godot_notifications.html">notifications</a>, i.e. callbacks from the engine to notify the class about a change.</p>
-<p>If you need to override a Godot special method, just declare it as a normal exported method, with the same name and signature as in GDScript:</p>
+<p>If you need to override a Godot special method, just declare it as a normal exported method, with the same name and signature as in GDScript. You can also omit the base parameter if you don't need it.</p>
 <pre><pre class="playground"><code class="language-rust">
 <span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
-</span>#[export]
-fn _ready(&amp;mut self, _owner: &amp;Node) {...}
+</span>#[method]
+fn _ready(&amp;mut self, #[base] base: &amp;Node) {...}
 
-#[export]
-fn _process(&amp;mut self, _owner: &amp;Node, delta: f32) {...}
+#[method]
+fn _process(&amp;mut self, #[base] base: &amp;Node, delta: f32) {...}
 
-#[export]
-fn _physics_process(&amp;mut self, _owner: &amp;Node, delta: f32) {...}
+#[method]
+fn _physics_process(&amp;mut self, #[base] base: &amp;Node, delta: f32) {...}
 <span class="boring">}
 </span></code></pre></pre>
 <p>If you want to change how GDScript's default formatter in functions like <code>str()</code> or <code>print()</code> works, you can overload the <code>to_string</code> GDScript method, which corresponds to the following Rust method:</p>
 <pre><pre class="playground"><code class="language-rust">
 <span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
-</span>#[export]
-fn _to_string(&amp;self, _owner: &amp;Reference) -&gt; String {...}
+</span>#[method]
+fn _to_string(&amp;self, #[base] base: &amp;Node) -&gt; String {...}
 <span class="boring">}
 </span></code></pre></pre>
 <h2 id="errors"><a class="header" href="#errors">Errors</a></h2>

@@ -170,8 +170,8 @@ pub struct Enemy {
 
 #[methods]
 impl Enemy {
-    #[export]
-    fn _to_string(&amp;self, _owner: &amp;Reference) -&gt; String {
+    #[method]
+    fn _to_string(&amp;self) -&gt; String {
         format!(&quot;{:?}&quot;, self) // calls Debug::fmt()
     }
 }
@@ -191,19 +191,16 @@ impl Enemy {
 <pre><pre class="playground"><code class="language-rust">
 <span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
-</span>#[export]
-fn create_enemy(&amp;mut self, _owner: &amp;Node) -&gt; Enemy {...}
+</span>#[method]
+fn create_enemy(&amp;mut self) -&gt; Enemy {...}
 <span class="boring">}
 </span></code></pre></pre>
 <p>Instead, you can wrap the object in a <code>Instance&lt;Enemy, Unique&gt;</code>, using <code>emplace()</code>. For an in-depth explanation of the <code>Instance</code> class, read <a href="../gdnative-overview/wrappers.html#instance-reference-with-attached-rust-class">this section</a>.</p>
 <pre><pre class="playground"><code class="language-rust">
 <span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
-</span>#[export]
-fn create_enemy(
-    &amp;self,
-    _owner: &amp;Node
-) -&gt; Instance&lt;Enemy, Unique&gt; {
+</span>#[method]
+fn create_enemy(&amp;self) -&gt; Instance&lt;Enemy, Unique&gt; {
     let enemy = Enemy {
         pos: Vector2::new(7.0, 2.0),
         health: 100.0,
@@ -310,7 +307,7 @@ fn update_mission_ui(ui_node: Ref&lt;CanvasItem&gt;) {
 <h3 id="warning"><a class="header" href="#warning">Warning</a></h3>
 <p>When calling GDScript functions from Rust, a few things need to be kept in mind.</p>
 <p><strong>Safety:</strong> Since the calls are dynamic, it is possible to invoke any other functions through them, including unsafe ones like <code>free()</code>. As a result, <code>call()</code> and its alternatives are unsafe.</p>
-<p><strong>Re-entrancy:</strong> When calling from Rust to GDScript, your Rust code is usually already running in an exported <code>#[export]</code> method, meaning that it has bound its receiver object via <code>&amp;T</code> or <code>&amp;mut T</code> reference. In the GDScript code, you must not invoke any method on the same Rust receiver, which would violate safety rules (aliasing of <code>&amp;mut</code>).</p>
+<p><strong>Re-entrancy:</strong> When calling from Rust to GDScript, your Rust code is usually already running in an exported <code>#[method]</code> method, meaning that it has bound its receiver object via <code>&amp;T</code> or <code>&amp;mut T</code> reference. In the GDScript code, you must not invoke any method on the same Rust receiver, which would violate safety rules (aliasing of <code>&amp;mut</code>).</p>
 <h2 id="signal-emissions"><a class="header" href="#signal-emissions">Signal emissions</a></h2>
 <p>Like methods, signals defined in GDScript can be emitted dynamically from Rust.</p>
 <p>The mechanism works analogously to function invocation, except that you use <a href="https://docs.rs/gdnative/latest/gdnative/api/struct.Object.html#method.emit_signal"><code>Object::emit_signal()</code></a> instead of <code>Object::call()</code>.</p>

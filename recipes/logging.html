@@ -263,24 +263,24 @@ impl DebugLogger {
     fn new(_: &amp;Node) -&gt; Self {
         Self {}
     }
-    #[export]
-    fn error(&amp;self, _owner: &amp;Node, target: String, message: String) {
+    #[method]
+    fn error(&amp;self, target: String, message: String) {
         log::error!(target: &amp;target, &quot;{}&quot;, message);
     }
-    #[export]
-    fn warn(&amp;self, _: &amp;Node, target: String, message: String) {
+    #[method]
+    fn warn(&amp;self, target: String, message: String) {
         log::warn!(target: &amp;target, &quot;{}&quot;, message);
     }
-    #[export]
-    fn info(&amp;self, _: &amp;Node, target: String, message: String) {
+    #[method]
+    fn info(&amp;self, target: String, message: String) {
         log::info!(target: &amp;target, &quot;{}&quot;, message);
     }
-    #[export]
-    fn debug(&amp;self, _: &amp;Node, target: String, message: String) {
+    #[method]
+    fn debug(&amp;self, target: String, message: String) {
         log::debug!(target: &amp;target, &quot;{}&quot;, message);
     }
-    #[export]
-    fn trace(&amp;self, _: &amp;Node, target: String, message: String) {
+    #[method]
+    fn trace(&amp;self, target: String, message: String) {
         log::trace!(target: &amp;target, &quot;{}&quot;, message);
     }
 }
