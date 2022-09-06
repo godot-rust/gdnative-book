@@ -3070,7 +3070,7 @@ mv bin/godot.javascript.opt.gdnative.zip bin/webassembly_gdnative_release.zip
 </code></pre>
 <p>Set the newly built export template as a <a href="https://user-images.githubusercontent.com/2171264/175822720-bcd2f1ff-0a1d-4495-9f9c-892d42e9bdcd.png">custom template</a> in Godot and be sure to set the export type as GDNative. When exporting, uncheck &quot;Export With Debug&quot;.</p>
 <h3 id="building-your-rust-code"><a class="header" href="#building-your-rust-code">Building your Rust code</a></h3>
-<p>In your project's <code>config.toml</code>, add the following:</p>
+<p>In your project's <code>.cargo/config.toml</code> <a href="https://doc.rust-lang.org/cargo/reference/config.html">(see Cargo Docs)</a>, add the following:</p>
 <pre><code class="language-toml">[target.wasm32-unknown-emscripten]
 rustflags = [
 	&quot;-Clink-arg=-sSIDE_MODULE=2&quot;, # build a side module that Godot can load
@@ -3090,6 +3090,7 @@ cargo +nightly build --target=wasm32-unknown-emscripten --release
 <ul>
 <li><code>failed to run custom build command for gdnative-sys v0.10.1</code>, <code>fatal error: 'wchar.h' file not found</code>: Emscripten cache not populated, build Godot export template first</li>
 <li><code>undefined symbol: __cxa_is_pointer_type</code>: You need to build with <code>-Clink-arg=-sSIDE_MODULE=2</code></li>
+<li><code>error: undefined symbol: main/__main_argc_argv (referenced by top-level compiled C/C++  code)</code>: Your <code>.cargo/config.toml</code> was not loaded. See <a href="https://doc.rust-lang.org/cargo/reference/config.html">Cargo Docs</a> and verify its location.</li>
 </ul>
 <p>Runtime:</p>
 <ul>
