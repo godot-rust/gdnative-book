@@ -100,7 +100,7 @@ Compile time:
 * `failed to run custom build command for gdnative-sys v0.10.1`, `fatal error: 'wchar.h' file not found`: Emscripten cache not populated, build Godot export template first
 * `undefined symbol: __cxa_is_pointer_type`: You need to build with `-Clink-arg=-sSIDE_MODULE=2`
 * `error: undefined symbol: main/__main_argc_argv (referenced by top-level compiled C/C++ 
-code)`: Your `.cargo/config.toml` was not loaded. See [Cargo Docs](https://doc.rust-lang.org/cargo/reference/config.html) and verify it's location.
+code)`: Your `.cargo/config.toml` was not loaded. See [Cargo Docs](https://doc.rust-lang.org/cargo/reference/config.html) and verify its location.
 
 Runtime:
 * `indirect call signature mismatch`: Possibly due to Emscripten version mismatch between Godot and Rust
