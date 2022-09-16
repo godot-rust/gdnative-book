@@ -5,29 +5,29 @@
 
 ## I need help, where can I ask?
 
-The godot-rust project uses several different sources for different kinds of information.
+The godot-rust project uses several sources for different kinds of information.
 
-### 1 - The godot-rust documentation is hosted at [docs.rs](https://docs.rs/gdnative/)
+### 1 - API documentation
 
-Specific places to start in the  would be the following:
-- [API documentation](https://docs.rs/gdnative/latest/gdnative/api/index.html) this is useful to find the necessary includes from the Godot API that are not directly implemented in the preludes.
-  - [Godot Object](https://docs.rs/gdnative/latest/gdnative/trait.GodotObject.html) includes all of the information about the trait that all Godot API objects implement. 
-  - [NativeClass](https://docs.rs/gdnative/latest/gdnative/derive.NativeClass.html) includes all the derive macro attributes that you can use to integrate your script class with godot.
+The documentation of released crates is hosted at [docs.rs](https://docs.rs/gdnative). 
+If you prefer to look up API details of the latest `master` in-development version, they are hosted on [GitHub pages](https://godot-rust.github.io/docs/gdnative/).
 
-### 2 - The Official Godot Docs
+The crate-level documentation of `gdnative` should guide you to more concrete places to look at.
+If you don't know where to start, look at the `prelude` module -- it contains the most commonly used symbols.
 
-As godot-rust is the layer that wraps the [Godot API](https://docs.godotengine.org/en/stable/classes/index.html), the effects and use cases for many of the methods are available in the Official Docs. Consulting this is a great place whenever you have questions for anything specific to Godot that is outside the bounds of godot-rust.
+### 2 - Godot Docs
 
-[Godot docs](https://docs.godotengine.org/en/stable/index.html)
+As godot-rust is the layer that wraps the [Godot API](https://docs.godotengine.org/en/stable/classes/index.html), the behavior and use cases for many of the classes and methods are available in the official Godot documentation. Whenever you have questions for anything Godot-specific that is outside godot-rust's scope, this is the place to go as well.
 
-### 3 - The Godot Rust Discord
+### 3 - Discord Server
 
-For more complex questions the fastest way to get an answer is to reach out to us and fellow developers on the [godot-rust Discord](https://discord.gg/FNudpBD).
+For more complex questions, the fastest way to get an answer is to reach out to us and fellow developers on the [godot-rust Discord](https://discord.gg/aKUCJ8rJsc).
 
-### 4 - If it appears to be a bug, open a Github issue
+### 4 - Bug reports: GitHub issue
 
-If you find a bug or an issue with the godot-rust bindings or have an idea for future development, please feel free to open up a Github issue and we'd be happy to take a look.
+If you find a bug or an issue with the godot-rust bindings or have an idea for future development, please feel free to open up a GitHub issue and we'd be happy to take a look.
 
-Please note, due to the limited resources for maintaining this project, bugs generally take precendence over feature requests.
+Please consider the [Contribution Guidelines](https://github.com/godot-rust/godot-rust/blob/master/CONTRIBUTING.md) if you plan to contribute.
 
-In addition, Github issues are not intended for general questions as only project maintainers and contributors generally read and track new issues. As such, we would highly recommend seeking out one of the above options before opening an issue if you have a question.
+GitHub issues are not intended for general questions, as only project maintainers and contributors generally read and track new issues.
+As such, if you have a question about how to _use_ the library, we highly recommend seeking out one of the above options before opening an issue.
