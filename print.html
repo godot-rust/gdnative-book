@@ -2073,26 +2073,21 @@ Why does X function take Y parameters and return Z?</p>
 <li><a href="faq/community.html#i-need-help-where-can-i-ask">I need help, where can I ask?</a></li>
 </ul>
 <h2 id="i-need-help-where-can-i-ask"><a class="header" href="#i-need-help-where-can-i-ask">I need help, where can I ask?</a></h2>
-<p>The godot-rust project uses several different sources for different kinds of information.</p>
-<h3 id="1---the-godot-rust-documentation-is-hosted-at-docsrs"><a class="header" href="#1---the-godot-rust-documentation-is-hosted-at-docsrs">1 - The godot-rust documentation is hosted at <a href="https://docs.rs/gdnative/">docs.rs</a></a></h3>
-<p>Specific places to start in the  would be the following:</p>
-<ul>
-<li><a href="https://docs.rs/gdnative/latest/gdnative/api/index.html">API documentation</a> this is useful to find the necessary includes from the Godot API that are not directly implemented in the preludes.
-<ul>
-<li><a href="https://docs.rs/gdnative/latest/gdnative/trait.GodotObject.html">Godot Object</a> includes all of the information about the trait that all Godot API objects implement. </li>
-<li><a href="https://docs.rs/gdnative/latest/gdnative/derive.NativeClass.html">NativeClass</a> includes all the derive macro attributes that you can use to integrate your script class with godot.</li>
-</ul>
-</li>
-</ul>
-<h3 id="2---the-official-godot-docs"><a class="header" href="#2---the-official-godot-docs">2 - The Official Godot Docs</a></h3>
-<p>As godot-rust is the layer that wraps the <a href="https://docs.godotengine.org/en/stable/classes/index.html">Godot API</a>, the effects and use cases for many of the methods are available in the Official Docs. Consulting this is a great place whenever you have questions for anything specific to Godot that is outside the bounds of godot-rust.</p>
-<p><a href="https://docs.godotengine.org/en/stable/index.html">Godot docs</a></p>
-<h3 id="3---the-godot-rust-discord"><a class="header" href="#3---the-godot-rust-discord">3 - The Godot Rust Discord</a></h3>
-<p>For more complex questions the fastest way to get an answer is to reach out to us and fellow developers on the <a href="https://discord.gg/FNudpBD">godot-rust Discord</a>.</p>
-<h3 id="4---if-it-appears-to-be-a-bug-open-a-github-issue"><a class="header" href="#4---if-it-appears-to-be-a-bug-open-a-github-issue">4 - If it appears to be a bug, open a Github issue</a></h3>
-<p>If you find a bug or an issue with the godot-rust bindings or have an idea for future development, please feel free to open up a Github issue and we'd be happy to take a look.</p>
-<p>Please note, due to the limited resources for maintaining this project, bugs generally take precendence over feature requests.</p>
-<p>In addition, Github issues are not intended for general questions as only project maintainers and contributors generally read and track new issues. As such, we would highly recommend seeking out one of the above options before opening an issue if you have a question.</p>
+<p>The godot-rust project uses several sources for different kinds of information.</p>
+<h3 id="1---api-documentation"><a class="header" href="#1---api-documentation">1 - API documentation</a></h3>
+<p>The documentation of released crates is hosted at <a href="https://docs.rs/gdnative">docs.rs</a>. 
+If you prefer to look up API details of the latest <code>master</code> in-development version, they are hosted on <a href="https://godot-rust.github.io/docs/gdnative/">GitHub pages</a>.</p>
+<p>The crate-level documentation of <code>gdnative</code> should guide you to more concrete places to look at.
+If you don't know where to start, look at the <code>prelude</code> module -- it contains the most commonly used symbols.</p>
+<h3 id="2---godot-docs"><a class="header" href="#2---godot-docs">2 - Godot Docs</a></h3>
+<p>As godot-rust is the layer that wraps the <a href="https://docs.godotengine.org/en/stable/classes/index.html">Godot API</a>, the behavior and use cases for many of the classes and methods are available in the official Godot documentation. Whenever you have questions for anything Godot-specific that is outside godot-rust's scope, this is the place to go as well.</p>
+<h3 id="3---discord-server"><a class="header" href="#3---discord-server">3 - Discord Server</a></h3>
+<p>For more complex questions, the fastest way to get an answer is to reach out to us and fellow developers on the <a href="https://discord.gg/aKUCJ8rJsc">godot-rust Discord</a>.</p>
+<h3 id="4---bug-reports-github-issue"><a class="header" href="#4---bug-reports-github-issue">4 - Bug reports: GitHub issue</a></h3>
+<p>If you find a bug or an issue with the godot-rust bindings or have an idea for future development, please feel free to open up a GitHub issue and we'd be happy to take a look.</p>
+<p>Please consider the <a href="https://github.com/godot-rust/godot-rust/blob/master/CONTRIBUTING.md">Contribution Guidelines</a> if you plan to contribute.</p>
+<p>GitHub issues are not intended for general questions, as only project maintainers and contributors generally read and track new issues.
+As such, if you have a question about how to <em>use</em> the library, we highly recommend seeking out one of the above options before opening an issue.</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="faq-godot-40-status"><a class="header" href="#faq-godot-40-status">FAQ: Godot 4.0 Status</a></h1>
 <h2 id="table-of-contents-5"><a class="header" href="#table-of-contents-5">Table of contents</a></h2>
 <ul>
