@@ -42,6 +42,12 @@ in
 
         # Point bindgen to where the clang library would be
         LIBCLANG_PATH = "${pkgs.libclang.lib}/lib";
+        # Make clang aware of a few headers (stdbool.h, wchar.h)
+        BINDGEN_EXTRA_CLANG_ARGS = with pkgs; ''
+          -isystem ${llvmPackages.libclang.lib}/lib/clang/${lib.getVersion clang}/include
+          -isystem ${llvmPackages.libclang.out}/lib/clang/${lib.getVersion clang}/include
+          -isystem ${glibc.dev}/include
+        '';
 
         # For Rust language server and rust-analyzer
         RUST_SRC_PATH = "${pkgs.rust.packages.stable.rustPlatform.rustLibSrc}";
@@ -52,6 +58,8 @@ in
         '';
     }
 ```
+
+If you get any errors about missing headers, you can use [`nix-locate`](https://github.com/bennofs/nix-index#usage) to search for them, e.g. `nix-locate 'include/wchar.h' | grep -v '^('` (the `grep -v` hides indirect packages), and then add the matching Nix package via the `BINDGEN_EXTRA_CLANG_ARGS` env var like above ([context](https://github.com/NixOS/nixpkgs/issues/52447#issuecomment-853429315)).
 
 
 ## Activating the Nix environment
