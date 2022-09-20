@@ -169,6 +169,12 @@ in
 
         # Point bindgen to where the clang library would be
         LIBCLANG_PATH = &quot;${pkgs.libclang.lib}/lib&quot;;
+        # Make clang aware of a few headers (stdbool.h, wchar.h)
+        BINDGEN_EXTRA_CLANG_ARGS = with pkgs; ''
+          -isystem ${llvmPackages.libclang.lib}/lib/clang/${lib.getVersion clang}/include
+          -isystem ${llvmPackages.libclang.out}/lib/clang/${lib.getVersion clang}/include
+          -isystem ${glibc.dev}/include
+        '';
 
         # For Rust language server and rust-analyzer
         RUST_SRC_PATH = &quot;${pkgs.rust.packages.stable.rustPlatform.rustLibSrc}&quot;;
@@ -179,6 +185,7 @@ in
         '';
     }
 </code></pre>
+<p>If you get any errors about missing headers, you can use <a href="https://github.com/bennofs/nix-index#usage"><code>nix-locate</code></a> to search for them, e.g. <code>nix-locate 'include/wchar.h' | grep -v '^('</code> (the <code>grep -v</code> hides indirect packages), and then add the matching Nix package via the <code>BINDGEN_EXTRA_CLANG_ARGS</code> env var like above (<a href="https://github.com/NixOS/nixpkgs/issues/52447#issuecomment-853429315">context</a>).</p>
 <h2 id="activating-the-nix-environment"><a class="header" href="#activating-the-nix-environment">Activating the Nix environment</a></h2>
 <p>One of the simplest way to activate the nix environment is to use the <code>nix-shell</code> command. This program is installed automatically as you install Nix Package Manager.</p>
 <p>First, you need to open the root directory of your project. And then to activate your environment, run <code>nix-shell -v</code> into your terminal. The optional <code>-v</code> flag in the command will configure the command to be more verbose and display what kinds of things is getting installed. Because this is your first time using <code>nix-shell</code> on this particular project, it will take some time to download and install all the required dependencies. Subsequent run will be a lot faster after the installation.</p>
