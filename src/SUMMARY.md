@@ -44,3 +44,4 @@
     - [Using custom Godot versions](./advanced-guides/custom-godot.md)
     - [Migrating from godot-rust 0.8](advanced-guides/migrating-0-8.md)
     - [Migrating from godot-rust 0.9](advanced-guides/migrating-0-9.md)
+    - [Migrating from godot-rust 0.10](advanced-guides/migrating-0-10.md)
