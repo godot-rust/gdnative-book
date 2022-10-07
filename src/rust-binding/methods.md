@@ -3,7 +3,8 @@
 In order to receive data from Godot, you can export methods. With the `#[method]` attribute, godot-rust takes care of method registration and serialization. Note that the constructor is not annotated with `#[method]`.
 
 > #### Recent API changes
-> `#[export]` is being renamed as `#[method]` and will soon be deprecated, and later removed in godot-rust 0.11.
+> `#[export]` has been renamed to `#[method]` and is now deprecated.
+> It keeps working for the time being though (i.e. gdnative 0.11).
 >
 > For more information, see [`gdnative::derive::NativeClass`](https://godot-rust.github.io/docs/gdnative/derive/derive.NativeClass.html).
 
