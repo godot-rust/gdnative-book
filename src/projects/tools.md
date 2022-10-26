@@ -45,6 +45,46 @@ godot-rust-cli build --watch
 Note that there is also [godot-rust-cli-upgrader](https://github.com/robertcorponoi/godot-rust-cli-upgrader) to upgrade the CLI.
 
 
+## bevy-godot
+
+_[GitHub](https://github.com/rand0m-cloud/bevy_godot)_
+
+**bevy-godot** is an in-development crate for using Bevy with the Godot Engine.
+
+```rust
+use bevy_godot::prelude::*;
+
+fn init(_handle: &InitHandle) {}
+fn build_app(app: &mut App) {
+    app.add_startup_system(spawn_cube).add_system(move_cube);
+}
+
+bevy_godot_init!(init, build_app);
+
+#[derive(Component)]
+pub struct Cube {
+    starting_position: Vector2,
+}
+
+fn spawn_cube(mut commands: Commands) {
+    let starting_position = Vector2::new(500.0, 300.0);
+    commands
+        .spawn()
+        .insert(GodotScene::from_path("res://simple_scene.tscn"))
+        .insert(Cube { starting_position })
+        .insert(Transform2D::from(
+            GodotTransform2D::from_scale_rotation_origin(Vector2::ONE, 0.0, starting_position),
+        ));
+}
+
+fn move_cube(mut cube: Query<(&Cube, &mut Transform2D)>, time: Res<Time>) {
+    let (cube, mut transform) = cube.single_mut();
+    transform.origin =
+        Vector2::RIGHT * 300.0 * time.seconds_since_startup().sin() as f32 + cube.starting_position;
+}
+```
+
+
 ## ftw
 
 _[GitHub](https://github.com/macalimlim/ftw)_
