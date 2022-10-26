@@ -147,6 +147,7 @@ Examples include:</p>
 <ul>
 <li><a href="#godot-egui">godot-egui</a></li>
 <li><a href="#godot-rust-cli">godot-rust-cli</a></li>
+<li><a href="#bevy-godot">bevy-godot</a></li>
 <li><a href="#ftw">ftw</a></li>
 <li><a href="#gdrust">gdrust</a></li>
 </ul>
@@ -169,6 +170,44 @@ godot-rust-cli create Player
 godot-rust-cli build --watch
 </code></pre>
 <p>Note that there is also <a href="https://github.com/robertcorponoi/godot-rust-cli-upgrader">godot-rust-cli-upgrader</a> to upgrade the CLI.</p>
+<h2 id="bevy-godot"><a class="header" href="#bevy-godot">bevy-godot</a></h2>
+<p><em><a href="https://github.com/rand0m-cloud/bevy_godot">GitHub</a></em></p>
+<p><strong>bevy-godot</strong> is an in-development crate for using Bevy with the Godot Engine.</p>
+<pre><pre class="playground"><code class="language-rust">
+<span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>use bevy_godot::prelude::*;
+
+fn init(_handle: &amp;InitHandle) {}
+fn build_app(app: &amp;mut App) {
+    app.add_startup_system(spawn_cube).add_system(move_cube);
+}
+
+bevy_godot_init!(init, build_app);
+
+#[derive(Component)]
+pub struct Cube {
+    starting_position: Vector2,
+}
+
+fn spawn_cube(mut commands: Commands) {
+    let starting_position = Vector2::new(500.0, 300.0);
+    commands
+        .spawn()
+        .insert(GodotScene::from_path(&quot;res://simple_scene.tscn&quot;))
+        .insert(Cube { starting_position })
+        .insert(Transform2D::from(
+            GodotTransform2D::from_scale_rotation_origin(Vector2::ONE, 0.0, starting_position),
+        ));
+}
+
+fn move_cube(mut cube: Query&lt;(&amp;Cube, &amp;mut Transform2D)&gt;, time: Res&lt;Time&gt;) {
+    let (cube, mut transform) = cube.single_mut();
+    transform.origin =
+        Vector2::RIGHT * 300.0 * time.seconds_since_startup().sin() as f32 + cube.starting_position;
+}
+<span class="boring">}
+</span></code></pre></pre>
 <h2 id="ftw"><a class="header" href="#ftw">ftw</a></h2>
 <p><em><a href="https://github.com/macalimlim/ftw">GitHub</a></em></p>
 <p><strong>ftw</strong> is a command-line interface to manage your godot-rust project. It enables you to set up projects, add native classes which are automatically wired up, and run build commands.</p>
