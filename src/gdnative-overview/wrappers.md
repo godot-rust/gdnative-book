@@ -6,7 +6,7 @@ These classes stand in contrast to value types like `bool`, `int`, `Vector2`, `C
 
 ## `Ref`: persistent reference
 
-The generic smart pointer `gdnative::Ref<T, Access>` allows you to store `Object` instances in Rust. It comes with different access policies, depending on how the memory of the underlying object is managed (consult [the docs](https://docs.rs/gdnative/latest/gdnative/struct.Ref.html) for details). Most of the time, you will be working with `Ref<T>`, which is the same as `Ref<T, Shared>` and the only access policy that is explained here. Its memory management mirrors that of the underlying type:
+The generic smart pointer `gdnative::Ref<T, Access>` allows you to store `Object` instances in Rust. It comes with different access policies, depending on how the memory of the underlying object is managed (consult [the docs](https://docs.rs/gdnative/latest/gdnative/object/struct.Ref.html) for details). Most of the time, you will be working with `Ref<T>`, which is the same as `Ref<T, Shared>` and the only access policy that is explained here. Its memory management mirrors that of the underlying type:
 * for all Godot objects inheriting the `Reference` class, `Ref<T>` is reference-counted like `Arc<T>` and will clean up automatically.
 * for all other types (i.e. the type `Object` and inheritors of `Node`), `Ref<T>` behaves like a raw pointer with manual memory management.
 
@@ -18,7 +18,7 @@ struct GodotNode {
 ```
 
 _See `Ref` in
-[godot-rust docs](https://docs.rs/gdnative/latest/gdnative/struct.Ref.html)_
+[godot-rust docs](https://docs.rs/gdnative/latest/gdnative/object/struct.Ref.html)_
 
 
 ## `TRef`: temporary reference
@@ -50,7 +50,7 @@ This being said, it can still make sense to bring back some type safety on a hig
 
 
 _See `TRef` in
-[godot-rust docs](https://docs.rs/gdnative/latest/gdnative/struct.TRef.html)_
+[godot-rust docs](https://docs.rs/gdnative/latest/gdnative/object/struct.TRef.html)_
 
 
 ## `Instance`: reference with attached Rust class
@@ -132,5 +132,5 @@ let instance = player.emplace();
 
 
 _See `Instance` in
-[godot-rust docs](https://docs.rs/gdnative/latest/gdnative/nativescript/struct.Instance.html)_
+[godot-rust docs](https://docs.rs/gdnative/latest/gdnative/object/struct.Instance.html)_
 
