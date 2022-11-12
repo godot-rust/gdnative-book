@@ -405,7 +405,7 @@ Data set that is loaded from disk and cached in memory, for example 3D meshes, m
 <p>Objects from Godot, such as scene nodes, materials, or other resources are owned and maintained by the Godot engine. This means that your Rust code will store references to existing objects, not values. godot-rust provides special wrapper types to deal with these references, which are explained in this page.</p>
 <p>These classes stand in contrast to value types like <code>bool</code>, <code>int</code>, <code>Vector2</code>, <code>Color</code> etc., which are copied in GDScript, not referenced. In Rust, those types either map to built-in Rust types or structs implementing the <code>Copy</code> trait.</p>
 <h2 id="ref-persistent-reference"><a class="header" href="#ref-persistent-reference"><code>Ref</code>: persistent reference</a></h2>
-<p>The generic smart pointer <code>gdnative::Ref&lt;T, Access&gt;</code> allows you to store <code>Object</code> instances in Rust. It comes with different access policies, depending on how the memory of the underlying object is managed (consult <a href="https://docs.rs/gdnative/latest/gdnative/struct.Ref.html">the docs</a> for details). Most of the time, you will be working with <code>Ref&lt;T&gt;</code>, which is the same as <code>Ref&lt;T, Shared&gt;</code> and the only access policy that is explained here. Its memory management mirrors that of the underlying type:</p>
+<p>The generic smart pointer <code>gdnative::Ref&lt;T, Access&gt;</code> allows you to store <code>Object</code> instances in Rust. It comes with different access policies, depending on how the memory of the underlying object is managed (consult <a href="https://docs.rs/gdnative/latest/gdnative/object/struct.Ref.html">the docs</a> for details). Most of the time, you will be working with <code>Ref&lt;T&gt;</code>, which is the same as <code>Ref&lt;T, Shared&gt;</code> and the only access policy that is explained here. Its memory management mirrors that of the underlying type:</p>
 <ul>
 <li>for all Godot objects inheriting the <code>Reference</code> class, <code>Ref&lt;T&gt;</code> is reference-counted like <code>Arc&lt;T&gt;</code> and will clean up automatically.</li>
 <li>for all other types (i.e. the type <code>Object</code> and inheritors of <code>Node</code>), <code>Ref&lt;T&gt;</code> behaves like a raw pointer with manual memory management.</li>
@@ -420,7 +420,7 @@ Data set that is loaded from disk and cached in memory, for example 3D meshes, m
 <span class="boring">}
 </span></code></pre></pre>
 <p><em>See <code>Ref</code> in
-<a href="https://docs.rs/gdnative/latest/gdnative/struct.Ref.html">godot-rust docs</a></em></p>
+<a href="https://docs.rs/gdnative/latest/gdnative/object/struct.Ref.html">godot-rust docs</a></em></p>
 <h2 id="tref-temporary-reference"><a class="header" href="#tref-temporary-reference"><code>TRef</code>: temporary reference</a></h2>
 <p>While <code>Ref</code> is a persistent pointer to retain references to Godot objects for an extended period of time, it doesn't grant access to the underlying Godot object. The reason for this is that <code>Ref</code> cannot generally guarantee that the underlying object, which is managed by the Godot engine, is valid at the time of the access. However, you as a user are in control of GDScript code and the scene tree, thus you can assert that an object is valid at a certain point in time by using <code>assume_safe()</code>. This is an unsafe function that returns a <code>gdnative::TRef&lt;T, Access&gt;</code> object, which allows you to call methods on the node. You are responsible for this assumption to be correct; violating it can lead to undefined behavior.</p>
 <p>The following example demonstrates <code>TRef</code>. A node is stored inside a Rust struct, and its position is modified through <code>set_position()</code>. This approach could be used in an ECS (Entity-Component-System) architecture, where <code>GodotNode</code> is a component, updated by a system.</p>
@@ -447,7 +447,7 @@ fn update_position(node: &amp;GodotNode) {
 <p>All Godot classes in Rust (<code>Object</code> and its subtypes) have only methods that operate on <code>&amp;self</code>, not <code>&amp;mut self</code>. The reason for this choice is that <code>&amp;mut</code> is -- strictly speaking -- not a mutable reference, but rather an <a href="https://docs.rs/dtolnay/latest/dtolnay/macro._02__reference_types.html"><em>exclusive</em> reference</a>. The one and only thing it guarantees is that while it exists, no other reference to the same object can exist (no aliasing). Since all the Godot classes can be shared with the Godot engine, which is written in C++ and allows free aliasing, using <code>&amp;mut</code> references would potentially violate the exclusivity, leading to UB. This is why <code>&amp;T</code> is used, and just like e.g. <code>&amp;RefCell</code> it <em>does</em> allow mutation.</p>
 <p>This being said, it can still make sense to bring back some type safety on a higher level in your own code. For example, you could make the <code>update_position()</code> take a <code>&amp;mut GodotNode</code> parameter, to make sure that access to this <code>GodotNode</code> object is exclusive.</p>
 <p><em>See <code>TRef</code> in
-<a href="https://docs.rs/gdnative/latest/gdnative/struct.TRef.html">godot-rust docs</a></em></p>
+<a href="https://docs.rs/gdnative/latest/gdnative/object/struct.TRef.html">godot-rust docs</a></em></p>
 <h2 id="instance-reference-with-attached-rust-class"><a class="header" href="#instance-reference-with-attached-rust-class"><code>Instance</code>: reference with attached Rust class</a></h2>
 <p>When working with classes that are provided by the engine or defined in GDScript, the <code>Ref</code> smart pointer is the ideal type for interfacing between Rust and Godot. However, when defining a custom class in Rust, that is registered with the Godot engine, there are two parts that need to be stored together:</p>
 <ol>
@@ -526,7 +526,7 @@ let instance = player.emplace();
 <span class="boring">}
 </span></code></pre></pre>
 <p><em>See <code>Instance</code> in
-<a href="https://docs.rs/gdnative/latest/gdnative/nativescript/struct.Instance.html">godot-rust docs</a></em></p>
+<a href="https://docs.rs/gdnative/latest/gdnative/object/struct.Instance.html">godot-rust docs</a></em></p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="game-architecture"><a class="header" href="#game-architecture">Game architecture</a></h1>
 <p><em>This chapter assumes that you are developing a game with Godot and Rust; however, many of the points apply to other projects like simulations or visualizations.</em></p>
 <p>For users new to the godot-rust binding, there are a few questions that almost always come up:</p>
