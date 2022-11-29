@@ -6,3 +6,4 @@ godot-rust is a popular choice for game development, but this chapter is not lim
 
 While part of the book, this chapter is _not_ an official list of "featured" entries; project authors themselves are responsible for the up-to-dateness and accuracy of their description. 
 
+Unless otherwise noted, projects are powered with Godot 3 and the GDNative-Rust binding.

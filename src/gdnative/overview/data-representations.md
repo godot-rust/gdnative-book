@@ -28,7 +28,7 @@ Every user-defined class inherits `Object` directly or indirectly, and thus all 
 
 When talking about inheritance, we always mean the relationship in GDScript code. Rust does not have inheritance, instead godot-rust implements `Deref` traits to allow implicit upcasts. This enables to invoke all parent methods and makes the godot-rust API very close to GDScript.
 
-Classes need to be added as `NativeScript` resources inside the Godot editor, see [here](../getting-started/hello-world.html#creating-the-nativescript-resource) for a description.
+Classes need to be added as `NativeScript` resources inside the Godot editor, see [here](../intro/hello-world.html#creating-the-nativescript-resource) for a description.
 
 _See `Object` in
 [godot-rust docs](https://docs.rs/gdnative/latest/gdnative/api/struct.Object.html),

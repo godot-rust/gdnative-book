@@ -54,7 +54,7 @@ Now, it's not possible to directly return `Enemy` instances in exported methods,
 #[method]
 fn create_enemy(&mut self) -> Enemy {...}
 ```
-Instead, you can wrap the object in a `Instance<Enemy, Unique>`, using `emplace()`. For an in-depth explanation of the `Instance` class, read [this section](../gdnative-overview/wrappers.md#instance-reference-with-attached-rust-class).
+Instead, you can wrap the object in a `Instance<Enemy, Unique>`, using `emplace()`. For an in-depth explanation of the `Instance` class, read [this section](../overview/wrappers.md#instance-reference-with-attached-rust-class).
 ```rust
 #[method]
 fn create_enemy(&self) -> Instance<Enemy, Unique> {

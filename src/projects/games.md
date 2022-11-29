@@ -2,7 +2,7 @@
 
 Below you see a non-exhaustive list of games that have been developed with godot-rust.
 
-The page focuses on entries which are either in a playable state, or at least have some basic mechanics and graphics to show. For example, such an entry could be an indie game developed over many months, or also a polished game jam submission. The condition is that a notable part of the game is written in godot-rust, however it doesn't need to be the majority. For example, [one of the common architectures](../gdnative-overview/architecture.md) entails using Rust for selective modules.
+The page focuses on entries which are either in a playable state, or at least have some basic mechanics and graphics to show. For example, such an entry could be an indie game developed over many months, or also a polished game jam submission. The condition is that a notable part of the game is written in godot-rust, however it doesn't need to be the majority. For example, [one of the common architectures](../overview/architecture.md) entails using Rust for selective modules.
 
 ### Table of contents
 <!-- toc -->
