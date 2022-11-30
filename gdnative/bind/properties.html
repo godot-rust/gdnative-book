@@ -1,0 +1,390 @@
+<!DOCTYPE HTML>
+<html lang="en" class="sidebar-visible no-js light">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Exported properties - The godot-rust Book</title>
+        <!-- Custom HTML head -->
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff" />
+
+        <link rel="icon" href="../../favicon.svg">
+        <link rel="shortcut icon" href="../../favicon.png">
+        <link rel="stylesheet" href="../../css/variables.css">
+        <link rel="stylesheet" href="../../css/general.css">
+        <link rel="stylesheet" href="../../css/chrome.css">
+        <link rel="stylesheet" href="../../css/print.css" media="print">
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../../fonts/fonts.css">
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="../../highlight.css">
+        <link rel="stylesheet" href="../../tomorrow-night.css">
+        <link rel="stylesheet" href="../../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+    </head>
+    <body>
+        <!-- Provide site root to javascript -->
+        <script type="text/javascript">
+            var path_to_root = "../../";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script type="text/javascript">
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script type="text/javascript">
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('no-js')
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add('js');
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script type="text/javascript">
+            var html = document.querySelector('html');
+            var sidebar = 'hidden';
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            }
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded "><a href="../../index.html"><strong aria-hidden="true">1.</strong> Introduction</a></li><li class="chapter-item expanded "><a href="../../gdextension/index.html"><strong aria-hidden="true">2.</strong> GDExtension</a></li><li class="chapter-item expanded "><a href="../../gdnative/index.html"><strong aria-hidden="true">3.</strong> GDNative</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../gdnative/intro/index.html"><strong aria-hidden="true">3.1.</strong> Getting Started</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../gdnative/intro/setup.html"><strong aria-hidden="true">3.1.1.</strong> Setup</a></li><li class="chapter-item expanded "><a href="../../gdnative/intro/hello-world.html"><strong aria-hidden="true">3.1.2.</strong> Hello, world!</a></li></ol></li><li class="chapter-item expanded "><a href="../../gdnative/overview/index.html"><strong aria-hidden="true">3.2.</strong> An Overview of GDNative</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../gdnative/overview/data-representations.html"><strong aria-hidden="true">3.2.1.</strong> Data representations</a></li><li class="chapter-item expanded "><a href="../../gdnative/overview/wrappers.html"><strong aria-hidden="true">3.2.2.</strong> Ref, TRef and Instance</a></li><li class="chapter-item expanded "><a href="../../gdnative/overview/architecture.html"><strong aria-hidden="true">3.2.3.</strong> Game architecture</a></li></ol></li><li class="chapter-item expanded "><a href="../../gdnative/bind/index.html"><strong aria-hidden="true">3.3.</strong> Binding to Rust code</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../gdnative/bind/classes.html"><strong aria-hidden="true">3.3.1.</strong> Class registration</a></li><li class="chapter-item expanded "><a href="../../gdnative/bind/methods.html"><strong aria-hidden="true">3.3.2.</strong> Exported methods</a></li><li class="chapter-item expanded "><a href="../../gdnative/bind/properties.html" class="active"><strong aria-hidden="true">3.3.3.</strong> Exported properties</a></li><li class="chapter-item expanded "><a href="../../gdnative/bind/traits.html"><strong aria-hidden="true">3.3.4.</strong> ToVariant, FromVariant and Export</a></li><li class="chapter-item expanded "><a href="../../gdnative/bind/calling-gdscript.html"><strong aria-hidden="true">3.3.5.</strong> Calling into GDScript from Rust</a></li></ol></li><li class="chapter-item expanded "><a href="../../gdnative/faq/index.html"><strong aria-hidden="true">3.4.</strong> FAQ</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../gdnative/faq/code.html"><strong aria-hidden="true">3.4.1.</strong> Common code questions</a></li><li class="chapter-item expanded "><a href="../../gdnative/faq/multithreading.html"><strong aria-hidden="true">3.4.2.</strong> Multithreading</a></li><li class="chapter-item expanded "><a href="../../gdnative/faq/configuration.html"><strong aria-hidden="true">3.4.3.</strong> Configuration</a></li><li class="chapter-item expanded "><a href="../../gdnative/faq/support.html"><strong aria-hidden="true">3.4.4.</strong> Versioning and supported platforms</a></li><li class="chapter-item expanded "><a href="../../gdnative/faq/community.html"><strong aria-hidden="true">3.4.5.</strong> Community</a></li><li class="chapter-item expanded "><a href="../../gdnative/faq/godot4.html"><strong aria-hidden="true">3.4.6.</strong> Godot 4.0 Status</a></li></ol></li><li class="chapter-item expanded "><a href="../../gdnative/recipes/index.html"><strong aria-hidden="true">3.5.</strong> Recipes</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../gdnative/recipes/async-tokio.html"><strong aria-hidden="true">3.5.1.</strong> Async with Tokio runtime</a></li><li class="chapter-item expanded "><a href="../../gdnative/recipes/custom-node-plugin.html"><strong aria-hidden="true">3.5.2.</strong> Custom node plugin</a></li><li class="chapter-item expanded "><a href="../../gdnative/recipes/external-resources.html"><strong aria-hidden="true">3.5.3.</strong> Loading external resources</a></li><li class="chapter-item expanded "><a href="../../gdnative/recipes/logging.html"><strong aria-hidden="true">3.5.4.</strong> Logging</a></li><li class="chapter-item expanded "><a href="../../gdnative/recipes/nix-build-system.html"><strong aria-hidden="true">3.5.5.</strong> Nix as development environment</a></li><li class="chapter-item expanded "><a href="../../gdnative/recipes/panic-handler.html"><strong aria-hidden="true">3.5.6.</strong> Rust panic handler</a></li></ol></li><li class="chapter-item expanded "><a href="../../gdnative/export/index.html"><strong aria-hidden="true">3.6.</strong> Exporting</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../gdnative/export/android.html"><strong aria-hidden="true">3.6.1.</strong> Android</a></li><li class="chapter-item expanded "><a href="../../gdnative/export/ios.html"><strong aria-hidden="true">3.6.2.</strong> (TODO) iOS</a></li><li class="chapter-item expanded "><a href="../../gdnative/export/macosx.html"><strong aria-hidden="true">3.6.3.</strong> Mac OS X</a></li><li class="chapter-item expanded "><a href="../../gdnative/export/html5.html"><strong aria-hidden="true">3.6.4.</strong> HTML5</a></li></ol></li><li class="chapter-item expanded "><a href="../../gdnative/advanced/index.html"><strong aria-hidden="true">3.7.</strong> Advanced Guides</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../gdnative/advanced/custom-godot.html"><strong aria-hidden="true">3.7.1.</strong> Using custom Godot versions</a></li><li class="chapter-item expanded "><a href="../../gdnative/advanced/migrate-0-8.html"><strong aria-hidden="true">3.7.2.</strong> Migrating from godot-rust 0.8</a></li><li class="chapter-item expanded "><a href="../../gdnative/advanced/migrate-0-9.html"><strong aria-hidden="true">3.7.3.</strong> Migrating from godot-rust 0.9</a></li><li class="chapter-item expanded "><a href="../../gdnative/advanced/migrate-0-10.html"><strong aria-hidden="true">3.7.4.</strong> Migrating from godot-rust 0.10</a></li></ol></li></ol></li><li class="chapter-item expanded "><a href="../../projects/index.html"><strong aria-hidden="true">4.</strong> Third-party projects</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../projects/games.html"><strong aria-hidden="true">4.1.</strong> Games</a></li><li class="chapter-item expanded "><a href="../../projects/tools.html"><strong aria-hidden="true">4.2.</strong> Tools and integrations</a></li><li class="chapter-item expanded "><a href="../../projects/applications.html"><strong aria-hidden="true">4.3.</strong> Applications</a></li></ol></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky bordered">
+                    <div class="left-buttons">
+                        <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </button>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light (default)</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">The godot-rust Book</h1>
+
+                    <div class="right-buttons">
+                        <a href="../../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                        <a href="https://github.com/godot-rust/book" title="Git repository" aria-label="Git repository">
+                            <i id="git-repository-button" class="fa fa-github"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script type="text/javascript">
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="exported-properties"><a class="header" href="#exported-properties">Exported properties</a></h1>
+<p>Like methods, properties can be exported. The <code>#[property]</code> attribute above a field declaration makes the field available to Godot, with its name and type.</p>
+<p>In the previous example, we could replace the <code>count_enemies()</code> method with a property <code>enemy_count</code>.</p>
+<pre><pre class="playground"><code class="language-rust">
+<span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>#[derive(NativeClass)]
+#[inherit(Node)]
+pub struct GodotApi {
+    #[property]
+    enemy_count: i32,
+}
+<span class="boring">}
+</span></code></pre></pre>
+<p>The GDScript code would be changed as follows.</p>
+<pre><code class="language-python">print(&quot;enemies: &quot;, api.enemy_count)
+</code></pre>
+<p>That's it.</p>
+<h2 id="export-options"><a class="header" href="#export-options">Export options</a></h2>
+<p>The <code>#[property]</code> attribute can accept a several options to refine the export behavior.</p>
+<p>You can specify default property value with the following argument:</p>
+<pre><pre class="playground"><code class="language-rust">
+<span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>#[property(default = 10)]
+enemy_count: i32,
+<span class="boring">}
+</span></code></pre></pre>
+<p>If you need to hide this property in Godot editor, use <code>no_editor</code> option:</p>
+<pre><pre class="playground"><code class="language-rust">
+<span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>#[property(no_editor)]
+enemy_count: i32,
+<span class="boring">}
+</span></code></pre></pre>
+<h2 id="property-getset"><a class="header" href="#property-getset">Property get/set</a></h2>
+<p>Properties can register <code>set</code> and <code>get</code> methods to be called from Godot.</p>
+<p>Default get/set functions can be registered as per the following example:</p>
+<pre><code class="language-rs">
+#[derive(NativeClass, Default)]
+#[inherit(Node)]
+struct GodotApi {
+    // property registration
+    // Note: This is actually equivalent to #[property]
+    #[property(get, set)]
+    prop: i32,
+}
+</code></pre>
+<p>If you need custom setters and getters, you can set them in the <code>property</code> attribute such as in the following example:</p>
+<pre><pre class="playground"><code class="language-rust">
+<span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>#[derive(NativeClass)]
+#[inherit(Node)]
+struct HelloWorld {
+    // property registration
+    #[property(get = &quot;Self::get&quot;, set = &quot;Self::set&quot;)]
+    prop: i32,
+}
+
+impl HelloWorld {
+    fn new(_base: &amp;Node) -&gt; Self {
+        HelloWorld { prop: 0i32 }
+    }
+}
+
+#[methods]
+impl HelloWorld {
+    fn get(&amp;self, _base: TRef&lt;Node&gt;) -&gt; i32 {
+        godot_print!(&quot;get() -&gt; {}&quot;, &amp;self.prop);
+        self.prop
+    }
+
+    fn set(&amp;mut self, _base: TRef&lt;Node&gt;, value: i32) {
+        godot_print!(&quot;set({})&quot;, &amp;value);
+        self.prop = value;
+    }
+}
+<span class="boring">}
+</span></code></pre></pre>
+<h3 id="note-get-vs-get_ref"><a class="header" href="#note-get-vs-get_ref">Note: <code>get</code> vs <code>get_ref</code></a></h3>
+<p>There are two ways to return the property.</p>
+<ul>
+<li><code>get</code> will return a value of <code>T</code> which <em>must</em> result in the value being cloned. </li>
+<li><code>get_ref</code> must point to a function that returns <code>&amp;T</code>, this is useful when working with large data that would be very expensive to copy unnecessarily.</li>
+</ul>
+<p>Modifying the previous example accordingly results in the following:</p>
+<pre><pre class="playground"><code class="language-rust">
+<span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>#[derive(NativeClass)]
+#[inherit(Node)]
+struct GodotApi {
+    // property registration
+    #[property(get_ref = &quot;Self::get&quot;, set = &quot;Self::set&quot;)]
+    prop: String,
+}
+
+impl GodotApi {
+    fn new(_base: &amp;Node) -&gt; Self {
+        GodotApi { prop: String::new() }
+    }
+}
+
+#[methods]
+impl GodotApi {
+    fn get(&amp;self, _base: TRef&lt;Node&gt;) -&gt; &amp;String {
+        godot_print!(&quot;get() -&gt; {}&quot;, &amp;self.prop);
+        &amp;self.prop
+    }
+
+    fn set(&amp;mut self, _base: TRef&lt;Node&gt;, value: String) {
+        godot_print!(&quot;set({})&quot;, &amp;value);
+        self.prop = value;
+    }
+}
+<span class="boring">}
+</span></code></pre></pre>
+<h2 id="manual-property-registration"><a class="header" href="#manual-property-registration">Manual property registration</a></h2>
+<p>For cases not covered by the <code>#[property]</code> attribute, it may be necessary to manually register the properties instead.</p>
+<p>This is often the case where custom hint behavior is desired for primitive types, such as an Integer value including an <code>IntEnum</code> hint.</p>
+<p>To do so, you can use the <a href="https://docs.rs/gdnative/latest/gdnative/prelude/struct.ClassBuilder.html"><code>ClassBuilder</code></a> -- such as in the following examples -- to manually register each property and customize how they interface in the editor.</p>
+<pre><pre class="playground"><code class="language-rust">
+<span class="boring">#![allow(unused)]
+</span>
+<span class="boring">fn main() {
+</span>#[derive(NativeClass)]
+#[inherit(Node)]
+#[register_with(Self::register_properties)]
+#[no_constructor]
+pub struct MyNode {
+    number: i32,
+    number_enum: i32,
+    float_range: f64,
+    my_filepath: String,
+}
+
+#[methods]
+impl MyNode {
+    fn register_properties(builder: &amp;ClassBuilder&lt;MyNode&gt;) {
+        use gdnative::export::hint::*;
+        // Add a number with a getter and setter. 
+        // (This is the equivalent of adding the `#[property]` attribute for `number`)
+        builder
+            .property::&lt;i32&gt;(&quot;number&quot;)
+            .with_getter(Self::number_getter)
+            .with_setter(Self::number_setter)
+            .done();
+
+        // Register the number as an Enum
+        builder
+            .property::&lt;i32&gt;(&quot;number_enum&quot;)
+            .with_getter(move |my_node: &amp;MyNode, _base: TRef&lt;Node&gt;| my_node.number_enum)
+            .with_setter(move |my_node: &amp;mut MyNode, _base: TRef&lt;Node&gt;, new_value| my_node.number_enum = new_value)
+            .with_default(1)
+            .with_hint(IntHint::Enum(EnumHint::new(vec![&quot;a&quot;.to_owned(), &quot;b&quot;.to_owned(), &quot;c&quot;.to_owned(), &quot;d&quot;.to_owned()])))
+            .done();
+
+        // Register a floating point value with a range from 0.0 to 100.0 with a step of 0.1
+        builder
+            .property::&lt;f64&gt;(&quot;float_range&quot;)
+            .with_getter(move |my_node: &amp;MyNode, _base: TRef&lt;Node&gt;| my_node.float_range)
+            .with_setter(move |my_node: &amp;mut MyNode, _base: TRef&lt;Node&gt;, new_value| my_node.float_range = new_value)
+            .with_default(1.0)
+            .with_hint(FloatHint::Range(RangeHint::new(0.0, 100.0).with_step(0.1)))
+            .done();
+
+        // Manually register a string as a file path for .txt and .dat files.
+        builder
+            .property::&lt;String&gt;(&quot;my_filepath&quot;)
+            .with_ref_getter(move |my_node: &amp;MyNode, _base: TRef&lt;Node&gt;| &amp;my_node.my_filepath)
+            .with_setter(move |my_node: &amp;mut MyNode, _base: TRef&lt;Node&gt;, new_value: String| my_node.my_filepath = new_value)
+            .with_default(&quot;&quot;.to_owned())
+            .with_hint(StringHint::File(EnumHint::new(vec![&quot;*.txt&quot;.to_owned(), &quot;*.dat&quot;.to_owned()])))
+            .done();
+    }
+    fn number_getter(&amp;self, _base: TRef&lt;Node&gt;) -&gt; i32 {
+        self.number
+    }
+
+    fn number_setter(&amp;mut self, _base: TRef&lt;Node&gt;, new_value: i32) {
+        self.number = new_value
+    }
+}
+<span class="boring">}
+</span></code></pre></pre>
+<h2 id="propertyt-and-when-to-use-it"><a class="header" href="#propertyt-and-when-to-use-it"><code>Property&lt;T&gt;</code> and when to use it</a></h2>
+<p>Sometimes it can be useful to expose a value as a property instead of as a function. Properties of this type serve as a <em>marker</em> that can be registered with Godot and viewed in the editor without containing any data in Rust.</p>
+<p>This can be useful for data (similar to the first sample) where the count serves more as a property of <code>enemies</code> rather than as its own distinct data, such as the following: </p>
+<pre><code class="language-rs">struct Enemy {
+    // Enemy Data
+}
+#[derive(NativeClass)]
+struct GodotApi {
+    enemies: Vec&lt;Enemy&gt;,
+    // Note: As the property is a &quot;marker&quot; property, this will never be used in code.
+    #[allow(dead_code)]
+    #[property(get = &quot;Self::get_size&quot;)]
+    enemy_count: Property&lt;u32&gt;,
+}
+
+#[methods]
+impl GodotApi {
+    //...
+
+    fn get_size(&amp;self, _base: TRef&lt;Reference&gt;) -&gt; u32 {
+        self.enemies.len() as u32
+    }
+}
+</code></pre>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../../gdnative/bind/methods.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+                            <a rel="next" href="../../gdnative/bind/traits.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../../gdnative/bind/methods.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+                    <a rel="next" href="../../gdnative/bind/traits.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+        <script type="text/javascript">
+            window.playground_copyable = true;
+        </script>
+        <script src="../../elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../../mark.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../../searcher.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../../clipboard.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../../highlight.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../../book.js" type="text/javascript" charset="utf-8"></script>
+
+        <!-- Custom JS scripts -->
+    </body>
+</html>
