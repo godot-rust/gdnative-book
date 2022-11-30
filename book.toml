@@ -59,4 +59,5 @@ git-repository-url = "https://github.com/godot-rust/book"
 "advanced-guides/migrating-0-9.html" = "../gdnative/advanced/migrate-0-9.html"
 "advanced-guides/migrating-0-10.html" = "../gdnative/advanced/migrate-0-10.html"
 
-"projects.html" = "projects"
+# Don't use = "projects", might cause redirect loop
+"projects.html" = "projects/index.html"
