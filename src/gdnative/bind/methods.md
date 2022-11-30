@@ -79,7 +79,7 @@ enemies: 2
 
 The above examples have dealt with simple types such as strings and integers. What if we want to pass entire classes to Rust?
 
-Let's say we want to pass in an enemy from GDScript, instead of creating one locally. It could be represented by the `Node2D` class and directly configured in the Godot editor. What you then would do is use [the `Ref` wrapper](../gdnative-overview/wrappers.md):
+Let's say we want to pass in an enemy from GDScript, instead of creating one locally. It could be represented by the `Node2D` class and directly configured in the Godot editor. What you then would do is use [the `Ref` wrapper](../overview/wrappers.md):
 ```rust
 #[derive(NativeClass)]
 #[inherit(Node)]

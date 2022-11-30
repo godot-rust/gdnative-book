@@ -126,7 +126,7 @@ Longer Answer: `unsafe` is required for different reasons:
 - **Thread safety:** while Rust has a type system to ensure thread safety statically (`Send`, `Sync`), such mechanisms do not exist in either GDScript or C++. Even user-defined GDScript code has direct access to the `Thread` API.
 - **C FFI:** any interactions that cross the C Foreign Function Interface will be unsafe by default as Rust cannot inspect the other side. While many functions may be safely reasoned about, there are still some functions which will be inherently unsafe due to their potential effects on object lifetimes.
 
-One of the ways that godot-rust avoids large `unsafe` blocks is by using the [TypeState pattern](http://cliffle.com/blog/rust-typestate/) with _temporary references_ such as `TRef` and `TInstance`. For more information see [`Ref`, `TRef` and `Instance`](../../src/gdnative-overview/wrappers.md).
+One of the ways that godot-rust avoids large `unsafe` blocks is by using the [TypeState pattern](http://cliffle.com/blog/rust-typestate/) with _temporary references_ such as `TRef` and `TInstance`. For more information see [`Ref`, `TRef` and `Instance`](../overview/wrappers.md).
 
 Here is an example of some common `unsafe` usage that you will often see and use in your own games.
 

@@ -8,3 +8,55 @@ title = "The godot-rust Book"
 max-level = 2
 command = "mdbook-toc"
 renderer = ["html"]
+
+[output.html]
+git-repository-url = "https://github.com/godot-rust/book"
+
+[output.html.redirect]
+"introduction.html" = "/gdnative"
+
+"getting-started.html" = "/gdnative/intro"
+"getting-started/hello-world.html" = "/gdnative/intro/hello-world.html"
+"getting-started/setup.html" = "/gdnative/intro/setup.html"
+
+"gdnative-overview.html" = "/gdnative/overview"
+"gdnative-overview/wrappers.html" = "/gdnative/overview/wrappers.html"
+"gdnative-overview/data-representations.html" = "/gdnative/overview/data-representations.html"
+"gdnative-overview/architecture.html" = "/gdnative/overview/architecture.html"
+
+"rust-binding.html" = "/gdnative/bind"
+"rust-binding/classes.html" = "/gdnative/bind/classes.html"
+"rust-binding/methods.html" = "/gdnative/bind/methods.html"
+"rust-binding/properties.html" = "/gdnative/bind/properties.html"
+"rust-binding/to-variant-from-variant-export.html" = "/gdnative/bind/traits.html"
+"rust-binding/calling-gdscript.html" = "/gdnative/bind/calling-gdscript.html"
+
+"faq.html" = "/gdnative/faq"
+"faq/code.html" = "/gdnative/faq/code.html"
+"faq/multithreading.html" = "/gdnative/faq/multithreading.html"
+"faq/configuration.html" = "/gdnative/faq/configuration.html"
+"faq/support.html" = "/gdnative/faq/support.html"
+"faq/community.html" = "/gdnative/faq/community.html"
+"faq/godot4.html" = "/gdnative/faq/godot4.html"
+
+"recipes.html" = "/gdnative/recipes"
+"recipes/async-tokio.html" = "/gdnative/recipes/async-tokio.html"
+"recipes/custom-node-plugin.html" = "/gdnative/recipes/custom-node-plugin.html"
+"recipes/external-resources.html" = "/gdnative/recipes/external-resources.html"
+"recipes/logging.html" = "/gdnative/recipes/logging.html"
+"recipes/nix-build-system.html" = "/gdnative/recipes/nix-build-system.html"
+"recipes/panic-handler.html" = "/gdnative/recipes/panic-handler.html"
+
+"exporting.html" = "/gdnative/export"
+"exporting/android.html" = "/gdnative/export/android.html"
+"exporting/ios.html" = "/gdnative/export/ios.html"
+"exporting/macosx.html" = "/gdnative/export/macosx.html"
+"exporting/html5.html" = "/gdnative/export/html5.html"
+
+"advanced-guides.html" = "/gdnative/advanced"
+"advanced-guides/custom-godot.html" = "/gdnative/advanced/custom-godot.html"
+"advanced-guides/migrating-0-8.html" = "/gdnative/advanced/migrate-0-8.html"
+"advanced-guides/migrating-0-9.html" = "/gdnative/advanced/migrate-0-9.html"
+"advanced-guides/migrating-0-10.html" = "/gdnative/advanced/migrate-0-10.html"
+
+"projects.html" = "/projects"

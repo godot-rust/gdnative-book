@@ -67,7 +67,7 @@ When passing around your own Rust types, you will thus be working with `Instance
 
 ### Construction
 
-Let's use a straightforward example: a player with name and score. Exported methods and properties are omitted for simplicity; the full interfacing will be explained later in [Calling into GDScript from Rust](../rust-binding/calling-gdscript.md).
+Let's use a straightforward example: a player with name and score. Exported methods and properties are omitted for simplicity; the full interfacing will be explained later in [Calling into GDScript from Rust](../bind/calling-gdscript.md).
 ```rust
 #[derive(NativeClass)]
 // no #[inherit], thus inherits Reference by default

@@ -13,11 +13,9 @@ godot-rust follows [Cargo's semantic versioning](https://doc.rust-lang.org/cargo
 godot-rust will not be considered stable until MAJOR version 1.x.x. As such, MINOR version upgrades are subject to potential API breaking changes, but PATCH versions will not break the API.
 
 
-## Will godot-rust support Godot 4.0?
+## Does godot-rust support Godot 4?
 
-This is still being discussed for how to approach Godot 4.0 support. Currently the team has finished merging the new [GDExtension API](https://godotengine.org/article/introducing-gd-extensions) and introduced the progress in the Cpp extensions.
-
-More information about the Godot 4.0 can be found in the [dedicated FAQ Page](../faq/godot4.md).
+See [dedicated FAQ Page](../faq/godot4.md).
 
 
 ## What is the scope of the godot-rust project?

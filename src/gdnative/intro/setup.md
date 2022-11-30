@@ -10,7 +10,7 @@ You may download binaries of Godot 3.2.3-stable from the official repository: [h
 
 > ### Using another build of the engine
 >
-> For simplicity, we assume that you use the official build of 3.2.3-stable for the Getting Started tutorial. If you want to use another version of the engine, see the [Using custom builds of Godot](../advanced-guides/custom-godot.md) guide.
+> For simplicity, we assume that you use the official build of 3.2.3-stable for the Getting Started tutorial. If you want to use another version of the engine, see the [Using custom builds of Godot](../advanced/custom-godot.md) guide.
 
 ## Rust
 
