@@ -18,9 +18,11 @@ emcc -v
 rustc --version --verbose
 ```
 
-A version mismatch between Rust and Emscripten will probably result in compiler errors, while using incompatible Emscripten versions between Rust and Godot will result in cryptic runtime errors.
+A list of compatible Rust and Emscripten versions are given in the next section.
 
-Emscripten uses a cache to store build artifacts and header files. In some cases this means that the order in which steps are completed matters.
+Emscripten uses a cache to store build artifacts and header files.
+This means that the order in which steps are completed matters.
+In particular, Godot export template should be built before the GDNative library.
 
 Also note that `wasm32-unknown-emscripten` is a 32-bit target, which can cause problems with crates incorrectly assuming that `usize` is 64 bits wide.
 
@@ -30,29 +32,52 @@ Also note that `wasm32-unknown-emscripten` is a 32-bit target, which can cause p
 
 [Godot 3.5's prebuilt HTML5 export template is built with Emscripten 3.1.10](https://github.com/godotengine/godot/blob/3.5/.github/workflows/javascript_builds.yml).
 It might be possible to use it if build your Rust code with that exact version, but extra compiler flags may be needed. This guide focuses on building the export template yourself with a recent version of Emscripten.  
-As of 2022-09-04 you also need to use a Rust nightly build.
+As of 2023-01-28 you also need to use a Rust nightly build.
 
 Confirmed working versions are:
-* rustc 1.65.0-nightly (8c6ce6b91 2022-09-02)
-* Emscripten 3.1.21-git (3ce1f726b449fd1b90803a6150a881fc8dc711da)
+* Rust toolchain `nightly-2023-01-27` and `Emscripten 3.1.21 (f9e81472f1ce541eddece1d27c3632e148e9031a)`
+  * This combination will be used in the following sections of this tutorial.
+* `rustc 1.65.0-nightly (8c6ce6b91 2022-09-02)` and `Emscripten 3.1.21-git (3ce1f726b449fd1b90803a6150a881fc8dc711da)`
 
+The compatibility problems between Rust and Emscripten versions are assumed to stem from differing LLVM versions.
+Therefore, for a given Rust and Emscripten version combination, you can probably get away with using a newer Rust toolchain version as long as it has the same LLVM version.
+The LLVM version of `nightly-2023-01-27` is `15.0.7`.
+You can use the following command to check the LLVM version of the latest installed nightly toolchain:
+```bash
+rustc +nightly --version --verbose
+```
+However, we don't know how to easily check the LLVM version of an Emscripten installation since it's not reported by `emcc -v`.
+If you know how, please let us know on [GitHub](https://github.com/godot-rust/book/issues) or [Discord](https://discord.gg/FNudpBD).
+
+
+### Install Rust toolchain
+
+Following bash commands install `nightly-2023-01-27` toolchain with `wasm32-unknown-emscripten` target:
+
+```bash
+# Install the specific version of Rust toolchain.
+rustup toolchain install nightly-2023-01-27
+
+# Add wasm32-unknown-emscripten target to this toolchain.
+rustup +nightly-2023-01-27 target add wasm32-unknown-emscripten
+```
 
 ### Installing and configuring Emscripten
 
-We will be using the most recent git version of Emscripten (tip-of-tree):
+Use the following bash commands to install Emscripten 3.1.21, which is known to be compatible with Rust `nightly-2023-01-27`:
 
 ```bash
-# Get the emsdk repo
+# Get the emsdk repo.
 git clone https://github.com/emscripten-core/emsdk.git
 
-# Enter that directory
+# Enter the cloned directory.
 cd emsdk
 
-# Download and install the tip-of-tree SDK tools.
-./emsdk install tot
+# Download and install a compatible SDK version.
+./emsdk install 3.1.21
 
-# Make the "tot" SDK "active" for the current user. (writes .emscripten file)
-./emsdk activate tot
+# Make this SDK version "active" for the current user. (writes .emscripten file)
+./emsdk activate 3.1.21
 
 # Activate PATH and other environment variables in the current terminal
 source ./emsdk_env.sh
@@ -67,6 +92,8 @@ source "/path/to/emsdk-portable/emsdk_env.sh"
 scons platform=javascript tools=no gdnative_enabled=yes target=release
 mv bin/godot.javascript.opt.gdnative.zip bin/webassembly_gdnative_release.zip
 ```
+
+Since this is a web build, you might want to disable unused modules and optimize your build for size [as shown in Godot documentation](https://docs.godotengine.org/en/stable/development/compiling/optimizing_for_size.html).
 
 Set the newly built export template as a [custom template](https://user-images.githubusercontent.com/2171264/175822720-bcd2f1ff-0a1d-4495-9f9c-892d42e9bdcd.png) in Godot and be sure to set the export type as GDNative. When exporting, uncheck "Export With Debug".
 
@@ -89,10 +116,11 @@ Build like this:
 source "/path/to/emsdk-portable/emsdk_env.sh"
 export C_INCLUDE_PATH=$EMSDK/upstream/emscripten/cache/sysroot/include
 	
-cargo +nightly build --target=wasm32-unknown-emscripten --release
+cargo +nightly-2023-01-27 build --target=wasm32-unknown-emscripten --release
 ```
 
-The result is a `.wasm` file that you add in your `GDNativeLibrary` properties under `entry/HTML5.wasm32`, just like you would add a `.so` or a `.dll` for Linux or Windows.
+This will produce a `.wasm` file in `target/wasm32-unknown-emscripten/release/` directory.
+Add this file to `GDNativeLibrary` properties under `entry/HTML5.wasm32`, just like you would add a `.so` or a `.dll` for Linux or Windows.
 
 ### Errors you might encounter
 
@@ -106,6 +134,7 @@ Runtime:
 * `indirect call signature mismatch`: Possibly due to Emscripten version mismatch between Godot and Rust
 * `need the dylink section to be first`: Same as above
 * `WebAssembly.Module(): Compiling function #1 failed: invalid local index`:  You need to build with `-Cpanic=abort`
+* `ERROR: Can't resolve symbol godot_gdnative_init. Error: Tried to lookup unknown symbol "godot_gdnative_init" in dynamic lib`: Possibly because Emscripten version is not compatible with Rust toolchain version. See the compatible version list above.
 
 ### Further reading
 
