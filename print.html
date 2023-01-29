@@ -2937,9 +2937,8 @@ folder, ready to use.</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="html5"><a class="header" href="#html5">HTML5</a></h1>
 <p>Exporting to HTML5 works just like exporting to other platforms, however there are some things that can make the process a bit tricky and require extra attention.</p>
 <h2 id="what-you-need-to-know"><a class="header" href="#what-you-need-to-know">What you need (to know)</a></h2>
-<p>The Godot HTML5 export templates are built with <a href="https://emscripten.org/">Emscripten</a>, so you need to build your Rust code for the <code>wasm32-unknown-emscripten</code> target (<code>wasm32-unknown-unknown</code> will not work).<br />
-Since Emscripten does not offer a stable ABI between versions, your code and the Godot export template have to be built with the same Emscripten version, which also needs to be compatible with the Rust compiler version you are using.
-In practice, this means you probably have to do some or all of these things:</p>
+<p>The Godot HTML5 export templates are built with <a href="https://emscripten.org/">Emscripten</a>, so you need to build your Rust code for the <code>wasm32-unknown-emscripten</code> target (<code>wasm32-unknown-unknown</code> will not work). Since Emscripten does not offer a stable ABI between versions, your code and the Godot export template have to be built with the same Emscripten version, which also needs to be compatible with the Rust compiler version you are using.</p>
+<p>In practice, this means you probably have to do some or all of these things:</p>
 <ul>
 <li>install a specific version of Emscripten</li>
 <li><a href="https://docs.godotengine.org/en/stable/development/compiling/compiling_for_web.html">build the HTML5 export template yourself</a> </li>
@@ -2949,32 +2948,48 @@ In practice, this means you probably have to do some or all of these things:</p>
 <pre><code class="language-bash">emcc -v
 rustc --version --verbose
 </code></pre>
-<p>A version mismatch between Rust and Emscripten will probably result in compiler errors, while using incompatible Emscripten versions between Rust and Godot will result in cryptic runtime errors.</p>
-<p>Emscripten uses a cache to store build artifacts and header files. In some cases this means that the order in which steps are completed matters.</p>
+<p>A list of compatible Rust and Emscripten versions are given in the next section.</p>
+<p>Emscripten uses a cache to store build artifacts and header files. This means that the order in which steps are completed matters. In particular, Godot export template should be built before the GDNative library.</p>
 <p>Also note that <code>wasm32-unknown-emscripten</code> is a 32-bit target, which can cause problems with crates incorrectly assuming that <code>usize</code> is 64 bits wide.</p>
 <h2 id="godot-35"><a class="header" href="#godot-35">Godot 3.5</a></h2>
 <p><strong>Disclaimer</strong>: <em>Currently, the following steps are only tested and confirmed to work on Linux.</em></p>
-<p><a href="https://github.com/godotengine/godot/blob/3.5/.github/workflows/javascript_builds.yml">Godot 3.5's prebuilt HTML5 export template is built with Emscripten 3.1.10</a>.
-It might be possible to use it if build your Rust code with that exact version, but extra compiler flags may be needed. This guide focuses on building the export template yourself with a recent version of Emscripten.<br />
-As of 2022-09-04 you also need to use a Rust nightly build.</p>
+<p><a href="https://github.com/godotengine/godot/blob/3.5/.github/workflows/javascript_builds.yml">Godot 3.5's prebuilt HTML5 export template is built with Emscripten 3.1.10</a>. It might be possible to use it if build your Rust code with that exact version, but extra compiler flags may be needed. This guide focuses on building the export template yourself with a recent version of Emscripten.</p>
+<p>As of 2023-01-28 you also need to use a Rust nightly build.</p>
 <p>Confirmed working versions are:</p>
 <ul>
-<li>rustc 1.65.0-nightly (8c6ce6b91 2022-09-02)</li>
-<li>Emscripten 3.1.21-git (3ce1f726b449fd1b90803a6150a881fc8dc711da)</li>
+<li>Rust toolchain <code>nightly-2023-01-27</code> and <code>Emscripten 3.1.21 (f9e81472f1ce541eddece1d27c3632e148e9031a)</code>
+<ul>
+<li>This combination will be used in the following sections of this tutorial.</li>
 </ul>
+</li>
+<li><code>rustc 1.65.0-nightly (8c6ce6b91 2022-09-02)</code> and <code>Emscripten 3.1.21-git (3ce1f726b449fd1b90803a6150a881fc8dc711da)</code></li>
+</ul>
+<p>The compatibility problems between Rust and Emscripten versions are assumed to stem from differing LLVM versions. You can use the following commands to check the LLVM versions of the currently installed nightly toolchain and the currently active emcc:</p>
+<pre><code class="language-bash">rustc +nightly --version --verbose
+emcc -v
+</code></pre>
+<p><code>emcc -v</code> reports the version number of <code>clang</code>, which is equal to the version number of the overall LLVM release.</p>
+<h3 id="install-rust-toolchain"><a class="header" href="#install-rust-toolchain">Install Rust toolchain</a></h3>
+<p>Following bash commands install <code>nightly-2023-01-27</code> toolchain with <code>wasm32-unknown-emscripten</code> target:</p>
+<pre><code class="language-bash"># Install the specific version of Rust toolchain.
+rustup toolchain install nightly-2023-01-27
+
+# Add wasm32-unknown-emscripten target to this toolchain.
+rustup +nightly-2023-01-27 target add wasm32-unknown-emscripten
+</code></pre>
 <h3 id="installing-and-configuring-emscripten"><a class="header" href="#installing-and-configuring-emscripten">Installing and configuring Emscripten</a></h3>
-<p>We will be using the most recent git version of Emscripten (tip-of-tree):</p>
-<pre><code class="language-bash"># Get the emsdk repo
+<p>Use the following bash commands to install Emscripten 3.1.21, which is known to be compatible with Rust <code>nightly-2023-01-27</code>:</p>
+<pre><code class="language-bash"># Get the emsdk repo.
 git clone https://github.com/emscripten-core/emsdk.git
 
-# Enter that directory
+# Enter the cloned directory.
 cd emsdk
 
-# Download and install the tip-of-tree SDK tools.
-./emsdk install tot
+# Download and install a compatible SDK version.
+./emsdk install 3.1.21
 
-# Make the &quot;tot&quot; SDK &quot;active&quot; for the current user. (writes .emscripten file)
-./emsdk activate tot
+# Make this SDK version &quot;active&quot; for the current user. (writes .emscripten file)
+./emsdk activate 3.1.21
 
 # Activate PATH and other environment variables in the current terminal
 source ./emsdk_env.sh
@@ -2985,6 +3000,7 @@ source ./emsdk_env.sh
 scons platform=javascript tools=no gdnative_enabled=yes target=release
 mv bin/godot.javascript.opt.gdnative.zip bin/webassembly_gdnative_release.zip
 </code></pre>
+<p>Since this is a web build, you might want to disable unused modules and optimize your build for size <a href="https://docs.godotengine.org/en/stable/development/compiling/optimizing_for_size.html">as shown in Godot documentation</a>.</p>
 <p>Set the newly built export template as a <a href="https://user-images.githubusercontent.com/2171264/175822720-bcd2f1ff-0a1d-4495-9f9c-892d42e9bdcd.png">custom template</a> in Godot and be sure to set the export type as GDNative. When exporting, uncheck &quot;Export With Debug&quot;.</p>
 <h3 id="building-your-rust-code"><a class="header" href="#building-your-rust-code">Building your Rust code</a></h3>
 <p>In your project's <code>.cargo/config.toml</code> <a href="https://doc.rust-lang.org/cargo/reference/config.html">(see Cargo Docs)</a>, add the following:</p>
@@ -2999,9 +3015,9 @@ rustflags = [
 <pre><code class="language-bash">source &quot;/path/to/emsdk-portable/emsdk_env.sh&quot;
 export C_INCLUDE_PATH=$EMSDK/upstream/emscripten/cache/sysroot/include
 	
-cargo +nightly build --target=wasm32-unknown-emscripten --release
+cargo +nightly-2023-01-27 build --target=wasm32-unknown-emscripten --release
 </code></pre>
-<p>The result is a <code>.wasm</code> file that you add in your <code>GDNativeLibrary</code> properties under <code>entry/HTML5.wasm32</code>, just like you would add a <code>.so</code> or a <code>.dll</code> for Linux or Windows.</p>
+<p>This will produce a <code>.wasm</code> file in <code>target/wasm32-unknown-emscripten/release/</code> directory. Add this file to <code>GDNativeLibrary</code> properties under <code>entry/HTML5.wasm32</code>, just like you would add a <code>.so</code> or a <code>.dll</code> for Linux or Windows.</p>
 <h3 id="errors-you-might-encounter"><a class="header" href="#errors-you-might-encounter">Errors you might encounter</a></h3>
 <p>Compile time:</p>
 <ul>
@@ -3014,6 +3030,7 @@ cargo +nightly build --target=wasm32-unknown-emscripten --release
 <li><code>indirect call signature mismatch</code>: Possibly due to Emscripten version mismatch between Godot and Rust</li>
 <li><code>need the dylink section to be first</code>: Same as above</li>
 <li><code>WebAssembly.Module(): Compiling function #1 failed: invalid local index</code>:  You need to build with <code>-Cpanic=abort</code></li>
+<li><code>ERROR: Can't resolve symbol godot_gdnative_init. Error: Tried to lookup unknown symbol &quot;godot_gdnative_init&quot; in dynamic lib</code>: Possibly because Emscripten version is not compatible with Rust toolchain version. See the compatible version list above.</li>
 </ul>
 <h3 id="further-reading"><a class="header" href="#further-reading">Further reading</a></h3>
 <p>In the future, some of this will probably not be needed, for more info see:</p>
