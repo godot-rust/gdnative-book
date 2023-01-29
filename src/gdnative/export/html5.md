@@ -4,9 +4,10 @@ Exporting to HTML5 works just like exporting to other platforms, however there a
 
 ## What you need (to know)
 
-The Godot HTML5 export templates are built with [Emscripten](https://emscripten.org/), so you need to build your Rust code for the `wasm32-unknown-emscripten` target (`wasm32-unknown-unknown` will not work).  
-Since Emscripten does not offer a stable ABI between versions, your code and the Godot export template have to be built with the same Emscripten version, which also needs to be compatible with the Rust compiler version you are using.
+The Godot HTML5 export templates are built with [Emscripten](https://emscripten.org/), so you need to build your Rust code for the `wasm32-unknown-emscripten` target (`wasm32-unknown-unknown` will not work). Since Emscripten does not offer a stable ABI between versions, your code and the Godot export template have to be built with the same Emscripten version, which also needs to be compatible with the Rust compiler version you are using.
+
 In practice, this means you probably have to do some or all of these things:
+
 * install a specific version of Emscripten
 * [build the HTML5 export template yourself](https://docs.godotengine.org/en/stable/development/compiling/compiling_for_web.html) 
 * use a specific version of Rust
@@ -20,9 +21,7 @@ rustc --version --verbose
 
 A list of compatible Rust and Emscripten versions are given in the next section.
 
-Emscripten uses a cache to store build artifacts and header files.
-This means that the order in which steps are completed matters.
-In particular, Godot export template should be built before the GDNative library.
+Emscripten uses a cache to store build artifacts and header files. This means that the order in which steps are completed matters. In particular, Godot export template should be built before the GDNative library.
 
 Also note that `wasm32-unknown-emscripten` is a 32-bit target, which can cause problems with crates incorrectly assuming that `usize` is 64 bits wide.
 
@@ -30,25 +29,24 @@ Also note that `wasm32-unknown-emscripten` is a 32-bit target, which can cause p
 
 **Disclaimer**: _Currently, the following steps are only tested and confirmed to work on Linux._
 
-[Godot 3.5's prebuilt HTML5 export template is built with Emscripten 3.1.10](https://github.com/godotengine/godot/blob/3.5/.github/workflows/javascript_builds.yml).
-It might be possible to use it if build your Rust code with that exact version, but extra compiler flags may be needed. This guide focuses on building the export template yourself with a recent version of Emscripten.  
+[Godot 3.5's prebuilt HTML5 export template is built with Emscripten 3.1.10](https://github.com/godotengine/godot/blob/3.5/.github/workflows/javascript_builds.yml). It might be possible to use it if build your Rust code with that exact version, but extra compiler flags may be needed. This guide focuses on building the export template yourself with a recent version of Emscripten.
+
 As of 2023-01-28 you also need to use a Rust nightly build.
 
 Confirmed working versions are:
+
 * Rust toolchain `nightly-2023-01-27` and `Emscripten 3.1.21 (f9e81472f1ce541eddece1d27c3632e148e9031a)`
   * This combination will be used in the following sections of this tutorial.
 * `rustc 1.65.0-nightly (8c6ce6b91 2022-09-02)` and `Emscripten 3.1.21-git (3ce1f726b449fd1b90803a6150a881fc8dc711da)`
 
-The compatibility problems between Rust and Emscripten versions are assumed to stem from differing LLVM versions.
-Therefore, for a given Rust and Emscripten version combination, you can probably get away with using a newer Rust toolchain version as long as it has the same LLVM version.
-The LLVM version of `nightly-2023-01-27` is `15.0.7`.
-You can use the following command to check the LLVM version of the latest installed nightly toolchain:
+The compatibility problems between Rust and Emscripten versions are assumed to stem from differing LLVM versions. You can use the following commands to check the LLVM versions of the currently installed nightly toolchain and the currently active emcc:
+
 ```bash
 rustc +nightly --version --verbose
+emcc -v
 ```
-However, we don't know how to easily check the LLVM version of an Emscripten installation since it's not reported by `emcc -v`.
-If you know how, please let us know on [GitHub](https://github.com/godot-rust/book/issues) or [Discord](https://discord.gg/FNudpBD).
 
+`emcc -v` reports the version number of `clang`, which is equal to the version number of the overall LLVM release.
 
 ### Install Rust toolchain
 
@@ -119,8 +117,7 @@ export C_INCLUDE_PATH=$EMSDK/upstream/emscripten/cache/sysroot/include
 cargo +nightly-2023-01-27 build --target=wasm32-unknown-emscripten --release
 ```
 
-This will produce a `.wasm` file in `target/wasm32-unknown-emscripten/release/` directory.
-Add this file to `GDNativeLibrary` properties under `entry/HTML5.wasm32`, just like you would add a `.so` or a `.dll` for Linux or Windows.
+This will produce a `.wasm` file in `target/wasm32-unknown-emscripten/release/` directory. Add this file to `GDNativeLibrary` properties under `entry/HTML5.wasm32`, just like you would add a `.so` or a `.dll` for Linux or Windows.
 
 ### Errors you might encounter
 
