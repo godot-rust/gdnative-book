@@ -154,6 +154,18 @@ rustc --version --verbose
 <p>A list of compatible Rust and Emscripten versions are given in the next section.</p>
 <p>Emscripten uses a cache to store build artifacts and header files. This means that the order in which steps are completed matters. In particular, Godot export template should be built before the GDNative library.</p>
 <p>Also note that <code>wasm32-unknown-emscripten</code> is a 32-bit target, which can cause problems with crates incorrectly assuming that <code>usize</code> is 64 bits wide.</p>
+<h3 id="limitations"><a class="header" href="#limitations">Limitations</a></h3>
+<ul>
+<li>Multi-threading is not supported. See <a href="https://github.com/godot-rust/gdnative/issues/1022">this issue</a> for more details and instructions for failing experimental build.</li>
+<li>Debug builds may not work due to their large size. See <a href="https://github.com/godot-rust/gdnative/issues/1021">the corresponding issue</a>.
+<ul>
+<li>As a workaround, you can set <code>opt-level = 1</code> in debug builds, which reduces the build size. Add the following to your workspace's/project's <code>Cargo.toml</code>:</li>
+</ul>
+</li>
+</ul>
+<pre><code class="language-toml">[profile.dev]
+opt-level = 1
+</code></pre>
 <h2 id="godot-35"><a class="header" href="#godot-35">Godot 3.5</a></h2>
 <p><strong>Disclaimer</strong>: <em>Currently, the following steps are only tested and confirmed to work on Linux.</em></p>
 <p><a href="https://github.com/godotengine/godot/blob/3.5/.github/workflows/javascript_builds.yml">Godot 3.5's prebuilt HTML5 export template is built with Emscripten 3.1.10</a>. It might be possible to use it if build your Rust code with that exact version, but extra compiler flags may be needed. This guide focuses on building the export template yourself with a recent version of Emscripten.</p>
@@ -234,6 +246,8 @@ cargo +nightly-2023-01-27 build --target=wasm32-unknown-emscripten --release
 <li><code>need the dylink section to be first</code>: Same as above</li>
 <li><code>WebAssembly.Module(): Compiling function #1 failed: invalid local index</code>:  You need to build with <code>-Cpanic=abort</code></li>
 <li><code>ERROR: Can't resolve symbol godot_gdnative_init. Error: Tried to lookup unknown symbol &quot;godot_gdnative_init&quot; in dynamic lib</code>: Possibly because Emscripten version is not compatible with Rust toolchain version. See the compatible version list above.</li>
+<li><code>wasm validation error: at offset 838450: too many locals</code>: Binary size is too big. See <a href="#limitations">limitations</a> section for a workaround.</li>
+<li><code>WebAssembly.instantiate(): Compiling function #2262:&quot;gdnative_sys::GodotApi::from_raw::...&quot; failed: local count too large</code>: Binary size is too big. See <a href="#limitations">limitations</a> section for a workaround.</li>
 </ul>
 <h3 id="further-reading"><a class="header" href="#further-reading">Further reading</a></h3>
 <p>In the future, some of this will probably not be needed, for more info see:</p>
