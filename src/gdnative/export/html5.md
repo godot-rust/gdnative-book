@@ -25,6 +25,16 @@ Emscripten uses a cache to store build artifacts and header files. This means th
 
 Also note that `wasm32-unknown-emscripten` is a 32-bit target, which can cause problems with crates incorrectly assuming that `usize` is 64 bits wide.
 
+### Limitations
+
+* Multi-threading is not supported. See [this issue](https://github.com/godot-rust/gdnative/issues/1022) for more details and instructions for failing experimental build.
+* Debug builds may not work due to their large size. See [the corresponding issue](https://github.com/godot-rust/gdnative/issues/1021).
+  * As a workaround, you can set `opt-level = 1` in debug builds, which reduces the build size. Add the following to your workspace's/project's `Cargo.toml`:
+```toml
+[profile.dev]
+opt-level = 1
+```
+
 ## Godot 3.5
 
 **Disclaimer**: _Currently, the following steps are only tested and confirmed to work on Linux._
@@ -132,6 +142,8 @@ Runtime:
 * `need the dylink section to be first`: Same as above
 * `WebAssembly.Module(): Compiling function #1 failed: invalid local index`:  You need to build with `-Cpanic=abort`
 * `ERROR: Can't resolve symbol godot_gdnative_init. Error: Tried to lookup unknown symbol "godot_gdnative_init" in dynamic lib`: Possibly because Emscripten version is not compatible with Rust toolchain version. See the compatible version list above.
+* `wasm validation error: at offset 838450: too many locals`: Binary size is too big. See [limitations](#limitations) section for a workaround.
+* `WebAssembly.instantiate(): Compiling function #2262:"gdnative_sys::GodotApi::from_raw::..." failed: local count too large`: Binary size is too big. See [limitations](#limitations) section for a workaround.
 
 ### Further reading
 
