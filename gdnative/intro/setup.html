@@ -156,8 +156,8 @@ rustc --version
 # Check Cargo version
 cargo -V
 </code></pre>
-<h3 id="windows"><a class="header" href="#windows">Windows</a></h3>
-<p>When working on Windows, it's also necessary to install the <a href="https://visualstudio.microsoft.com/visual-cpp-build-tools/">Visual Studio Build Tools</a>, or the full Visual Studio (<em>not</em> Visual Studio Code). More details can be found on <a href="https://github.com/rust-lang/rustup#working-with-rust-on-windows">Working with Rust on Windows</a>.</p>
+<h2 id="windows"><a class="header" href="#windows">Windows</a></h2>
+<p>When working on Windows, it's also necessary to install the <a href="https://visualstudio.microsoft.com/visual-cpp-build-tools/">Visual Studio Build Tools</a>, or the full Visual Studio (<em>not</em> Visual Studio Code). More details can be found on <a href="https://github.com/rust-lang/rustup#working-with-rust-on-windows">Working with Rust on Windows</a>. Note that LLVM is also required on top of those dependencies to build your godot-rust project, see the next section for more information.</p>
 <h2 id="llvm"><a class="header" href="#llvm">LLVM</a></h2>
 <p>The godot-rust bindings depend on <code>bindgen</code>, which in turn <a href="https://rust-lang.github.io/rust-bindgen/requirements.html">depends on LLVM</a>. You may download LLVM binaries from <a href="https://releases.llvm.org/">https://releases.llvm.org/</a>.</p>
 <p>After installation, check that LLVM was installed properly:</p>
