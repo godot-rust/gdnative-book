@@ -27,9 +27,9 @@ rustc --version
 cargo -V
 ```
 
-### Windows
+## Windows
 
-When working on Windows, it's also necessary to install the [Visual Studio Build Tools](https://visualstudio.microsoft.com/visual-cpp-build-tools/), or the full Visual Studio (*not* Visual Studio Code). More details can be found on [Working with Rust on Windows](https://github.com/rust-lang/rustup#working-with-rust-on-windows).
+When working on Windows, it's also necessary to install the [Visual Studio Build Tools](https://visualstudio.microsoft.com/visual-cpp-build-tools/), or the full Visual Studio (*not* Visual Studio Code). More details can be found on [Working with Rust on Windows](https://github.com/rust-lang/rustup#working-with-rust-on-windows). Note that LLVM is also required on top of those dependencies to build your godot-rust project, see the next section for more information.
 
 ## LLVM
 
