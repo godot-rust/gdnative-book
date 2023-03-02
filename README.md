@@ -1,30 +1,35 @@
 # The godot-rust book
 
-The godot-rust book is a user guide for the Rust bindings. The book is currently an early work-in-progress, and contributions are very welcome.
+The godot-rust book is a user guide for the Rust bindings. The book is still work-in-progress, and contributions are very welcome.
 
-An online version of the book is available at [godot-rust.github.io/book/](https://godot-rust.github.io/book/).
+An online version of the book is available at [godot-rust.github.io/book][book-web].
 
-The book is built with [mdBook](https://github.com/rust-lang-nursery/mdBook). To build the book locally, you can run:
-
-```
+The book is built with [mdBook] and the plugin [mdbook-toc]. To install them and build the book locally, you can run:
+```bash
 $ cargo install mdbook mdbook-toc
 $ mdbook build
 ```
 
-To run a local server with automatic updates while editing the book, run:
-
+To run a local server with automatic updates while editing the book, use:
+```bash
+$ mdbook serve --open
 ```
-$ mdbook serve
-```
-
-This repository is for documentation only. Please make pull requests for the library itself in the [main repo](https://github.com/godot-rust/godot-rust).
 
 
 ## Contributing
 
-See the [contribution guidelines]([CONTRIBUTING.md](https://github.com/godot-rust/godot-rust/blob/book/CONTRIBUTING.md)) in the main repo.
+This repository is for documentation only. Please open pull requests targeting the libraries themselves in the main repos for the [Godot 3] and [Godot 4] bindings.
+
+For contributions, see the contributing guidelines under `CONTRIBUTING.md` in the above-mentioned repositories.
 
 
 ## License
 
-Any contribution intentionally submitted for inclusion in the work by you shall be licensed under the [MIT license](LICENSE.md), without any additional terms or conditions.
+Any contribution intentionally submitted for inclusion in the work by you shall be licensed under the [MIT license], without any additional terms or conditions.
+
+[book-web]: https://godot-rust.github.io/book
+[mdBook]: https://github.com/rust-lang-nursery/mdBook
+[mdbook-toc]: https://github.com/badboy/mdbook-toc
+[Godot 3]: https://github.com/godot-rust/gdnative
+[Godot 4]: https://github.com/godot-rust/gdextension
+[MIT license]: LICENSE.md
