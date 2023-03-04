@@ -52,7 +52,7 @@ rustup target add armv7-linux-androideabi  # for armv7 (32-bit)
 rustup target add i686-linux-android       # for x86 (32-bit)
 ```
 
-#### `gcc` libraries for cross-compilation
+### `gcc` libraries for cross-compilation
 
 On Windows, we will need to setup a [32-bit/64-bit compatible MinGW](https://sourceforge.net/projects/mingw-w64/) instance.
 
@@ -66,7 +66,7 @@ apt-get install g++-multilib gcc-multilib libc6-dev-i386 -y
 
 ## Setting up Cargo
 
-To make Cargo aware of the proper platform-specific linkers that it needs to use for Android targets, we need to put the paths to the binaries in the Cargo configuration file, which can be found (or created) at `$HOME/.cargo/config` on UNIX-like systems, or `%USERPROFILE%\.cargo\config` on Windows), using [`[target]` tables](https://doc.rust-lang.org/cargo/reference/config.html#targettriplelinker):
+To make Cargo aware of the proper platform-specific linkers that it needs to use for Android targets, we need to put the paths to the binaries in the Cargo configuration file, which can be found (or created) at `$HOME/.cargo/config.toml` on UNIX-like systems, or `%USERPROFILE%\.cargo\config.toml` on Windows), using [`[target]` tables](https://doc.rust-lang.org/cargo/reference/config.html#targettriplelinker):
 
 ```toml
 [target.armv7-linux-androideabi]
