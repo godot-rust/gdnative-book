@@ -63,6 +63,10 @@ apt-get update
 apt-get install g++-multilib gcc-multilib libc6-dev-i386 -y
 ```
 
+### Custom Godot build
+
+Note that if you are using GDNative with `custom-godot` setting, you need to compile Godot for Android yourself. Follow [the instructions](https://docs.godotengine.org/en/3.6/development/compiling/compiling_for_android.html) in official Godot documentation and make sure that GDNative support is enabled (which will be enabled by default unless you add `module_gdnative_enabled=no`).
+
 
 ## Setting up Cargo
 
@@ -197,3 +201,11 @@ godot --export "Android" path/to/my.apk
 When trying to install the app directly from the APK on an Android device, Play Protect may display a warning explaining that _the app developers are not recognized, so the app may be unsafe_. This is the expected behavior for an APK in Release mode that isn't actually released on Play Store.
 
 If not planning to release on Play Store, one may file an appeal from Play Protect using [a form provided by Google](https://support.google.com/googleplay/android-developer/contact/protectappeals).
+
+# Troubleshooting
+
+Compile time:
+- `unable to find library -lgcc`: You need the nightly version of Rust toolchain. See ["About NDK versions"](#about-ndk-versions) section.
+
+Runtime:
+- `ERROR: No loader found for resource: res://*.gdns`: Your Godot APK was compiled without GDNative support. Make sure that you compile without `module_gdnative_enabled=no` setting in your build command.
