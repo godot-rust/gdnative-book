@@ -23,6 +23,8 @@ First, we need to install the **Android SDK** with **NDK** enabled. This contain
 > ```bash
 > rustup +nightly target add aarch64-linux-android
 > ```
+>
+> Alternatively, you can change the toolchain for your project using `rust-toolchain.toml` file, or you can change the global default toolchain. See [rustup book](https://rust-lang.github.io/rustup/overrides.html#the-toolchain-file) for more information.
 
 Then, we'll install the Rust toolchains for the targets we want to support:
 
@@ -52,7 +54,7 @@ rustup target add armv7-linux-androideabi  # for armv7 (32-bit)
 rustup target add i686-linux-android       # for x86 (32-bit)
 ```
 
-### `gcc` libraries for cross-compilation
+#### `gcc` libraries for cross-compilation
 
 On Windows, we will need to setup a [32-bit/64-bit compatible MinGW](https://sourceforge.net/projects/mingw-w64/) instance.
 
