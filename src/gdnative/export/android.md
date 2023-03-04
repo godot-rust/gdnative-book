@@ -9,6 +9,21 @@ In order to export to Android, we need to compile our Rust source for the approp
 
 First, we need to install the **Android SDK** with **NDK** enabled. This contains the necessary tools for each architecture. Once the Android SDK is installed, open Editor Settings in the Godot GUI (*Editor > Editor Settings > Export > Android*) and set the **absolute paths** to `adb`, `jarsigner`, and the debug keystore (`debug.keystore`), all of which can be found in the Android SDK installation.
 
+> ### About NDK versions
+>
+> `libgcc` was removed in Android NDK version `r23-beta3`. Although Rust was updated accordingly (see [this issue](https://github.com/rust-lang/rust/pull/85806)), it's not available in stable Rust yet (as of 2023-03-04). Therefore, you need to use the **nightly toolchain** if you have **Android NDK version 23 or higher**.
+>
+> ```bash
+> # Install nightly toolchain
+> rustup toolchain install nightly
+> ```
+>
+> After that, run all `rustup` or `cargo` commands in this tutorial using the nightly toolchain by adding `+nightly` argument. For example:
+>
+> ```bash
+> rustup +nightly target add aarch64-linux-android
+> ```
+
 Then, we'll install the Rust toolchains for the targets we want to support:
 
 ```bash
