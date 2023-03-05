@@ -141,28 +141,28 @@ After building the library with `cargo build`, the resulting library should be i
 
 To tell Godot about the `HelloWorld` class, a `GDNativeLibrary` resource has to be created. This can be done in the "Inspector" panel in the Godot editor by clicking the "new resource" button in the top left.
 
-![Create GDNativeLibrary](../../assets/create_resource.png)
-![Create GDNativeLibrary Type](../../assets/create_resource_type.png)
+![Create GDNativeLibrary](img/create_resource.png)
+![Create GDNativeLibrary Type](img/create_resource_type.png)
 
 With the `GDNativeLibrary` resource created, the path to the generated binary can be set in the editor.
 
-![Resource Path](../../assets/resource_path.png)
+![Resource Path](img/resource_path.png)
 
 After specifying the path, save the `GDNativeLibrary` resource. Be sure to change the file type to `GDNLIB`.
 
-![Resource Save](../../assets/resource_save.png)
+![Resource Save](img/resource_save.png)
 
 Now, the `HelloWorld` class can be added to any node by clicking the "attach script" button.
 
-![Attach Script](../../assets/attach_script.png)
+![Attach Script](img/attach_script.png)
 
 In the popup, select "NativeScript" as the language, and set the class name to `HelloWorld`.
 
-![Create Script](../../assets/create_script.png)
+![Create Script](img/create_script.png)
 
 Then, select the `NativeScript` resource in the Inspector, click the `library` field and point to the `GDNativeLibrary` resource that you created earlier.
 
-![Attach Resource](../../assets/attach_resource.png)
+![Attach Resource](img/attach_resource.png)
 
 
 ## Overriding a Godot method
