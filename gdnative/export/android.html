@@ -142,6 +142,17 @@
 <p>In order to export to Android, we need to compile our Rust source for the appropriate targets. Unlike compiling for our native targets, there are a few extra steps involved with cross-compiling for another target.</p>
 <h2 id="installing-prerequisites"><a class="header" href="#installing-prerequisites">Installing prerequisites</a></h2>
 <p>First, we need to install the <strong>Android SDK</strong> with <strong>NDK</strong> enabled. This contains the necessary tools for each architecture. Once the Android SDK is installed, open Editor Settings in the Godot GUI (<em>Editor &gt; Editor Settings &gt; Export &gt; Android</em>) and set the <strong>absolute paths</strong> to <code>adb</code>, <code>jarsigner</code>, and the debug keystore (<code>debug.keystore</code>), all of which can be found in the Android SDK installation.</p>
+<blockquote>
+<h3 id="about-ndk-versions"><a class="header" href="#about-ndk-versions">About NDK versions</a></h3>
+<p><code>libgcc</code> was removed in Android NDK version <code>r23-beta3</code>. Although Rust was updated accordingly (see <a href="https://github.com/rust-lang/rust/pull/85806">this issue</a>), it's not available in stable Rust yet (as of 2023-03-04). Therefore, you need to use the <strong>nightly toolchain</strong> if you have <strong>Android NDK version 23 or higher</strong>.</p>
+<pre><code class="language-bash"># Install nightly toolchain
+rustup toolchain install nightly
+</code></pre>
+<p>After that, run all <code>rustup</code> or <code>cargo</code> commands in this tutorial using the nightly toolchain by adding <code>+nightly</code> argument. For example:</p>
+<pre><code class="language-bash">rustup +nightly target add aarch64-linux-android
+</code></pre>
+<p>Alternatively, you can change the toolchain for your project using <code>rust-toolchain.toml</code> file, or you can change the global default toolchain. See <a href="https://rust-lang.github.io/rustup/overrides.html#the-toolchain-file">rustup book</a> for more information.</p>
+</blockquote>
 <p>Then, we'll install the Rust toolchains for the targets we want to support:</p>
 <pre><code class="language-bash">rustup target add aarch64-linux-android    # for arm64 (64-bit)
 rustup target add x86_64-linux-android     # for x86_64 (64-bit)
@@ -165,8 +176,10 @@ rustup target add i686-linux-android       # for x86 (32-bit)
 <pre><code class="language-bash">apt-get update
 apt-get install g++-multilib gcc-multilib libc6-dev-i386 -y
 </code></pre>
+<h3 id="custom-godot-build"><a class="header" href="#custom-godot-build">Custom Godot build</a></h3>
+<p>Note that if you are using GDNative with <code>custom-godot</code> setting, you need to compile Godot for Android yourself. Follow <a href="https://docs.godotengine.org/en/3.6/development/compiling/compiling_for_android.html">the instructions</a> in official Godot documentation and make sure that GDNative support is enabled (which will be enabled by default unless you add <code>module_gdnative_enabled=no</code>).</p>
 <h2 id="setting-up-cargo"><a class="header" href="#setting-up-cargo">Setting up Cargo</a></h2>
-<p>To make Cargo aware of the proper platform-specific linkers that it needs to use for Android targets, we need to put the paths to the binaries in the Cargo configuration file, which can be found (or created) at <code>$HOME/.cargo/config</code> on UNIX-like systems, or <code>%USERPROFILE%\.cargo\config</code> on Windows), using <a href="https://doc.rust-lang.org/cargo/reference/config.html#targettriplelinker"><code>[target]</code> tables</a>:</p>
+<p>To make Cargo aware of the proper platform-specific linkers that it needs to use for Android targets, we need to put the paths to the binaries in the Cargo configuration file, which can be found (or created) at <code>$HOME/.cargo/config.toml</code> on UNIX-like systems, or <code>%USERPROFILE%\.cargo\config.toml</code> on Windows), using <a href="https://doc.rust-lang.org/cargo/reference/config.html#targettriplelinker"><code>[target]</code> tables</a>:</p>
 <pre><code class="language-toml">[target.armv7-linux-androideabi]
 linker = &quot;/usr/local/lib/android/sdk/ndk/21.4.7075529/toolchains/llvm/prebuilt/linux-x86_64/bin/armv7a-linux-androideabi29-clang&quot;
 </code></pre>
@@ -256,6 +269,15 @@ godot --export &quot;Android&quot; path/to/my.apk
 </code></pre>
 <p>When trying to install the app directly from the APK on an Android device, Play Protect may display a warning explaining that <em>the app developers are not recognized, so the app may be unsafe</em>. This is the expected behavior for an APK in Release mode that isn't actually released on Play Store.</p>
 <p>If not planning to release on Play Store, one may file an appeal from Play Protect using <a href="https://support.google.com/googleplay/android-developer/contact/protectappeals">a form provided by Google</a>.</p>
+<h1 id="troubleshooting"><a class="header" href="#troubleshooting">Troubleshooting</a></h1>
+<p>Compile time:</p>
+<ul>
+<li><code>unable to find library -lgcc</code>: You need the nightly version of Rust toolchain. See <a href="#about-ndk-versions">&quot;About NDK versions&quot;</a> section.</li>
+</ul>
+<p>Runtime:</p>
+<ul>
+<li><code>ERROR: No loader found for resource: res://*.gdns</code>: Your Godot APK was compiled without GDNative support. Make sure that you compile without <code>module_gdnative_enabled=no</code> setting in your build command.</li>
+</ul>
 
                     </main>
 
