@@ -37,6 +37,12 @@ That said, there are some notable differences:
    
    There is no differentiation between "tool" and "normal" scripts anymore; Rust logic runs as soon as the Godot editor launches.
    godot-rust will likely add an opt-out mechanism to limit execution to the launched game, as that's usually the intended behavior.
+   Currently, if you want to only run when the game runs write this code in you process functions
+   ```rust
+   if Engine::singleton().is_editor_hint() {
+      return
+   }
+   ```
 
 4. **No recompilation while editor is open**
 
