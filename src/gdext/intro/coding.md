@@ -26,7 +26,7 @@ unsafe impl ExtensionLibrary for Main {}
 ```
 
 ## Creating a Node Type
-To control a node you need to create a node type that inherits the node type. For an example, Let's use a CharacterController2D.
+To add rust functionality to the node. We need to use a base which we can build on. In this case, the base is `CharacterController2D`. To use it we must inherit it. Rust doesn't natively support inherits, but with Godot being written in C++ it uses inherits. Gdext does have a way to use this. By using the `class` attribute. 
 In a new file, create a struct. Like this:
 ```rust
 use godot::engine::CharacterController2D;
@@ -42,15 +42,15 @@ struct Player {
     base: Base<CharacterController2D>
 }
 ```
-Let's break this down. The derive allows gdextensions to use the struct and turn it into a godot class. The class attribute allows you customize the Node. In this case we made the base Character Controller 2D. Then, in the struct speed and gravity fields are not important just help with player speed. The base field lets edextensions know where to store the Node data. 
+Let's break this down. As I mentioned early, we need the `class` attribute, but what does it do? The attribute allows use to store the inherited functions and values in a flied we can use to interact with Godot. If you didn't understand then think of it as it was a field in a struct that holds more than just some rust functions and value. The derive allows gdext to use the struct and turn it into a godot class. The class attribute allows you customize the node. In this case we made the base `CharacterController2D`. Then, in the struct `speed` and `gravity` fields are not important just help with player speed.
 
 Now let's add some functionality.
 ```rust
 impl GodotExt for Player {
     fn init(base: Base<CharacterController2D>) -> Self {
         Self {
-            speed: 5f32,
-            gravity: 5f32,
+            speed: 5.0,
+            gravity: 5.0,
 
             base
         }

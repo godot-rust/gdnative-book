@@ -2,9 +2,9 @@
 
 - [Introduction](index.md)
 - [GDExtension](gdext/index.md)
-  - [Getting Started](gdext/getting%20started/index.md)
-    - [Setup](gdext/getting%20started/setup.md)
-    - [Coding](gdext/getting%20started/coding.md)
+  - [Getting Started](gdext/intro/index.md)
+    - [Setup](gdext/intro/setup.md)
+    - [Coding](gdext/intro/coding.md)
 - [GDNative](gdnative/index.md)
   - [Getting Started](gdnative/intro/index.md)
     - [Setup](gdnative/intro/setup.md)
