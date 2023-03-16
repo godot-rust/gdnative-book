@@ -256,8 +256,18 @@ impl HelloWorld {
 <p>You should now be able to build the dynamic library with a <code>HelloWorld</code> script class in it. However, we also need to tell Godot about it. To do this, build the library with <code>cargo build</code>.</p>
 <p>After building the library with <code>cargo build</code>, the resulting library should be in the <code>target/debug/</code> folder. Copy it (or create a symbolic link to it) somewhere inside the Godot project directory.</p>
 <p>To tell Godot about the <code>HelloWorld</code> class, a <code>GDNativeLibrary</code> resource has to be created. This can be done in the &quot;Inspector&quot; panel in the Godot editor by clicking the &quot;new resource&quot; button in the top left.</p>
-<p>With the <code>GDNativeLibrary</code> resource created, the path to the generated binary can be set in the editor. After specifying the path, save the <code>GDNativeLibrary</code> resource into a resource file by clicking the &quot;tool&quot; button in the Inspector panel in the top right.</p>
-<p>Now, the <code>HelloWorld</code> class can be added to any node by clicking the &quot;add script&quot; button. In the popup, select &quot;NativeScript&quot; as the language, and set the class name to <code>HelloWorld</code>. Then, select the <code>NativeScript</code> resource in the Inspector, click the <code>library</code> field and point to the <code>GDNativeLibrary</code> resource that you created earlier.</p>
+<p><img src="img/create_resource.png" alt="Create GDNativeLibrary" />
+<img src="img/create_resource_type.png" alt="Create GDNativeLibrary Type" /></p>
+<p>With the <code>GDNativeLibrary</code> resource created, the path to the generated binary can be set in the editor.</p>
+<p><img src="img/resource_path.png" alt="Resource Path" /></p>
+<p>After specifying the path, save the <code>GDNativeLibrary</code> resource. Be sure to change the file type to <code>GDNLIB</code>.</p>
+<p><img src="img/resource_save.png" alt="Resource Save" /></p>
+<p>Now, the <code>HelloWorld</code> class can be added to any node by clicking the &quot;attach script&quot; button.</p>
+<p><img src="img/attach_script.png" alt="Attach Script" /></p>
+<p>In the popup, select &quot;NativeScript&quot; as the language, and set the class name to <code>HelloWorld</code>.</p>
+<p><img src="img/create_script.png" alt="Create Script" /></p>
+<p>Then, select the <code>NativeScript</code> resource in the Inspector, click the <code>library</code> field and point to the <code>GDNativeLibrary</code> resource that you created earlier.</p>
+<p><img src="img/attach_resource.png" alt="Attach Resource" /></p>
 <h2 id="overriding-a-godot-method"><a class="header" href="#overriding-a-godot-method">Overriding a Godot method</a></h2>
 <p>You can now run your project from the editor! If all goes correctly, it should launch but do nothing. That's because we haven't added any actual behaviors yet! To make our script actually do something, we can override the <a href="https://docs.godotengine.org/en/stable/classes/class_node.html#class-node-method-ready"><code>_ready</code></a> method in the <code>impl</code> block with the <code>#[methods]</code> attribute:</p>
 <pre><pre class="playground"><code class="language-rust">
