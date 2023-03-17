@@ -41,5 +41,3 @@ After installation, check that LLVM was installed properly:
 # Check if Clang is installed and registered in PATH
 clang -v
 ```
-
-`bindgen` may complain about a missing `llvm-config` binary, but it is not actually required to build the `gdnative` crate. If you see a warning about `llvm-config` and a failed build, it's likely that you're having a different problem!
