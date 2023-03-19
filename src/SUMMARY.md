@@ -1,7 +1,10 @@
 # Summary
 
 - [Introduction](index.md)
-- [GDExtension](gdextension/index.md)
+- [GDExtension](gdext/index.md)
+  - [Getting Started](gdext/intro/index.md)
+    - [Setup](gdext/intro/setup.md)
+    - [Coding](gdext/intro/coding.md)
 - [GDNative](gdnative/index.md)
   - [Getting Started](gdnative/intro/index.md)
     - [Setup](gdnative/intro/setup.md)
