@@ -163,31 +163,32 @@ unsafe impl ExtensionLibrary for Main {}
 <span class="boring">}
 </span></code></pre></pre>
 <h2 id="creating-a-node-type"><a class="header" href="#creating-a-node-type">Creating a Node Type</a></h2>
-<p>To add Rust functionality to the node, we need to use a base class which we can build on. In this case, the base is <code>CharacterController2D</code>. To use it, we must &quot;inherit&quot; it. Rust doesn't natively support inheritance, but gdext has a way to emulate the Godot inheritance hierarchy: by using the <code>#[class]</code> attribute. Like this:</p>
+<p>To add Rust functionality to the node, we need to use a base class which we can build on. In this case, the base is <code>CharacterBody2D</code>. To use it, we must &quot;inherit&quot; it. Rust doesn't natively support inheritance, but gdext has a way to emulate the Godot inheritance hierarchy: by using the <code>#[class]</code> attribute with the <code>GodotClass</code> derive macro. Like this:</p>
 <pre><pre class="playground"><code class="language-rust">
 <span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
-</span>use godot::engine::CharacterController2D;
+</span>use godot::engine::{Engine, CharacterBody2D, CharacterBody2DVirtual};
 use godot::prelude::*;
 
 #[derive(GodotClass)]
-#[class(base=CharacterController2D)]
+#[class(base=CharacterBody2D)]
 struct Player {
     speed: f32,
     gravity: f32,
 
     #[base]
-    base: Base&lt;CharacterController2D&gt;
+    base: Base&lt;CharacterBody2D&gt;
 }
 <span class="boring">}
 </span></code></pre></pre>
-<p>Let's break this down. As mentioned early, we need the <code>#[class]</code> attribute, but what does it do? The attribute allows use to store the inherited functions and values in a field we can use to interact with Godot. The derive allows gdext to use the struct and turn it into a Godot class. The <code>#[class]</code> attribute allows you to customize the node. In this case we made the base <code>CharacterController2D</code>. The <code>speed</code> and <code>gravity</code> fields used for a the player. You don't need to add them to make a node, but in this case we want them.</p>
+<p>Let's break this down. As mentioned early, we need the <code>#[class]</code> attribute, but what does it do? The attribute allows use to store the inherited functions and values in a field we can use to interact with Godot. The derive allows gdext to use the struct and turn it into a Godot class. The <code>#[class]</code> attribute allows you to customize the node. In this case we made the base <code>CharacterBody2D</code>. The <code>speed</code> and <code>gravity</code> fields used for a the player. You don't need to add them to make a node, but in this case we want them.</p>
 <p>Now let's add some functionality.</p>
 <pre><pre class="playground"><code class="language-rust">
 <span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
-</span>impl GodotExt for Player {
-    fn init(base: Base&lt;CharacterController2D&gt;) -&gt; Self {
+</span>#[godot_api]
+impl CharacterBody2DVirtual for Player {
+    fn init(base: Base&lt;CharacterBody2D&gt;) -&gt; Self {
         Self {
             speed: 5.0,
             gravity: 5.0,
@@ -196,17 +197,59 @@ struct Player {
     }
 
     fn physics_process(&amp;mut self, delta: f64) {
-        if Engine::singleton().is_hint_editor() {
+        // Note: classes will run inside of Godot itself, potentially leading to error spam - see issue #70
+        // This prevents our function from running if it's being run inside the editor.
+        if Engine::singleton().is_editor_hint() {
             return
         }
 
-        self.base.set_velocity(Vector2::new(speed, gravity));
-        self.base.move_and_slide();
+        let velocity = Vector2::new(self.speed, self.gravity);
+        self.set_velocity(velocity);
+        self.move_and_slide();
     }
 }
 <span class="boring">}
 </span></code></pre></pre>
-<p><code>GodotExt</code> is a trait that holds functions for Godot to use. We are defining 2 functions <code>init</code> and <code>physics_process</code>. <code>init</code> creates a new node for Godot. It holds a simple Self struct and returns Player. <code>physics_process</code> runs physics logic every frame. This holds the parameter <code>delta</code>. <code>delta</code> is the time between the current frame and the last frame. The if statement checks if it is running in the editor or in the actually game. This is because or code will start running in the engine. <code>self.base.set_velocity(Vector::new(speed, gravity));</code> tells the engine that the new velocity of the node is the vector 2(in this case it's speed on the x axis and gravity on the y axis). <code>self.base.move_and_slide();</code> takes the velocity and moves it while allowing for collsions. </p>
+<p>There are two important pieces working together here:</p>
+<ol>
+<li><code>#[godot_api]</code> - This attribute handles properly delegating the virtual methods being implemented. This attribute is necessary on every impl with functions that need to interact with Godot. If you forget to add it, you will see an error message saying the <code>You_forgot_the_attribute__godot_api</code> trait has not been implemented, which is also handled by <code>#[godot_api]</code>.</li>
+<li><code>impl CharacterBody2DVirtual</code> - Each of the engine classes has a <code>{ClassName}Virtual</code> trait that you can inherit from to override the constructor and virtual functions. Notably, if you do not implement the <code>init</code> function (or use the <code>#[class(init)]</code> syntax when defining the struct - see the docs on the <code>GodotClass</code> derive macro), Godot will not be able to initialize your type.</li>
+</ol>
+<p>We are defining 2 functions <code>init</code> and <code>physics_process</code>. <code>init</code> creates a new node for Godot. It holds a simple Self struct and returns Player. <code>physics_process</code> runs physics logic every frame. This holds the parameter <code>delta</code>. <code>delta</code> is the time between the current frame and the last frame. The if statement checks if it is running in the editor or in the actually game. This is because or code will start running in the engine. <code>self.set_velocity(velocity);</code> tells the engine that the new velocity of the node is the vector 2(in this case it's speed on the x axis and gravity on the y axis). <code>self.move_and_slide();</code> takes the velocity and moves it while allowing for collsions.</p>
+<h3 id="inherent-impls"><a class="header" href="#inherent-impls">Inherent Impls</a></h3>
+<p>Say you want to add some functionality unique to your Player in an inherent impl, with some function and signals callable by Godot:</p>
+<pre><pre class="playground"><code class="language-rust">
+<span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>#[godot_api]
+impl Player {
+	#[func]
+	fn increase_speed(&amp;mut self) {
+		self.speed += 1.0;
+		self.emit_signal(&quot;speed_increased&quot;.into(), &amp;[]);
+	}
+
+	#[signal]
+	fn speed_increased();
+}
+<span class="boring">}
+</span></code></pre></pre>
+<p>Again we see the <code>#[godot_api]</code> macro doing some more heavy lifting. But there are also two new attributes:</p>
+<ul>
+<li><code>#[func]</code> - exposes a function to Godot. Allows you to call it from GDScript, connect it to a signal, etc.</li>
+<li><code>#[signal]</code> - Declares a signal. A signal can be emitted with the <code>emit_signal</code> method of any <code>Object</code> subclass. (Note - as of 2023-04-09, signals do not allow for parameters)</li>
+</ul>
+<h2 id="the-gd-smart-pointer"><a class="header" href="#the-gd-smart-pointer">The <code>Gd</code> smart pointer</a></h2>
+<p>Any time you receive an object from a Godot API (i.e. <code>get_node_as</code>) it will be a <code>Gd&lt;T&gt;</code>. More information on this type can be found in the crate's docs. For example, if you were writing a signal handler for the <code>body_entered</code> signal of a <code>Node3D</code>, it might look like this:</p>
+<pre><pre class="playground"><code class="language-rust">
+<span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>#[func]
+fn on_body_entered(&amp;mut self, body: Gd&lt;Node3D&gt;) {
+	// ...
+}
+<span class="boring">}
+</span></code></pre></pre>
 
                     </main>
 
