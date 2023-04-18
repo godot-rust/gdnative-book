@@ -1598,10 +1598,16 @@ fn update_mission_ui(ui_node: Ref&lt;CanvasItem&gt;) {
 <pre><code class="language-gdscript">extends Node
 class_name MyClass
 var node
+var node_2
 
 func _ready():
   node = Node.new()
+  node.set_process(true)
   self.add_child(node, false)
+
+  node_2 = Node.new()
+  self.add_child(node_2, false)
+  node_2.set_process(true)
 
 </code></pre>
 <p>could be translated to this Rust snippet:</p>
@@ -1613,6 +1619,7 @@ func _ready():
 #[no_constructor]
 struct MyNode {
     node_ref: Option&lt;Ref&lt;Node&gt;&gt;
+    node_2_ref: Option&lt;Ref&lt;Node&gt;&gt;
 }
 
 #[methods]
@@ -1620,14 +1627,21 @@ impl MyNode {
     #[method]
     fn _ready(&amp;self, #[base] base: TRef&lt;Node&gt;) {
         let node = Node::new();
+        node.set_process(true);
+        let node = node.into_shared();
         base.add_child(node);
-        self.node_ref = Some(node.claim());
+        self.node_ref = Some(node);
+
+        let node_2 = Node::new();
+        let node_2 = unsafe { node_2.into_shared().assume_safe() };
+        base.add_child(node_2);
+        node_2.set_process(true);
+        self.node_2_ref = Some(node_2.claim());
     }
 }
 <span class="boring">}
 </span></code></pre></pre>
-<p>Note: As <code>TRef&lt;T&gt;</code> is a temporary pointer, it will be necessary to get the base pointer <code>Ref&lt;T&gt;</code> in order to continue to hold this value.</p>
-<p>This can be done with the <a href="https://docs.rs/gdnative/latest/gdnative/struct.TRef.html#method.claim"><code>TRef&lt;T&gt;::claim()</code></a> function that returns the persistent version of the pointer, which you can store in your class.</p>
+<p>Note the <code>into_shared()</code> call before we use <code>node</code> as an argument and store it in the struct, and how a change in the operation order also affects whether an <code>unsafe</code> operation is required. In <code>gdnative</code>, the ownership status of Godot objects are tracked with type-states. <code>Node::new()</code> itself creates a unique reference, which can be safely accessed, but not copied. <code>into_shared()</code> casts the ownership type-state of this node, making it safe to duplicate, but <code>unsafe</code> to access further. For more information, see <a href="gdnative/faq/../overview/wrappers.html"><code>Ref</code>, <code>TRef</code> and <code>Instance</code></a>.</p>
 <h2 id="borrow-failed-a-mut-reference-was-requested"><a class="header" href="#borrow-failed-a-mut-reference-was-requested">Borrow failed; a &amp;mut reference was requested</a></h2>
 <p>In Rust, <a href="https://docs.rs/dtolnay/0.0.9/dtolnay/macro._02__reference_types.html">there can only be <em>one</em> <code>&amp;mut</code> reference to the same memory location at the same time</a>. To enforce this while making simple use cases easier, the bindings make use of <a href="https://doc.rust-lang.org/book/ch15-05-interior-mutability.html">interior mutability</a>. This works like a lock: whenever a method with <code>&amp;mut self</code> is called, it will try to obtain a lock on the <code>self</code> value, and hold it <em>until it returns</em>. As a result, if another method that takes <code>&amp;mut self</code> is called in the meantime for whatever reason (e.g. signals), the lock will fail and an error (<code>BorrowFailed</code>) will be produced.</p>
 <p>It's relatively easy to work around this problem, though: Because of how the user-data container works, it can only see the outermost layer of your script type - the entire structure. This is why it's stricter than what is actually required. If you run into this problem, you can <a href="https://doc.rust-lang.org/book/ch15-05-interior-mutability.html">introduce finer-grained interior mutability</a> in your own type, and modify the problematic exported methods to take <code>&amp;self</code> instead of <code>&amp;mut self</code>.</p>
