@@ -12,10 +12,16 @@ For example, the following GDScript code:
 extends Node
 class_name MyClass
 var node
+var node_2
 
 func _ready():
   node = Node.new()
+  node.set_process(true)
   self.add_child(node, false)
+
+  node_2 = Node.new()
+  self.add_child(node_2, false)
+  node_2.set_process(true)
 
 ```
 
@@ -26,6 +32,7 @@ could be translated to this Rust snippet:
 #[no_constructor]
 struct MyNode {
     node_ref: Option<Ref<Node>>
+    node_2_ref: Option<Ref<Node>>
 }
 
 #[methods]
@@ -33,16 +40,21 @@ impl MyNode {
     #[method]
     fn _ready(&self, #[base] base: TRef<Node>) {
         let node = Node::new();
+        node.set_process(true);
+        let node = node.into_shared();
         base.add_child(node);
-        self.node_ref = Some(node.claim());
+        self.node_ref = Some(node);
+
+        let node_2 = Node::new();
+        let node_2 = unsafe { node_2.into_shared().assume_safe() };
+        base.add_child(node_2);
+        node_2.set_process(true);
+        self.node_2_ref = Some(node_2.claim());
     }
 }
 ```
 
-Note: As `TRef<T>` is a temporary pointer, it will be necessary to get the base pointer `Ref<T>` in order to continue to hold this value.
-
-This can be done with the [`TRef<T>::claim()`](https://docs.rs/gdnative/latest/gdnative/struct.TRef.html#method.claim) function that returns the persistent version of the pointer, which you can store in your class.
-
+Note the `into_shared()` call before we use `node` as an argument and store it in the struct, and how a change in the operation order also affects whether an `unsafe` operation is required. In `gdnative`, the ownership status of Godot objects are tracked with type-states. `Node::new()` itself creates a unique reference, which can be safely accessed, but not copied. `into_shared()` casts the ownership type-state of this node, making it safe to duplicate, but `unsafe` to access further. For more information, see [`Ref`, `TRef` and `Instance`](../overview/wrappers.md).
 
 ## Borrow failed; a &mut reference was requested
 
