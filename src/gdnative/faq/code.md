@@ -104,7 +104,7 @@ The problem is that, unless the nodes all connect with the `Object::CONNECT_DEFE
 
 There are two ways to solve it.
 
-1. Ensure that all nodes use `Object::CONNECT_DEFERRED` since this will ensure that the callbacks wait until the idle_frame signal to borrow the data.
+1. Ensure that all nodes use `Object::CONNECT_DEFERRED`. This will delay the callbacks until the end of the current physics or idle frame, long after the current borrow on the data ends.
 2. Store `data` in a `RefCell<LargeData>` if it should only be accessed from the same thread (such as with signals) or `Mutex<LargeData>` if you need thread-safety. Then you can modify `update_data()` to the following snippet:
 
 ```rust
