@@ -1518,7 +1518,7 @@ fn update_mission_ui(ui_node: Ref&lt;CanvasItem&gt;) {
 }
 <span class="boring">}
 </span></code></pre></pre>
-<p>Besides <a href="https://docs.rs/gdnative/latest/gdnative/api/struct.Object.html#method.call"><code>Object::call()</code></a>, alternative methods <code>callv()</code> (accepting a <code>VariantArray</code>) and <code>call_deferred()</code> (calling the next frame) exist, but the principle stays the same.</p>
+<p>Besides <a href="https://docs.rs/gdnative/latest/gdnative/api/struct.Object.html#method.call"><code>Object::call()</code></a>, alternative methods <code>callv()</code> (accepting a <code>VariantArray</code>) and <code>call_deferred()</code> (calling at the end of the frame) exist, but the principle stays the same.</p>
 <p>For long parameter lists, it often makes sense to bundle related functionality into a new class, let's say <code>Stats</code> in the above example. When working with classes, you can convert both <code>Ref</code> (for Godot/GDScript classes) and <code>Instance</code> (for native classes) to <code>Variant</code> by means of the <code>OwnedToVariant</code> trait:</p>
 <pre><pre class="playground"><code class="language-rust">
 <span class="boring">#![allow(unused)]
@@ -1686,7 +1686,7 @@ impl SignalEmitter {
 <p>The problem is that, unless the nodes all connect with the <code>Object::CONNECT_DEFERRED</code> flag, they will be notified immediately and will attempt to borrow the data. This is the root cause of the <code>BorrowFailed</code> error.</p>
 <p>There are two ways to solve it.</p>
 <ol>
-<li>Ensure that all nodes use <code>Object::CONNECT_DEFERRED</code> since this will ensure that the callbacks wait until the idle_frame signal to borrow the data.</li>
+<li>Ensure that all nodes use <code>Object::CONNECT_DEFERRED</code>. This will delay the callbacks until the end of the current physics or idle frame, long after the current borrow on the data ends.</li>
 <li>Store <code>data</code> in a <code>RefCell&lt;LargeData&gt;</code> if it should only be accessed from the same thread (such as with signals) or <code>Mutex&lt;LargeData&gt;</code> if you need thread-safety. Then you can modify <code>update_data()</code> to the following snippet:</li>
 </ol>
 <pre><pre class="playground"><code class="language-rust">
