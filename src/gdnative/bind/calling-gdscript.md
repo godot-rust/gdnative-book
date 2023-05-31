@@ -121,7 +121,7 @@ fn update_mission_ui(ui_node: Ref<CanvasItem>) {
 }
 ```
 
-Besides [`Object::call()`](https://docs.rs/gdnative/latest/gdnative/api/struct.Object.html#method.call), alternative methods `callv()` (accepting a `VariantArray`) and `call_deferred()` (calling the next frame) exist, but the principle stays the same.
+Besides [`Object::call()`](https://docs.rs/gdnative/latest/gdnative/api/struct.Object.html#method.call), alternative methods `callv()` (accepting a `VariantArray`) and `call_deferred()` (calling at the end of the frame) exist, but the principle stays the same.
 
 For long parameter lists, it often makes sense to bundle related functionality into a new class, let's say `Stats` in the above example. When working with classes, you can convert both `Ref` (for Godot/GDScript classes) and `Instance` (for native classes) to `Variant` by means of the `OwnedToVariant` trait:
 
