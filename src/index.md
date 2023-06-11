@@ -6,7 +6,7 @@ If you're new to Rust, before getting started, it is highly recommended that you
 
 ## About godot-rust
 
-This project specifically supports the [Rust Programming Language](https://www.rust-lang.org/) bindings to both [GDNative] and [GDExtension] APIs, for the Godot engine versions 3 and 4, respectively. Godot 4 support is still in its early stages at this point.
+This project specifically supports the [Rust Programming Language](https://www.rust-lang.org/) bindings to both [GDNative] and [GDExtension] APIs, for the Godot engine versions 3 and 4, respectively.
 
 Outside of personal preference, Rust may be a good choice for your game for the following reasons:
 - Native levels of performance.
@@ -16,6 +16,18 @@ Outside of personal preference, Rust may be a good choice for your game for the 
 - The ability to leverage Rust's crate ecosystem from [crates.io](https://crates.io/).
 
 *: Compile time memory and thread safety guarantees only apply to the Rust code. As the user is allowed to call into the Godot engine (C++ code, via GDNative Foreign Function Interface) or into user-defined scripts (GDScript), some of the validity checks are outside godot-rust's control. However, godot-rust guides the user by making clear which operations are potentially unsafe.
+
+## Terminology
+
+To avoid confusion, here is an explanation of names and technologies used within the book.
+
+* **GDNative**: C API used by Godot 3.
+* **GDExtension**: C API used by Godot 4.
+* **godot-rust**: The entire project, encompassing Rust bindings for Godot 3 and 4, as well as related efforts (book, community, etc.).
+* [**gdnative**] (lowercase): the Rust binding for GDNative (Godot 3).
+* [**gdext**] (lowercase): the Rust binding for GDExtension (Godot 4).
+* **Extension**: An extension is a C library developed using gdext. It can be loaded by Godot 4.
+
 
 ## Showcase
 
@@ -33,3 +45,5 @@ The GDExtension bindings are licensed under the [Mozilla Public License 2.0](htt
 
 [GDNative]: https://docs.godotengine.org/en/stable/tutorials/plugins/gdnative/gdnative-cpp-example.html
 [GDExtension]: https://godotengine.org/article/introducing-gd-extensions
+[**gdnative**]: gdnative
+[**gdext**]: gdext

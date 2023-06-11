@@ -31,5 +31,5 @@ Any contribution intentionally submitted for inclusion in the work by you shall 
 [mdBook]: https://github.com/rust-lang-nursery/mdBook
 [mdbook-toc]: https://github.com/badboy/mdbook-toc
 [Godot 3]: https://github.com/godot-rust/gdnative
-[Godot 4]: https://github.com/godot-rust/gdextension
+[Godot 4]: https://github.com/godot-rust/gdext
 [MIT license]: LICENSE.md

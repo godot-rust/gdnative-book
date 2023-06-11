@@ -1,8 +1,8 @@
-# GDNative bindings (Godot 3)
+# gdnative library (Godot 3)
 
 This chapter of the book explains how to use godot-rust for **Godot Engine v3**, using the GDNative interface.
 
-If you are interested in Godot Engine v4, check out the [GDExtension chapter](../gdextension).
+If you are interested in Godot Engine v4, check out the [gdext chapter](../gdext).
 
 
 ## Navigating this chapter

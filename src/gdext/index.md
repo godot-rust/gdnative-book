@@ -1,6 +1,7 @@
-# GDExtension bindings (Godot 4)
+# gdext library (Godot 4)
 
 This chapter is under construction and is going to elaborate the **Rust binding for Godot 4**. 
+
 
 
 ## Currently supported features
@@ -36,11 +37,11 @@ That said, there are some notable differences:
 3. **Always-on**  
    
    There is no differentiation between "tool" and "normal" scripts anymore; Rust logic runs as soon as the Godot editor launches.
-   godot-rust will likely add an opt-out mechanism to limit execution to the launched game, as that's usually the intended behavior.
+   gdext will likely add an opt-out mechanism to limit execution to the launched game, as that's usually the intended behavior.
    Currently, if you want logic to execute only when the game runs, write this code at the beginning of your process functions:
    ```rust
    if Engine::singleton().is_editor_hint() {
-      return
+      return;
    }
    ```
 
