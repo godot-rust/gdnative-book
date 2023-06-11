@@ -1,11 +1,15 @@
 # Summary
 
 - [Introduction](index.md)
-- [GDExtension](gdext/index.md)
+- [Godot 4: gdext](gdext/index.md)
   - [Getting Started](gdext/intro/index.md)
     - [Setup](gdext/intro/setup.md)
-    - [Coding](gdext/intro/coding.md)
-- [GDNative](gdnative/index.md)
+    - [Hello World](gdext/intro/hello-world.md)
+    - [Managing objects in Rust](gdext/intro/objects.md)
+  - [Advanced topics](gdext/advanced/index.md)
+    - [Compatibility and stability](gdext/advanced/compatibility.md)
+    - [Selecting a Godot version](gdext/advanced/godot-version.md)
+- [Godot 3: gdnative](gdnative/index.md)
   - [Getting Started](gdnative/intro/index.md)
     - [Setup](gdnative/intro/setup.md)
     - [Hello, world!](gdnative/intro/hello-world.md)
