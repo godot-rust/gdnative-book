@@ -1,0 +1,246 @@
+<!DOCTYPE HTML>
+<html lang="en" class="sidebar-visible no-js light">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Compatibility and stability - The godot-rust Book</title>
+        <!-- Custom HTML head -->
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff" />
+
+        <link rel="icon" href="../../favicon.svg">
+        <link rel="shortcut icon" href="../../favicon.png">
+        <link rel="stylesheet" href="../../css/variables.css">
+        <link rel="stylesheet" href="../../css/general.css">
+        <link rel="stylesheet" href="../../css/chrome.css">
+        <link rel="stylesheet" href="../../css/print.css" media="print">
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../../fonts/fonts.css">
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="../../highlight.css">
+        <link rel="stylesheet" href="../../tomorrow-night.css">
+        <link rel="stylesheet" href="../../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+    </head>
+    <body>
+        <!-- Provide site root to javascript -->
+        <script type="text/javascript">
+            var path_to_root = "../../";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script type="text/javascript">
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script type="text/javascript">
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('no-js')
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add('js');
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script type="text/javascript">
+            var html = document.querySelector('html');
+            var sidebar = 'hidden';
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            }
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded "><a href="../../index.html"><strong aria-hidden="true">1.</strong> Introduction</a></li><li class="chapter-item expanded "><a href="../../gdext/index.html"><strong aria-hidden="true">2.</strong> GDExtension</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../gdext/intro/index.html"><strong aria-hidden="true">2.1.</strong> Getting Started</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../gdext/intro/setup.html"><strong aria-hidden="true">2.1.1.</strong> Setup</a></li><li class="chapter-item expanded "><a href="../../gdext/intro/hello-world.html"><strong aria-hidden="true">2.1.2.</strong> Hello World</a></li><li class="chapter-item expanded "><a href="../../gdext/intro/objects.html"><strong aria-hidden="true">2.1.3.</strong> Managing objects in Rust</a></li></ol></li><li class="chapter-item expanded "><a href="../../gdext/advanced/index.html"><strong aria-hidden="true">2.2.</strong> Advanced topics</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../gdext/advanced/compatibility.html" class="active"><strong aria-hidden="true">2.2.1.</strong> Compatibility and stability</a></li><li class="chapter-item expanded "><a href="../../gdext/advanced/godot-version.html"><strong aria-hidden="true">2.2.2.</strong> Selecting a Godot version</a></li></ol></li></ol></li><li class="chapter-item expanded "><a href="../../gdnative/index.html"><strong aria-hidden="true">3.</strong> GDNative</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../gdnative/intro/index.html"><strong aria-hidden="true">3.1.</strong> Getting Started</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../gdnative/intro/setup.html"><strong aria-hidden="true">3.1.1.</strong> Setup</a></li><li class="chapter-item expanded "><a href="../../gdnative/intro/hello-world.html"><strong aria-hidden="true">3.1.2.</strong> Hello, world!</a></li></ol></li><li class="chapter-item expanded "><a href="../../gdnative/overview/index.html"><strong aria-hidden="true">3.2.</strong> An Overview of GDNative</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../gdnative/overview/data-representations.html"><strong aria-hidden="true">3.2.1.</strong> Data representations</a></li><li class="chapter-item expanded "><a href="../../gdnative/overview/wrappers.html"><strong aria-hidden="true">3.2.2.</strong> Ref, TRef and Instance</a></li><li class="chapter-item expanded "><a href="../../gdnative/overview/architecture.html"><strong aria-hidden="true">3.2.3.</strong> Game architecture</a></li></ol></li><li class="chapter-item expanded "><a href="../../gdnative/bind/index.html"><strong aria-hidden="true">3.3.</strong> Binding to Rust code</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../gdnative/bind/classes.html"><strong aria-hidden="true">3.3.1.</strong> Class registration</a></li><li class="chapter-item expanded "><a href="../../gdnative/bind/methods.html"><strong aria-hidden="true">3.3.2.</strong> Exported methods</a></li><li class="chapter-item expanded "><a href="../../gdnative/bind/properties.html"><strong aria-hidden="true">3.3.3.</strong> Exported properties</a></li><li class="chapter-item expanded "><a href="../../gdnative/bind/traits.html"><strong aria-hidden="true">3.3.4.</strong> ToVariant, FromVariant and Export</a></li><li class="chapter-item expanded "><a href="../../gdnative/bind/calling-gdscript.html"><strong aria-hidden="true">3.3.5.</strong> Calling into GDScript from Rust</a></li></ol></li><li class="chapter-item expanded "><a href="../../gdnative/faq/index.html"><strong aria-hidden="true">3.4.</strong> FAQ</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../gdnative/faq/code.html"><strong aria-hidden="true">3.4.1.</strong> Common code questions</a></li><li class="chapter-item expanded "><a href="../../gdnative/faq/multithreading.html"><strong aria-hidden="true">3.4.2.</strong> Multithreading</a></li><li class="chapter-item expanded "><a href="../../gdnative/faq/configuration.html"><strong aria-hidden="true">3.4.3.</strong> Configuration</a></li><li class="chapter-item expanded "><a href="../../gdnative/faq/support.html"><strong aria-hidden="true">3.4.4.</strong> Versioning and supported platforms</a></li><li class="chapter-item expanded "><a href="../../gdnative/faq/community.html"><strong aria-hidden="true">3.4.5.</strong> Community</a></li><li class="chapter-item expanded "><a href="../../gdnative/faq/godot4.html"><strong aria-hidden="true">3.4.6.</strong> Godot 4.0 Status</a></li></ol></li><li class="chapter-item expanded "><a href="../../gdnative/recipes/index.html"><strong aria-hidden="true">3.5.</strong> Recipes</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../gdnative/recipes/async-tokio.html"><strong aria-hidden="true">3.5.1.</strong> Async with Tokio runtime</a></li><li class="chapter-item expanded "><a href="../../gdnative/recipes/custom-node-plugin.html"><strong aria-hidden="true">3.5.2.</strong> Custom node plugin</a></li><li class="chapter-item expanded "><a href="../../gdnative/recipes/external-resources.html"><strong aria-hidden="true">3.5.3.</strong> Loading external resources</a></li><li class="chapter-item expanded "><a href="../../gdnative/recipes/logging.html"><strong aria-hidden="true">3.5.4.</strong> Logging</a></li><li class="chapter-item expanded "><a href="../../gdnative/recipes/nix-build-system.html"><strong aria-hidden="true">3.5.5.</strong> Nix as development environment</a></li><li class="chapter-item expanded "><a href="../../gdnative/recipes/panic-handler.html"><strong aria-hidden="true">3.5.6.</strong> Rust panic handler</a></li></ol></li><li class="chapter-item expanded "><a href="../../gdnative/export/index.html"><strong aria-hidden="true">3.6.</strong> Exporting</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../gdnative/export/android.html"><strong aria-hidden="true">3.6.1.</strong> Android</a></li><li class="chapter-item expanded "><a href="../../gdnative/export/ios.html"><strong aria-hidden="true">3.6.2.</strong> (TODO) iOS</a></li><li class="chapter-item expanded "><a href="../../gdnative/export/macosx.html"><strong aria-hidden="true">3.6.3.</strong> Mac OS X</a></li><li class="chapter-item expanded "><a href="../../gdnative/export/html5.html"><strong aria-hidden="true">3.6.4.</strong> HTML5</a></li></ol></li><li class="chapter-item expanded "><a href="../../gdnative/advanced/index.html"><strong aria-hidden="true">3.7.</strong> Advanced Guides</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../gdnative/advanced/custom-godot.html"><strong aria-hidden="true">3.7.1.</strong> Using custom Godot versions</a></li><li class="chapter-item expanded "><a href="../../gdnative/advanced/migrate-0-8.html"><strong aria-hidden="true">3.7.2.</strong> Migrating from godot-rust 0.8</a></li><li class="chapter-item expanded "><a href="../../gdnative/advanced/migrate-0-9.html"><strong aria-hidden="true">3.7.3.</strong> Migrating from godot-rust 0.9</a></li><li class="chapter-item expanded "><a href="../../gdnative/advanced/migrate-0-10.html"><strong aria-hidden="true">3.7.4.</strong> Migrating from godot-rust 0.10</a></li></ol></li></ol></li><li class="chapter-item expanded "><a href="../../projects/index.html"><strong aria-hidden="true">4.</strong> Third-party projects</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../projects/games.html"><strong aria-hidden="true">4.1.</strong> Games</a></li><li class="chapter-item expanded "><a href="../../projects/tools.html"><strong aria-hidden="true">4.2.</strong> Tools and integrations</a></li><li class="chapter-item expanded "><a href="../../projects/applications.html"><strong aria-hidden="true">4.3.</strong> Applications</a></li></ol></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky bordered">
+                    <div class="left-buttons">
+                        <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </button>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light (default)</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">The godot-rust Book</h1>
+
+                    <div class="right-buttons">
+                        <a href="../../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                        <a href="https://github.com/godot-rust/book" title="Git repository" aria-label="Git repository">
+                            <i id="git-repository-button" class="fa fa-github"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script type="text/javascript">
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="compatibility-and-stability"><a class="header" href="#compatibility-and-stability">Compatibility and stability</a></h1>
+<p>The gdext library supports all stable Godot releases starting from Godot 4.0. </p>
+<h2 id="compatibility-with-godot"><a class="header" href="#compatibility-with-godot">Compatibility with Godot</a></h2>
+<p>When developing extension libraries (or just &quot;extensions&quot;), you need to consider which engine version you want to target.
+There are two conceptually different versions:</p>
+<ul>
+<li><strong>API version</strong> is the version of GDExtension against which gdext (and the code of your extension) is compiled.</li>
+<li><strong>Runtime version</strong> is the version of Godot in which the library built with gdext is run.</li>
+</ul>
+<p>The two versions can be different, but there are certain constraints (see <a href="#current-guarantees">below</a>).</p>
+<h3 id="philosophy"><a class="header" href="#philosophy">Philosophy</a></h3>
+<p>We take compatibility with the engine seriously, in an attempt to build an ecosystem of extensions that are interoperable with multiple Godot versions.
+Nothing is more annoying than updating the engine and recompiling 10 plugins/extensions.</p>
+<p>This is sometimes difficult, because:</p>
+<ul>
+<li>Godot may introduce subtle breaking changes of which we are not aware.</li>
+<li>Some changes that are non-breaking in C++ and GDScript are breaking in Rust (e.g. default parameters).</li>
+<li>Using newer features needs to come with a fallback/polyfill for older Godot versions.</li>
+</ul>
+<p>We run CI jobs against multiple Godot versions, to get a certain level of confidence that updates do not break compatibility.
+Nevertheless, the number of possible combinations is large and only growing, so we may miss certain issues.
+If you find incompatibilities or violations of the rules stated below, please let us know.</p>
+<h3 id="current-guarantees"><a class="header" href="#current-guarantees">Current guarantees</a></h3>
+<p>Every extension developed with API version <code>4.0.x</code> <strong>MUST</strong> be run with the same runtime version.</p>
+<ul>
+<li>In particular, it is not possible to run an extension compiled with API version <code>4.0.x</code> in Godot 4.1 or later.
+This is due to breaking changes in Godot's GDExtension API.</li>
+</ul>
+<p>Starting from Godot 4.1 official release, extensions can be loaded by any Godot version, as long as
+<em>runtime version <strong>&gt;=</strong> API version</em>.</p>
+<ul>
+<li>You can run a <code>4.1</code> extension in Godot <code>4.1.1</code> or <code>4.2</code>.</li>
+<li>You cannot run a <code>4.2</code> extension in Godot <code>4.1.1</code>.</li>
+<li>This is subject to change depending on how the GDExtension API evolves and how many breaking changes we have to deal with.</li>
+</ul>
+<h3 id="out-of-scope"><a class="header" href="#out-of-scope">Out of scope</a></h3>
+<p>We do <strong>not</strong> invest effort in maintaining compatibility with:</p>
+<ol>
+<li>Godot in-development versions, except for the latest <code>master</code> branch.
+<ul>
+<li>Not that we may take some time to catch-up with the latest changes, so please don't report issues within a few days after 
+upstream changes have landed.</li>
+</ul>
+</li>
+<li>Non-stable releases (alpha, beta, RC).</li>
+<li>Third-party bindings or GDExtension APIs (C#, C++, Python, ...).
+<ul>
+<li>These may have their own versioning guarantees and release cycles; and there may be specific bugs to such an integration. 
+If you find an issue with gdext and another binding, reproduce it in GDScript to make sure it's relevant for us.</li>
+<li>We do however maintain compatibility with Godot, so if integrations go through the engine (e.g. Rust calls a method whose
+implementation is in C#), this should work.</li>
+</ul>
+</li>
+<li>Godot with non-standard build flags (e.g. disabled modules).</li>
+<li>Godot forks or engines running third-party modules. </li>
+</ol>
+<h2 id="rust-api-stability"><a class="header" href="#rust-api-stability">Rust API stability</a></h2>
+<p>We are still in a phase where a lot of gdext's foundation needs to be built and refined. As such, <strong>expect breaking changes</strong>.
+At the current stage, we believe that making APIs more ergonomic and accessible has priority over long-term stability.
+The alternative would be to lock us early into a design corner.</p>
+<p>Note that many such breaking changes are externally motivated, for example:</p>
+<ul>
+<li>GDExtension changes in a way that cannot be abstracted from the user.</li>
+<li>There are subtleties in the type system or runtime guarantees that can be modeled in a better, safer way (e.g. typed arrays, RIDs).</li>
+<li>We get feedback from game developers and other users stating that certain workflows are very cumbersome.</li>
+</ul>
+<p>Once we get into a more stable feature set, we plan to release versions on crates.io and follow semantic versioning.</p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../../gdext/advanced/index.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+                            <a rel="next" href="../../gdext/advanced/godot-version.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../../gdext/advanced/index.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+                    <a rel="next" href="../../gdext/advanced/godot-version.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+        <script type="text/javascript">
+            window.playground_copyable = true;
+        </script>
+        <script src="../../elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../../mark.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../../searcher.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../../clipboard.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../../highlight.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../../book.js" type="text/javascript" charset="utf-8"></script>
+
+        <!-- Custom JS scripts -->
+    </body>
+</html>
