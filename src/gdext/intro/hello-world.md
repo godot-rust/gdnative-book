@@ -118,7 +118,7 @@ use godot::engine::Sprite2D;
 #[derive(GodotClass)]
 #[class(base=Sprite2D)]
 struct Player {
-    speed: f32,
+    speed: f64,
     angular_speed: f64,
 
     #[base]
@@ -199,9 +199,9 @@ impl Sprite2DVirtual for Player {
         // In GDScript, this would be: 
         // rotation += angular_speed * delta
         
-        self.sprite.rotate(real::from_f64(self.angular_speed * delta)); 
+        self.sprite.rotate((self.angular_speed * delta) as f32);
         // The 'rotate' method requires a f32, 
-        // therefore we convert 'self.angular_speed * delta' which is a f64 to a 'real' which is a f32
+        // therefore we convert 'self.angular_speed * delta' which is a f64 to a f32
     }
 }
 ```
@@ -238,14 +238,14 @@ impl Sprite2DVirtual for Player {
         // var velocity = Vector2.UP.rotated(rotation) * speed
         // position += velocity * delta
         
-        self.sprite.rotate(real::from_f64(self.angular_speed * delta));
+        self.sprite.rotate((self.angular_speed * delta) as f32);
 
         let rotation = self.sprite.get_rotation();
-        let velocity = Vector2::UP.rotated(rotation) * self.speed;
-        self.sprite.translate(velocity * real::from_f64(delta));
+        let velocity = Vector2::UP.rotated(rotation) * self.speed as f32;
+        self.sprite.translate(velocity * delta as f32);
         
         // or verbose: 
-        // self.sprite.set_position(self.sprite.get_position() + velocity * real::from_f64(delta));
+        // self.sprite.set_position(self.sprite.get_position() + velocity * delta as f32);
     }
 }
 ```
@@ -264,7 +264,7 @@ Concretely, we add a function to increase the speed, and a signal to notify othe
 #[godot_api]
 impl Player {
 	#[func]
-	fn increase_speed(&mut self, amount: f32) {
+	fn increase_speed(&mut self, amount: f64) {
 		self.speed += amount;
 		self.emit_signal("speed_increased".into(), &[]);
 	}
