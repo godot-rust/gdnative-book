@@ -289,6 +289,7 @@ The <code>[libraries]</code> section should be updated to match the paths of you
 <code>{myCrate}</code> can be replaced with the name of your crate.</p>
 <pre><code class="language-ini">[configuration]
 entry_symbol = &quot;gdext_rust_init&quot;
+compatibility_minimum = 4.1
 
 [libraries]
 linux.debug.x86_64 = &quot;res://../rust/target/debug/lib{myCrate}.so&quot;
@@ -416,7 +417,7 @@ This corresponds to GDScript's <code>_init()</code> function.</p>
 #[godot_api]
 impl Sprite2DVirtual for Player {
     fn init(sprite: Base&lt;Sprite2D&gt;) -&gt; Self {
-        println!(&quot;Hello, world!&quot;);
+        godot_print!(&quot;Hello, world!&quot;); // Prints to the Godot console
         
         Self {
             speed: 400.0,
@@ -459,7 +460,9 @@ impl Sprite2DVirtual for Player {
         // In GDScript, this would be: 
         // rotation += angular_speed * delta
         
-        self.sprite.rotate(self.angular_speed * delta);
+        self.sprite.rotate((self.angular_speed * delta) as f32);
+        // The 'rotate' method requires a f32, 
+        // therefore we convert 'self.angular_speed * delta' which is a f64 to a f32
     }
 }
 <span class="boring">}
@@ -493,13 +496,14 @@ impl Sprite2DVirtual for Player {
         // var velocity = Vector2.UP.rotated(rotation) * speed
         // position += velocity * delta
         
-        self.sprite.rotate(self.angular_speed * delta);
+        self.sprite.rotate((self.angular_speed * delta) as f32);
 
-        let velocity = Vector2::UP.rotated(rotation) * self.speed;
-        self.sprite.translate(self.velocity * delta);
+        let rotation = self.sprite.get_rotation();
+        let velocity = Vector2::UP.rotated(rotation) * self.speed as f32;
+        self.sprite.translate(velocity * delta as f32);
         
         // or verbose: 
-        // self.sprite.set_position(self.sprite.get_position() + self.velocity * delta);
+        // self.sprite.set_position(self.sprite.get_position() + velocity * delta as f32);
     }
 }
 <span class="boring">}
