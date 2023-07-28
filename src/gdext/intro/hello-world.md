@@ -26,6 +26,7 @@ The `[libraries]` section should be updated to match the paths of your dynamic R
 ```ini
 [configuration]
 entry_symbol = "gdext_rust_init"
+compatibility_minimum = 4.1
 
 [libraries]
 linux.debug.x86_64 = "res://../rust/target/debug/lib{myCrate}.so"
@@ -161,7 +162,7 @@ use godot::engine::Sprite2DVirtual;
 #[godot_api]
 impl Sprite2DVirtual for Player {
     fn init(sprite: Base<Sprite2D>) -> Self {
-        println!("Hello, world!");
+        godot_print!("Hello, world!"); // Prints to the Godot console
         
         Self {
             speed: 400.0,
@@ -198,7 +199,9 @@ impl Sprite2DVirtual for Player {
         // In GDScript, this would be: 
         // rotation += angular_speed * delta
         
-        self.sprite.rotate(self.angular_speed * delta);
+        self.sprite.rotate((self.angular_speed * delta) as f32);
+        // The 'rotate' method requires a f32, 
+        // therefore we convert 'self.angular_speed * delta' which is a f64 to a f32
     }
 }
 ```
@@ -235,13 +238,14 @@ impl Sprite2DVirtual for Player {
         // var velocity = Vector2.UP.rotated(rotation) * speed
         // position += velocity * delta
         
-        self.sprite.rotate(self.angular_speed * delta);
+        self.sprite.rotate((self.angular_speed * delta) as f32);
 
-        let velocity = Vector2::UP.rotated(rotation) * self.speed;
-        self.sprite.translate(self.velocity * delta);
+        let rotation = self.sprite.get_rotation();
+        let velocity = Vector2::UP.rotated(rotation) * self.speed as f32;
+        self.sprite.translate(velocity * delta as f32);
         
         // or verbose: 
-        // self.sprite.set_position(self.sprite.get_position() + self.velocity * delta);
+        // self.sprite.set_position(self.sprite.get_position() + velocity * delta as f32);
     }
 }
 ```
