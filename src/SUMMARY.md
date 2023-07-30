@@ -10,7 +10,7 @@
     - [Compatibility and stability](gdext/advanced/compatibility.md)
     - [Selecting a Godot version](gdext/advanced/godot-version.md)
   - [Contributing to gdext](gdext/contribute/index.md)
-    - [Dev tools](gdext/contribute/dev-tools.md)
+    - [Dev tools and testing](gdext/contribute/dev-tools.md)
     - [Code and API conventions](gdext/contribute/conventions.md)
 - [Godot 3: gdnative](gdnative/index.md)
   - [Getting Started](gdnative/intro/index.md)

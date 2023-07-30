@@ -20,7 +20,7 @@ Nothing is more annoying than updating the engine and recompiling 10 plugins/ext
 
 This is sometimes difficult, because:
 * Godot may introduce subtle breaking changes of which we are not aware.
-* Some changes that are non-breaking in C++ and GDScript are breaking in Rust (e.g. default parameters).
+* Some changes that are non-breaking in C++ and GDScript are breaking in Rust (e.g. providing a default value for a previously required parameter).
 * Using newer features needs to come with a fallback/polyfill for older Godot versions.
 
 We run CI jobs against multiple Godot versions, to get a certain level of confidence that updates do not break compatibility.
