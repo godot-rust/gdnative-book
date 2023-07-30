@@ -10,8 +10,8 @@ pull request reviews.
 
 In particular, we use the following tools:
 
-* [**rustfmt**] for code formatting ([config options]).
-* [**clippy**] for lints and style warnings ([list of lints]).
+* [**rustfmt**] for code formatting ([config options][rustfmt-config]).
+* [**clippy**] for lints and style warnings ([list of lints][clippy-lints]).
 * Clang's [**AddressSanitizer**] and [**LeakSanitizer**] for memory safety.
 * Various specialized tools:
   * [**skywalking-eyes**] to enforce license headers.
@@ -20,16 +20,16 @@ In particular, we use the following tools:
 In addition, we have unit tests (`#[test]`), doctests and Godot integration tests (`#[itest]`). 
 See [Dev tools] for more information.
 
-[**rustfmt**]: https://github.com/rust-lang/rustfmt
-[config options]: https://rust-lang.github.io/rustfmt
-[**clippy**]: https://doc.rust-lang.org/stable/clippy/usage.html
-[list of lints]: https://rust-lang.github.io/rust-clippy/master/index.html
 [**AddressSanitizer**]: https://clang.llvm.org/docs/AddressSanitizer.html 
-[**LeakSanitizer**]: https://clang.llvm.org/docs/LeakSanitizer.html
-[**skywalking-eyes**]: https://github.com/apache/skywalking-eyes
 [**cargo-deny**]: https://embarkstudios.github.io/cargo-deny
 [**cargo-machete**]: https://github.com/bnjbvr/cargo-machete
+[**clippy**]: https://doc.rust-lang.org/stable/clippy/usage.html
+[**LeakSanitizer**]: https://clang.llvm.org/docs/LeakSanitizer.html
+[**rustfmt**]: https://github.com/rust-lang/rustfmt
+[**skywalking-eyes**]: https://github.com/apache/skywalking-eyes
+[clippy-lints]: https://rust-lang.github.io/rust-clippy/master/index.html
 [Dev tools]: dev-tools.md
+[rustfmt-config]: https://rust-lang.github.io/rustfmt
 
 
 ## API design principles
@@ -43,11 +43,12 @@ We envision the following core principles as a guideline for API design:
 1. **Simplicity**  
    Prefer self-explanatory, straightforward interfaces.
    * Avoid abstractions that don't add value to the user. 
-     Do not over-engineer prematurely just because it's possible; follow [YAGNI]. Avoid [premature optimization].
+     Do not over-engineer prematurely just because it's possible; follow [YAGNI][wiki-yagni]. Avoid [premature optimization][wiki-premature-opt].
    * Examples to avoid: traits that are not used polymorphically, type-state pattern, many generic parameters,
      layers of wrapper types/functions that simply delegate logic.
    * Sometimes, runtime errors are better than compile-time errors. Most users are building a game, where fast iteration is key.
-     Use `Option`/`Result` when errors are recoverable, and panics when the user must fix their code. See also [Ergonomics and panics].
+     Use `Option`/`Result` when errors are recoverable, and panics when the user must fix their code. 
+     See also [Ergonomics and panics][lib-ergonomics-panics].
 
 2. **Maintainability**  
    Every line of code added **must be maintained, potentially indefinitely**.
@@ -64,8 +65,11 @@ We envision the following core principles as a guideline for API design:
    * Before doing larger refactorings or changes of existing systems, try to understand the underlying design choices.
 
 See these as guidelines, not hard rules. If you are unsure, please don't hesitate to ask questions and discuss different ideas.
-We highly appreciate if people come up with a rough design before spending a large amount of time on implementation; this helps
-save time on approaches that may not work.
+
+```admonish tip
+We highly appreciate if contributors propose a rough design before spending large effort on implementation.
+This aligns ideas early and saves time on approaches that may not work.
+```
 
 
 ## Technicalities
@@ -87,7 +91,7 @@ We use separators starting with  `// ---` to visually divide sections of related
 ### Code organization
 
 1. Anything that is not intended to be accessible by the user, but must be `pub` for technical reasons, should be marked as `#[doc(hidden)]`.
-   * This does [**not** constitute part of the public API][public-api]. 
+   * This does [**not** constitute part of the public API][lib-public-api]. 
 
 1. We do not use the `prelude` inside the project, except in examples and doctests.
 
@@ -99,6 +103,17 @@ We use separators starting with  `// ---` to visually divide sections of related
    * Private methods (`pub(crate)`, private, `#[doc(hidden)]`)
 
 1. Inside files, there is no strict order yet, except `use` and `mod` at the top. Prefer to declare public-facing symbols before private ones.
+
+1. Use flat import statements. If multiple paths have different prefixes, put them on separate lines. Avoid `self`.
+   ```rs
+   // Good:
+   use crate::module;
+   use crate::module::{Type, function};
+   use crate::module::nested::{Trait, some_macro};
+   
+   // Bad:
+   use crate::module::{self, Type, function, nested::{Trait, some_macro}};
+   ```
 
 
 ### Types
@@ -118,12 +133,14 @@ We use separators starting with  `// ---` to visually divide sections of related
 
 1. Use `self` instead of `&self` for `Copy` types, unless they are really big (such as `Transform3D`).
 
-1. For `Copy` types, avoid in-place mutation `vector.normalize()` and prefer `vector = vector.normalized()`.
+1. For `Copy` types, avoid in-place mutation `vector.normalize()`.  
+   Instead, use `vector = vector.normalized()`. The past tense indicates a copy.
  
-1. Annotate with `#[must_use]` when ignoring the return value is likely an error. Example: builder APIs.
+1. Annotate with `#[must_use]` when ignoring the return value is likely an error.  
+   Example: builder APIs.
 
 
-### Proc-macro attributes
+### Attributes
 
 Concerns both `#[proc_macro_attribute]` and the attributes attached to a `#[proc_macro_derive]`.
 
@@ -146,7 +163,7 @@ This allows for a recognizable and consistent syntax across all proc-macro APIs.
 directly supported by the `KvParser` type in gdext, which makes it easy to parse and interpret attributes.
 
 
-[YAGNI]: https://en.wikipedia.org/wiki/YAGNI
-[premature optimization]: https://en.wikipedia.org/wiki/Program_optimization#When_to_optimize
-[public-api]: https://godot-rust.github.io/docs/gdext/master/godot/#public-api
-[Ergonomics and panics]: https://godot-rust.github.io/docs/gdext/master/godot/#ergonomics-and-panics
+[lib-ergonomics-panics]: https://godot-rust.github.io/docs/gdext/master/godot/#ergonomics-and-panics
+[lib-public-api]: https://godot-rust.github.io/docs/gdext/master/godot/#public-api
+[wiki-premature-opt]: https://en.wikipedia.org/wiki/Program_optimization#When_to_optimize
+[wiki-yagni]: https://en.wikipedia.org/wiki/YAGNI

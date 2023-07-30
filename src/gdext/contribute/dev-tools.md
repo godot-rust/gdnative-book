@@ -1,5 +1,5 @@
 
-# Dev tools
+# Dev tools and testing
 
 The library comes with a handful of tools and tricks to ease development. 
 This page goes into different aspects of the contributing experience.
