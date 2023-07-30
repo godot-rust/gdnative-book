@@ -38,9 +38,14 @@ macos.release = "res://../rust/target/release/{myCrate}.dylib"
 macos.debug.arm64 = "res://../rust/target/debug/{myCrate}.dylib"
 macos.release.arm64 = "res://../rust/target/release/{myCrate}.dylib"
 ```
-> **Note**: for exporting your project, you'll need to use paths inside `res://`.
 
-> **Note**: If you specify your cargo compilation target via the `--target` flag or a `.cargo/config.toml` file, the rust library will be placed in a path name that includes target architecture, and the `.gdextension` library paths will need to match. E.g. for M1 Macs (`macos.debug.arm64` and `macos.release.arm64`) the path would be `"res://../rust/target/aarch64-apple-darwin/debug/{myCrate}.dylib"`
+```admonish note
+For exporting your project, you'll need to use paths inside `res://`.
+```
+
+```admonish note
+If you specify your cargo compilation target via the `--target` flag or a `.cargo/config.toml` file, the rust library will be placed in a path name that includes target architecture, and the `.gdextension` library paths will need to match. E.g. for M1 Macs (`macos.debug.arm64` and `macos.release.arm64`) the path would be `"res://../rust/target/aarch64-apple-darwin/debug/{myCrate}.dylib"`
+```
 
 ### `extension_list.cfg`
 
@@ -130,15 +135,19 @@ Let's break this down.
 
 1. The gdext prelude contains the most common symbols. Less frequent classes are located in the `engine` module.
 
-2. The `#[derive]` attribute marks the `Player` struct as class usable by Godot.
+2. The `#[derive]` attribute registers `Player` as a class in the Godot engine.
+   See [API docs][derive-godotclass] for details about `#[derive(GodotClass)]`.
 
-    > **Note**: `#[derive(GodotClass)]` _automatically_ registers the class. 
-    > Unlike in gdnative, you don't need to have a `.gdns` file or an `add_class()` registration call.
-    > Simply declaring a class is enough to make it available. You will however need to restart the Godot editor to take effect.
-
+ ```admonish info
+ `#[derive(GodotClass)]` _automatically_ registers the class -- you don't need an explicit 
+ `add_class()` registration call, or a `.gdns` file as it was the case with GDNative.
+ 
+ You will however need to restart the Godot editor to take effect.
+ ```
+   
 3. The optional `#[class]` attribute configures how the class is registered. In this case, we specify that `Player` inherits Godot's
-   `Sprite2D` class. If you omit the `base` key, the base class is implicitly `RefCounted`, just as if you would omit the `extends`
-   keyword in GDScript.
+   `Sprite2D` class. If you don't specify the `base` key, the base class will implicitly be `RefCounted`, just as if you omitted the
+   `extends` keyword in GDScript.
 
 4. We define two fields `speed` and `angular_speed` for the logic. These are regular Rust fields, no magic involved. More about their use later.
 
@@ -149,6 +158,14 @@ Let's break this down.
    - The name can be freely chosen. Here it's `sprite`, but `base` is also a common convention.
    - You do not _have to_ declare this field. If it is absent, you cannot access the base object from within `self`.
      This is often not a problem, e.g. in data bundles inheriting `RefCounted`.
+
+```admonish warning
+When adding an instance of your `Player` class to the scene, make sure to select node type `Player` and not its base `Sprite2D`.
+Otherwise, your Rust logic will not run.
+
+If Godot fails to load a Rust class (e.g. due to an error in your extension), it may silently replace it with its base class.
+Use version control (git) to check for unwanted changes in `.tscn` files.
+```
 
 
 ### Method declaration
@@ -245,7 +262,9 @@ impl Sprite2DVirtual for Player {
         self.sprite.translate(velocity * delta as f32);
         
         // or verbose: 
-        // self.sprite.set_position(self.sprite.get_position() + velocity * delta as f32);
+        // self.sprite.set_position(
+        //     self.sprite.get_position() + velocity * delta as f32
+        // );
     }
 }
 ```
@@ -279,12 +298,14 @@ impl Player {
 - `#[signal]` declares a signal. A signal can be emitted with the `emit_signal` method (which every Godot class provides, since it is inherited
   from `Object`).
 
-Generally, API attributes typically follow the GDScript keyword names (`class`, `func`, `signal`, `export`, `var`, ...).
+API attributes typically follow the GDScript keyword names: `class`, `func`, `signal`, `export`, `var`, ...
 
 That's it for the _Hello World_ tutorial! The following chapters will go into more detail about the various features that gdext provides.
 
+
+[derive-godotclass]: https://godot-rust.github.io/docs/gdext/master/godot/prelude/derive.GodotClass.html
+[godot-command-line]: https://docs.godotengine.org/en/stable/tutorials/editor/command_line_tutorial.html
+[no-reload]: https://github.com/godotengine/godot/issues/66231
+[sprite2d-api]: https://godot-rust.github.io/docs/gdext/master/godot/engine/struct.Sprite2D.html
 [tutorial-begin]: https://docs.godotengine.org/en/stable/getting_started/step_by_step/scripting_first_script.html
 [tutorial-full-script]: https://docs.godotengine.org/en/stable/getting_started/step_by_step/scripting_first_script.html#complete-script
-[sprite2d-api]: https://godot-rust.github.io/docs/gdext/master/godot/engine/struct.Sprite2D.html
-[no-reload]: https://github.com/godotengine/godot/issues/66231
-[godot-command-line]: https://docs.godotengine.org/en/stable/tutorials/editor/command_line_tutorial.html

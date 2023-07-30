@@ -9,8 +9,13 @@ max-level = 3
 command = "mdbook-toc"
 renderer = ["html"]
 
+[preprocessor.admonish]
+command = "mdbook-admonish"
+assets_version = "2.0.2" # do not edit: managed by `mdbook-admonish install`
+
 [output.html]
 git-repository-url = "https://github.com/godot-rust/book"
+additional-css = ["config/mdbook-admonish.css"]
 
 [output.html.redirect]
 "introduction.html" = "gdnative"

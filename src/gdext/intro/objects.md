@@ -30,7 +30,7 @@ These types, although sometimes called "built-in classes", are not real classes,
 Inheritance is a central concept in Godot. You likely know it already from the node hierarchy, where derived classes add specific functionality.
 This concept extends to Rust classes, with inheritance being emulated via composition.
 
-Each Rust class has a base class. You cannot inherit other user-defined classes.
+Each Rust class has a Godot base class. You cannot inherit other Rust classes.
 
 - Typically, a base class is a node type, i.e. it (indirectly) inherits from the class `Node`. This makes it possible to attach instances
   of the class to the scene tree. Nodes are manually managed, so you need to either add them to the scene tree or free them manually.
@@ -95,13 +95,14 @@ This typically happens in two scenarios, let's again assume a class `Player`:
 If `T` is a user-defined type, then a `Gd<T>` object can be created in multiple ways. Check [the `Gd` API docs][gd] for the most up-to-date
 constructor list. 
 
-> **Note**: `init` cannot take custom parameters. There are however a few ways around that.
-> - From Rust code, simply call [`Gd::with_base()`][gd-with-base].
-> - From GDScript, you can write a custom method such as `post_init()`, which late-initializes fields. This will reduce type safety though,
->   needing `Option` for fields whose values aren't available at initialization time.
-> - Another alternative is to use a third-party class such as `PlayerFactory`, which has a method accepting parameters and returning a
->   fully-constructed `Player` instance.
-
+```admonish note
+`init` cannot take custom parameters. There are however a few ways around that.
+- From Rust code, simply call [`Gd::with_base()`][gd-with-base].
+- From GDScript, you can write a custom method such as `post_init()`, which late-initializes fields. This will reduce type safety though,
+  needing `Option` for fields whose values aren't available at initialization time.
+- Another alternative is to use a third-party class such as `PlayerFactory`, which has a method accepting parameters and returning a
+  fully-constructed `Player` instance.
+```
     
 If your `T` contains a `#[base]` field, you cannot create a standalone `T` object -- you must encapsulate it in `Gd<T>`.
 You can also not extract a `T` from a `Gd<T>` smart pointer anymore; since it has potentially been shared with the Godot engine, this would
@@ -115,7 +116,6 @@ Keep in mind that node classes in Godot are manually-managed. When outside the s
 using [`free()`][gd-free].
 
 
-
-[gd]: https://godot-rust.github.io/docs/gdext/master/godot/obj/struct.Gd.html
-[gd-with-base]: https://godot-rust.github.io/docs/gdext/master/godot/obj/struct.Gd.html#method.with_base
 [gd-free]: https://godot-rust.github.io/docs/gdext/master/godot/obj/struct.Gd.html#method.free
+[gd-with-base]: https://godot-rust.github.io/docs/gdext/master/godot/obj/struct.Gd.html#method.with_base
+[gd]: https://godot-rust.github.io/docs/gdext/master/godot/obj/struct.Gd.html
