@@ -5,8 +5,10 @@
         <meta charset="UTF-8">
         <title>The godot-rust Book</title>
         <meta name="robots" content="noindex" />
+
+
         <!-- Custom HTML head -->
-        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="theme-color" content="#ffffff" />
@@ -17,25 +19,30 @@
         <link rel="stylesheet" href="css/general.css">
         <link rel="stylesheet" href="css/chrome.css">
         <link rel="stylesheet" href="css/print.css" media="print">
+
         <!-- Fonts -->
         <link rel="stylesheet" href="FontAwesome/css/font-awesome.css">
         <link rel="stylesheet" href="fonts/fonts.css">
+
         <!-- Highlight.js Stylesheets -->
         <link rel="stylesheet" href="highlight.css">
         <link rel="stylesheet" href="tomorrow-night.css">
         <link rel="stylesheet" href="ayu-highlight.css">
 
         <!-- Custom theme stylesheets -->
+        <link rel="stylesheet" href="config/mdbook-admonish.css">
+
     </head>
     <body>
+    <div id="body-container">
         <!-- Provide site root to javascript -->
-        <script type="text/javascript">
+        <script>
             var path_to_root = "";
             var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
         </script>
 
         <!-- Work around some values being stored in localStorage wrapped in quotes -->
-        <script type="text/javascript">
+        <script>
             try {
                 var theme = localStorage.getItem('mdbook-theme');
                 var sidebar = localStorage.getItem('mdbook-sidebar');
@@ -51,7 +58,7 @@
         </script>
 
         <!-- Set the theme before any content is loaded, prevents flash -->
-        <script type="text/javascript">
+        <script>
             var theme;
             try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
             if (theme === null || theme === undefined) { theme = default_theme; }
@@ -63,12 +70,14 @@
         </script>
 
         <!-- Hide / unhide sidebar before it is displayed -->
-        <script type="text/javascript">
+        <script>
             var html = document.querySelector('html');
-            var sidebar = 'hidden';
+            var sidebar = null;
             if (document.body.clientWidth >= 1080) {
                 try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
                 sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
             }
             html.classList.remove('sidebar-visible');
             html.classList.add("sidebar-" + sidebar);
@@ -76,16 +85,38 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded "><a href="index.html"><strong aria-hidden="true">1.</strong> Introduction</a></li><li class="chapter-item expanded "><a href="gdext/index.html"><strong aria-hidden="true">2.</strong> Godot 4: gdext</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="gdext/intro/index.html"><strong aria-hidden="true">2.1.</strong> Getting Started</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="gdext/intro/setup.html"><strong aria-hidden="true">2.1.1.</strong> Setup</a></li><li class="chapter-item expanded "><a href="gdext/intro/hello-world.html"><strong aria-hidden="true">2.1.2.</strong> Hello World</a></li><li class="chapter-item expanded "><a href="gdext/intro/objects.html"><strong aria-hidden="true">2.1.3.</strong> Managing objects in Rust</a></li></ol></li><li class="chapter-item expanded "><a href="gdext/advanced/index.html"><strong aria-hidden="true">2.2.</strong> Advanced topics</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="gdext/advanced/compatibility.html"><strong aria-hidden="true">2.2.1.</strong> Compatibility and stability</a></li><li class="chapter-item expanded "><a href="gdext/advanced/godot-version.html"><strong aria-hidden="true">2.2.2.</strong> Selecting a Godot version</a></li></ol></li><li class="chapter-item expanded "><a href="gdext/contribute/index.html"><strong aria-hidden="true">2.3.</strong> Contributing to gdext</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="gdext/contribute/dev-tools.html"><strong aria-hidden="true">2.3.1.</strong> Dev tools</a></li><li class="chapter-item expanded "><a href="gdext/contribute/conventions.html"><strong aria-hidden="true">2.3.2.</strong> Code and API conventions</a></li></ol></li></ol></li><li class="chapter-item expanded "><a href="gdnative/index.html"><strong aria-hidden="true">3.</strong> Godot 3: gdnative</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="gdnative/intro/index.html"><strong aria-hidden="true">3.1.</strong> Getting Started</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="gdnative/intro/setup.html"><strong aria-hidden="true">3.1.1.</strong> Setup</a></li><li class="chapter-item expanded "><a href="gdnative/intro/hello-world.html"><strong aria-hidden="true">3.1.2.</strong> Hello, world!</a></li></ol></li><li class="chapter-item expanded "><a href="gdnative/overview/index.html"><strong aria-hidden="true">3.2.</strong> An Overview of GDNative</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="gdnative/overview/data-representations.html"><strong aria-hidden="true">3.2.1.</strong> Data representations</a></li><li class="chapter-item expanded "><a href="gdnative/overview/wrappers.html"><strong aria-hidden="true">3.2.2.</strong> Ref, TRef and Instance</a></li><li class="chapter-item expanded "><a href="gdnative/overview/architecture.html"><strong aria-hidden="true">3.2.3.</strong> Game architecture</a></li></ol></li><li class="chapter-item expanded "><a href="gdnative/bind/index.html"><strong aria-hidden="true">3.3.</strong> Binding to Rust code</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="gdnative/bind/classes.html"><strong aria-hidden="true">3.3.1.</strong> Class registration</a></li><li class="chapter-item expanded "><a href="gdnative/bind/methods.html"><strong aria-hidden="true">3.3.2.</strong> Exported methods</a></li><li class="chapter-item expanded "><a href="gdnative/bind/properties.html"><strong aria-hidden="true">3.3.3.</strong> Exported properties</a></li><li class="chapter-item expanded "><a href="gdnative/bind/traits.html"><strong aria-hidden="true">3.3.4.</strong> ToVariant, FromVariant and Export</a></li><li class="chapter-item expanded "><a href="gdnative/bind/calling-gdscript.html"><strong aria-hidden="true">3.3.5.</strong> Calling into GDScript from Rust</a></li></ol></li><li class="chapter-item expanded "><a href="gdnative/faq/index.html"><strong aria-hidden="true">3.4.</strong> FAQ</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="gdnative/faq/code.html"><strong aria-hidden="true">3.4.1.</strong> Common code questions</a></li><li class="chapter-item expanded "><a href="gdnative/faq/multithreading.html"><strong aria-hidden="true">3.4.2.</strong> Multithreading</a></li><li class="chapter-item expanded "><a href="gdnative/faq/configuration.html"><strong aria-hidden="true">3.4.3.</strong> Configuration</a></li><li class="chapter-item expanded "><a href="gdnative/faq/support.html"><strong aria-hidden="true">3.4.4.</strong> Versioning and supported platforms</a></li><li class="chapter-item expanded "><a href="gdnative/faq/community.html"><strong aria-hidden="true">3.4.5.</strong> Community</a></li><li class="chapter-item expanded "><a href="gdnative/faq/godot4.html"><strong aria-hidden="true">3.4.6.</strong> Godot 4.0 Status</a></li></ol></li><li class="chapter-item expanded "><a href="gdnative/recipes/index.html"><strong aria-hidden="true">3.5.</strong> Recipes</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="gdnative/recipes/async-tokio.html"><strong aria-hidden="true">3.5.1.</strong> Async with Tokio runtime</a></li><li class="chapter-item expanded "><a href="gdnative/recipes/custom-node-plugin.html"><strong aria-hidden="true">3.5.2.</strong> Custom node plugin</a></li><li class="chapter-item expanded "><a href="gdnative/recipes/external-resources.html"><strong aria-hidden="true">3.5.3.</strong> Loading external resources</a></li><li class="chapter-item expanded "><a href="gdnative/recipes/logging.html"><strong aria-hidden="true">3.5.4.</strong> Logging</a></li><li class="chapter-item expanded "><a href="gdnative/recipes/nix-build-system.html"><strong aria-hidden="true">3.5.5.</strong> Nix as development environment</a></li><li class="chapter-item expanded "><a href="gdnative/recipes/panic-handler.html"><strong aria-hidden="true">3.5.6.</strong> Rust panic handler</a></li></ol></li><li class="chapter-item expanded "><a href="gdnative/export/index.html"><strong aria-hidden="true">3.6.</strong> Exporting</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="gdnative/export/android.html"><strong aria-hidden="true">3.6.1.</strong> Android</a></li><li class="chapter-item expanded "><a href="gdnative/export/ios.html"><strong aria-hidden="true">3.6.2.</strong> (TODO) iOS</a></li><li class="chapter-item expanded "><a href="gdnative/export/macosx.html"><strong aria-hidden="true">3.6.3.</strong> Mac OS X</a></li><li class="chapter-item expanded "><a href="gdnative/export/html5.html"><strong aria-hidden="true">3.6.4.</strong> HTML5</a></li></ol></li><li class="chapter-item expanded "><a href="gdnative/advanced/index.html"><strong aria-hidden="true">3.7.</strong> Advanced Guides</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="gdnative/advanced/custom-godot.html"><strong aria-hidden="true">3.7.1.</strong> Using custom Godot versions</a></li><li class="chapter-item expanded "><a href="gdnative/advanced/migrate-0-8.html"><strong aria-hidden="true">3.7.2.</strong> Migrating from godot-rust 0.8</a></li><li class="chapter-item expanded "><a href="gdnative/advanced/migrate-0-9.html"><strong aria-hidden="true">3.7.3.</strong> Migrating from godot-rust 0.9</a></li><li class="chapter-item expanded "><a href="gdnative/advanced/migrate-0-10.html"><strong aria-hidden="true">3.7.4.</strong> Migrating from godot-rust 0.10</a></li></ol></li></ol></li><li class="chapter-item expanded "><a href="projects/index.html"><strong aria-hidden="true">4.</strong> Third-party projects</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="projects/games.html"><strong aria-hidden="true">4.1.</strong> Games</a></li><li class="chapter-item expanded "><a href="projects/tools.html"><strong aria-hidden="true">4.2.</strong> Tools and integrations</a></li><li class="chapter-item expanded "><a href="projects/applications.html"><strong aria-hidden="true">4.3.</strong> Applications</a></li></ol></li></ol>
+                <ol class="chapter"><li class="chapter-item expanded "><a href="index.html"><strong aria-hidden="true">1.</strong> Introduction</a></li><li class="chapter-item expanded "><a href="gdext/index.html"><strong aria-hidden="true">2.</strong> Godot 4: gdext</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="gdext/intro/index.html"><strong aria-hidden="true">2.1.</strong> Getting Started</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="gdext/intro/setup.html"><strong aria-hidden="true">2.1.1.</strong> Setup</a></li><li class="chapter-item expanded "><a href="gdext/intro/hello-world.html"><strong aria-hidden="true">2.1.2.</strong> Hello World</a></li><li class="chapter-item expanded "><a href="gdext/intro/objects.html"><strong aria-hidden="true">2.1.3.</strong> Managing objects in Rust</a></li></ol></li><li class="chapter-item expanded "><a href="gdext/advanced/index.html"><strong aria-hidden="true">2.2.</strong> Advanced topics</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="gdext/advanced/compatibility.html"><strong aria-hidden="true">2.2.1.</strong> Compatibility and stability</a></li><li class="chapter-item expanded "><a href="gdext/advanced/godot-version.html"><strong aria-hidden="true">2.2.2.</strong> Selecting a Godot version</a></li></ol></li><li class="chapter-item expanded "><a href="gdext/contribute/index.html"><strong aria-hidden="true">2.3.</strong> Contributing to gdext</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="gdext/contribute/dev-tools.html"><strong aria-hidden="true">2.3.1.</strong> Dev tools and testing</a></li><li class="chapter-item expanded "><a href="gdext/contribute/conventions.html"><strong aria-hidden="true">2.3.2.</strong> Code and API conventions</a></li></ol></li></ol></li><li class="chapter-item expanded "><a href="gdnative/index.html"><strong aria-hidden="true">3.</strong> Godot 3: gdnative</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="gdnative/intro/index.html"><strong aria-hidden="true">3.1.</strong> Getting Started</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="gdnative/intro/setup.html"><strong aria-hidden="true">3.1.1.</strong> Setup</a></li><li class="chapter-item expanded "><a href="gdnative/intro/hello-world.html"><strong aria-hidden="true">3.1.2.</strong> Hello, world!</a></li></ol></li><li class="chapter-item expanded "><a href="gdnative/overview/index.html"><strong aria-hidden="true">3.2.</strong> An Overview of GDNative</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="gdnative/overview/data-representations.html"><strong aria-hidden="true">3.2.1.</strong> Data representations</a></li><li class="chapter-item expanded "><a href="gdnative/overview/wrappers.html"><strong aria-hidden="true">3.2.2.</strong> Ref, TRef and Instance</a></li><li class="chapter-item expanded "><a href="gdnative/overview/architecture.html"><strong aria-hidden="true">3.2.3.</strong> Game architecture</a></li></ol></li><li class="chapter-item expanded "><a href="gdnative/bind/index.html"><strong aria-hidden="true">3.3.</strong> Binding to Rust code</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="gdnative/bind/classes.html"><strong aria-hidden="true">3.3.1.</strong> Class registration</a></li><li class="chapter-item expanded "><a href="gdnative/bind/methods.html"><strong aria-hidden="true">3.3.2.</strong> Exported methods</a></li><li class="chapter-item expanded "><a href="gdnative/bind/properties.html"><strong aria-hidden="true">3.3.3.</strong> Exported properties</a></li><li class="chapter-item expanded "><a href="gdnative/bind/traits.html"><strong aria-hidden="true">3.3.4.</strong> ToVariant, FromVariant and Export</a></li><li class="chapter-item expanded "><a href="gdnative/bind/calling-gdscript.html"><strong aria-hidden="true">3.3.5.</strong> Calling into GDScript from Rust</a></li></ol></li><li class="chapter-item expanded "><a href="gdnative/faq/index.html"><strong aria-hidden="true">3.4.</strong> FAQ</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="gdnative/faq/code.html"><strong aria-hidden="true">3.4.1.</strong> Common code questions</a></li><li class="chapter-item expanded "><a href="gdnative/faq/multithreading.html"><strong aria-hidden="true">3.4.2.</strong> Multithreading</a></li><li class="chapter-item expanded "><a href="gdnative/faq/configuration.html"><strong aria-hidden="true">3.4.3.</strong> Configuration</a></li><li class="chapter-item expanded "><a href="gdnative/faq/support.html"><strong aria-hidden="true">3.4.4.</strong> Versioning and supported platforms</a></li><li class="chapter-item expanded "><a href="gdnative/faq/community.html"><strong aria-hidden="true">3.4.5.</strong> Community</a></li><li class="chapter-item expanded "><a href="gdnative/faq/godot4.html"><strong aria-hidden="true">3.4.6.</strong> Godot 4.0 Status</a></li></ol></li><li class="chapter-item expanded "><a href="gdnative/recipes/index.html"><strong aria-hidden="true">3.5.</strong> Recipes</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="gdnative/recipes/async-tokio.html"><strong aria-hidden="true">3.5.1.</strong> Async with Tokio runtime</a></li><li class="chapter-item expanded "><a href="gdnative/recipes/custom-node-plugin.html"><strong aria-hidden="true">3.5.2.</strong> Custom node plugin</a></li><li class="chapter-item expanded "><a href="gdnative/recipes/external-resources.html"><strong aria-hidden="true">3.5.3.</strong> Loading external resources</a></li><li class="chapter-item expanded "><a href="gdnative/recipes/logging.html"><strong aria-hidden="true">3.5.4.</strong> Logging</a></li><li class="chapter-item expanded "><a href="gdnative/recipes/nix-build-system.html"><strong aria-hidden="true">3.5.5.</strong> Nix as development environment</a></li><li class="chapter-item expanded "><a href="gdnative/recipes/panic-handler.html"><strong aria-hidden="true">3.5.6.</strong> Rust panic handler</a></li></ol></li><li class="chapter-item expanded "><a href="gdnative/export/index.html"><strong aria-hidden="true">3.6.</strong> Exporting</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="gdnative/export/android.html"><strong aria-hidden="true">3.6.1.</strong> Android</a></li><li class="chapter-item expanded "><a href="gdnative/export/ios.html"><strong aria-hidden="true">3.6.2.</strong> (TODO) iOS</a></li><li class="chapter-item expanded "><a href="gdnative/export/macosx.html"><strong aria-hidden="true">3.6.3.</strong> Mac OS X</a></li><li class="chapter-item expanded "><a href="gdnative/export/html5.html"><strong aria-hidden="true">3.6.4.</strong> HTML5</a></li></ol></li><li class="chapter-item expanded "><a href="gdnative/advanced/index.html"><strong aria-hidden="true">3.7.</strong> Advanced Guides</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="gdnative/advanced/custom-godot.html"><strong aria-hidden="true">3.7.1.</strong> Using custom Godot versions</a></li><li class="chapter-item expanded "><a href="gdnative/advanced/migrate-0-8.html"><strong aria-hidden="true">3.7.2.</strong> Migrating from godot-rust 0.8</a></li><li class="chapter-item expanded "><a href="gdnative/advanced/migrate-0-9.html"><strong aria-hidden="true">3.7.3.</strong> Migrating from godot-rust 0.9</a></li><li class="chapter-item expanded "><a href="gdnative/advanced/migrate-0-10.html"><strong aria-hidden="true">3.7.4.</strong> Migrating from godot-rust 0.10</a></li></ol></li></ol></li><li class="chapter-item expanded "><a href="projects/index.html"><strong aria-hidden="true">4.</strong> Third-party projects</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="projects/games.html"><strong aria-hidden="true">4.1.</strong> Games</a></li><li class="chapter-item expanded "><a href="projects/tools.html"><strong aria-hidden="true">4.2.</strong> Tools and integrations</a></li><li class="chapter-item expanded "><a href="projects/applications.html"><strong aria-hidden="true">4.3.</strong> Applications</a></li></ol></li></ol>
             </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
 
+        <!-- Track and set sidebar scroll position -->
+        <script>
+            var sidebarScrollbox = document.querySelector('#sidebar .sidebar-scrollbox');
+            sidebarScrollbox.addEventListener('click', function(e) {
+                if (e.target.tagName === 'A') {
+                    sessionStorage.setItem('sidebar-scroll', sidebarScrollbox.scrollTop);
+                }
+            }, { passive: true });
+            var sidebarScrollTop = sessionStorage.getItem('sidebar-scroll');
+            sessionStorage.removeItem('sidebar-scroll');
+            if (sidebarScrollTop) {
+                // preserve sidebar scroll position when navigating via links within sidebar
+                sidebarScrollbox.scrollTop = sidebarScrollTop;
+            } else {
+                // scroll sidebar to current active section when navigating via "next/previous chapter" buttons
+                var activeSection = document.querySelector('#sidebar .active');
+                if (activeSection) {
+                    activeSection.scrollIntoView({ block: 'center' });
+                }
+            }
+        </script>
+
         <div id="page-wrapper" class="page-wrapper">
 
             <div class="page">
-                <div id="menu-bar-hover-placeholder"></div>
-                <div id="menu-bar" class="menu-bar sticky bordered">
+                                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
                     <div class="left-buttons">
                         <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
                             <i class="fa fa-bars"></i>
@@ -94,7 +125,7 @@
                             <i class="fa fa-paint-brush"></i>
                         </button>
                         <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
-                            <li role="none"><button role="menuitem" class="theme" id="light">Light (default)</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
@@ -114,6 +145,7 @@
                         <a href="https://github.com/godot-rust/book" title="Git repository" aria-label="Git repository">
                             <i id="git-repository-button" class="fa fa-github"></i>
                         </a>
+
                     </div>
                 </div>
 
@@ -127,8 +159,9 @@
                         </ul>
                     </div>
                 </div>
+
                 <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
-                <script type="text/javascript">
+                <script>
                     document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
                     document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
                     Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
@@ -199,14 +232,12 @@ not easily be used as custom resources, etc. With GDExtension, user-defined clas
 <p>There is no differentiation between &quot;tool&quot; and &quot;normal&quot; scripts anymore; Rust logic runs as soon as the Godot editor launches.
 gdext will likely add an opt-out mechanism to limit execution to the launched game, as that's usually the intended behavior.
 Currently, if you want logic to execute only when the game runs, write this code at the beginning of your process functions:</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>if Engine::singleton().is_editor_hint() {
    return;
 }
-<span class="boring">}
-</span></code></pre></pre>
+<span class="boring">}</span></code></pre></pre>
 </li>
 <li>
 <p><strong>No recompilation while editor is open</strong></p>
@@ -216,7 +247,21 @@ is no longer possible in GDExtension, at least not on all platforms. This limita
 </ol>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="getting-started"><a class="header" href="#getting-started">Getting Started</a></h1>
 <p>This chapter guides you through the process of setting up <strong>gdext</strong> and developing your first application with it.</p>
-<p>In addition to this book, use the following resources to learn more about the project:</p>
+<div id="admonition-note" class="admonition note">
+<div class="admonition-title">
+<p>Note</p>
+<p><a class="admonition-anchor-link" href="gdext/intro/index.html#admonition-note"></a></p>
+</div>
+<div>
+<p>To read this book, we assume intermediate Rust knowledge. If you are new to Rust, reading the <a href="https://doc.rust-lang.org/book">Rust Book</a> first
+is highly encouraged. You won't need to know 100% of the language, but you should know basic concepts (type system, generics,
+traits, borrow checking, safety).</p>
+<p>Some familiarity with Godot is also necessary, although it is possible to learn gdext together with Godot. 
+However, we won't reiterate basic Godot concepts -- so if you choose that approach, we recommend to read
+<a href="https://docs.godotengine.org/en/stable/about/introduction.html">the official Godot tutorial</a> in parallel.</p>
+</div>
+</div>
+<p>In addition to this book, you can use the following resources to learn more about the project:</p>
 <ul>
 <li>The <a href="https://godot-rust.github.io/docs/gdext">official API documentation</a>.</li>
 <li>A small example game <a href="https://github.com/godot-rust/gdext/tree/master/examples/dodge-the-creeps">Dodge the Creeps</a>.</li>
@@ -224,7 +269,7 @@ is no longer possible in GDExtension, at least not on all platforms. This limita
 <div style="break-before: page; page-break-before: always;"></div><h1 id="setup"><a class="header" href="#setup">Setup</a></h1>
 <p>To use gdext, we need a few technologies.</p>
 <h2 id="godot-engine"><a class="header" href="#godot-engine">Godot Engine</a></h2>
-<p>While you can write Rust code without having the Godot engine, we highly recommend to install Godot for feedback loops.
+<p>While you can write Rust code without having the Godot engine, we highly recommend to install Godot for quick feedback loops.
 For the rest of the tutorial, we assume that you have Godot 4 installed and available either:</p>
 <ul>
 <li>in your <code>PATH</code> as <code>godot4</code>,</li>
@@ -233,7 +278,8 @@ For the rest of the tutorial, we assume that you have Godot 4 installed and avai
 <p>Binaries of Godot 4 can be downloaded <a href="https://godotengine.org/download">from the official website</a>.</p>
 <p>If you plan to target Godot versions different from the latest stable release, please read <a href="gdext/intro/../advanced/compatibility.html">Compatibility and stability</a>.</p>
 <h2 id="rust"><a class="header" href="#rust">Rust</a></h2>
-<p><a href="https://rustup.rs">rustup</a> is the recommended way to install the Rust toolchain, including the compiler, standard library, and Cargo, the package manager. This page contains installation instructions for your platform.</p>
+<p><a href="https://rustup.rs">rustup</a> is the recommended way to install the Rust toolchain, including the compiler, standard library and Cargo (the package manager).
+This page contains installation instructions for your platform.</p>
 <p>After installation of rustup and the <code>stable</code> toolchain, check that they were installed properly:</p>
 <pre><code class="language-bash"># Check Rust toolchain installer version
 rustup -V
@@ -249,7 +295,7 @@ cargo -V
 However, we now provide pre-built artifacts, so that most users can simply add the Cargo dependency and start immediately.
 This also significantly reduces initial compile times, as <code>bindgen</code> was quite heavyweight with its many transitive dependencies.</p>
 <p>You will still need LLVM if you plan to use the <code>custom-godot</code> feature, for example if you have a forked version of Godot or custom
-modules (but not if you need just a different API version; see <a href="gdext/intro/../advanced/godot-version.html">Selecting a Godot version</a>.</p>
+modules (but not if you need just a different API version; see <a href="gdext/intro/../advanced/godot-version.html">Selecting a Godot version</a>).</p>
 <p>You may download LLVM binaries from <a href="https://releases.llvm.org">llvm.org</a>.</p>
 <p>After installation, check that LLVM was installed properly:</p>
 <pre><code class="language-bash"># Check if Clang is installed and registered in PATH
@@ -301,12 +347,24 @@ macos.release = &quot;res://../rust/target/release/{myCrate}.dylib&quot;
 macos.debug.arm64 = &quot;res://../rust/target/debug/{myCrate}.dylib&quot;
 macos.release.arm64 = &quot;res://../rust/target/release/{myCrate}.dylib&quot;
 </code></pre>
-<blockquote>
-<p><strong>Note</strong>: for exporting your project, you'll need to use paths inside <code>res://</code>.</p>
-</blockquote>
-<blockquote>
-<p><strong>Note</strong>: If you specify your cargo compilation target via the <code>--target</code> flag or a <code>.cargo/config.toml</code> file, the rust library will be placed in a path name that includes target architecture, and the <code>.gdextension</code> library paths will need to match. E.g. for M1 Macs (<code>macos.debug.arm64</code> and <code>macos.release.arm64</code>) the path would be <code>&quot;res://../rust/target/aarch64-apple-darwin/debug/{myCrate}.dylib&quot;</code></p>
-</blockquote>
+<div id="admonition-note" class="admonition note">
+<div class="admonition-title">
+<p>Note</p>
+<p><a class="admonition-anchor-link" href="gdext/intro/hello-world.html#admonition-note"></a></p>
+</div>
+<div>
+<p>For exporting your project, you'll need to use paths inside <code>res://</code>.</p>
+</div>
+</div>
+<div id="admonition-note-1" class="admonition note">
+<div class="admonition-title">
+<p>Note</p>
+<p><a class="admonition-anchor-link" href="gdext/intro/hello-world.html#admonition-note-1"></a></p>
+</div>
+<div>
+<p>If you specify your cargo compilation target via the <code>--target</code> flag or a <code>.cargo/config.toml</code> file, the rust library will be placed in a path name that includes target architecture, and the <code>.gdextension</code> library paths will need to match. E.g. for M1 Macs (<code>macos.debug.arm64</code> and <code>macos.release.arm64</code>) the path would be <code>&quot;res://../rust/target/aarch64-apple-darwin/debug/{myCrate}.dylib&quot;</code></p>
+</div>
+</div>
 <h3 id="extension_listcfg"><a class="header" href="#extension_listcfg"><code>extension_list.cfg</code></a></h3>
 <p>A second file <code>res://.godot/extension_list.cfg</code> should be generated once you open the Godot editor for the first time.
 If not, you can also manually create it, simply containing the Godot path to your <code>.gdextension</code> file:</p>
@@ -333,8 +391,7 @@ so that it's easy to revert updates.</p>
 <p>Our C library needs to expose an <em>entry point</em> to Godot: a C function that can be called through the GDExtension.
 Setting this up requires quite some low-level FFI code, which is why gdext abstracts it for you.</p>
 <p>In your <code>lib.rs</code>, add the following:</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>use godot::prelude::*;
 
@@ -342,8 +399,7 @@ struct MyExtension;
 
 #[gdextension]
 unsafe impl ExtensionLibrary for MyExtension {}
-<span class="boring">}
-</span></code></pre></pre>
+<span class="boring">}</span></code></pre></pre>
 <p>There are multiple things going on here:</p>
 <ol>
 <li>Import the <code>prelude</code> module from the <code>godot</code> crate. This module contains the most common symbols in the gdext API.</li>
@@ -357,8 +413,7 @@ unsafe impl ExtensionLibrary for MyExtension {}
 Rust does not natively support inheritance, but the gdext API emulates it to a certain extent.</p>
 <h3 id="class-declaration"><a class="header" href="#class-declaration">Class declaration</a></h3>
 <p>In this example, we declare a class called <code>Player</code>, which inherits <a href="https://godot-rust.github.io/docs/gdext/master/godot/engine/struct.Sprite2D.html"><code>Sprite2D</code></a> (a node type):</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>use godot::prelude::*;
 use godot::engine::Sprite2D;
@@ -372,25 +427,33 @@ struct Player {
     #[base]
     sprite: Base&lt;Sprite2D&gt;
 }
-<span class="boring">}
-</span></code></pre></pre>
+<span class="boring">}</span></code></pre></pre>
 <p>Let's break this down.</p>
 <ol>
 <li>
 <p>The gdext prelude contains the most common symbols. Less frequent classes are located in the <code>engine</code> module.</p>
 </li>
 <li>
-<p>The <code>#[derive]</code> attribute marks the <code>Player</code> struct as class usable by Godot.</p>
-<blockquote>
-<p><strong>Note</strong>: <code>#[derive(GodotClass)]</code> <em>automatically</em> registers the class. 
-Unlike in gdnative, you don't need to have a <code>.gdns</code> file or an <code>add_class()</code> registration call.
-Simply declaring a class is enough to make it available. You will however need to restart the Godot editor to take effect.</p>
-</blockquote>
+<p>The <code>#[derive]</code> attribute registers <code>Player</code> as a class in the Godot engine.
+See <a href="https://godot-rust.github.io/docs/gdext/master/godot/prelude/derive.GodotClass.html">API docs</a> for details about <code>#[derive(GodotClass)]</code>.</p>
 </li>
+</ol>
+<div id="admonition-info" class="admonition info">
+<div class="admonition-title">
+<p>Info</p>
+<p><a class="admonition-anchor-link" href="gdext/intro/hello-world.html#admonition-info"></a></p>
+</div>
+<div>
+<p><code>#[derive(GodotClass)]</code> <em>automatically</em> registers the class -- you don't need an explicit 
+<code>add_class()</code> registration call, or a <code>.gdns</code> file as it was the case with GDNative.</p>
+<p>You will however need to restart the Godot editor to take effect.</p>
+</div>
+</div>
+<ol start="3">
 <li>
 <p>The optional <code>#[class]</code> attribute configures how the class is registered. In this case, we specify that <code>Player</code> inherits Godot's
-<code>Sprite2D</code> class. If you omit the <code>base</code> key, the base class is implicitly <code>RefCounted</code>, just as if you would omit the <code>extends</code>
-keyword in GDScript.</p>
+<code>Sprite2D</code> class. If you don't specify the <code>base</code> key, the base class will implicitly be <code>RefCounted</code>, just as if you omitted the
+<code>extends</code> keyword in GDScript.</p>
 </li>
 <li>
 <p>We define two fields <code>speed</code> and <code>angular_speed</code> for the logic. These are regular Rust fields, no magic involved. More about their use later.</p>
@@ -406,11 +469,22 @@ This is often not a problem, e.g. in data bundles inheriting <code>RefCounted</c
 </ul>
 </li>
 </ol>
+<div id="admonition-warning" class="admonition warning">
+<div class="admonition-title">
+<p>Warning</p>
+<p><a class="admonition-anchor-link" href="gdext/intro/hello-world.html#admonition-warning"></a></p>
+</div>
+<div>
+<p>When adding an instance of your <code>Player</code> class to the scene, make sure to select node type <code>Player</code> and not its base <code>Sprite2D</code>.
+Otherwise, your Rust logic will not run.</p>
+<p>If Godot fails to load a Rust class (e.g. due to an error in your extension), it may silently replace it with its base class.
+Use version control (git) to check for unwanted changes in <code>.tscn</code> files.</p>
+</div>
+</div>
 <h3 id="method-declaration"><a class="header" href="#method-declaration">Method declaration</a></h3>
 <p>Now let's add some logic. We start with overriding the <code>init</code> method, also known as the constructor. 
 This corresponds to GDScript's <code>_init()</code> function.</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>use godot::engine::Sprite2DVirtual;
 
@@ -426,8 +500,7 @@ impl Sprite2DVirtual for Player {
         }
     }
 }
-<span class="boring">}
-</span></code></pre></pre>
+<span class="boring">}</span></code></pre></pre>
 <p>Again, those are multiple pieces working together, let's go through them one by one.</p>
 <ol>
 <li>
@@ -447,8 +520,7 @@ In this example, we assign initial values <code>400.0</code> and <code>PI</code>
 </ol>
 <p>Now that initialization is sorted out, we can move on to actual logic. We would like to continuously rotate the sprite, and thus override
 the <code>process()</code> method. This corresponds to GDScript's <code>_process()</code>. If you need a fixed framerate, use <code>physics_process()</code> instead.</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>use godot::engine::Sprite2DVirtual;
 
@@ -465,8 +537,7 @@ impl Sprite2DVirtual for Player {
         // therefore we convert 'self.angular_speed * delta' which is a f64 to a f32
     }
 }
-<span class="boring">}
-</span></code></pre></pre>
+<span class="boring">}</span></code></pre></pre>
 <p>GDScript uses property syntax here; Rust requires explicit method calls instead. Also, access to base class methods -- such as <code>rotate()</code> in
 this example -- is done via the <code>#[base]</code> field.</p>
 <p>This is a point where you can compile your code, launch Godot and see the result. The sprite should rotate at a constant speed.</p>
@@ -480,8 +551,7 @@ efficient workflow. Unfortunately there is <a href="https://github.com/godotengi
 Check out the <a href="https://docs.godotengine.org/en/stable/tutorials/editor/command_line_tutorial.html">command-line tutorial</a> for more information.</p>
 </blockquote>
 <p>We now add a translation component to the sprite, following <a href="https://docs.godotengine.org/en/stable/getting_started/step_by_step/scripting_first_script.html#complete-script">the upstream tutorial</a>.</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>use godot::engine::Sprite2DVirtual;
 
@@ -503,19 +573,19 @@ impl Sprite2DVirtual for Player {
         self.sprite.translate(velocity * delta as f32);
         
         // or verbose: 
-        // self.sprite.set_position(self.sprite.get_position() + velocity * delta as f32);
+        // self.sprite.set_position(
+        //     self.sprite.get_position() + velocity * delta as f32
+        // );
     }
 }
-<span class="boring">}
-</span></code></pre></pre>
+<span class="boring">}</span></code></pre></pre>
 <p>The result should be a sprite that rotates with an offset.</p>
 <p><img src="https://docs.godotengine.org/en/stable/_images/scripting_first_script_rotating_godot.gif" alt="rotating translated sprite" /></p>
 <h3 id="custom-rust-apis"><a class="header" href="#custom-rust-apis">Custom Rust APIs</a></h3>
 <p>Say you want to add some functionality to your <code>Player</code> class, which can be called from GDScript. For this, you have a separate <code>impl</code> block,
 again annotated with <code>#[godot_api]</code>. However, this time we are using an <em>inherent</em> <code>impl</code> (i.e. without a trait name).</p>
 <p>Concretely, we add a function to increase the speed, and a signal to notify other objects of the speed change.</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>#[godot_api]
 impl Player {
@@ -528,15 +598,14 @@ impl Player {
 	#[signal]
 	fn speed_increased();
 }
-<span class="boring">}
-</span></code></pre></pre>
+<span class="boring">}</span></code></pre></pre>
 <p><code>#[godot_api]</code> takes again the role of exposing the API to the Godot engine. But there are also two new attributes:</p>
 <ul>
 <li><code>#[func]</code> exposes a function to Godot. The parameters and return types are mapped to their corresponding GDScript types. </li>
 <li><code>#[signal]</code> declares a signal. A signal can be emitted with the <code>emit_signal</code> method (which every Godot class provides, since it is inherited
 from <code>Object</code>).</li>
 </ul>
-<p>Generally, API attributes typically follow the GDScript keyword names (<code>class</code>, <code>func</code>, <code>signal</code>, <code>export</code>, <code>var</code>, ...).</p>
+<p>API attributes typically follow the GDScript keyword names: <code>class</code>, <code>func</code>, <code>signal</code>, <code>export</code>, <code>var</code>, ...</p>
 <p>That's it for the <em>Hello World</em> tutorial! The following chapters will go into more detail about the various features that gdext provides.</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="managing-objects-in-rust"><a class="header" href="#managing-objects-in-rust">Managing objects in Rust</a></h1>
 <p>This chapter covers the most central mechanism of the Rust bindings -- one that will accompany you from the Hello-World
@@ -568,7 +637,7 @@ These types, although sometimes called &quot;built-in classes&quot;, are not rea
 <h3 id="inheritance"><a class="header" href="#inheritance">Inheritance</a></h3>
 <p>Inheritance is a central concept in Godot. You likely know it already from the node hierarchy, where derived classes add specific functionality.
 This concept extends to Rust classes, with inheritance being emulated via composition.</p>
-<p>Each Rust class has a base class. You cannot inherit other user-defined classes.</p>
+<p>Each Rust class has a Godot base class. You cannot inherit other Rust classes.</p>
 <ul>
 <li>Typically, a base class is a node type, i.e. it (indirectly) inherits from the class <code>Node</code>. This makes it possible to attach instances
 of the class to the scene tree. Nodes are manually managed, so you need to either add them to the scene tree or free them manually.</li>
@@ -592,28 +661,23 @@ Use it only when you really need it; it requires manual memory management and is
 <ol>
 <li>
 <p>Retrieve a node relative to current -- type inferred as <code>Gd&lt;Node3D&gt;</code>: </p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>let child = self.sprite.get_node_as::&lt;Node3D&gt;(&quot;Child&quot;);
-<span class="boring">}
-</span></code></pre></pre>
+<span class="boring">}</span></code></pre></pre>
 </li>
 <li>
 <p>Load a scene and instantiate it as a <code>RigidBody2D</code>:</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>// mob_scene is declared as a field of type Gd&lt;PackedScene&gt;
 self.mob_scene = load(&quot;res://Mob.tscn&quot;);
 let mut instanced = self.mob_scene.instantiate_as::&lt;RigidBody2D&gt;();
-<span class="boring">}
-</span></code></pre></pre>
+<span class="boring">}</span></code></pre></pre>
 </li>
 <li>
 <p>A signal handler for the <code>body_entered</code> signal of a <code>Node3D</code> in your custom class</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>#[godot_api]
 impl Player {
@@ -622,8 +686,7 @@ impl Player {
         // body holds the reference to the Node3D object that triggered the signal
     }
 }
-<span class="boring">}
-</span></code></pre></pre>
+<span class="boring">}</span></code></pre></pre>
 </li>
 </ol>
 <h2 id="object-lifetime"><a class="header" href="#object-lifetime">Object lifetime</a></h2>
@@ -638,8 +701,13 @@ This typically happens in two scenarios, let's again assume a class <code>Player
 </ul>
 <p>If <code>T</code> is a user-defined type, then a <code>Gd&lt;T&gt;</code> object can be created in multiple ways. Check <a href="https://godot-rust.github.io/docs/gdext/master/godot/obj/struct.Gd.html">the <code>Gd</code> API docs</a> for the most up-to-date
 constructor list. </p>
-<blockquote>
-<p><strong>Note</strong>: <code>init</code> cannot take custom parameters. There are however a few ways around that.</p>
+<div id="admonition-note" class="admonition note">
+<div class="admonition-title">
+<p>Note</p>
+<p><a class="admonition-anchor-link" href="gdext/intro/objects.html#admonition-note"></a></p>
+</div>
+<div>
+<p><code>init</code> cannot take custom parameters. There are however a few ways around that.</p>
 <ul>
 <li>From Rust code, simply call <a href="https://godot-rust.github.io/docs/gdext/master/godot/obj/struct.Gd.html#method.with_base"><code>Gd::with_base()</code></a>.</li>
 <li>From GDScript, you can write a custom method such as <code>post_init()</code>, which late-initializes fields. This will reduce type safety though,
@@ -647,7 +715,8 @@ needing <code>Option</code> for fields whose values aren't available at initiali
 <li>Another alternative is to use a third-party class such as <code>PlayerFactory</code>, which has a method accepting parameters and returning a
 fully-constructed <code>Player</code> instance.</li>
 </ul>
-</blockquote>
+</div>
+</div>
 <p>If your <code>T</code> contains a <code>#[base]</code> field, you cannot create a standalone <code>T</code> object -- you must encapsulate it in <code>Gd&lt;T&gt;</code>.
 You can also not extract a <code>T</code> from a <code>Gd&lt;T&gt;</code> smart pointer anymore; since it has potentially been shared with the Godot engine, this would
 not be a safe operation.</p>
@@ -673,7 +742,7 @@ Nothing is more annoying than updating the engine and recompiling 10 plugins/ext
 <p>This is sometimes difficult, because:</p>
 <ul>
 <li>Godot may introduce subtle breaking changes of which we are not aware.</li>
-<li>Some changes that are non-breaking in C++ and GDScript are breaking in Rust (e.g. default parameters).</li>
+<li>Some changes that are non-breaking in C++ and GDScript are breaking in Rust (e.g. providing a default value for a previously required parameter).</li>
 <li>Using newer features needs to come with a fallback/polyfill for older Godot versions.</li>
 </ul>
 <p>We run CI jobs against multiple Godot versions, to get a certain level of confidence that updates do not break compatibility.
@@ -755,7 +824,7 @@ Consult the <a href="gdext/advanced/../intro/setup.html#llvm">setup page</a> for
 In case you are simply using gdext, you can skip this chapter.</p>
 <p>If you haven't already, please read the <a href="https://github.com/godot-rust/gdext/blob/master/Contributing.md">Contributing guidelines</a> in the repository first.
 The rest of this chapter explains developer tools and workflows in more detail. Check out the respective subchapters.</p>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="dev-tools"><a class="header" href="#dev-tools">Dev tools</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="dev-tools-and-testing"><a class="header" href="#dev-tools-and-testing">Dev tools and testing</a></h1>
 <p>The library comes with a handful of tools and tricks to ease development. 
 This page goes into different aspects of the contributing experience.</p>
 <ul>
@@ -799,8 +868,7 @@ Use <code>dok</code> instead of <code>doc</code> to open the page in the browser
 <p>The <code>itest</code> directory contains a suite of integration tests. It is split into two directories:
 <code>rust</code>, containing the Rust code for the GDExtension library, and <code>godot</code> with the Godot project and GDScript tests.</p>
 <p>Similar to <code>#[test]</code>, the function annotated by <code>#[itest]</code> contains one integration test. There are multiple syntax variations:</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>// Use a Godot API and verify the results using assertions.
 #[itest]
@@ -832,8 +900,7 @@ fn not_executed() {
 fn i_need_to_debug_this() {
     // ...
 }
-<span class="boring">}
-</span></code></pre></pre>
+<span class="boring">}</span></code></pre></pre>
 <p>You can run the integration tests like this:</p>
 <pre><code class="language-bash">$ ./check.sh itest
 </code></pre>
@@ -880,7 +947,7 @@ As a result, our code is portable between Godot binaries compiled with <code>pre
 <li><a href="gdext/contribute/conventions.html#code-organization">Code organization</a></li>
 <li><a href="gdext/contribute/conventions.html#types">Types</a></li>
 <li><a href="gdext/contribute/conventions.html#functions">Functions</a></li>
-<li><a href="gdext/contribute/conventions.html#proc-macro-attributes">Proc-macro attributes</a></li>
+<li><a href="gdext/contribute/conventions.html#attributes">Attributes</a></li>
 </ul>
 </li>
 </ul>
@@ -916,7 +983,8 @@ Do not over-engineer prematurely just because it's possible; follow <a href="htt
 <li>Examples to avoid: traits that are not used polymorphically, type-state pattern, many generic parameters,
 layers of wrapper types/functions that simply delegate logic.</li>
 <li>Sometimes, runtime errors are better than compile-time errors. Most users are building a game, where fast iteration is key.
-Use <code>Option</code>/<code>Result</code> when errors are recoverable, and panics when the user must fix their code. See also <a href="https://godot-rust.github.io/docs/gdext/master/godot/#ergonomics-and-panics">Ergonomics and panics</a>.</li>
+Use <code>Option</code>/<code>Result</code> when errors are recoverable, and panics when the user must fix their code. 
+See also <a href="https://godot-rust.github.io/docs/gdext/master/godot/#ergonomics-and-panics">Ergonomics and panics</a>.</li>
 </ul>
 </li>
 <li>
@@ -940,9 +1008,17 @@ This reduces the cognitive load of learning and using the library, requires less
 </ul>
 </li>
 </ol>
-<p>See these as guidelines, not hard rules. If you are unsure, please don't hesitate to ask questions and discuss different ideas.
-We highly appreciate if people come up with a rough design before spending a large amount of time on implementation; this helps
-save time on approaches that may not work.</p>
+<p>See these as guidelines, not hard rules. If you are unsure, please don't hesitate to ask questions and discuss different ideas.</p>
+<div id="admonition-tip" class="admonition tip">
+<div class="admonition-title">
+<p>Tip</p>
+<p><a class="admonition-anchor-link" href="gdext/contribute/conventions.html#admonition-tip"></a></p>
+</div>
+<div>
+<p>We highly appreciate if contributors propose a rough design before spending large effort on implementation.
+This aligns ideas early and saves time on approaches that may not work.</p>
+</div>
+</div>
 <h2 id="technicalities"><a class="header" href="#technicalities">Technicalities</a></h2>
 <p>This section lists specific style conventions that have caused some confusion in the past.
 Following them is nice for consistency, but it's not the top priority of this project. Hopefully, we can automate some of them over time.</p>
@@ -976,6 +1052,17 @@ We use separators starting with  <code>// ---</code> to visually divide sections
 <li>
 <p>Inside files, there is no strict order yet, except <code>use</code> and <code>mod</code> at the top. Prefer to declare public-facing symbols before private ones.</p>
 </li>
+<li>
+<p>Use flat import statements. If multiple paths have different prefixes, put them on separate lines. Avoid <code>self</code>.</p>
+<pre><code class="language-rs">// Good:
+use crate::module;
+use crate::module::{Type, function};
+use crate::module::nested::{Trait, some_macro};
+
+// Bad:
+use crate::module::{self, Type, function, nested::{Trait, some_macro}};
+</code></pre>
+</li>
 </ol>
 <h3 id="types"><a class="header" href="#types">Types</a></h3>
 <ol>
@@ -1001,13 +1088,15 @@ More expressive ones (<code>Copy</code>, <code>Eq</code>) precede their implied 
 <p>Use <code>self</code> instead of <code>&amp;self</code> for <code>Copy</code> types, unless they are really big (such as <code>Transform3D</code>).</p>
 </li>
 <li>
-<p>For <code>Copy</code> types, avoid in-place mutation <code>vector.normalize()</code> and prefer <code>vector = vector.normalized()</code>.</p>
+<p>For <code>Copy</code> types, avoid in-place mutation <code>vector.normalize()</code>.<br />
+Instead, use <code>vector = vector.normalized()</code>. The past tense indicates a copy.</p>
 </li>
 <li>
-<p>Annotate with <code>#[must_use]</code> when ignoring the return value is likely an error. Example: builder APIs.</p>
+<p>Annotate with <code>#[must_use]</code> when ignoring the return value is likely an error.<br />
+Example: builder APIs.</p>
 </li>
 </ol>
-<h3 id="proc-macro-attributes"><a class="header" href="#proc-macro-attributes">Proc-macro attributes</a></h3>
+<h3 id="attributes"><a class="header" href="#attributes">Attributes</a></h3>
 <p>Concerns both <code>#[proc_macro_attribute]</code> and the attributes attached to a <code>#[proc_macro_derive]</code>.</p>
 <ol>
 <li>
@@ -1115,8 +1204,7 @@ gdnative = &quot;0.10&quot;
 </blockquote>
 <h2 id="boilerplate"><a class="header" href="#boilerplate">Boilerplate</a></h2>
 <p>You should now be able to compile your crate into a dynamic library, but a little bit of boilerplate is required before Godot can actually be able to load it as a GDNative library. Replace the contents of <code>lib.rs</code> with the following code:</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>use gdnative::prelude::*;
 
@@ -1126,32 +1214,25 @@ fn init(handle: InitHandle) {
 
 // Macro that creates the entry-points of the dynamic library.
 godot_init!(init);
-<span class="boring">}
-</span></code></pre></pre>
+<span class="boring">}</span></code></pre></pre>
 <p>The code does several things:</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>use gdnative::prelude::*;
-<span class="boring">}
-</span></code></pre></pre>
+<span class="boring">}</span></code></pre></pre>
 <p>This imports a number of commonly used types and traits into the scope. Generally, you'll want this at the top of every file where you need to interact with GDNative.</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>// Function that registers all exposed classes to Godot
 fn init(handle: InitHandle) {
 }
-<span class="boring">}
-</span></code></pre></pre>
+<span class="boring">}</span></code></pre></pre>
 <p>This declares an empty callback function, which is called when the library is loaded by Godot. All script classes in the library should be &quot;registered&quot; here using <code>handle.add_class::&lt;MyNativeClass&gt;()</code>. You only need <em>one</em> of this in the entire library.</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>// Macro that creates the entry-points of the dynamic library.
 godot_init!(init);
-<span class="boring">}
-</span></code></pre></pre>
+<span class="boring">}</span></code></pre></pre>
 <p>This macro defines the necessary C callbacks used by Godot. You only need <em>one</em> invocation of this macro in the entire library. Note how the <code>init</code> function defined earlier is given to the <code>godot_init!</code> macro as a callback.</p>
 <blockquote>
 <h3 id="gdnative-internals"><a class="header" href="#gdnative-internals">GDNative internals</a></h3>
@@ -1160,8 +1241,7 @@ godot_init!(init);
 <h2 id="your-first-script"><a class="header" href="#your-first-script">Your first script</a></h2>
 <p>With the boilerplate put into place, you can now create your first Rust script! We will go step by step and discover what's needed to create script &quot;classes&quot;. Intermediate code versions might not compile, but at the end of this section it should be working!</p>
 <p>A script is simply a Rust type that implements (derives) the <code>NativeClass</code> trait:</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>/// The HelloWorld &quot;class&quot;
 #[derive(NativeClass)]
@@ -1173,12 +1253,10 @@ fn init(handle: InitHandle) {
     // Register the new `HelloWorld` type we just declared.
     handle.add_class::&lt;HelloWorld&gt;();
 }
-<span class="boring">}
-</span></code></pre></pre>
+<span class="boring">}</span></code></pre></pre>
 <p>Similar to the GDScript <code>extends</code> directive, the <code>inherit</code> attribute tells godot-rust the most general base class your script can be attached to. Here, <code>Node</code> is the parent class of all nodes in the scene tree, so it would be possible to attach <code>HelloWorld</code> to any node or scene in Godot.</p>
 <p>Unfortunately, this won't compile just yet: Rust will complain about the lack of a <code>new</code> method and a <code>NativeClassMethods</code> trait. This is because all scripts must also have a zero-argument constructor and a set of exported methods. To fix this, simply add two <code>impl</code> blocks:</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>// You may add any number of ordinary `impl` blocks as you want. However, ...
 impl HelloWorld {
@@ -1193,8 +1271,7 @@ impl HelloWorld {
 #[methods]
 impl HelloWorld {
 }
-<span class="boring">}
-</span></code></pre></pre>
+<span class="boring">}</span></code></pre></pre>
 <p>The <code>HelloWorld</code> type is like any regular Rust type, and can have any number of ordinary <code>impl</code> blocks. However, it must have <strong>one and only one</strong> <code>impl</code> block with the <code>#[methods]</code> attribute, which tells godot-rust to generate code that automatically binds any exported methods to Godot.</p>
 <h2 id="creating-the-nativescript-resource"><a class="header" href="#creating-the-nativescript-resource">Creating the NativeScript resource</a></h2>
 <p>You should now be able to build the dynamic library with a <code>HelloWorld</code> script class in it. However, we also need to tell Godot about it. To do this, build the library with <code>cargo build</code>.</p>
@@ -1214,8 +1291,7 @@ impl HelloWorld {
 <p><img src="gdnative/intro/img/attach_resource.png" alt="Attach Resource" /></p>
 <h2 id="overriding-a-godot-method"><a class="header" href="#overriding-a-godot-method">Overriding a Godot method</a></h2>
 <p>You can now run your project from the editor! If all goes correctly, it should launch but do nothing. That's because we haven't added any actual behaviors yet! To make our script actually do something, we can override the <a href="https://docs.godotengine.org/en/stable/classes/class_node.html#class-node-method-ready"><code>_ready</code></a> method in the <code>impl</code> block with the <code>#[methods]</code> attribute:</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>// Only __one__ `impl` block can have the `#[methods]` attribute, which
 // will generate code to automatically bind any exported methods to Godot.
@@ -1237,8 +1313,7 @@ impl HelloWorld {
         godot_print!(&quot;Hello world from node {}!&quot;, base.to_string());
     }
 }
-<span class="boring">}
-</span></code></pre></pre>
+<span class="boring">}</span></code></pre></pre>
 <p>Here, the <code>#[method]</code> attribute is used to tell godot-rust to expose your methods to Godot. In this case, we are overriding <a href="https://docs.godotengine.org/en/stable/classes/class_node.html#class-node-method-ready"><code>_ready</code></a> and printing a line of text.</p>
 <p>Now, re-compile the crate using <code>cargo build</code> and copy the resulting binary to the Godot project. Launch the project from the editor, and you should see <code>Hello, world!</code> in the Godot console!</p>
 <h2 id="wrapping-it-up"><a class="header" href="#wrapping-it-up">Wrapping it up</a></h2>
@@ -1308,21 +1383,18 @@ Data set that is loaded from disk and cached in memory, for example 3D meshes, m
 <li>for all other types (i.e. the type <code>Object</code> and inheritors of <code>Node</code>), <code>Ref&lt;T&gt;</code> behaves like a raw pointer with manual memory management.</li>
 </ul>
 <p>For example, storing a reference to a Godot <code>Node2D</code> instance in a struct would look as follows:</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>struct GodotNode {
 	node_ref: Ref&lt;Node2D&gt;,
 }
-<span class="boring">}
-</span></code></pre></pre>
+<span class="boring">}</span></code></pre></pre>
 <p><em>See <code>Ref</code> in
 <a href="https://docs.rs/gdnative/latest/gdnative/object/struct.Ref.html">godot-rust docs</a></em></p>
 <h2 id="tref-temporary-reference"><a class="header" href="#tref-temporary-reference"><code>TRef</code>: temporary reference</a></h2>
 <p>While <code>Ref</code> is a persistent pointer to retain references to Godot objects for an extended period of time, it doesn't grant access to the underlying Godot object. The reason for this is that <code>Ref</code> cannot generally guarantee that the underlying object, which is managed by the Godot engine, is valid at the time of the access. However, you as a user are in control of GDScript code and the scene tree, thus you can assert that an object is valid at a certain point in time by using <code>assume_safe()</code>. This is an unsafe function that returns a <code>gdnative::TRef&lt;T, Access&gt;</code> object, which allows you to call methods on the node. You are responsible for this assumption to be correct; violating it can lead to undefined behavior.</p>
 <p>The following example demonstrates <code>TRef</code>. A node is stored inside a Rust struct, and its position is modified through <code>set_position()</code>. This approach could be used in an ECS (Entity-Component-System) architecture, where <code>GodotNode</code> is a component, updated by a system.</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>struct GodotNode {
     node_ref: Ref&lt;Node2D&gt;,
@@ -1338,8 +1410,7 @@ fn update_position(node: &amp;GodotNode) {
     // this implicitly invokes deref(), turning TRef&lt;Node2D&gt; into &amp;Node2D
     node.set_position(pos);
 }
-<span class="boring">}
-</span></code></pre></pre>
+<span class="boring">}</span></code></pre></pre>
 <p>Note that the parameter type is <code>&amp;GodotNode</code>, not <code>&amp;mut GodotNode</code>. Then why is it possible to mutate the Godot object?</p>
 <p>All Godot classes in Rust (<code>Object</code> and its subtypes) have only methods that operate on <code>&amp;self</code>, not <code>&amp;mut self</code>. The reason for this choice is that <code>&amp;mut</code> is -- strictly speaking -- not a mutable reference, but rather an <a href="https://docs.rs/dtolnay/latest/dtolnay/macro._02__reference_types.html"><em>exclusive</em> reference</a>. The one and only thing it guarantees is that while it exists, no other reference to the same object can exist (no aliasing). Since all the Godot classes can be shared with the Godot engine, which is written in C++ and allows free aliasing, using <code>&amp;mut</code> references would potentially violate the exclusivity, leading to UB. This is why <code>&amp;T</code> is used, and just like e.g. <code>&amp;RefCell</code> it <em>does</em> allow mutation.</p>
 <p>This being said, it can still make sense to bring back some type safety on a higher level in your own code. For example, you could make the <code>update_position()</code> take a <code>&amp;mut GodotNode</code> parameter, to make sure that access to this <code>GodotNode</code> object is exclusive.</p>
@@ -1355,8 +1426,7 @@ fn update_position(node: &amp;GodotNode) {
 <p>When passing around your own Rust types, you will thus be working with <code>Instance</code>. The traits <code>ToVariant</code>, <code>FromVariant</code> and <code>OwnedToVariant</code> are automatically implemented for <code>Instance</code> types, allowing you to pass them from and to the Godot engine.</p>
 <h3 id="construction-1"><a class="header" href="#construction-1">Construction</a></h3>
 <p>Let's use a straightforward example: a player with name and score. Exported methods and properties are omitted for simplicity; the full interfacing will be explained later in <a href="gdnative/overview/../bind/calling-gdscript.html">Calling into GDScript from Rust</a>.</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>#[derive(NativeClass)]
 // no #[inherit], thus inherits Reference by default
@@ -1374,12 +1444,10 @@ impl Player {
         }
     }
 }
-<span class="boring">}
-</span></code></pre></pre>
+<span class="boring">}</span></code></pre></pre>
 <p>To create a default instance, use <code>Instance::new_instance()</code>.<br />
 You can later use <code>map()</code> and <code>map_mut()</code> to access the <code>Instance</code> immutably and mutably.</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>let instance: Instance&lt;Reference, Unique&gt; = Instance::new();
 // or:
@@ -1390,11 +1458,9 @@ instance.map_mut(|p: &amp;mut Player, _base: TRef&lt;Reference, Unique&gt;| {
     p.name = &quot;Joe&quot;.to_string();
     p.score = 120;
 });
-<span class="boring">}
-</span></code></pre></pre>
+<span class="boring">}</span></code></pre></pre>
 <p>If you don't need a Godot-enabled default constructor, use the <code>#[no_constructor]</code> attribute and define your own Rust <code>new()</code> constructor.</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>#[derive(NativeClass)]
 #[no_constructor]
@@ -1409,19 +1475,16 @@ impl Player {
        Self { name: name.to_string(), score }
     }
 }
-<span class="boring">}
-</span></code></pre></pre>
+<span class="boring">}</span></code></pre></pre>
 <p>In this case, you can construct an <code>Instance</code> from an existing Rust object using <code>Instance::emplace()</code>:</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>let player = Player::new(&quot;Joe&quot;, 120);
 
 let instance = Instance::emplace(player);
 // or:
 let instance = player.emplace();
-<span class="boring">}
-</span></code></pre></pre>
+<span class="boring">}</span></code></pre></pre>
 <p><em>See <code>Instance</code> in
 <a href="https://docs.rs/gdnative/latest/gdnative/object/struct.Instance.html">godot-rust docs</a></em></p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="game-architecture"><a class="header" href="#game-architecture">Game architecture</a></h1>
@@ -1523,24 +1586,19 @@ let instance = player.emplace();
 <p>When working with godot-rust, your Rust code sits inside a dynamic library with C ABI (<code>cdylib</code>), which is loaded at runtime from the Godot engine. The engine works as the host application with the entry and exit point, and your Rust code will be loaded at some point after Godot starts and unloaded before it ends.</p>
 <p>This workflow implies that when you want to execute Rust code, you need to first pass control from Godot to it. To achieve this, every godot-rust application integrated with the engine must expose a public interface, through which Godot can invoke Rust code.</p>
 <p>Somewhere in your code, usually in <code>lib.rs</code>, you need to declare the functions that will be called by the engine when the native library is loaded and unloaded, as well as the registration function for native classes exposed to the engine. godot-rust provides the following macros (consult <a href="https://docs.rs/gdnative/latest/gdnative/index.html#macros">their documentation</a> for further info and customization):</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>godot_gdnative_init!();
 godot_nativescript_init!(init);
 godot_gdnative_terminate!();
-<span class="boring">}
-</span></code></pre></pre>
+<span class="boring">}</span></code></pre></pre>
 <p>Or the equivalent short-hand:</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>godot_init!(init);
-<span class="boring">}
-</span></code></pre></pre>
+<span class="boring">}</span></code></pre></pre>
 <p>The argument <code>init</code> refers to the function registering native script classes, which is also defined by you. For this chapter, let's assume you want to write a class <code>GodotApi</code>, which exposes a public interface to be invoked from Godot. The registration is then as follows:</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>// see details later
 struct GodotApi { ... }
@@ -1548,12 +1606,10 @@ struct GodotApi { ... }
 fn init(handle: InitHandle) {
     handle.add_class::&lt;GodotApi&gt;();
 }
-<span class="boring">}
-</span></code></pre></pre>
+<span class="boring">}</span></code></pre></pre>
 <h2 id="class-definition"><a class="header" href="#class-definition">Class definition</a></h2>
 <p>Similar to the <a href="gdnative/bind/../getting-started/hello-world.html#overriding-a-godot-method">Hello World</a> example, we can define the <code>GodotApi</code> native class as follows:</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>// Tell godot-rust that this struct is exported as a native class 
 // (implements NativeClass trait)
@@ -1576,8 +1632,7 @@ impl GodotApi {
     // or:
     fn new(base: TRef&lt;Node&gt;) -&gt; Self { ... }
 }
-<span class="boring">}
-</span></code></pre></pre>
+<span class="boring">}</span></code></pre></pre>
 <p>The <a href="https://docs.rs/gdnative/latest/gdnative/derive.NativeClass.html"><code>#[derive(NativeClass)]</code> macro</a> enables a Rust type to be usable as a <em>native class</em> in Godot. It implements <a href="https://docs.rs/gdnative/latest/gdnative/nativescript/trait.NativeClass.html">the <code>NativeClass</code> trait</a>, which fills in the glue code required to make the class available in Godot. Among other information, this includes class name and registry of exported methods and properties. For the user, the utility methods <code>new_instance()</code> and <code>emplace()</code> are provided for constructing <code>Instance</code> objects.</p>
 <p>The function <code>new()</code> corresponds to <code>_init()</code> in GDScript. The <em>base</em> is the base object of the script, and must correspond to the class specified in the <code>#[inherit]</code> attribute (or <code>Reference</code> if the attribute is absent). The parameter can be a shared reference <code>&amp;T</code> or a <code>TRef&lt;T&gt;</code>.</p>
 <p>With a <code>new()</code> method, you are able to write <code>GodotApi.new()</code> in GDScript. If you don't need this, you can add the <code>#[no_constructor]</code> attribute to the struct declaration.</p>
@@ -1591,8 +1646,7 @@ It keeps working for the time being though (i.e. gdnative 0.11).</p>
 <p>For more information, see <a href="https://godot-rust.github.io/docs/gdnative/derive/derive.NativeClass.html"><code>gdnative::derive::NativeClass</code></a>.</p>
 </blockquote>
 <p>The exported method's first parameter is always <code>&amp;self</code> or <code>&amp;mut self</code> (operating on the Rust object), and the second parameter is <code>&amp;T</code> or <code>TRef&lt;T&gt;</code> (operating on the Godot base object, with <code>T</code> being the inherited type).</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>#[derive(NativeClass)]
 #[inherit(Node)]
@@ -1633,8 +1687,7 @@ impl GodotApi {
         self.enemy_count
     }  
 }
-<span class="boring">}
-</span></code></pre></pre>
+<span class="boring">}</span></code></pre></pre>
 <p>The two creation methods are semantically equivalent, yet they demonstrate how godot-rust implicitly converts the values to the parameter types (unmarshalling). You could use <code>Variant</code> everywhere, however it is more type-safe and expressive to use specific types. The same applies to return types, you could use <code>Variant</code> instead of <code>i32</code>.
 <code>GodotString</code> is the Godot engine string type, but it can be converted to standard <code>String</code>. To choose between the two, consult <a href="https://docs.rs/gdnative/latest/gdnative/core_types/struct.GodotString.html">the docs</a>.</p>
 <p>In GDScript, you can then write this code:</p>
@@ -1657,8 +1710,7 @@ enemies: 2
 <h2 id="passing-classes"><a class="header" href="#passing-classes">Passing classes</a></h2>
 <p>The above examples have dealt with simple types such as strings and integers. What if we want to pass entire classes to Rust?</p>
 <p>Let's say we want to pass in an enemy from GDScript, instead of creating one locally. It could be represented by the <code>Node2D</code> class and directly configured in the Godot editor. What you then would do is use <a href="gdnative/bind/../overview/wrappers.html">the <code>Ref</code> wrapper</a>:</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>#[derive(NativeClass)]
 #[inherit(Node)]
@@ -1689,13 +1741,11 @@ impl GodotApi {
         self.enemies.clone()
     }
 }
-<span class="boring">}
-</span></code></pre></pre>
+<span class="boring">}</span></code></pre></pre>
 <h2 id="special-methods"><a class="header" href="#special-methods">Special methods</a></h2>
 <p>Godot offers some special methods. Most of them implement <a href="https://docs.godotengine.org/en/stable/getting_started/workflow/best_practices/godot_notifications.html">notifications</a>, i.e. callbacks from the engine to notify the class about a change.</p>
 <p>If you need to override a Godot special method, just declare it as a normal exported method, with the same name and signature as in GDScript. You can also omit the base parameter if you don't need it.</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>#[method]
 fn _ready(&amp;mut self, #[base] base: &amp;Node) {...}
@@ -1705,24 +1755,20 @@ fn _process(&amp;mut self, #[base] base: &amp;Node, delta: f32) {...}
 
 #[method]
 fn _physics_process(&amp;mut self, #[base] base: &amp;Node, delta: f32) {...}
-<span class="boring">}
-</span></code></pre></pre>
+<span class="boring">}</span></code></pre></pre>
 <p>If you want to change how GDScript's default formatter in functions like <code>str()</code> or <code>print()</code> works, you can overload the <code>to_string</code> GDScript method, which corresponds to the following Rust method:</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>#[method]
 fn _to_string(&amp;self, #[base] base: &amp;Node) -&gt; String {...}
-<span class="boring">}
-</span></code></pre></pre>
+<span class="boring">}</span></code></pre></pre>
 <h2 id="errors"><a class="header" href="#errors">Errors</a></h2>
 <p>If you pass arguments from GDScript that are incompatible with the Rust method's signature, the method invocation will fail. In this case, the code inside the method is not executed. An error message is printed on the Godot console, and the value <code>null</code> is returned for the GDScript function call.</p>
 <p>If code inside your method panics (e.g. by calling <code>unwrap()</code> on an empty option/result), the same happens: error message and return value <code>null</code>.</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="exported-properties"><a class="header" href="#exported-properties">Exported properties</a></h1>
 <p>Like methods, properties can be exported. The <code>#[property]</code> attribute above a field declaration makes the field available to Godot, with its name and type.</p>
 <p>In the previous example, we could replace the <code>count_enemies()</code> method with a property <code>enemy_count</code>.</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>#[derive(NativeClass)]
 #[inherit(Node)]
@@ -1730,8 +1776,7 @@ pub struct GodotApi {
     #[property]
     enemy_count: i32,
 }
-<span class="boring">}
-</span></code></pre></pre>
+<span class="boring">}</span></code></pre></pre>
 <p>The GDScript code would be changed as follows.</p>
 <pre><code class="language-python">print(&quot;enemies: &quot;, api.enemy_count)
 </code></pre>
@@ -1739,21 +1784,17 @@ pub struct GodotApi {
 <h2 id="export-options"><a class="header" href="#export-options">Export options</a></h2>
 <p>The <code>#[property]</code> attribute can accept a several options to refine the export behavior.</p>
 <p>You can specify default property value with the following argument:</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>#[property(default = 10)]
 enemy_count: i32,
-<span class="boring">}
-</span></code></pre></pre>
+<span class="boring">}</span></code></pre></pre>
 <p>If you need to hide this property in Godot editor, use <code>no_editor</code> option:</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>#[property(no_editor)]
 enemy_count: i32,
-<span class="boring">}
-</span></code></pre></pre>
+<span class="boring">}</span></code></pre></pre>
 <h2 id="property-getset"><a class="header" href="#property-getset">Property get/set</a></h2>
 <p>Properties can register <code>set</code> and <code>get</code> methods to be called from Godot.</p>
 <p>Default get/set functions can be registered as per the following example:</p>
@@ -1768,8 +1809,7 @@ struct GodotApi {
 }
 </code></pre>
 <p>If you need custom setters and getters, you can set them in the <code>property</code> attribute such as in the following example:</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>#[derive(NativeClass)]
 #[inherit(Node)]
@@ -1797,8 +1837,7 @@ impl HelloWorld {
         self.prop = value;
     }
 }
-<span class="boring">}
-</span></code></pre></pre>
+<span class="boring">}</span></code></pre></pre>
 <h3 id="note-get-vs-get_ref"><a class="header" href="#note-get-vs-get_ref">Note: <code>get</code> vs <code>get_ref</code></a></h3>
 <p>There are two ways to return the property.</p>
 <ul>
@@ -1806,8 +1845,7 @@ impl HelloWorld {
 <li><code>get_ref</code> must point to a function that returns <code>&amp;T</code>, this is useful when working with large data that would be very expensive to copy unnecessarily.</li>
 </ul>
 <p>Modifying the previous example accordingly results in the following:</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>#[derive(NativeClass)]
 #[inherit(Node)]
@@ -1835,14 +1873,12 @@ impl GodotApi {
         self.prop = value;
     }
 }
-<span class="boring">}
-</span></code></pre></pre>
+<span class="boring">}</span></code></pre></pre>
 <h2 id="manual-property-registration"><a class="header" href="#manual-property-registration">Manual property registration</a></h2>
 <p>For cases not covered by the <code>#[property]</code> attribute, it may be necessary to manually register the properties instead.</p>
 <p>This is often the case where custom hint behavior is desired for primitive types, such as an Integer value including an <code>IntEnum</code> hint.</p>
 <p>To do so, you can use the <a href="https://docs.rs/gdnative/latest/gdnative/prelude/struct.ClassBuilder.html"><code>ClassBuilder</code></a> -- such as in the following examples -- to manually register each property and customize how they interface in the editor.</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span>
 <span class="boring">fn main() {
 </span>#[derive(NativeClass)]
@@ -1903,8 +1939,7 @@ impl MyNode {
         self.number = new_value
     }
 }
-<span class="boring">}
-</span></code></pre></pre>
+<span class="boring">}</span></code></pre></pre>
 <h2 id="propertyt-and-when-to-use-it"><a class="header" href="#propertyt-and-when-to-use-it"><code>Property&lt;T&gt;</code> and when to use it</a></h2>
 <p>Sometimes it can be useful to expose a value as a property instead of as a function. Properties of this type serve as a <em>marker</em> that can be registered with Godot and viewed in the editor without containing any data in Rust.</p>
 <p>This can be useful for data (similar to the first sample) where the count serves more as a property of <code>enemies</code> rather than as its own distinct data, such as the following: </p>
@@ -1937,8 +1972,7 @@ impl GodotApi {
 <p>As per the <a href="https://docs.godotengine.org/en/stable/classes/class_variant.html">official Godot docs</a>, Variant is &quot;The most important data type in Godot.&quot; This is a wrapper type that can store any <a href="https://docs.godotengine.org/en/stable/classes/class_%40globalscope.html#enum-globalscope-variant-type">Godot Engine type</a></p>
 <p>The <code>ToVariant</code> and <code>FromVariant</code> are conversion traits that allow Rust types to be converted between these types. All properties must implement both <code>ToVariant</code> and <code>FromVariant</code> while exported methods require <code>FromVariant</code> to be implemented for optional parameters and <code>ToVariant</code> to be implemented for return types.</p>
 <p>For many datatypes, it is possible to use the derive macros such as in the following example:</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>// Note: This struct does not implement `Export` and cannot be used as a property, see the following section for more information.
 #[derive(ToVariant, FromVariant)]
@@ -1947,8 +1981,7 @@ struct Foo {
     float: f32,
     string: String
 }
-<span class="boring">}
-</span></code></pre></pre>
+<span class="boring">}</span></code></pre></pre>
 <p>For more information about how you can customize the behavior of the dervive macros, please refer to the official documentation for the latest information.</p>
 <ul>
 <li><a href="https://docs.rs/gdnative/latest/gdnative/core_types/trait.ToVariant.html">ToVariant</a></li>
@@ -1958,8 +1991,7 @@ struct Foo {
 <p>The Godot editor retrieves property information from <a href="https://docs.godotengine.org/en/stable/classes/class_object.html#id2">Object::get_property_list</a>. To populate this data, <code>godot-rust</code> requires that the <a href="https://docs.rs/gdnative/latest/gdnative/nativescript/trait.Export.html"><code>Export</code></a> trait be implemented for each type Rust struct.</p>
 <p>There are no derive macros that can be used for <code>Export</code> but many of the primitive types have it implemented by default.</p>
 <p>To implement <code>Export</code> for the previous Rust data type, you can do so as in the following example:</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>// Note: By default `struct` will be converted to and from a Dictionary where property corresponds to a key-value pair.
 #[derive(ToVariant, FromVariant)]
@@ -1979,14 +2011,12 @@ impl Export for Foo {
         ExportInfo::new(VariantType::Dictionary)
     }
 }
-<span class="boring">}
-</span></code></pre></pre>
+<span class="boring">}</span></code></pre></pre>
 <h2 id="case-study-exporting-rust-enums-to-godot-and-back"><a class="header" href="#case-study-exporting-rust-enums-to-godot-and-back">Case study: exporting Rust enums to Godot and back</a></h2>
 <p>A common challenge that many developers may encounter when using godot-rust is that while <a href="https://doc.rust-lang.org/std/keyword.enum.html">Rust enums</a> are <a href="https://en.wikipedia.org/wiki/Algebraic_data_type">Algebraic Data Types</a>, <a href="https://docs.godotengine.org/en/stable/getting_started/scripting/gdscript/gdscript_basics.html#enums">Godot enums</a> are constants that correspond to integer types.</p>
 <p>By default, Rust enums are converted to a Dictionary representation. Its keys correspond to the name of the enum variants, while the values correspond to a Dictionary with fields as key-value pairs.</p>
 <p>For example:</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>#[derive(ToVariant, FromVariant)]
 enum MyEnum {
@@ -1994,8 +2024,7 @@ enum MyEnum {
     B { inner: i32 },
     C { inner: String }
 }
-<span class="boring">}
-</span></code></pre></pre>
+<span class="boring">}</span></code></pre></pre>
 <p>Will convert to the following dictionary:</p>
 <pre><code class="language-gdscript"># MyEnum::A
 &quot;{ &quot;A&quot;: {} }
@@ -2007,8 +2036,7 @@ enum MyEnum {
 <p>As of writing (gdnative 0.9.3), this default case is not configurable. If you want different behavior, it is necessary to implement <code>FromVariant</code> and <code>Export</code> manually for this data-type.</p>
 <h3 id="case-1-rust-enum---godot-enum"><a class="header" href="#case-1-rust-enum---godot-enum">Case 1: Rust Enum -&gt; Godot Enum</a></h3>
 <p>Consider the following code:</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>enum MyIntEnum {
     A=0, B=1, C=2,
@@ -2021,8 +2049,7 @@ struct MyNode {
     #[property]
     int_enum: MyIntEnum
 }
-<span class="boring">}
-</span></code></pre></pre>
+<span class="boring">}</span></code></pre></pre>
 <p>This code defines the enum <code>MyIntEnum</code>, where each enum value refers to an integer value.</p>
 <p>Without implementing the <code>FromVariant</code> and <code>Export</code> traits, attempting to export <code>MyIntEnum</code> as a property of <code>MyNode</code> will result in the following error:</p>
 <pre><code class="language-sh">the trait bound `MyIntEnum: gdnative::prelude::FromVariant` is not satisfied
@@ -2032,8 +2059,7 @@ the trait bound `MyIntEnum: Export` is not satisfied
     the trait `Export` is not implemented for `MyIntEnum`
 </code></pre>
 <p>This indicates that <code>MyIntEnum</code> does not have the necessary traits implemented for <code>FromVariant</code> and <code>Export</code>. Since the default derived behavior may not be quite what we want, we can implement this with the following:</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>impl FromVariant for MyIntEnum {
     fn from_variant(variant: &amp;Variant) -&gt; Result&lt;Self, FromVariantError&gt; {
@@ -2063,15 +2089,13 @@ impl Export for MyIntEnum {
     }
 }
 
-<span class="boring">}
-</span></code></pre></pre>
+<span class="boring">}</span></code></pre></pre>
 <p>After implementing <code>FromVariant</code> and <code>Export</code>, running cargo check wouuld result in the following additional error:</p>
 <pre><code class="language-sh">the trait bound `MyIntEnum: gdnative::prelude::ToVariant` is not satisfied
 the trait `gdnative::prelude::ToVariant` is not implemented for `MyIntEnum`
 </code></pre>
 <p>If the default implementation were sufficient, we could use <code>#[derive(ToVariant)]</code> for <code>MyIntEnum</code> or implement it manually with the following code:</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>use gdnative::core_types::ToVariant;
 impl ToVariant for MyIntEnum {
@@ -2083,8 +2107,7 @@ impl ToVariant for MyIntEnum {
         }
     }
 }
-<span class="boring">}
-</span></code></pre></pre>
+<span class="boring">}</span></code></pre></pre>
 <p>At this point, there should be no problem in using <code>MyIntEnum</code> as a property in your native class that is exported to the editor.</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="calling-gdscript-from-rust"><a class="header" href="#calling-gdscript-from-rust">Calling GDScript from Rust</a></h1>
 <p>To transport information from Rust back to GDScript, you have three options (of which the last can be achieved in different ways):</p>
@@ -2103,8 +2126,7 @@ impl ToVariant for MyIntEnum {
 <h2 id="passing-custom-classes-to-gdscript"><a class="header" href="#passing-custom-classes-to-gdscript">Passing custom classes to GDScript</a></h2>
 <p>On the previous pages, we explained how to export a class, so it can be instantiated and called from GDScript. This section explains how to construct a class locally in Rust.</p>
 <p>Let's define a class <code>Enemy</code> which acts as a simple data bundle, i.e. no functionality. We inherit it from <code>Reference</code>, such that memory is managed automatically. In addition, we define <code>_to_string()</code> and delegate it to the derived <code>Debug</code> trait implementation, to make it printable from GDScript.</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>#[derive(NativeClass, Debug)]
 // no #[inherit], thus inherits Reference by default
@@ -2127,29 +2149,23 @@ impl Enemy {
         format!(&quot;{:?}&quot;, self) // calls Debug::fmt()
     }
 }
-<span class="boring">}
-</span></code></pre></pre>
+<span class="boring">}</span></code></pre></pre>
 <p>Godot can only use classes that are registered, so let's do that:</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>fn init(handle: InitHandle) {
     // ...
     handle.add_class::&lt;Enemy&gt;();
 }
-<span class="boring">}
-</span></code></pre></pre>
+<span class="boring">}</span></code></pre></pre>
 <p>Now, it's not possible to directly return <code>Enemy</code> instances in exported methods, so this won't work:</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>#[method]
 fn create_enemy(&amp;mut self) -&gt; Enemy {...}
-<span class="boring">}
-</span></code></pre></pre>
+<span class="boring">}</span></code></pre></pre>
 <p>Instead, you can wrap the object in a <code>Instance&lt;Enemy, Unique&gt;</code>, using <code>emplace()</code>. For an in-depth explanation of the <code>Instance</code> class, read <a href="gdnative/bind/../overview/wrappers.html#instance-reference-with-attached-rust-class">this section</a>.</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>#[method]
 fn create_enemy(&amp;self) -&gt; Instance&lt;Enemy, Unique&gt; {
@@ -2161,8 +2177,7 @@ fn create_enemy(&amp;self) -&gt; Instance&lt;Enemy, Unique&gt; {
     
     enemy.emplace()
 }
-<span class="boring">}
-</span></code></pre></pre>
+<span class="boring">}</span></code></pre></pre>
 <p>When calling this method in GDScript:</p>
 <pre><code class="language-python">var api = GodotApi.new()
 var enemy = api.create_enemy()
@@ -2189,8 +2204,7 @@ func update_stats(mission_name: String, health: float, score: int) -&gt; bool:
     # ...
 </code></pre>
 <p>can be invoked from Rust as follows:</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>use gdnative::core_types::ToVariant;
 
@@ -2207,12 +2221,10 @@ fn update_mission_ui(ui_node: Ref&lt;CanvasItem&gt;) {
   
     let success: bool = result.try_to_bool().expect(&quot;returns bool&quot;);
 }
-<span class="boring">}
-</span></code></pre></pre>
+<span class="boring">}</span></code></pre></pre>
 <p>Besides <a href="https://docs.rs/gdnative/latest/gdnative/api/struct.Object.html#method.call"><code>Object::call()</code></a>, alternative methods <code>callv()</code> (accepting a <code>VariantArray</code>) and <code>call_deferred()</code> (calling at the end of the frame) exist, but the principle stays the same.</p>
 <p>For long parameter lists, it often makes sense to bundle related functionality into a new class, let's say <code>Stats</code> in the above example. When working with classes, you can convert both <code>Ref</code> (for Godot/GDScript classes) and <code>Instance</code> (for native classes) to <code>Variant</code> by means of the <code>OwnedToVariant</code> trait:</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>use gdnative::core_types::OwnedToVariant; // owned_to_variant()
 use gdnative::nativescript::NativeClass; // emplace()
@@ -2254,8 +2266,7 @@ fn update_mission_ui(ui_node: Ref&lt;CanvasItem&gt;) {
         // read prev_stats here
     });
 }
-<span class="boring">}
-</span></code></pre></pre>
+<span class="boring">}</span></code></pre></pre>
 <h3 id="warning"><a class="header" href="#warning">Warning</a></h3>
 <p>When calling GDScript functions from Rust, a few things need to be kept in mind.</p>
 <p><strong>Safety:</strong> Since the calls are dynamic, it is possible to invoke any other functions through them, including unsafe ones like <code>free()</code>. As a result, <code>call()</code> and its alternatives are unsafe.</p>
@@ -2302,8 +2313,7 @@ func _ready():
 
 </code></pre>
 <p>could be translated to this Rust snippet:</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>#[derive(NativeClass)]
 #[inherit(Node)]
@@ -2330,15 +2340,13 @@ impl MyNode {
         self.node_2_ref = Some(node_2.claim());
     }
 }
-<span class="boring">}
-</span></code></pre></pre>
+<span class="boring">}</span></code></pre></pre>
 <p>Note the <code>into_shared()</code> call before we use <code>node</code> as an argument and store it in the struct, and how a change in the operation order also affects whether an <code>unsafe</code> operation is required. In <code>gdnative</code>, the ownership status of Godot objects are tracked with type-states. <code>Node::new()</code> itself creates a unique reference, which can be safely accessed, but not copied. <code>into_shared()</code> casts the ownership type-state of this node, making it safe to duplicate, but <code>unsafe</code> to access further. For more information, see <a href="gdnative/faq/../overview/wrappers.html"><code>Ref</code>, <code>TRef</code> and <code>Instance</code></a>.</p>
 <h2 id="borrow-failed-a-mut-reference-was-requested"><a class="header" href="#borrow-failed-a-mut-reference-was-requested">Borrow failed; a &amp;mut reference was requested</a></h2>
 <p>In Rust, <a href="https://docs.rs/dtolnay/0.0.9/dtolnay/macro._02__reference_types.html">there can only be <em>one</em> <code>&amp;mut</code> reference to the same memory location at the same time</a>. To enforce this while making simple use cases easier, the bindings make use of <a href="https://doc.rust-lang.org/book/ch15-05-interior-mutability.html">interior mutability</a>. This works like a lock: whenever a method with <code>&amp;mut self</code> is called, it will try to obtain a lock on the <code>self</code> value, and hold it <em>until it returns</em>. As a result, if another method that takes <code>&amp;mut self</code> is called in the meantime for whatever reason (e.g. signals), the lock will fail and an error (<code>BorrowFailed</code>) will be produced.</p>
 <p>It's relatively easy to work around this problem, though: Because of how the user-data container works, it can only see the outermost layer of your script type - the entire structure. This is why it's stricter than what is actually required. If you run into this problem, you can <a href="https://doc.rust-lang.org/book/ch15-05-interior-mutability.html">introduce finer-grained interior mutability</a> in your own type, and modify the problematic exported methods to take <code>&amp;self</code> instead of <code>&amp;mut self</code>.</p>
 <p>This issue also can often occur when using signals to indicate an update such as in the following code.</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>#[derive(NativeClass)]
 #[inherit(Node)]
@@ -2371,8 +2379,7 @@ impl SignalEmitter {
         &amp;self.data
     }
 }
-<span class="boring">}
-</span></code></pre></pre>
+<span class="boring">}</span></code></pre></pre>
 <p>The assumption with the above code is that <code>SignalEmitter</code> is holding data that is too large to be feasible to clone into the signal. So the purpose of the signal is to notify other Nodes or Objects that this the data has been updated.</p>
 <p>The problem is that, unless the nodes all connect with the <code>Object::CONNECT_DEFERRED</code> flag, they will be notified immediately and will attempt to borrow the data. This is the root cause of the <code>BorrowFailed</code> error.</p>
 <p>There are two ways to solve it.</p>
@@ -2380,8 +2387,7 @@ impl SignalEmitter {
 <li>Ensure that all nodes use <code>Object::CONNECT_DEFERRED</code>. This will delay the callbacks until the end of the current physics or idle frame, long after the current borrow on the data ends.</li>
 <li>Store <code>data</code> in a <code>RefCell&lt;LargeData&gt;</code> if it should only be accessed from the same thread (such as with signals) or <code>Mutex&lt;LargeData&gt;</code> if you need thread-safety. Then you can modify <code>update_data()</code> to the following snippet:</li>
 </ol>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>#[method]
 fn update_data(&amp;self, #[base] base: TRef&lt;Node&gt;, data: LargeData) {
@@ -2391,8 +2397,7 @@ fn update_data(&amp;self, #[base] base: TRef&lt;Node&gt;, data: LargeData) {
     // *self.data.lock().expect(&quot;this should work&quot;) = data;
     base.emit_signal(&quot;updated&quot;, &amp;[]);
 }
-<span class="boring">}
-</span></code></pre></pre>
+<span class="boring">}</span></code></pre></pre>
 <p>In both instances you will not encounter the reentrant errors.</p>
 <h2 id="why-do-mutating-godot-methods-take-self-and-not-mut-self"><a class="header" href="#why-do-mutating-godot-methods-take-self-and-not-mut-self">Why do mutating Godot methods take <code>&amp;self</code> and not <code>&amp;mut self</code>?</a></h2>
 <ol>
@@ -2410,8 +2415,7 @@ For more information, please refer to <a href="https://docs.rs/dtolnay/latest/dt
 </ul>
 <p>One of the ways that godot-rust avoids large <code>unsafe</code> blocks is by using the <a href="http://cliffle.com/blog/rust-typestate/">TypeState pattern</a> with <em>temporary references</em> such as <code>TRef</code> and <code>TInstance</code>. For more information see <a href="gdnative/faq/../overview/wrappers.html"><code>Ref</code>, <code>TRef</code> and <code>Instance</code></a>.</p>
 <p>Here is an example of some common <code>unsafe</code> usage that you will often see and use in your own games.</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>fn get_a_node(&amp;self, #[base] base: TRef&lt;Node&gt;) {
     // This is safe because it returns an option that Rust knows how to check.
@@ -2437,14 +2441,12 @@ For more information, please refer to <a href="https://docs.rs/dtolnay/latest/dt
         child.call(&quot;bar&quot;, &amp;[])
     };
 }
-<span class="boring">}
-</span></code></pre></pre>
+<span class="boring">}</span></code></pre></pre>
 <p>By the way, safety rules are subject to an <a href="https://github.com/godot-rust/godot-rust/issues/808">ongoing discussion</a> and likely to be relaxed in future godot-rust versions.</p>
 <h2 id="can-the-new-constructor-have-additional-parameters"><a class="header" href="#can-the-new-constructor-have-additional-parameters">Can the <code>new</code> constructor have additional parameters?</a></h2>
 <p>Unfortunately this is currently not possible, due to a general limitation of GDNative (see <a href="https://github.com/godotengine/godot/issues/23260">related issue</a>).</p>
 <p>As a result, a common pattern to work around this limitation is to use explicit initialization methods. For instance:</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>struct EnemyData {
     name: String,
@@ -2470,16 +2472,14 @@ impl Enemy {
         self.data = Some(EnemyData { name, health });
     }
 }
-<span class="boring">}
-</span></code></pre></pre>
+<span class="boring">}</span></code></pre></pre>
 <p>This however has two disadvantages:</p>
 <ol>
 <li>You need to use an <code>Option</code> with the sole purpose of late initialization, and subsequent <code>unwrap()</code> calls or checks -- weaker invariants in short.</li>
 <li>An additional type <code>EnemyData</code> for each native class like <code>Enemy</code> is required (unless you have very few properties, or decide to add <code>Option</code> for each of them, which has its own disadvantages).</li>
 </ol>
 <p>An alternative is to register a separate factory class, which returns fully-constructed instances:</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>#[derive(NativeClass)]
 #[no_constructor] // disallow default constructor
@@ -2506,15 +2506,13 @@ impl EntityFactory {
         Enemy { name, health }.emplace()
     }
 }
-<span class="boring">}
-</span></code></pre></pre>
+<span class="boring">}</span></code></pre></pre>
 <p>So instead of <code>Enemy.new()</code> you can write <code>EntityFactory.enemy(args)</code> in GDScript.
 This still needs an extra type <code>EntityFactory</code>, however you could reuse that for multiple classes.</p>
 <h2 id="can-i-implement-static-methods-in-gdnative"><a class="header" href="#can-i-implement-static-methods-in-gdnative">Can I implement static methods in GDNative?</a></h2>
 <p>In GDScript, classes can have static methods. However, GDNative currently doesn't allow to register static methods from bindings.</p>
 <p>As a work-around, it is possible to use a ZST (zero-sized type):</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>#[derive(NativeClass, Copy, Clone, Default)]
 #[user_data(Aether&lt;StaticUtil&gt;)]
@@ -2529,8 +2527,7 @@ impl StaticUtil {
         2 * input
     }
 }
-<span class="boring">}
-</span></code></pre></pre>
+<span class="boring">}</span></code></pre></pre>
 <p><a href="https://docs.rs/gdnative/latest/gdnative/export/user_data/struct.Aether.html"><code>Aether</code></a> is a special user-data wrapper intended for zero-sized types, that does not perform any allocation or synchronization at runtime.</p>
 <p>The type needs to be instantiated somewhere on GDScript level.
 Good places for instantiation are for instance:</p>
@@ -2541,8 +2538,7 @@ Good places for instantiation are for instance:</p>
 <h2 id="how-do-i-convert-from-a-variant-to-the-underlying-rust-type"><a class="header" href="#how-do-i-convert-from-a-variant-to-the-underlying-rust-type">How do I convert from a <code>Variant</code> to the underlying Rust type?</a></h2>
 <p>Assuming that a method takes an argument <code>my_node</code> as a <code>Variant</code></p>
 <p>You can convert <code>my_node</code> to a <code>Ref</code>, and then to an <code>Instance</code> or <code>TInstance</code>, and mapping over it to access the Rust data type:</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>/// My class that has data
 #[derive(NativeClass)]
@@ -2582,8 +2578,7 @@ impl AnotherNativeScript {
 
 }
 
-<span class="boring">}
-</span></code></pre></pre>
+<span class="boring">}</span></code></pre></pre>
 <h2 id="is-it-possible-to-set-subproperties-of-a-godot-type-such-as-a-material"><a class="header" href="#is-it-possible-to-set-subproperties-of-a-godot-type-such-as-a-material">Is it possible to set subproperties of a Godot type, such as a <code>Material</code>?</a></h2>
 <p>Yes, it is possible, but it will depend on the type.</p>
 <p>For example, when you need to set an <code>albedo_texture</code> on the <a href="https://docs.rs/gdnative/latest/gdnative/api/struct.SpatialMaterial.html"><code>SpatialMaterial</code></a>, it will be necessary to use the generic <a href="https://docs.rs/gdnative/latest/gdnative/api/struct.SpatialMaterial.html#method.set_texture"><code>set_texture()</code></a> function with the parameter <code>index</code>.</p>
@@ -2601,8 +2596,7 @@ impl AnotherNativeScript {
 <h2 id="how-can-function-parameters-accept-godot-subclasses-polymorphism"><a class="header" href="#how-can-function-parameters-accept-godot-subclasses-polymorphism">How can function parameters accept Godot subclasses (polymorphism)?</a></h2>
 <p><em>Static</em> (compile-time) polymorphism can be achieved by a combination of the <code>SubClass</code> trait and <code>upcast()</code>.</p>
 <p>For example, let's assume we want to implement a helper function that should accept any kind of <a href="https://docs.godotengine.org/en/stable/classes/class_control.html#class-control"><code>Container</code></a>. The helper function can make use of <code>SubClass</code> and <code>upcast()</code> as follows:</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>fn do_something_with_container&lt;T&gt;(container: TRef&lt;'_, T&gt;)
     where T: GodotObject + SubClass&lt;Container&gt;
@@ -2613,23 +2607,19 @@ impl AnotherNativeScript {
     // Now you can call `Container` specific methods like:
     container.set_size(...);
 }
-<span class="boring">}
-</span></code></pre></pre>
+<span class="boring">}</span></code></pre></pre>
 <p>This function can now be used with arbitrary subclasses, for instance:</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>fn some_usage() {
     let panel: Ref&lt;PanelContainer&gt; = PanelContainer::new().into_shared();
     let panel: TRef&lt;PanelContainer&gt; = unsafe { panel.assume_safe() };
     do_something_with_container(panel);
 }
-<span class="boring">}
-</span></code></pre></pre>
+<span class="boring">}</span></code></pre></pre>
 <p>Note that <code>SubClass</code> is only a marker trait that models the inheritance relationship of Godot classes, and doesn't perform any conversion by itself. For instance, <code>x: Ref&lt;T&gt;</code> or <code>x: TRef&lt;'_, T&gt;</code> satisfying <code>T: GodotObject + SubClass&lt;Container&gt;</code> doesn't mean that <code>x</code> can be used as a <code>Container</code> directly. Rather, it ensures that e.g. <code>x.upcast::&lt;Container&gt;()</code> is guaranteed to work, because <code>T</code> is a subclass of <code>Container</code>. Therefore, it is a common pattern to use <code>SubClass</code> constraints in combination with <code>.upcast()</code> to convert to the base class, and actually use <code>x</code> as such.</p>
 <p>Of course, you could also delegate the work to upcast to the call site:</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>fn do_something_with_container(container: TRef&lt;Container&gt;) { ... }
 
@@ -2637,8 +2627,7 @@ fn some_usage() {
     let panel: TRef&lt;PanelContainer&gt; = ...;
     do_something_with_container(panel.upcast());
 }
-<span class="boring">}
-</span></code></pre></pre>
+<span class="boring">}</span></code></pre></pre>
 <p>This would also support <em>dynamic</em> (runtime) polymorphism -- <code>Ref&lt;T&gt;</code> can also store subclasses of <code>T</code>.</p>
 <h2 id="what-is-the-rust-equivalent-of-onready-var"><a class="header" href="#what-is-the-rust-equivalent-of-onready-var">What is the Rust equivalent of <code>onready var</code>?</a></h2>
 <p>Rust does not have a direct equivalent to <code>onready var</code>. The most idiomatic workaround with Rust is to use <code>Option&lt;Ref&lt;T&gt;&gt;</code> of you need the Godot node type or <code>Option&lt;Instance&lt;T&gt;&gt;</code> if you are using a Rust based <code>NativeClass</code>.</p>
@@ -2647,8 +2636,7 @@ class_name MyClass
 onready var node = $Node2d
 </code></pre>
 <p>You would need to use the following code.</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>#[derive(NativeClass, Default)]
 #[inherit(Node)]
@@ -2683,8 +2671,7 @@ impl MyNode {
         self.instance = Some(instance.claim());
     }
 }
-<span class="boring">}
-</span></code></pre></pre>
+<span class="boring">}</span></code></pre></pre>
 <h2 id="what-types-are-supported-for-passing-through-the-gdnative-api"><a class="header" href="#what-types-are-supported-for-passing-through-the-gdnative-api">What types are supported for passing through the GDNative API?</a></h2>
 <p>The GDNative API supports any type that implements the <a href="https://docs.rs/gdnative/latest/gdnative/core_types/trait.ToVariant.html"><code>ToVariant</code></a> and/or <a href="https://docs.rs/gdnative/latest/gdnative/core_types/trait.FromVariant.html"><code>FromVariant</code></a> traits.</p>
 <p>To use a type as a property, in addition to the above, the type will also need to implement the <a href="https://docs.rs/gdnative/latest/gdnative/nativescript/trait.Export.html"><code>Export</code></a> trait.</p>
@@ -2709,8 +2696,7 @@ impl MyNode {
 </ul>
 <p>As such, this method is <em>only</em> useful for exported code and is subject to the Godot profiler's limitations, such as millisecond accuracy in profiler metrics.</p>
 <p>The following example illustrates how your code should look when being profiled:</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>#[derive(NativeClass)]
 #[inherit(Node)]
@@ -2728,8 +2714,7 @@ impl MyClass {
         // Any code in this function will be profiled.
     }
 }
-<span class="boring">}
-</span></code></pre></pre>
+<span class="boring">}</span></code></pre></pre>
 <p>If you require insight into Rust code that is not exported to Godot, or would like more in-depth information regarding execution of your program, it will be necessary to use a Rust compatible profiler such as <a href="https://crates.io/crates/puffin">puffin</a> or <a href="https://perf.wiki.kernel.org/index.php/Main_Page">perf</a>. These tools can be used to more accurately determine bottlenecks and the general performance of your Rust code.</p>
 <p><strong>Note:</strong> There are many more profilers than the ones listed and you should do your own research before selecting which one you wish to use.</p>
 <p>For more information about profiling and other rust performance tips, please check out the <a href="https://nnethercote.github.io/perf-book/profiling.html">Rust performance book</a>.</p>
@@ -2795,8 +2780,7 @@ This can cause severe slowdown, that would not occur if the same job were run fr
 Additional testing is required to ensure that this is an actual optimization.</p>
 <h2 id="why-do-i-get-the-differentthread-error"><a class="header" href="#why-do-i-get-the-differentthread-error">Why do I get the <code>DifferentThread</code> error?</a></h2>
 <p>For example, what does the following error indicate?</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>ERROR: &lt;native&gt;: gdnative-core: method call failed with error: 
        DifferentThread { original: ThreadId(1), current: ThreadId(2) }
@@ -2804,8 +2788,7 @@ Additional testing is required to ensure that this is an actual optimization.</p
 ERROR: &lt;native&gt;: gdnative-core: check module level documentation
                  on gdnative::user_data for more information
    At: src/path/to/class.rs:29
-<span class="boring">}
-</span></code></pre></pre>
+<span class="boring">}</span></code></pre></pre>
 <p>If you call certain code from Godot and receive the above error, it is likely that you need to change the <code>user_data</code> that comes with 
 your <code>NativeClass</code> derive. If no type is specified, it defaults to <code>LocalCellData</code>, which can only be used from the thread it was created in.</p>
 <p>See the <a href="https://docs.rs/gdnative/latest/gdnative/export/user_data">official docs</a> for more information on when you should use each type of data.</p>
@@ -2881,8 +2864,7 @@ library = ExtResource( 1 )
 <p>A workaround to this issue has been included in the recipe <a href="gdnative/faq/../recipes/custom-node-plugin.html">Custom Nodes Plugin</a>.</p>
 <h2 id="can-i-use-rust-for-a-tool-script"><a class="header" href="#can-i-use-rust-for-a-tool-script">Can I use Rust for a <a href="https://docs.godotengine.org/en/stable/tutorials/misc/running_code_in_the_editor.html">tool script</a>?</a></h2>
 <p>Yes, any Rust struct that inherits from <code>NativeClass</code> can be also used as a tool class by using the <code>InitHandle::add_tool_class</code> during native script initialization instead of <code>InitHandle::add_class</code>.</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>#[derive(NativeClass)]
 #[inherit(Node)]
@@ -2897,8 +2879,7 @@ impl MyTool {
 fn init(handle: InitHandle) {
     handle.add_tool_class::&lt;InitHandle&gt;();
 }
-<span class="boring">}
-</span></code></pre></pre>
+<span class="boring">}</span></code></pre></pre>
 <p>Please also see the <a href="https://github.com/godot-rust/godot-rust/tree/master/examples/native-plugin">native-plugin</a> that is the Rust version of the <a href="https://docs.godotengine.org/en/stable/tutorials/plugins/editor/index.html">editor plugin</a> tutorial.</p>
 <p><strong>Important</strong></p>
 <ul>
@@ -2911,8 +2892,7 @@ fn init(handle: InitHandle) {
 <p>If you do have a scenario that requires multiple <code>GDNativeLibrary</code>, you can create as many libraries as you need for your project. Be mindful that it is possible for name collision to occur when loading from multiple dynamic libraries. This can occur in the event that multiple libraries attempt to register the same class in their init function.</p>
 <p>To avoid these collisions, rather than the <code>godot_init!</code> initialization macro, prefer the use of the individual macros.</p>
 <p>For example, if we want to define the symbol_prefix for our library &quot;my_symbol_prefix&quot;, we can use the macros below.</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>// _ indicates that we do not have any specific callbacks needed from the engine for initialization. So it will automatically create
 // We add the prefix onto the `gdnative_init` which is the name of the callback that Godot will use when attempting to run the library
@@ -2923,8 +2903,7 @@ godot_nativescript_init!(registration_function as my_symbol_prefix_nativescript_
 // _ indicates that we do not have any specific callbacks needed from the engine for initialization. So it will automatically create
 // We add the prefix onto the `gdnative_terminate` which is the name of the callback that Godot will use when shutting down the library
 godot_gdnative_terminate!(_ as my_symbol_prefix_gdnative_terminate);
-<span class="boring">}
-</span></code></pre></pre>
+<span class="boring">}</span></code></pre></pre>
 <h2 id="can-i-expose-insert-rust-crate-name-for-use-with-godot-and-gdscript"><a class="header" href="#can-i-expose-insert-rust-crate-name-for-use-with-godot-and-gdscript">Can I expose {insert Rust crate name} for use with Godot and GDScript?</a></h2>
 <p>Yes, with NativeScript so long as you can create a <code>NativeScript</code> wrapper you can create GDScript bindings for a Rust crate. See the <a href="gdnative/faq/../recipes/logging.html">logging recipe</a> for an example of wrapping a Rust logging crate for use with GDScript.</p>
 <h2 id="how-do-i-get-auto-completion-with-intellij-rust-plugin"><a class="header" href="#how-do-i-get-auto-completion-with-intellij-rust-plugin">How do I get auto-completion with IntelliJ-Rust plugin?</a></h2>
@@ -3043,19 +3022,16 @@ gdnative = { git = &quot;https://github.com/godot-rust/godot-rust.git&quot;, fea
 </code></pre>
 <h2 id="defining-the-executor"><a class="header" href="#defining-the-executor">Defining the Executor</a></h2>
 <p>The executor itself can be defined the same way.</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>thread_local! {
 	static EXECUTOR: &amp;'static SharedLocalPool = {
 		Box::leak(Box::new(SharedLocalPool::default()))
 	};
 }
-<span class="boring">}
-</span></code></pre></pre>
+<span class="boring">}</span></code></pre></pre>
 <p>However, our <code>SharedLocalPool</code> will store a <code>LocalSet</code> instead, and the <code>futures::task::LocalSpawn</code> implementation for the type will simply spawn a local task from that.</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>use tokio::task::LocalSet;
 
@@ -3074,12 +3050,10 @@ impl futures::task::LocalSpawn for SharedLocalPool {
 		Ok(())
 	}
 }
-<span class="boring">}
-</span></code></pre></pre>
+<span class="boring">}</span></code></pre></pre>
 <h2 id="the-executor-driver"><a class="header" href="#the-executor-driver">The Executor Driver</a></h2>
 <p>Finally, we need to create a <code>NativeClass</code> which will act as the driver for our executor. This will store the tokio <code>Runtime</code>.</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>use tokio::runtime::{Builder, Runtime};
 
@@ -3100,11 +3074,9 @@ impl AsyncExecutorDriver {
 		}
 	}
 }
-<span class="boring">}
-</span></code></pre></pre>
+<span class="boring">}</span></code></pre></pre>
 <p>In the <code>_process</code> call of our <code>AsyncExecutorDriver</code>, we can block on <code>run_until</code> on the <code>LocalSet</code>. <code>run_until</code> will automatically resume all tasks on the local set until the provided future is completed. Since we don't want to block the frame, and we'd be checking every frame anyway, we just provide an empty task and await it.</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>#[methods]
 impl AsyncExecutorDriver {
@@ -3123,11 +3095,9 @@ impl AsyncExecutorDriver {
 		})
 	}
 }
-<span class="boring">}
-</span></code></pre></pre>
+<span class="boring">}</span></code></pre></pre>
 <p>From there, initializing is just the same as it is in the tests.</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>fn init(handle: InitHandle) {
 	gdnative::tasks::register_runtime(&amp;handle);
@@ -3136,8 +3106,7 @@ impl AsyncExecutorDriver {
 	...
 	handle.add_class::&lt;AsyncExecutorDriver&gt;();
 }
-<span class="boring">}
-</span></code></pre></pre>
+<span class="boring">}</span></code></pre></pre>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="recipe-custom-node-plugin"><a class="header" href="#recipe-custom-node-plugin">Recipe: Custom node plugin</a></h1>
 <p>While GDNative in Godot 3.x has some limitations, creating an <code>EditorPlugin</code> that registers custom nodes can be used to help integrate your types more tightly in the engine. Using a Custom Nodes plugin, you may register as many <code>NativeClass</code> scripts as you need in a single plugin.</p>
 <ol>
@@ -3187,8 +3156,7 @@ func _exit_tree():
 <h2 id="option-1---embed-the-file-into-the-binary"><a class="header" href="#option-1---embed-the-file-into-the-binary">Option 1 - Embed the File into the Binary</a></h2>
 <p>The simplest way is to embed the resource directly into your binary by using the <code>std::include_bytes</code> macro.</p>
 <p>To embed the file directly into the binary you can use the following macro:</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>// To have global immutable access to the file.
 const RESOURCE: &amp;'static [u8] = include_bytes!(&quot;path/to/resource/file&quot;);
@@ -3197,16 +3165,14 @@ fn process_the_resource() {
     // Include the file locally
     let bytes = include_bytes!(&quot;path/to/resource/file&quot;);
 }
-<span class="boring">}
-</span></code></pre></pre>
+<span class="boring">}</span></code></pre></pre>
 <p>This can be useful for embedding any information that should be included at build time.</p>
 <p>For example: such as if you wish to hard-code certain features like cheat codes, developer consoles, or default user configuration as a file rather than a build flag.</p>
 <p>This approach is much more limited as it requires recompiling for all targets whenever changes to the resources are made.</p>
 <h2 id="option-2---embed-the-file-in-the-pck"><a class="header" href="#option-2---embed-the-file-in-the-pck">Option 2 - Embed the File in the PCK</a></h2>
 <p>For most other use-cases you can use Godot's PCK file to export your resources into the game.</p>
 <p>This can be accomplished by using the <code>gdnative::api::File</code> module as follows.</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span>
 <span class="boring">fn main() {
 </span>fn load_resource_as_string(filepath: &amp;str) -&gt; String {
@@ -3221,16 +3187,14 @@ fn process_the_resource() {
     // let bytes: ByteArray = file.get_bytes(file_len);
     data.to_string()
 }
-<span class="boring">}
-</span></code></pre></pre>
+<span class="boring">}</span></code></pre></pre>
 <p>See the <a href="https://docs.rs/gdnative/latest/gdnative/api/struct.File.html"><code>File</code> Class Documentation</a> for every function that you use for loading the resources.</p>
 <p>After you retrieve the data in the desired format, you can process it like you would normal Rust code.</p>
 <h2 id="option-3-save-and-load-filedata-as-user_data"><a class="header" href="#option-3-save-and-load-filedata-as-user_data">Option #3 Save and Load filedata as user_data</a></h2>
 <p>Godot allows access to device side user directory for the project under &quot;user://&quot;. This works very similar to loading above and it uses the <code>gdnative::api::File</code> API</p>
 <p>Note: Saving only works on resource paths (paths starting with &quot;res://&quot;) when Godot is being run in the editor. After exporting &quot;res://&quot; becomes read-only.</p>
 <p>Example on writing and reading string data.</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>fn save_data_from_string(filepath: &amp;str, data: &amp;str) {
     use gdnative::api::File;
@@ -3249,8 +3213,7 @@ fn load_data_as_string(filepath: &amp;str) -&gt; String {
     let data: GodotString = file.get_as_text();
     data.to_string()
 }
-<span class="boring">}
-</span></code></pre></pre>
+<span class="boring">}</span></code></pre></pre>
 <p>For more information on the paths, please refer to the <a href="https://docs.godotengine.org/en/3.0/getting_started/step_by_step/filesystem.html#resource-path">File System Tutorial</a>.</p>
 <h3 id="testing"><a class="header" href="#testing">Testing</a></h3>
 <p>This section is for unit testing from Rust without loading Godot. As <code>gdnative::api::File</code> requires that Godot be running, any Rust-only unit tests will require a separate method to be implemented in order to load the resources. This can be accomplished by creating separate code paths or functions <code>#[cfg(test)]</code> and <code>#[cfg(not(test))]</code> attributes to differentiate between test configuration and Godot library configurations.</p>
@@ -3263,8 +3226,7 @@ fn load_data_as_string(filepath: &amp;str) -&gt; String {
 <p>These macros only work when the library is loaded by Godot. They will panic instead when invoked outside that context, for example, when the crate is being tested with cargo test</p>
 <h2 id="simple-wrapper-macros-for-test-configurations"><a class="header" href="#simple-wrapper-macros-for-test-configurations">Simple wrapper macros for test configurations</a></h2>
 <p>The first option that you have is wrap the <code>godot_print!</code> macros in the following macro that will use <code>godot_print!</code> when running with Godot, and stdout when run during tests.</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>/// prints to Godot's console, except in tests, there it prints to stdout
 macro_rules! console_print {
@@ -3276,8 +3238,7 @@ macro_rules! console_print {
         }
     });
 }
-<span class="boring">}
-</span></code></pre></pre>
+<span class="boring">}</span></code></pre></pre>
 <h2 id="using-a-logging-crate"><a class="header" href="#using-a-logging-crate">Using a logging Crate</a></h2>
 <p>A more robust solution is to integrate an existing logging library.</p>
 <p>This recipe demonstrates using the <code>log</code> crate with <code>flexi-logger</code>. While most of this guide will work with other backends, the initialization and <code>LogWriter</code> implementation may differ.</p>
@@ -3286,8 +3247,7 @@ macro_rules! console_print {
 flexi_logger = &quot;0.17.1&quot;
 </code></pre>
 <p>Then, write some code that glues the logging crates with Godot's logging interface. <code>flexi-logger</code>, for example, requires a <code>LogWriter</code> implementation:</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>use gdnative::prelude::*;
 use flexi_logger::writers::LogWriter;
@@ -3316,12 +3276,10 @@ impl LogWriter for GodotLogWriter {
         LevelFilter::Trace
     }
 }
-<span class="boring">}
-</span></code></pre></pre>
+<span class="boring">}</span></code></pre></pre>
 <p>For the logger setup, place the code logger configuration code in your <code>fn init(handle: InitHandle)</code> as follows.</p>
 <p>To add the logging configuration, you need to add the initial configuration and start the logger inside the init function.</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>fn init(handle: InitHandle) {
     flexi_logger::Logger::with_str(&quot;trace&quot;)
@@ -3331,14 +3289,12 @@ impl LogWriter for GodotLogWriter {
     /* other initialization work goes here */ 
 }
 godot_init!(init);
-<span class="boring">}
-</span></code></pre></pre>
+<span class="boring">}</span></code></pre></pre>
 <h3 id="setting-up-a-log-target-for-tests"><a class="header" href="#setting-up-a-log-target-for-tests">Setting up a log target for tests</a></h3>
 <p>When running in a test configuration, if you would like logging functionality, you will need to initialize a log target.</p>
 <p>As tests are run in parallel, it will be necessary to use something like the following code to initialize the logger only once. The <code>#[cfg(test)]</code> attributes are used to ensure that this code is not accessible outside of test builds.</p>
 <p>Place this in your crate root (usually lib.rs)</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>#[cfg(test)]
 use std::sync::Once;
@@ -3353,20 +3309,17 @@ fn test_setup_logger() {
         .expect(&quot;the logger should start&quot;);
     });
 }
-<span class="boring">}
-</span></code></pre></pre>
+<span class="boring">}</span></code></pre></pre>
 <p>You can call the above code in your units tests with <code>crate::test_setup_logger()</code>. Please note: currently there does not appear to be a tes case that will be called before tests are configured, so the <code>test_setup_logger</code> will need to be called in every test where you require log output.</p>
 <p>Now that the logging is configured, you can use use it in your code such as in the following sample</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>log::trace!(&quot;trace message: {}&quot;, &quot;message string&quot;);
 log::debug!(&quot;debug message: {}&quot;, &quot;message string&quot;);
 log::info!(&quot;info message: {}&quot;, &quot;message string&quot;);
 log::warn!(&quot;warning message: {}&quot;, &quot;message string&quot;);
 log::error!(&quot;error message: {}&quot;, &quot;message string&quot;);
-<span class="boring">}
-</span></code></pre></pre>
+<span class="boring">}</span></code></pre></pre>
 <p>At this point, we have a logging solution implemented for our Rust based code that will pipe the log messages to Godot.</p>
 <p>But what about GDScript? It would be nice to have consistent log messages in both GDScript and GDNative. One way to ensure that is to expose the logging functionality to Godot with a <code>NativeClass</code>.</p>
 <h3 id="exposing-to-gdscript"><a class="header" href="#exposing-to-gdscript">Exposing to GDScript</a></h3>
@@ -3374,8 +3327,7 @@ log::error!(&quot;error message: {}&quot;, &quot;message string&quot;);
 <h3 id="note"><a class="header" href="#note">Note</a></h3>
 <p>As the Rust macros cannot get the GDScript name or resource_path, it is necessary to pass the log target from GDScript.</p>
 </blockquote>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>#[derive(NativeClass, Copy, Clone, Default)]
 #[user_data(Aether&lt;DebugLogger&gt;)]
@@ -3408,8 +3360,7 @@ impl DebugLogger {
         log::trace!(target: &amp;target, &quot;{}&quot;, message);
     }
 }
-<span class="boring">}
-</span></code></pre></pre>
+<span class="boring">}</span></code></pre></pre>
 <p>After adding the class above with <code>handle.add_class::&lt;DebugLogger&gt;()</code> in the <code>init</code> function, you may add it as an Autoload Singleton in your project for easy access. In the example below, the name &quot;game_logger&quot; is chosen for the Autoload singleton:</p>
 <pre><code class="language-gdscript">game_logger.trace(&quot;name_of_script.gd&quot;, &quot;this is a trace message&quot;)
 game_logger.debug(&quot;name_of_script.gd&quot;, &quot;this is a debug message&quot;)
@@ -3524,8 +3475,7 @@ func rust_panic_hook(error_msg: String) -&gt; void:
 <p>At this point we have our GDScript based  panic hook we can use in Rust.</p>
 <h2 id="gdnative-hook-initialization"><a class="header" href="#gdnative-hook-initialization">GDNative hook initialization</a></h2>
 <p>In the GDNative library code's entry point (lib.rs by default).</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>pub fn init_panic_hook() {
     // To enable backtrace, you will need the `backtrace` crate to be included in your cargo.toml, or 
@@ -3561,8 +3511,7 @@ func rust_panic_hook(error_msg: String) -&gt; void:
         }
     }));
 }
-<span class="boring">}
-</span></code></pre></pre>
+<span class="boring">}</span></code></pre></pre>
 <p>The details the process in the above code is as follows:</p>
 <ol>
 <li>Get the default panic hook from Rust</li>
@@ -3573,16 +3522,14 @@ func rust_panic_hook(error_msg: String) -&gt; void:
 <li>Call the function defined on your GDScript panic hook script</li>
 </ol>
 <p>The final step is to call <code>init_panic_hook()</code> at the end of the <code>init</code> function that you pass in the <code>godot_init(init)</code> macro such as in the following code.</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>// GDNative entry point
 fn init(handle: InitHandle) {
     // -- class registration above
     init_panic_hook();
 }
-<span class="boring">}
-</span></code></pre></pre>
+<span class="boring">}</span></code></pre></pre>
 <p>Now you can run your game and once it is fully initialized, any panics will pause the game execution and print the panic message in Godot's editor in the Debugger's Error tab.</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="exporting-1"><a class="header" href="#exporting-1">Exporting</a></h1>
 <p>Exporting <a href="https://godotengine.org/">Godot</a> projects using <a href="https://github.com/godot-rust/godot-rust">godot-rust</a>
@@ -4023,20 +3970,16 @@ gdnative-bindings-custom = { path = &quot;/path/to/gdnative-bindings-custom&quot
 <h2 id="module-organization-and-naming"><a class="header" href="#module-organization-and-naming">Module organization and naming</a></h2>
 <h3 id="generated-api-types"><a class="header" href="#generated-api-types">Generated API types</a></h3>
 <p>Generated types now live under the <code>gdnative::api</code> module. This makes the top-level namespace easier to navigate in docs. If you have used glob imports like:</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>use gdnative::*;
-<span class="boring">}
-</span></code></pre></pre>
+<span class="boring">}</span></code></pre></pre>
 <p>..., you should change this to:</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>use gdnative::prelude::*;
 use gdnative::api::*;
-<span class="boring">}
-</span></code></pre></pre>
+<span class="boring">}</span></code></pre></pre>
 <h3 id="generated-property-accessors"><a class="header" href="#generated-property-accessors">Generated property accessors</a></h3>
 <p>Generated getters of properties are no longer prefixed with <code>get_</code>. This <strong>does not</strong> affect other methods that start with <code>get_</code> that are not getters, like <code>File::get_8</code>.</p>
 <h3 id="separation-of-core-types-and-nativescript-code"><a class="header" href="#separation-of-core-types-and-nativescript-code">Separation of core types and NativeScript code</a></h3>
@@ -4045,8 +3988,7 @@ use gdnative::api::*;
 <p>C enums in the API are now generated in submodules of <code>gdnative_bindings</code> named after their associated objects. Common prefixes are also stripped from the constant names. The constants are accessed as associated constants:</p>
 <h4 id="example"><a class="header" href="#example">Example</a></h4>
 <p>In 0.8, you would write this:</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>use gdnative::*;
 
@@ -4057,26 +3999,22 @@ object.connect(
     VariantArray::new(),
     Object::CONNECT_DEFERRED,
 );
-<span class="boring">}
-</span></code></pre></pre>
+<span class="boring">}</span></code></pre></pre>
 <p>In 0.9, this should now be written as:</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>use gdnative::prelude::*;
 use gdnative::api::object::ConnectFlags;
 
 object.connect(&quot;foo&quot;, owner, &quot;_handle_foo&quot;, VariantArray, ConnectFlags::DEFERRED.into());
-<span class="boring">}
-</span></code></pre></pre>
+<span class="boring">}</span></code></pre></pre>
 <h3 id="fixed-typos"><a class="header" href="#fixed-typos">Fixed typos</a></h3>
 <p>Typos in variant names of <code>VariantOperator</code> and <code>GodotError</code> are fixed. Change to the correct names if this breaks your code.</p>
 <h2 id="changes-to-derive-macros"><a class="header" href="#changes-to-derive-macros">Changes to derive macros</a></h2>
 <p>The <code>NativeScript</code> derive macro now looks for <code>new</code> instead of <code>_init</code> as the constructor.</p>
 <h3 id="example-1"><a class="header" href="#example-1">Example</a></h3>
 <p>In 0.8, you would write this:</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>#[derive(NativeClass)]
 #[inherit(Object)]
@@ -4087,11 +4025,9 @@ impl Thing {
         Thing
     }
 }
-<span class="boring">}
-</span></code></pre></pre>
+<span class="boring">}</span></code></pre></pre>
 <p>In 0.9, this should now be written as:</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>#[derive(NativeClass)]
 #[inherit(Object)]
@@ -4103,12 +4039,10 @@ impl Thing {
         Thing
     }
 }
-<span class="boring">}
-</span></code></pre></pre>
+<span class="boring">}</span></code></pre></pre>
 <h2 id="argument-casts"><a class="header" href="#argument-casts">Argument casts</a></h2>
 <p>Generated methods taking objects, <code>Variant</code>, and <code>GodotString</code> are now made generic using <code>impl Trait</code> in argument position. This make calls much less verbose, but may break inference for some existing code. If you have code that looks like:</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>let mut binds = VariantArray::new();
 binds.push(&amp;42.to_variant());
@@ -4120,44 +4054,38 @@ thing.connect(
     binds,
     0,
 )
-<span class="boring">}
-</span></code></pre></pre>
+<span class="boring">}</span></code></pre></pre>
 <p>..., you should change this to:</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>let mut binds = VariantArray::new();
 binds.push(42);
 binds.push(&quot;foo&quot;);
 thing.connect(&quot;foo&quot;, owner, &quot;bar&quot;, binds, 0);
-<span class="boring">}
-</span></code></pre></pre>
+<span class="boring">}</span></code></pre></pre>
 <h3 id="explicit-nulls"><a class="header" href="#explicit-nulls">Explicit nulls</a></h3>
 <p>A side effect of accepting generic arguments is that inference became tricky for <code>Option</code>. As a solution for this, an explicit <code>Null</code> type is introduced for use as method arguments. To obtain a <code>Null</code> value, you may use either <code>GodotObject::null()</code> or <code>Null::null()</code>. You may also call <code>null</code> on specific types since it is a trait method for all API types, e.g. <code>Node::null()</code> or <code>Object::null()</code>.</p>
 <p>For example, to clear the script on an object, instead of:</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>thing.set_script(None);
-<span class="boring">}
-</span></code></pre></pre>
+<span class="boring">}</span></code></pre></pre>
 <p>..., you should now write:</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>thing.set_script(Null::null());
-<span class="boring">}
-</span></code></pre></pre>
+<span class="boring">}</span></code></pre></pre>
 <p>This is arguably less convenient, but passing explicit nulls should be rare enough a use case that the benefits of having polymorphic arguments are much more significant.</p>
 <h2 id="object-semantics"><a class="header" href="#object-semantics">Object semantics</a></h2>
 <p>In 0.9, the way Godot objects are represented in the API is largely remodeled to closely match the behavior of Godot. For the sake of illustration, we'll use the type <code>Node</code> in the following examples.</p>
 <p>In 0.8.x, bare objects like <code>Node</code> are either unsafe or reference-counted pointers. Some of the methods require <code>&amp;mut</code> receivers, but there is no real guarantee of uniqueness since the pointers may be cloned or aliased freely. This restriction is not really useful for safety, and requires a lot of operations to be <code>unsafe</code>.</p>
 <p>This is changed in 0.9 with the typestate pattern, which will be explained later. Now, there are three representations of Godot objects, with different semantics:</p>
-<table><thead><tr><th>Type</th><th>Terminology</th><th>Meaning</th></tr></thead><tbody>
+<div class="table-wrapper"><table><thead><tr><th>Type</th><th>Terminology</th><th>Meaning</th></tr></thead><tbody>
 <tr><td><code>&amp;'a Node</code></td><td>bare reference</td><td>reference assumed or guaranteed to be valid and uncontended during <code>'a</code></td></tr>
 <tr><td><code>Ref&lt;Node, Access&gt;</code></td><td>persistent reference</td><td>stored reference whose validity is not always known, depending on the typestate <code>Access</code></td></tr>
 <tr><td><code>TRef&lt;'a, Node, Access&gt;</code></td><td>temporary reference</td><td>reference assumed or guaranteed to be valid and uncontended during <code>'a</code>, with added typestate tracking</td></tr>
 </tbody></table>
+</div>
 <p>Note that owned bared objects, like <code>Node</code>, no longer exist in the new API. They should be replaced with <code>Ref</code> or <code>TRef</code> depending on the situation:</p>
 <ul>
 <li>In persistent data structures, like <code>NativeScript</code> structs, use <code>Ref&lt;Node, Access&gt;</code>.</li>
@@ -4172,8 +4100,7 @@ thing.connect(&quot;foo&quot;, owner, &quot;bar&quot;, binds, 0);
 <p>For detailed information about the API, see the type-level documentation on <code>Ref</code> and <code>TRef</code>.</p>
 <h3 id="example-2"><a class="header" href="#example-2">Example</a></h3>
 <p>If you prefer to learn by examples, here is the simplified code for instancing child scenes in the dodge-the-creeps example in 0.8. Note how everything is <code>unsafe</code> due to <code>Node</code>s being manually-managed:</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>#[derive(NativeClass)]
 #[inherit(Node)]
@@ -4211,11 +4138,9 @@ where
         Err(ManageErrs::CouldNotMakeInstance)
     }
 }
-<span class="boring">}
-</span></code></pre></pre>
+<span class="boring">}</span></code></pre></pre>
 <p>In 0.9, this can now be written as (with added type annotations and explanations for clarity):</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>#[derive(NativeClass)]
 #[inherit(Node)]
@@ -4284,8 +4209,7 @@ where
         .try_cast::&lt;Root&gt;()
         .expect(&quot;root node type should be correct&quot;)
 }
-<span class="boring">}
-</span></code></pre></pre>
+<span class="boring">}</span></code></pre></pre>
 <h2 id="casting"><a class="header" href="#casting">Casting</a></h2>
 <p>The casting API is made more convenient with 0.9, using the <code>SubClass</code> trait. Casting is now covered by two generic methods implemented on all object reference types: <code>cast</code> and <code>upcast</code>. Both methods enforce cast validity statically, which means that the compiler will complain about casts that will always fail at runtime. The generated <code>to_*</code> methods are removed in favor of <code>upcast</code>.</p>
 <h3 id="examples"><a class="header" href="#examples">Examples</a></h3>
@@ -4300,17 +4224,14 @@ where
 <p>The API for downcasting to concrete types is unchanged. You should still write <code>object.cast::&lt;Node&gt;().unwrap()</code>.</p>
 <h4 id="casting-to-a-type-parameter"><a class="header" href="#casting-to-a-type-parameter">Casting to a type parameter</a></h4>
 <p>In 0.8, you would write this:</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>fn polymorphic_cast&lt;T: GodotObject&gt;(obj: Object) -&gt; Option&lt;T&gt; {
     obj.cast()
 }
-<span class="boring">}
-</span></code></pre></pre>
+<span class="boring">}</span></code></pre></pre>
 <p>In 0.9, casting to a type parameter is a bit more complicated due to the addition of static checks. You should now write:</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>fn polymorphic_cast&lt;T, Access&gt;(
     obj: TRef&lt;Object, Access&gt;,
@@ -4321,8 +4242,7 @@ where
 {
     obj.cast()
 }
-<span class="boring">}
-</span></code></pre></pre>
+<span class="boring">}</span></code></pre></pre>
 <p>Note that this function is also polymorphic over the <code>Access</code> typestate, which is explained the the following section.</p>
 <h2 id="typestates"><a class="header" href="#typestates">Typestates</a></h2>
 <p>The typestate pattern is introduced in 0.9 to statically provide fine-grained reference safety guarantees depending on thread access state. There are three typestates in the API:</p>
@@ -4342,8 +4262,7 @@ where
 <h3 id="examples-1"><a class="header" href="#examples-1">Examples</a></h3>
 <h4 id="creating-a-dictionary-and-returning-it"><a class="header" href="#creating-a-dictionary-and-returning-it">Creating a <code>Dictionary</code> and returning it</a></h4>
 <p>In 0.8, you would write this:</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>#[export]
 fn dict(&amp;self, _owner: Reference) -&gt; Dictionary {
@@ -4352,11 +4271,9 @@ fn dict(&amp;self, _owner: Reference) -&gt; Dictionary {
     dict.insert(&amp;&quot;bar&quot;.into(), &amp;1337.into());
     dict
 }
-<span class="boring">}
-</span></code></pre></pre>
+<span class="boring">}</span></code></pre></pre>
 <p>In 0.9, this should now be written as (with added type annotations and explanations for clarity):</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>#[export]
 fn dict(&amp;self, _owner: &amp;Reference) -&gt; Dictionary&lt;Unique&gt; {
@@ -4372,12 +4289,10 @@ fn dict(&amp;self, _owner: &amp;Reference) -&gt; Dictionary&lt;Unique&gt; {
     // Owned `Unique` references can be returned directly
     dict
 }
-<span class="boring">}
-</span></code></pre></pre>
+<span class="boring">}</span></code></pre></pre>
 <h4 id="using-an-object-argument-other-than-owner"><a class="header" href="#using-an-object-argument-other-than-owner">Using an object argument other than <code>owner</code></a></h4>
 <p>In 0.8, you would write this:</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>#[export]
 unsafe fn connect_to(&amp;self, owner: Node, target: Object) {
@@ -4389,11 +4304,9 @@ unsafe fn connect_to(&amp;self, owner: Node, target: Object) {
         0,
     );
 }
-<span class="boring">}
-</span></code></pre></pre>
+<span class="boring">}</span></code></pre></pre>
 <p>In 0.9, this should now be written as (with added type annotations and explanations for clarity):</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>#[export]
 // The `Access` parameter defaults to `Shared` for `Ref`, so it can be omitted
@@ -4407,8 +4320,7 @@ fn connect_to(&amp;self, owner: TRef&lt;Node&gt;, target: Ref&lt;Object&gt;) {
     // for casts.
     target.connect(&quot;foo&quot;, owner, &quot;_handle_foo&quot;, VariantArray::new(), 0);
 }
-<span class="boring">}
-</span></code></pre></pre>
+<span class="boring">}</span></code></pre></pre>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="migrating-from-godot-rust-09x-to-010x"><a class="header" href="#migrating-from-godot-rust-09x-to-010x">Migrating from godot-rust 0.9.x to 0.10.x</a></h1>
 <p>Version 0.10 implements many improvements to ergonomics, naming consistency and bugfixes. Tooling and CI has been majorly overhauled, providing fast 
 feedback cycles, higher confidence and easier-to-read documentation.</p>
@@ -4464,7 +4376,7 @@ feedback cycles, higher confidence and easier-to-read documentation.</p>
 </li>
 </ul>
 <p>Various type names have been changed to improve clarity and consistency:</p>
-<table><thead><tr><th>Old Type Name</th><th>New Type Name</th></tr></thead><tbody>
+<div class="table-wrapper"><table><thead><tr><th>Old Type Name</th><th>New Type Name</th></tr></thead><tbody>
 <tr><td><code>RefInstance</code></td><td><code>TInstance</code></td></tr>
 <tr><td><code>RefKind</code></td><td><code>Memory</code></td></tr>
 <tr><td><code>ThreadAccess</code></td><td><code>Ownership</code></td></tr>
@@ -4474,8 +4386,9 @@ feedback cycles, higher confidence and easier-to-read documentation.</p>
 <tr><td><code>Point2</code></td><td><code>Vector2</code></td></tr>
 <tr><td><code>Size2</code></td><td><code>Vector2</code></td></tr>
 </tbody></table>
+</div>
 <p>The following methods have been renamed:</p>
-<table><thead><tr><th>Old Method</th><th>New Method</th></tr></thead><tbody>
+<div class="table-wrapper"><table><thead><tr><th>Old Method</th><th>New Method</th></tr></thead><tbody>
 <tr><td><code>{String,Variant}::forget</code></td><td><code>leak</code></td></tr>
 <tr><td><code>Color::{rgb,rgba}</code></td><td><code>{from_rgb,from_rgba}</code></td></tr>
 <tr><td><code>Rid::is_valid</code></td><td><code>is_occupied</code></td></tr>
@@ -4484,6 +4397,7 @@ feedback cycles, higher confidence and easier-to-read documentation.</p>
 <tr><td><code>Transform2D::from_axis_origin</code></td><td><code>from_basis_origin</code></td></tr>
 <tr><td><code>StringName::get_name</code></td><td><code>to_godot_string</code></td></tr>
 </tbody></table>
+</div>
 <h3 id="changes-to-procedural-macros"><a class="header" href="#changes-to-procedural-macros">Changes to procedural macros</a></h3>
 <ul>
 <li><code>#[inherit]</code> is now optional and defaults to <code>Reference</code> instead of <code>Node</code>.</li>
@@ -4504,8 +4418,7 @@ feedback cycles, higher confidence and easier-to-read documentation.</p>
 </ul>
 <h3 id="custom-property-exports"><a class="header" href="#custom-property-exports">Custom property exports</a></h3>
 <p>In godot-rust 0.9, it was necessary to manually register properties using the class builder such as the following:</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>#[derive(NativeClass)]
 #[inherit(Reference)]
@@ -4534,11 +4447,9 @@ impl Foo {
       self.bar
   }
 }
-<span class="boring">}
-</span></code></pre></pre>
+<span class="boring">}</span></code></pre></pre>
 <p>In 0.10, this can be automated with the <code>#[property]</code> procedural macro, such as the following:</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>#[derive(NativeClass)]
 #[inherit(Reference)]
@@ -4559,12 +4470,10 @@ impl Foo {
         self.bar
     }
 }
-<span class="boring">}
-</span></code></pre></pre>
+<span class="boring">}</span></code></pre></pre>
 <h3 id="variantdispatch"><a class="header" href="#variantdispatch"><code>VariantDispatch</code></a></h3>
 <p><code>VariantDispatch</code> is an newly introduced type in godot-rust 0.10. This enum lets you treat <code>Variant</code> in a more rust-idiomatic way, e.g. by pattern-matching its contents:</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>let variant = 42.to_variant();
 
@@ -4575,77 +4484,63 @@ let number_as_float = match variant.dispatch() {
 };
 
 approx::assert_relative_eq!(42.0, number_as_float);
-<span class="boring">}
-</span></code></pre></pre>
+<span class="boring">}</span></code></pre></pre>
 <h2 id="migrations"><a class="header" href="#migrations">Migrations</a></h2>
 <p>This section elaborates on APIs with non-trivial changes and guides you through the process of updating your code.</p>
 <h3 id="variant-1"><a class="header" href="#variant-1"><code>Variant</code></a></h3>
 <p>If you were using the <code>Variant::from_*</code> methods, those no longer exist.</p>
 <p>In 0.9.x you would need to use the specific constructor, such as the following:</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>let variant = Variant::from_i64(42);
 let variant = Variant::from_f64(42.0);
 let variant2 = Variant::from_object(object);
-<span class="boring">}
-</span></code></pre></pre>
+<span class="boring">}</span></code></pre></pre>
 <p>In 0.10.x, <code>new()</code> is sufficient for any type that implements <code>ToVariant</code>, such as the following:</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>let variant = Variant::new(42);
 let variant = Variant::new(42.0);
 let variant2 = Variant::new(object);
-<span class="boring">}
-</span></code></pre></pre>
+<span class="boring">}</span></code></pre></pre>
 <p>When converting from a variant to a Rust type, it previously was necessary to do the following:</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>let integer64 = i64::from_variant(&amp;variant_i64).unwrap();
 let float64 = f64::from_variant(&amp;variant_f64).unwrap();
 let object = ObjectType::from_variant(&amp;variant_object).unwrap();
-<span class="boring">}
-</span></code></pre></pre>
+<span class="boring">}</span></code></pre></pre>
 <p>In 0.10.x, you can now cast your variants by using the <code>to()</code> function on <code>FromVariant</code>-enabled types, such as the following:</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>// Note: If the compiler can infer your type, the turbofish `::&lt;T&gt;` is optional
 let integer64 = variant.to::&lt;i64&gt;().unwrap();
 let float64 = variant.to::&lt;f64&gt;().unwrap();
 let object = variant.to_object::&lt;ObjectType&gt;().unwrap(); // returns Ref&lt;ObjectType&gt;
-<span class="boring">}
-</span></code></pre></pre>
+<span class="boring">}</span></code></pre></pre>
 <h3 id="transforms"><a class="header" href="#transforms">Transforms</a></h3>
 <p>Previously, transforms were defined by the matrix identities such as <code>m11</code>, <code>m12</code>; now, they are referred by the vector name for consistency.</p>
 <p>For example: When creating an identity <code>Transform2D</code> in 0.9.x, you would create it using the following code:</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>let tform = Transform2D::new(1.0, 0.0, 0.0, 1.0, 1.0, 1.0);
-<span class="boring">}
-</span></code></pre></pre>
+<span class="boring">}</span></code></pre></pre>
 <p>In 0.10.x you now need to create it using <code>from_basis_origin</code> and use <code>a</code>, <code>b</code>, and <code>origin</code> vectors, such as the following:</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>let tform = Transform2D::from_basis_origin(
     Vector2::new(1.0, 0.0),
     Vector2::new(0.0, 1.0),
     Vector2::new(1.0, 1.0),
 );
-<span class="boring">}
-</span></code></pre></pre>
+<span class="boring">}</span></code></pre></pre>
 <h3 id="vector-types"><a class="header" href="#vector-types">Vector types</a></h3>
 <p>The underlying vector library as well as the implementation have been fundamentally replaced. In 0.9.x, many of the goemetric types were thinly wrapping a separate library. This led to several wrapping classes such as <code>Point2</code>, <code>Size2</code> being removed now. In addition, other geometric types -- for example <code>Rect2</code>, <code>Quat</code>, <code>Transform</code>, <code>Plane</code> -- have all been changed, and certain convenience functions may not be available anymore, depending upon the struct.</p>
 <p>For example: <code>Rect2</code> no longer has <code>width()</code> or <code>height()</code>, but lets you directly access its <code>size.x</code> or <code>size.y</code> fields.</p>
 <h3 id="classbuilder"><a class="header" href="#classbuilder"><code>ClassBuilder</code></a></h3>
 <p>The <a href="https://docs.rs/gdnative/latest/gdnative/prelude/struct.ClassBuilder.html"><code>ClassBuilder</code></a> type has been extended to use the builder pattern when registering signals and properties.</p>
 <p>In 0.9, registering a signal would look like the following:</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>fn register_signals(builder: &amp;ClassBuilder&lt;Self&gt;) {
   builder.add_signal(
@@ -4665,11 +4560,9 @@ let object = variant.to_object::&lt;ObjectType&gt;().unwrap(); // returns Ref&lt
       }],
   });
 }
-<span class="boring">}
-</span></code></pre></pre>
+<span class="boring">}</span></code></pre></pre>
 <p>In 0.10, this changes to:</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>fn register_signals(builder: &amp;ClassBuilder&lt;Self&gt;) {
   builder.signal(&quot;signal1&quot;).done();
@@ -4689,23 +4582,19 @@ let object = variant.to_object::&lt;ObjectType&gt;().unwrap(); // returns Ref&lt
     .with_param_default(&quot;myArg&quot;, 42.0.to_variant())
     .done()
 }
-<span class="boring">}
-</span></code></pre></pre>
+<span class="boring">}</span></code></pre></pre>
 <h3 id="server-singletons"><a class="header" href="#server-singletons">Server singletons</a></h3>
 <p>Godot's server singletons have received a safety overhaul. As a result, all functions that take one or more parameters of type <code>Rid</code> are now marked <code>unsafe</code> and thus require being used inside an <code>unsafe</code> block or <code>unsafe</code> function.</p>
 <p>In 0.9.x, creating a canvas_item and attaching it to a parent would be done as follows:</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>let vs = unsafe { VisualServer::godot_singleton() };
 let canvas = vs.canvas_create();
 let ci = vs.canvas_item_create();
 vs.canvas_item_set_parent(ci, canvas);
-<span class="boring">}
-</span></code></pre></pre>
+<span class="boring">}</span></code></pre></pre>
 <p>In 0.10.x, you now must wrap the <code>canvas_item_set_parent</code> function in an <code>unsafe</code> block, such as follows:</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>let vs = unsafe { VisualServer::godot_singleton() };
 let canvas = vs.canvas_create();
@@ -4713,20 +4602,17 @@ let ci = vs.canvas_item_create();
 unsafe {
   vs.canvas_item_set_parent(ci, canvas);
 }
-<span class="boring">}
-</span></code></pre></pre>
+<span class="boring">}</span></code></pre></pre>
 <h4 id="additional-ub-notes"><a class="header" href="#additional-ub-notes">Additional UB notes</a></h4>
 <p>The reason for this change was due to <a href="https://github.com/godot-rust/godot-rust/issues/836">issue #836</a> being raised. Developers were able to demonstrate that you could easily cause undefined behavior when using any function that accepted <code>Rid</code> as a parameter, such as the following:</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>let vs = unsafe { VisualServer::godot_singleton() };
 let canvas = vs.canvas_create();
 let vp = vs.viewport_create();
 vs.canvas_item_set_parent(vp, canvas); // crashes immediately
 vs.canvas_item_set_parent(canvas, canvas); // crashes at shutdown
-<span class="boring">}
-</span></code></pre></pre>
+<span class="boring">}</span></code></pre></pre>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="migrating-from-godot-rust-010x-to-011"><a class="header" href="#migrating-from-godot-rust-010x-to-011">Migrating from godot-rust 0.10.x to 0.11</a></h1>
 <p>Version 0.11 is a relatively small release, primarily adding support for the latest stable Godot version, 3.5.1 at the time.</p>
 <p>Due to some breaking changes in the GDNative API, this is a SemVer-breaking release, but in practice you can reuse your 0.10.x
@@ -4745,29 +4631,25 @@ If you have an older toolchain, run <code>rustup update</code>.</p>
 <h3 id="method-export-syntax"><a class="header" href="#method-export-syntax">Method export syntax</a></h3>
 <p>Up until gdnative 0.10.0, methods need to be exported using the <code>#[export]</code> syntax.
 If you did not need that parameter, the convention was to prefix it with <code>_</code>:</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>#[export]
 fn _ready(&amp;mut self, owner: &amp;Node, delta: f32) {...}
 
 #[export]
 fn _process(&amp;mut self, _owner: &amp;Node, delta: f32) {...}
-<span class="boring">}
-</span></code></pre></pre>
+<span class="boring">}</span></code></pre></pre>
 <p>This changes starting from 0.10.1: <code>#[method]</code> is the new attribute for the method, and <code>#[base]</code> annotates
 the parameter <code>base</code> (previously called <code>owner</code>). If the base parameter is not needed, simply omit it.</p>
 <p><code>base</code> still needs to be in 2nd position, immediately after the receiver (<code>&amp;self</code>/<code>&amp;mut self</code>).</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>#[method]
 fn _ready(&amp;mut self, #[base] base: &amp;Node, delta: f32) {...}
 
 #[method]
 fn _process(&amp;mut self, delta: f32) {...}
-<span class="boring">}
-</span></code></pre></pre>
+<span class="boring">}</span></code></pre></pre>
 <p>The old syntax is deprecated and stays valid throughout 0.11, so there is no urge to migrate.</p>
 <h3 id="removals"><a class="header" href="#removals">Removals</a></h3>
 <p>The constructor <code>Transform2D::from_rotation_translation_scale()</code> was removed, due to its unintuitive semantics.
@@ -4856,8 +4738,7 @@ godot-rust-cli build --watch
 <h2 id="bevy-godot"><a class="header" href="#bevy-godot">bevy-godot</a></h2>
 <p><em><a href="https://github.com/rand0m-cloud/bevy_godot">GitHub</a></em></p>
 <p><strong>bevy-godot</strong> is an in-development crate for using Bevy with the Godot Engine.</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>use bevy_godot::prelude::*;
 
@@ -4889,8 +4770,7 @@ fn move_cube(mut cube: Query&lt;(&amp;Cube, &amp;mut Transform2D)&gt;, time: Res
     transform.origin =
         Vector2::RIGHT * 300.0 * time.seconds_since_startup().sin() as f32 + cube.starting_position;
 }
-<span class="boring">}
-</span></code></pre></pre>
+<span class="boring">}</span></code></pre></pre>
 <h2 id="ftw"><a class="header" href="#ftw">ftw</a></h2>
 <p><em><a href="https://github.com/macalimlim/ftw">GitHub</a></em></p>
 <p><strong>ftw</strong> is a command-line interface to manage your godot-rust project. It enables you to set up projects, add native classes which are automatically wired up, and run build commands.</p>
@@ -4932,31 +4812,43 @@ Examples here include:</p>
 
                     <nav class="nav-wrapper" aria-label="Page navigation">
                         <!-- Mobile navigation buttons -->
+
+
                         <div style="clear: both"></div>
                     </nav>
                 </div>
             </div>
 
             <nav class="nav-wide-wrapper" aria-label="Page navigation">
+
             </nav>
 
         </div>
 
-        <script type="text/javascript">
+
+
+
+        <script>
             window.playground_copyable = true;
         </script>
-        <script src="elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
-        <script src="mark.min.js" type="text/javascript" charset="utf-8"></script>
-        <script src="searcher.js" type="text/javascript" charset="utf-8"></script>
-        <script src="clipboard.min.js" type="text/javascript" charset="utf-8"></script>
-        <script src="highlight.js" type="text/javascript" charset="utf-8"></script>
-        <script src="book.js" type="text/javascript" charset="utf-8"></script>
+
+
+        <script src="elasticlunr.min.js"></script>
+        <script src="mark.min.js"></script>
+        <script src="searcher.js"></script>
+
+        <script src="clipboard.min.js"></script>
+        <script src="highlight.js"></script>
+        <script src="book.js"></script>
 
         <!-- Custom JS scripts -->
-        <script type="text/javascript">
+
+        <script>
         window.addEventListener('load', function() {
             window.setTimeout(window.print, 100);
         });
         </script>
+
+    </div>
     </body>
 </html>

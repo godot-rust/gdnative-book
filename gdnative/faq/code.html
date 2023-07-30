@@ -4,8 +4,10 @@
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
         <title>Common code questions - The godot-rust Book</title>
+
+
         <!-- Custom HTML head -->
-        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="theme-color" content="#ffffff" />
@@ -16,25 +18,30 @@
         <link rel="stylesheet" href="../../css/general.css">
         <link rel="stylesheet" href="../../css/chrome.css">
         <link rel="stylesheet" href="../../css/print.css" media="print">
+
         <!-- Fonts -->
         <link rel="stylesheet" href="../../FontAwesome/css/font-awesome.css">
         <link rel="stylesheet" href="../../fonts/fonts.css">
+
         <!-- Highlight.js Stylesheets -->
         <link rel="stylesheet" href="../../highlight.css">
         <link rel="stylesheet" href="../../tomorrow-night.css">
         <link rel="stylesheet" href="../../ayu-highlight.css">
 
         <!-- Custom theme stylesheets -->
+        <link rel="stylesheet" href="../../config/mdbook-admonish.css">
+
     </head>
     <body>
+    <div id="body-container">
         <!-- Provide site root to javascript -->
-        <script type="text/javascript">
+        <script>
             var path_to_root = "../../";
             var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
         </script>
 
         <!-- Work around some values being stored in localStorage wrapped in quotes -->
-        <script type="text/javascript">
+        <script>
             try {
                 var theme = localStorage.getItem('mdbook-theme');
                 var sidebar = localStorage.getItem('mdbook-sidebar');
@@ -50,7 +57,7 @@
         </script>
 
         <!-- Set the theme before any content is loaded, prevents flash -->
-        <script type="text/javascript">
+        <script>
             var theme;
             try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
             if (theme === null || theme === undefined) { theme = default_theme; }
@@ -62,12 +69,14 @@
         </script>
 
         <!-- Hide / unhide sidebar before it is displayed -->
-        <script type="text/javascript">
+        <script>
             var html = document.querySelector('html');
-            var sidebar = 'hidden';
+            var sidebar = null;
             if (document.body.clientWidth >= 1080) {
                 try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
                 sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
             }
             html.classList.remove('sidebar-visible');
             html.classList.add("sidebar-" + sidebar);
@@ -75,16 +84,38 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded "><a href="../../index.html"><strong aria-hidden="true">1.</strong> Introduction</a></li><li class="chapter-item expanded "><a href="../../gdext/index.html"><strong aria-hidden="true">2.</strong> Godot 4: gdext</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../gdext/intro/index.html"><strong aria-hidden="true">2.1.</strong> Getting Started</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../gdext/intro/setup.html"><strong aria-hidden="true">2.1.1.</strong> Setup</a></li><li class="chapter-item expanded "><a href="../../gdext/intro/hello-world.html"><strong aria-hidden="true">2.1.2.</strong> Hello World</a></li><li class="chapter-item expanded "><a href="../../gdext/intro/objects.html"><strong aria-hidden="true">2.1.3.</strong> Managing objects in Rust</a></li></ol></li><li class="chapter-item expanded "><a href="../../gdext/advanced/index.html"><strong aria-hidden="true">2.2.</strong> Advanced topics</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../gdext/advanced/compatibility.html"><strong aria-hidden="true">2.2.1.</strong> Compatibility and stability</a></li><li class="chapter-item expanded "><a href="../../gdext/advanced/godot-version.html"><strong aria-hidden="true">2.2.2.</strong> Selecting a Godot version</a></li></ol></li><li class="chapter-item expanded "><a href="../../gdext/contribute/index.html"><strong aria-hidden="true">2.3.</strong> Contributing to gdext</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../gdext/contribute/dev-tools.html"><strong aria-hidden="true">2.3.1.</strong> Dev tools</a></li><li class="chapter-item expanded "><a href="../../gdext/contribute/conventions.html"><strong aria-hidden="true">2.3.2.</strong> Code and API conventions</a></li></ol></li></ol></li><li class="chapter-item expanded "><a href="../../gdnative/index.html"><strong aria-hidden="true">3.</strong> Godot 3: gdnative</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../gdnative/intro/index.html"><strong aria-hidden="true">3.1.</strong> Getting Started</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../gdnative/intro/setup.html"><strong aria-hidden="true">3.1.1.</strong> Setup</a></li><li class="chapter-item expanded "><a href="../../gdnative/intro/hello-world.html"><strong aria-hidden="true">3.1.2.</strong> Hello, world!</a></li></ol></li><li class="chapter-item expanded "><a href="../../gdnative/overview/index.html"><strong aria-hidden="true">3.2.</strong> An Overview of GDNative</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../gdnative/overview/data-representations.html"><strong aria-hidden="true">3.2.1.</strong> Data representations</a></li><li class="chapter-item expanded "><a href="../../gdnative/overview/wrappers.html"><strong aria-hidden="true">3.2.2.</strong> Ref, TRef and Instance</a></li><li class="chapter-item expanded "><a href="../../gdnative/overview/architecture.html"><strong aria-hidden="true">3.2.3.</strong> Game architecture</a></li></ol></li><li class="chapter-item expanded "><a href="../../gdnative/bind/index.html"><strong aria-hidden="true">3.3.</strong> Binding to Rust code</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../gdnative/bind/classes.html"><strong aria-hidden="true">3.3.1.</strong> Class registration</a></li><li class="chapter-item expanded "><a href="../../gdnative/bind/methods.html"><strong aria-hidden="true">3.3.2.</strong> Exported methods</a></li><li class="chapter-item expanded "><a href="../../gdnative/bind/properties.html"><strong aria-hidden="true">3.3.3.</strong> Exported properties</a></li><li class="chapter-item expanded "><a href="../../gdnative/bind/traits.html"><strong aria-hidden="true">3.3.4.</strong> ToVariant, FromVariant and Export</a></li><li class="chapter-item expanded "><a href="../../gdnative/bind/calling-gdscript.html"><strong aria-hidden="true">3.3.5.</strong> Calling into GDScript from Rust</a></li></ol></li><li class="chapter-item expanded "><a href="../../gdnative/faq/index.html"><strong aria-hidden="true">3.4.</strong> FAQ</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../gdnative/faq/code.html" class="active"><strong aria-hidden="true">3.4.1.</strong> Common code questions</a></li><li class="chapter-item expanded "><a href="../../gdnative/faq/multithreading.html"><strong aria-hidden="true">3.4.2.</strong> Multithreading</a></li><li class="chapter-item expanded "><a href="../../gdnative/faq/configuration.html"><strong aria-hidden="true">3.4.3.</strong> Configuration</a></li><li class="chapter-item expanded "><a href="../../gdnative/faq/support.html"><strong aria-hidden="true">3.4.4.</strong> Versioning and supported platforms</a></li><li class="chapter-item expanded "><a href="../../gdnative/faq/community.html"><strong aria-hidden="true">3.4.5.</strong> Community</a></li><li class="chapter-item expanded "><a href="../../gdnative/faq/godot4.html"><strong aria-hidden="true">3.4.6.</strong> Godot 4.0 Status</a></li></ol></li><li class="chapter-item expanded "><a href="../../gdnative/recipes/index.html"><strong aria-hidden="true">3.5.</strong> Recipes</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../gdnative/recipes/async-tokio.html"><strong aria-hidden="true">3.5.1.</strong> Async with Tokio runtime</a></li><li class="chapter-item expanded "><a href="../../gdnative/recipes/custom-node-plugin.html"><strong aria-hidden="true">3.5.2.</strong> Custom node plugin</a></li><li class="chapter-item expanded "><a href="../../gdnative/recipes/external-resources.html"><strong aria-hidden="true">3.5.3.</strong> Loading external resources</a></li><li class="chapter-item expanded "><a href="../../gdnative/recipes/logging.html"><strong aria-hidden="true">3.5.4.</strong> Logging</a></li><li class="chapter-item expanded "><a href="../../gdnative/recipes/nix-build-system.html"><strong aria-hidden="true">3.5.5.</strong> Nix as development environment</a></li><li class="chapter-item expanded "><a href="../../gdnative/recipes/panic-handler.html"><strong aria-hidden="true">3.5.6.</strong> Rust panic handler</a></li></ol></li><li class="chapter-item expanded "><a href="../../gdnative/export/index.html"><strong aria-hidden="true">3.6.</strong> Exporting</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../gdnative/export/android.html"><strong aria-hidden="true">3.6.1.</strong> Android</a></li><li class="chapter-item expanded "><a href="../../gdnative/export/ios.html"><strong aria-hidden="true">3.6.2.</strong> (TODO) iOS</a></li><li class="chapter-item expanded "><a href="../../gdnative/export/macosx.html"><strong aria-hidden="true">3.6.3.</strong> Mac OS X</a></li><li class="chapter-item expanded "><a href="../../gdnative/export/html5.html"><strong aria-hidden="true">3.6.4.</strong> HTML5</a></li></ol></li><li class="chapter-item expanded "><a href="../../gdnative/advanced/index.html"><strong aria-hidden="true">3.7.</strong> Advanced Guides</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../gdnative/advanced/custom-godot.html"><strong aria-hidden="true">3.7.1.</strong> Using custom Godot versions</a></li><li class="chapter-item expanded "><a href="../../gdnative/advanced/migrate-0-8.html"><strong aria-hidden="true">3.7.2.</strong> Migrating from godot-rust 0.8</a></li><li class="chapter-item expanded "><a href="../../gdnative/advanced/migrate-0-9.html"><strong aria-hidden="true">3.7.3.</strong> Migrating from godot-rust 0.9</a></li><li class="chapter-item expanded "><a href="../../gdnative/advanced/migrate-0-10.html"><strong aria-hidden="true">3.7.4.</strong> Migrating from godot-rust 0.10</a></li></ol></li></ol></li><li class="chapter-item expanded "><a href="../../projects/index.html"><strong aria-hidden="true">4.</strong> Third-party projects</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../projects/games.html"><strong aria-hidden="true">4.1.</strong> Games</a></li><li class="chapter-item expanded "><a href="../../projects/tools.html"><strong aria-hidden="true">4.2.</strong> Tools and integrations</a></li><li class="chapter-item expanded "><a href="../../projects/applications.html"><strong aria-hidden="true">4.3.</strong> Applications</a></li></ol></li></ol>
+                <ol class="chapter"><li class="chapter-item expanded "><a href="../../index.html"><strong aria-hidden="true">1.</strong> Introduction</a></li><li class="chapter-item expanded "><a href="../../gdext/index.html"><strong aria-hidden="true">2.</strong> Godot 4: gdext</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../gdext/intro/index.html"><strong aria-hidden="true">2.1.</strong> Getting Started</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../gdext/intro/setup.html"><strong aria-hidden="true">2.1.1.</strong> Setup</a></li><li class="chapter-item expanded "><a href="../../gdext/intro/hello-world.html"><strong aria-hidden="true">2.1.2.</strong> Hello World</a></li><li class="chapter-item expanded "><a href="../../gdext/intro/objects.html"><strong aria-hidden="true">2.1.3.</strong> Managing objects in Rust</a></li></ol></li><li class="chapter-item expanded "><a href="../../gdext/advanced/index.html"><strong aria-hidden="true">2.2.</strong> Advanced topics</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../gdext/advanced/compatibility.html"><strong aria-hidden="true">2.2.1.</strong> Compatibility and stability</a></li><li class="chapter-item expanded "><a href="../../gdext/advanced/godot-version.html"><strong aria-hidden="true">2.2.2.</strong> Selecting a Godot version</a></li></ol></li><li class="chapter-item expanded "><a href="../../gdext/contribute/index.html"><strong aria-hidden="true">2.3.</strong> Contributing to gdext</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../gdext/contribute/dev-tools.html"><strong aria-hidden="true">2.3.1.</strong> Dev tools and testing</a></li><li class="chapter-item expanded "><a href="../../gdext/contribute/conventions.html"><strong aria-hidden="true">2.3.2.</strong> Code and API conventions</a></li></ol></li></ol></li><li class="chapter-item expanded "><a href="../../gdnative/index.html"><strong aria-hidden="true">3.</strong> Godot 3: gdnative</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../gdnative/intro/index.html"><strong aria-hidden="true">3.1.</strong> Getting Started</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../gdnative/intro/setup.html"><strong aria-hidden="true">3.1.1.</strong> Setup</a></li><li class="chapter-item expanded "><a href="../../gdnative/intro/hello-world.html"><strong aria-hidden="true">3.1.2.</strong> Hello, world!</a></li></ol></li><li class="chapter-item expanded "><a href="../../gdnative/overview/index.html"><strong aria-hidden="true">3.2.</strong> An Overview of GDNative</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../gdnative/overview/data-representations.html"><strong aria-hidden="true">3.2.1.</strong> Data representations</a></li><li class="chapter-item expanded "><a href="../../gdnative/overview/wrappers.html"><strong aria-hidden="true">3.2.2.</strong> Ref, TRef and Instance</a></li><li class="chapter-item expanded "><a href="../../gdnative/overview/architecture.html"><strong aria-hidden="true">3.2.3.</strong> Game architecture</a></li></ol></li><li class="chapter-item expanded "><a href="../../gdnative/bind/index.html"><strong aria-hidden="true">3.3.</strong> Binding to Rust code</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../gdnative/bind/classes.html"><strong aria-hidden="true">3.3.1.</strong> Class registration</a></li><li class="chapter-item expanded "><a href="../../gdnative/bind/methods.html"><strong aria-hidden="true">3.3.2.</strong> Exported methods</a></li><li class="chapter-item expanded "><a href="../../gdnative/bind/properties.html"><strong aria-hidden="true">3.3.3.</strong> Exported properties</a></li><li class="chapter-item expanded "><a href="../../gdnative/bind/traits.html"><strong aria-hidden="true">3.3.4.</strong> ToVariant, FromVariant and Export</a></li><li class="chapter-item expanded "><a href="../../gdnative/bind/calling-gdscript.html"><strong aria-hidden="true">3.3.5.</strong> Calling into GDScript from Rust</a></li></ol></li><li class="chapter-item expanded "><a href="../../gdnative/faq/index.html"><strong aria-hidden="true">3.4.</strong> FAQ</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../gdnative/faq/code.html" class="active"><strong aria-hidden="true">3.4.1.</strong> Common code questions</a></li><li class="chapter-item expanded "><a href="../../gdnative/faq/multithreading.html"><strong aria-hidden="true">3.4.2.</strong> Multithreading</a></li><li class="chapter-item expanded "><a href="../../gdnative/faq/configuration.html"><strong aria-hidden="true">3.4.3.</strong> Configuration</a></li><li class="chapter-item expanded "><a href="../../gdnative/faq/support.html"><strong aria-hidden="true">3.4.4.</strong> Versioning and supported platforms</a></li><li class="chapter-item expanded "><a href="../../gdnative/faq/community.html"><strong aria-hidden="true">3.4.5.</strong> Community</a></li><li class="chapter-item expanded "><a href="../../gdnative/faq/godot4.html"><strong aria-hidden="true">3.4.6.</strong> Godot 4.0 Status</a></li></ol></li><li class="chapter-item expanded "><a href="../../gdnative/recipes/index.html"><strong aria-hidden="true">3.5.</strong> Recipes</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../gdnative/recipes/async-tokio.html"><strong aria-hidden="true">3.5.1.</strong> Async with Tokio runtime</a></li><li class="chapter-item expanded "><a href="../../gdnative/recipes/custom-node-plugin.html"><strong aria-hidden="true">3.5.2.</strong> Custom node plugin</a></li><li class="chapter-item expanded "><a href="../../gdnative/recipes/external-resources.html"><strong aria-hidden="true">3.5.3.</strong> Loading external resources</a></li><li class="chapter-item expanded "><a href="../../gdnative/recipes/logging.html"><strong aria-hidden="true">3.5.4.</strong> Logging</a></li><li class="chapter-item expanded "><a href="../../gdnative/recipes/nix-build-system.html"><strong aria-hidden="true">3.5.5.</strong> Nix as development environment</a></li><li class="chapter-item expanded "><a href="../../gdnative/recipes/panic-handler.html"><strong aria-hidden="true">3.5.6.</strong> Rust panic handler</a></li></ol></li><li class="chapter-item expanded "><a href="../../gdnative/export/index.html"><strong aria-hidden="true">3.6.</strong> Exporting</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../gdnative/export/android.html"><strong aria-hidden="true">3.6.1.</strong> Android</a></li><li class="chapter-item expanded "><a href="../../gdnative/export/ios.html"><strong aria-hidden="true">3.6.2.</strong> (TODO) iOS</a></li><li class="chapter-item expanded "><a href="../../gdnative/export/macosx.html"><strong aria-hidden="true">3.6.3.</strong> Mac OS X</a></li><li class="chapter-item expanded "><a href="../../gdnative/export/html5.html"><strong aria-hidden="true">3.6.4.</strong> HTML5</a></li></ol></li><li class="chapter-item expanded "><a href="../../gdnative/advanced/index.html"><strong aria-hidden="true">3.7.</strong> Advanced Guides</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../gdnative/advanced/custom-godot.html"><strong aria-hidden="true">3.7.1.</strong> Using custom Godot versions</a></li><li class="chapter-item expanded "><a href="../../gdnative/advanced/migrate-0-8.html"><strong aria-hidden="true">3.7.2.</strong> Migrating from godot-rust 0.8</a></li><li class="chapter-item expanded "><a href="../../gdnative/advanced/migrate-0-9.html"><strong aria-hidden="true">3.7.3.</strong> Migrating from godot-rust 0.9</a></li><li class="chapter-item expanded "><a href="../../gdnative/advanced/migrate-0-10.html"><strong aria-hidden="true">3.7.4.</strong> Migrating from godot-rust 0.10</a></li></ol></li></ol></li><li class="chapter-item expanded "><a href="../../projects/index.html"><strong aria-hidden="true">4.</strong> Third-party projects</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../projects/games.html"><strong aria-hidden="true">4.1.</strong> Games</a></li><li class="chapter-item expanded "><a href="../../projects/tools.html"><strong aria-hidden="true">4.2.</strong> Tools and integrations</a></li><li class="chapter-item expanded "><a href="../../projects/applications.html"><strong aria-hidden="true">4.3.</strong> Applications</a></li></ol></li></ol>
             </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
 
+        <!-- Track and set sidebar scroll position -->
+        <script>
+            var sidebarScrollbox = document.querySelector('#sidebar .sidebar-scrollbox');
+            sidebarScrollbox.addEventListener('click', function(e) {
+                if (e.target.tagName === 'A') {
+                    sessionStorage.setItem('sidebar-scroll', sidebarScrollbox.scrollTop);
+                }
+            }, { passive: true });
+            var sidebarScrollTop = sessionStorage.getItem('sidebar-scroll');
+            sessionStorage.removeItem('sidebar-scroll');
+            if (sidebarScrollTop) {
+                // preserve sidebar scroll position when navigating via links within sidebar
+                sidebarScrollbox.scrollTop = sidebarScrollTop;
+            } else {
+                // scroll sidebar to current active section when navigating via "next/previous chapter" buttons
+                var activeSection = document.querySelector('#sidebar .active');
+                if (activeSection) {
+                    activeSection.scrollIntoView({ block: 'center' });
+                }
+            }
+        </script>
+
         <div id="page-wrapper" class="page-wrapper">
 
             <div class="page">
-                <div id="menu-bar-hover-placeholder"></div>
-                <div id="menu-bar" class="menu-bar sticky bordered">
+                                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
                     <div class="left-buttons">
                         <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
                             <i class="fa fa-bars"></i>
@@ -93,7 +124,7 @@
                             <i class="fa fa-paint-brush"></i>
                         </button>
                         <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
-                            <li role="none"><button role="menuitem" class="theme" id="light">Light (default)</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
@@ -113,6 +144,7 @@
                         <a href="https://github.com/godot-rust/book" title="Git repository" aria-label="Git repository">
                             <i id="git-repository-button" class="fa fa-github"></i>
                         </a>
+
                     </div>
                 </div>
 
@@ -126,8 +158,9 @@
                         </ul>
                     </div>
                 </div>
+
                 <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
-                <script type="text/javascript">
+                <script>
                     document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
                     document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
                     Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
@@ -173,8 +206,7 @@ func _ready():
 
 </code></pre>
 <p>could be translated to this Rust snippet:</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>#[derive(NativeClass)]
 #[inherit(Node)]
@@ -201,15 +233,13 @@ impl MyNode {
         self.node_2_ref = Some(node_2.claim());
     }
 }
-<span class="boring">}
-</span></code></pre></pre>
+<span class="boring">}</span></code></pre></pre>
 <p>Note the <code>into_shared()</code> call before we use <code>node</code> as an argument and store it in the struct, and how a change in the operation order also affects whether an <code>unsafe</code> operation is required. In <code>gdnative</code>, the ownership status of Godot objects are tracked with type-states. <code>Node::new()</code> itself creates a unique reference, which can be safely accessed, but not copied. <code>into_shared()</code> casts the ownership type-state of this node, making it safe to duplicate, but <code>unsafe</code> to access further. For more information, see <a href="../overview/wrappers.html"><code>Ref</code>, <code>TRef</code> and <code>Instance</code></a>.</p>
 <h2 id="borrow-failed-a-mut-reference-was-requested"><a class="header" href="#borrow-failed-a-mut-reference-was-requested">Borrow failed; a &amp;mut reference was requested</a></h2>
 <p>In Rust, <a href="https://docs.rs/dtolnay/0.0.9/dtolnay/macro._02__reference_types.html">there can only be <em>one</em> <code>&amp;mut</code> reference to the same memory location at the same time</a>. To enforce this while making simple use cases easier, the bindings make use of <a href="https://doc.rust-lang.org/book/ch15-05-interior-mutability.html">interior mutability</a>. This works like a lock: whenever a method with <code>&amp;mut self</code> is called, it will try to obtain a lock on the <code>self</code> value, and hold it <em>until it returns</em>. As a result, if another method that takes <code>&amp;mut self</code> is called in the meantime for whatever reason (e.g. signals), the lock will fail and an error (<code>BorrowFailed</code>) will be produced.</p>
 <p>It's relatively easy to work around this problem, though: Because of how the user-data container works, it can only see the outermost layer of your script type - the entire structure. This is why it's stricter than what is actually required. If you run into this problem, you can <a href="https://doc.rust-lang.org/book/ch15-05-interior-mutability.html">introduce finer-grained interior mutability</a> in your own type, and modify the problematic exported methods to take <code>&amp;self</code> instead of <code>&amp;mut self</code>.</p>
 <p>This issue also can often occur when using signals to indicate an update such as in the following code.</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>#[derive(NativeClass)]
 #[inherit(Node)]
@@ -242,8 +272,7 @@ impl SignalEmitter {
         &amp;self.data
     }
 }
-<span class="boring">}
-</span></code></pre></pre>
+<span class="boring">}</span></code></pre></pre>
 <p>The assumption with the above code is that <code>SignalEmitter</code> is holding data that is too large to be feasible to clone into the signal. So the purpose of the signal is to notify other Nodes or Objects that this the data has been updated.</p>
 <p>The problem is that, unless the nodes all connect with the <code>Object::CONNECT_DEFERRED</code> flag, they will be notified immediately and will attempt to borrow the data. This is the root cause of the <code>BorrowFailed</code> error.</p>
 <p>There are two ways to solve it.</p>
@@ -251,8 +280,7 @@ impl SignalEmitter {
 <li>Ensure that all nodes use <code>Object::CONNECT_DEFERRED</code>. This will delay the callbacks until the end of the current physics or idle frame, long after the current borrow on the data ends.</li>
 <li>Store <code>data</code> in a <code>RefCell&lt;LargeData&gt;</code> if it should only be accessed from the same thread (such as with signals) or <code>Mutex&lt;LargeData&gt;</code> if you need thread-safety. Then you can modify <code>update_data()</code> to the following snippet:</li>
 </ol>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>#[method]
 fn update_data(&amp;self, #[base] base: TRef&lt;Node&gt;, data: LargeData) {
@@ -262,8 +290,7 @@ fn update_data(&amp;self, #[base] base: TRef&lt;Node&gt;, data: LargeData) {
     // *self.data.lock().expect(&quot;this should work&quot;) = data;
     base.emit_signal(&quot;updated&quot;, &amp;[]);
 }
-<span class="boring">}
-</span></code></pre></pre>
+<span class="boring">}</span></code></pre></pre>
 <p>In both instances you will not encounter the reentrant errors.</p>
 <h2 id="why-do-mutating-godot-methods-take-self-and-not-mut-self"><a class="header" href="#why-do-mutating-godot-methods-take-self-and-not-mut-self">Why do mutating Godot methods take <code>&amp;self</code> and not <code>&amp;mut self</code>?</a></h2>
 <ol>
@@ -281,8 +308,7 @@ For more information, please refer to <a href="https://docs.rs/dtolnay/latest/dt
 </ul>
 <p>One of the ways that godot-rust avoids large <code>unsafe</code> blocks is by using the <a href="http://cliffle.com/blog/rust-typestate/">TypeState pattern</a> with <em>temporary references</em> such as <code>TRef</code> and <code>TInstance</code>. For more information see <a href="../overview/wrappers.html"><code>Ref</code>, <code>TRef</code> and <code>Instance</code></a>.</p>
 <p>Here is an example of some common <code>unsafe</code> usage that you will often see and use in your own games.</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>fn get_a_node(&amp;self, #[base] base: TRef&lt;Node&gt;) {
     // This is safe because it returns an option that Rust knows how to check.
@@ -308,14 +334,12 @@ For more information, please refer to <a href="https://docs.rs/dtolnay/latest/dt
         child.call(&quot;bar&quot;, &amp;[])
     };
 }
-<span class="boring">}
-</span></code></pre></pre>
+<span class="boring">}</span></code></pre></pre>
 <p>By the way, safety rules are subject to an <a href="https://github.com/godot-rust/godot-rust/issues/808">ongoing discussion</a> and likely to be relaxed in future godot-rust versions.</p>
 <h2 id="can-the-new-constructor-have-additional-parameters"><a class="header" href="#can-the-new-constructor-have-additional-parameters">Can the <code>new</code> constructor have additional parameters?</a></h2>
 <p>Unfortunately this is currently not possible, due to a general limitation of GDNative (see <a href="https://github.com/godotengine/godot/issues/23260">related issue</a>).</p>
 <p>As a result, a common pattern to work around this limitation is to use explicit initialization methods. For instance:</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>struct EnemyData {
     name: String,
@@ -341,16 +365,14 @@ impl Enemy {
         self.data = Some(EnemyData { name, health });
     }
 }
-<span class="boring">}
-</span></code></pre></pre>
+<span class="boring">}</span></code></pre></pre>
 <p>This however has two disadvantages:</p>
 <ol>
 <li>You need to use an <code>Option</code> with the sole purpose of late initialization, and subsequent <code>unwrap()</code> calls or checks -- weaker invariants in short.</li>
 <li>An additional type <code>EnemyData</code> for each native class like <code>Enemy</code> is required (unless you have very few properties, or decide to add <code>Option</code> for each of them, which has its own disadvantages).</li>
 </ol>
 <p>An alternative is to register a separate factory class, which returns fully-constructed instances:</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>#[derive(NativeClass)]
 #[no_constructor] // disallow default constructor
@@ -377,15 +399,13 @@ impl EntityFactory {
         Enemy { name, health }.emplace()
     }
 }
-<span class="boring">}
-</span></code></pre></pre>
+<span class="boring">}</span></code></pre></pre>
 <p>So instead of <code>Enemy.new()</code> you can write <code>EntityFactory.enemy(args)</code> in GDScript.
 This still needs an extra type <code>EntityFactory</code>, however you could reuse that for multiple classes.</p>
 <h2 id="can-i-implement-static-methods-in-gdnative"><a class="header" href="#can-i-implement-static-methods-in-gdnative">Can I implement static methods in GDNative?</a></h2>
 <p>In GDScript, classes can have static methods. However, GDNative currently doesn't allow to register static methods from bindings.</p>
 <p>As a work-around, it is possible to use a ZST (zero-sized type):</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>#[derive(NativeClass, Copy, Clone, Default)]
 #[user_data(Aether&lt;StaticUtil&gt;)]
@@ -400,8 +420,7 @@ impl StaticUtil {
         2 * input
     }
 }
-<span class="boring">}
-</span></code></pre></pre>
+<span class="boring">}</span></code></pre></pre>
 <p><a href="https://docs.rs/gdnative/latest/gdnative/export/user_data/struct.Aether.html"><code>Aether</code></a> is a special user-data wrapper intended for zero-sized types, that does not perform any allocation or synchronization at runtime.</p>
 <p>The type needs to be instantiated somewhere on GDScript level.
 Good places for instantiation are for instance:</p>
@@ -412,8 +431,7 @@ Good places for instantiation are for instance:</p>
 <h2 id="how-do-i-convert-from-a-variant-to-the-underlying-rust-type"><a class="header" href="#how-do-i-convert-from-a-variant-to-the-underlying-rust-type">How do I convert from a <code>Variant</code> to the underlying Rust type?</a></h2>
 <p>Assuming that a method takes an argument <code>my_node</code> as a <code>Variant</code></p>
 <p>You can convert <code>my_node</code> to a <code>Ref</code>, and then to an <code>Instance</code> or <code>TInstance</code>, and mapping over it to access the Rust data type:</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>/// My class that has data
 #[derive(NativeClass)]
@@ -453,8 +471,7 @@ impl AnotherNativeScript {
 
 }
 
-<span class="boring">}
-</span></code></pre></pre>
+<span class="boring">}</span></code></pre></pre>
 <h2 id="is-it-possible-to-set-subproperties-of-a-godot-type-such-as-a-material"><a class="header" href="#is-it-possible-to-set-subproperties-of-a-godot-type-such-as-a-material">Is it possible to set subproperties of a Godot type, such as a <code>Material</code>?</a></h2>
 <p>Yes, it is possible, but it will depend on the type.</p>
 <p>For example, when you need to set an <code>albedo_texture</code> on the <a href="https://docs.rs/gdnative/latest/gdnative/api/struct.SpatialMaterial.html"><code>SpatialMaterial</code></a>, it will be necessary to use the generic <a href="https://docs.rs/gdnative/latest/gdnative/api/struct.SpatialMaterial.html#method.set_texture"><code>set_texture()</code></a> function with the parameter <code>index</code>.</p>
@@ -472,8 +489,7 @@ impl AnotherNativeScript {
 <h2 id="how-can-function-parameters-accept-godot-subclasses-polymorphism"><a class="header" href="#how-can-function-parameters-accept-godot-subclasses-polymorphism">How can function parameters accept Godot subclasses (polymorphism)?</a></h2>
 <p><em>Static</em> (compile-time) polymorphism can be achieved by a combination of the <code>SubClass</code> trait and <code>upcast()</code>.</p>
 <p>For example, let's assume we want to implement a helper function that should accept any kind of <a href="https://docs.godotengine.org/en/stable/classes/class_control.html#class-control"><code>Container</code></a>. The helper function can make use of <code>SubClass</code> and <code>upcast()</code> as follows:</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>fn do_something_with_container&lt;T&gt;(container: TRef&lt;'_, T&gt;)
     where T: GodotObject + SubClass&lt;Container&gt;
@@ -484,23 +500,19 @@ impl AnotherNativeScript {
     // Now you can call `Container` specific methods like:
     container.set_size(...);
 }
-<span class="boring">}
-</span></code></pre></pre>
+<span class="boring">}</span></code></pre></pre>
 <p>This function can now be used with arbitrary subclasses, for instance:</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>fn some_usage() {
     let panel: Ref&lt;PanelContainer&gt; = PanelContainer::new().into_shared();
     let panel: TRef&lt;PanelContainer&gt; = unsafe { panel.assume_safe() };
     do_something_with_container(panel);
 }
-<span class="boring">}
-</span></code></pre></pre>
+<span class="boring">}</span></code></pre></pre>
 <p>Note that <code>SubClass</code> is only a marker trait that models the inheritance relationship of Godot classes, and doesn't perform any conversion by itself. For instance, <code>x: Ref&lt;T&gt;</code> or <code>x: TRef&lt;'_, T&gt;</code> satisfying <code>T: GodotObject + SubClass&lt;Container&gt;</code> doesn't mean that <code>x</code> can be used as a <code>Container</code> directly. Rather, it ensures that e.g. <code>x.upcast::&lt;Container&gt;()</code> is guaranteed to work, because <code>T</code> is a subclass of <code>Container</code>. Therefore, it is a common pattern to use <code>SubClass</code> constraints in combination with <code>.upcast()</code> to convert to the base class, and actually use <code>x</code> as such.</p>
 <p>Of course, you could also delegate the work to upcast to the call site:</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>fn do_something_with_container(container: TRef&lt;Container&gt;) { ... }
 
@@ -508,8 +520,7 @@ fn some_usage() {
     let panel: TRef&lt;PanelContainer&gt; = ...;
     do_something_with_container(panel.upcast());
 }
-<span class="boring">}
-</span></code></pre></pre>
+<span class="boring">}</span></code></pre></pre>
 <p>This would also support <em>dynamic</em> (runtime) polymorphism -- <code>Ref&lt;T&gt;</code> can also store subclasses of <code>T</code>.</p>
 <h2 id="what-is-the-rust-equivalent-of-onready-var"><a class="header" href="#what-is-the-rust-equivalent-of-onready-var">What is the Rust equivalent of <code>onready var</code>?</a></h2>
 <p>Rust does not have a direct equivalent to <code>onready var</code>. The most idiomatic workaround with Rust is to use <code>Option&lt;Ref&lt;T&gt;&gt;</code> of you need the Godot node type or <code>Option&lt;Instance&lt;T&gt;&gt;</code> if you are using a Rust based <code>NativeClass</code>.</p>
@@ -518,8 +529,7 @@ class_name MyClass
 onready var node = $Node2d
 </code></pre>
 <p>You would need to use the following code.</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>#[derive(NativeClass, Default)]
 #[inherit(Node)]
@@ -554,8 +564,7 @@ impl MyNode {
         self.instance = Some(instance.claim());
     }
 }
-<span class="boring">}
-</span></code></pre></pre>
+<span class="boring">}</span></code></pre></pre>
 <h2 id="what-types-are-supported-for-passing-through-the-gdnative-api"><a class="header" href="#what-types-are-supported-for-passing-through-the-gdnative-api">What types are supported for passing through the GDNative API?</a></h2>
 <p>The GDNative API supports any type that implements the <a href="https://docs.rs/gdnative/latest/gdnative/core_types/trait.ToVariant.html"><code>ToVariant</code></a> and/or <a href="https://docs.rs/gdnative/latest/gdnative/core_types/trait.FromVariant.html"><code>FromVariant</code></a> traits.</p>
 <p>To use a type as a property, in addition to the above, the type will also need to implement the <a href="https://docs.rs/gdnative/latest/gdnative/nativescript/trait.Export.html"><code>Export</code></a> trait.</p>
@@ -580,8 +589,7 @@ impl MyNode {
 </ul>
 <p>As such, this method is <em>only</em> useful for exported code and is subject to the Godot profiler's limitations, such as millisecond accuracy in profiler metrics.</p>
 <p>The following example illustrates how your code should look when being profiled:</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>#[derive(NativeClass)]
 #[inherit(Node)]
@@ -599,8 +607,7 @@ impl MyClass {
         // Any code in this function will be profiled.
     }
 }
-<span class="boring">}
-</span></code></pre></pre>
+<span class="boring">}</span></code></pre></pre>
 <p>If you require insight into Rust code that is not exported to Godot, or would like more in-depth information regarding execution of your program, it will be necessary to use a Rust compatible profiler such as <a href="https://crates.io/crates/puffin">puffin</a> or <a href="https://perf.wiki.kernel.org/index.php/Main_Page">perf</a>. These tools can be used to more accurately determine bottlenecks and the general performance of your Rust code.</p>
 <p><strong>Note:</strong> There are many more profilers than the ones listed and you should do your own research before selecting which one you wish to use.</p>
 <p>For more information about profiling and other rust performance tips, please check out the <a href="https://nnethercote.github.io/perf-book/profiling.html">Rust performance book</a>.</p>
@@ -612,9 +619,11 @@ impl MyClass {
                             <a rel="prev" href="../../gdnative/faq/index.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                                 <i class="fa fa-angle-left"></i>
                             </a>
+
                             <a rel="next" href="../../gdnative/faq/multithreading.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                                 <i class="fa fa-angle-right"></i>
                             </a>
+
                         <div style="clear: both"></div>
                     </nav>
                 </div>
@@ -624,6 +633,7 @@ impl MyClass {
                     <a rel="prev" href="../../gdnative/faq/index.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                         <i class="fa fa-angle-left"></i>
                     </a>
+
                     <a rel="next" href="../../gdnative/faq/multithreading.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                         <i class="fa fa-angle-right"></i>
                     </a>
@@ -631,16 +641,25 @@ impl MyClass {
 
         </div>
 
-        <script type="text/javascript">
+
+
+
+        <script>
             window.playground_copyable = true;
         </script>
-        <script src="../../elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
-        <script src="../../mark.min.js" type="text/javascript" charset="utf-8"></script>
-        <script src="../../searcher.js" type="text/javascript" charset="utf-8"></script>
-        <script src="../../clipboard.min.js" type="text/javascript" charset="utf-8"></script>
-        <script src="../../highlight.js" type="text/javascript" charset="utf-8"></script>
-        <script src="../../book.js" type="text/javascript" charset="utf-8"></script>
+
+
+        <script src="../../elasticlunr.min.js"></script>
+        <script src="../../mark.min.js"></script>
+        <script src="../../searcher.js"></script>
+
+        <script src="../../clipboard.min.js"></script>
+        <script src="../../highlight.js"></script>
+        <script src="../../book.js"></script>
 
         <!-- Custom JS scripts -->
+
+
+    </div>
     </body>
 </html>
