@@ -4,9 +4,9 @@ The godot-rust book is a user guide for the Rust bindings. The book is still wor
 
 An online version of the book is available at [godot-rust.github.io/book][book-web].
 
-The book is built with [mdBook] and the plugin [mdbook-toc]. To install them and build the book locally, you can run:
+The book is built with [mdBook] and the plugins [mdbook-toc] and [mdbook-admonish]. To install them and build the book locally, you can run:
 ```bash
-$ cargo install mdbook mdbook-toc
+$ cargo install mdbook mdbook-toc mdbook-admonish
 $ mdbook build
 ```
 
@@ -30,6 +30,7 @@ Any contribution intentionally submitted for inclusion in the work by you shall 
 [book-web]: https://godot-rust.github.io/book
 [mdBook]: https://github.com/rust-lang-nursery/mdBook
 [mdbook-toc]: https://github.com/badboy/mdbook-toc
+[mdbook-admonish]: https://github.com/tommilligan/mdbook-admonish
 [Godot 3]: https://github.com/godot-rust/gdnative
 [Godot 4]: https://github.com/godot-rust/gdext
 [MIT license]: LICENSE.md
