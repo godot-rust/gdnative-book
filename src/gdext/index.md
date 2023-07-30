@@ -45,6 +45,11 @@ That said, there are some notable differences:
    }
    ```
 
+   ```admonish note
+   This is **no longer necessary**. By default, all virtual callbacks (ready, process etc.) are no longer invoked.
+   [More information here.](https://github.com/godot-rust/gdext/pull/365)
+   ```
+
 4. **No recompilation while editor is open**
 
    While GDNative allows the Rust library to be recompiled and changes to take effect when the game is launched from the editor, this
