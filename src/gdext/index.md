@@ -36,7 +36,9 @@ That said, there are some notable differences:
 
 3. **Always-on**  
    
-   There is no differentiation between "tool" and "normal" scripts anymore; Rust logic runs as soon as the Godot editor launches, but gdext explicitly changes this behaviour, by default all virtual callbacks (ready, process etc.) are not invoked **in editor mode**, this behaviour can be reverted with a configuration, while implementing the [ExtensionLibrary][extension_library_doc] trait.
+   There is no differentiation between "tool" and "normal" scripts anymore, as it was the case in GDNative. Rust logic runs as soon as 
+   the Godot editor launches, but gdext explicitly changes this behavior. By default, all virtual callbacks (`ready`, `process` etc.)
+   are not invoked **in editor mode**. This behavior can be configured when implementing the [`ExtensionLibrary`][extension-library-doc] trait.
 
 4. **No recompilation while editor is open**
 
