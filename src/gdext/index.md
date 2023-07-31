@@ -36,19 +36,7 @@ That said, there are some notable differences:
 
 3. **Always-on**  
    
-   There is no differentiation between "tool" and "normal" scripts anymore; Rust logic runs as soon as the Godot editor launches.
-   gdext will likely add an opt-out mechanism to limit execution to the launched game, as that's usually the intended behavior.
-   Currently, if you want logic to execute only when the game runs, write this code at the beginning of your process functions:
-   ```rust
-   if Engine::singleton().is_editor_hint() {
-      return;
-   }
-   ```
-
-   ```admonish note
-   This is **no longer necessary**. By default, all virtual callbacks (ready, process etc.) are no longer invoked.
-   [More information here.](https://github.com/godot-rust/gdext/pull/365)
-   ```
+   There is no differentiation between "tool" and "normal" scripts anymore; Rust logic runs as soon as the Godot editor launches, but gdext explicitly changes this behaviour, by default all virtual callbacks (ready, process etc.) are not invoked **in editor mode**, this behaviour can be reverted with a configuration, while implementing the [ExtensionLibrary][extension_library_doc] trait.
 
 4. **No recompilation while editor is open**
 
@@ -58,3 +46,4 @@ That said, there are some notable differences:
 
 [features]: https://github.com/godot-rust/gdextension/issues/24
 [issue #66231]: https://github.com/godotengine/godot/issues/66231
+[extension_library_doc]: https://godot-rust.github.io/docs/gdext/master/godot/init/trait.ExtensionLibrary.html#method.editor_run_behavior

@@ -230,7 +230,7 @@ This is a point where you can compile your code, launch Godot and see the result
 
 ![rotating sprite](https://docs.godotengine.org/en/stable/_images/scripting_first_script_godot_turning_in_place.gif)
 
-```admonish warning
+```admonish tip
  **Launching the Godot application**
  
 While it's possible to open the Godot editor and press the launch button every time you made a change in Rust, this is not the most
