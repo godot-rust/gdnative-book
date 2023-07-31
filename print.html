@@ -229,15 +229,9 @@ not easily be used as custom resources, etc. With GDExtension, user-defined clas
 </li>
 <li>
 <p><strong>Always-on</strong></p>
-<p>There is no differentiation between &quot;tool&quot; and &quot;normal&quot; scripts anymore; Rust logic runs as soon as the Godot editor launches.
-gdext will likely add an opt-out mechanism to limit execution to the launched game, as that's usually the intended behavior.
-Currently, if you want logic to execute only when the game runs, write this code at the beginning of your process functions:</p>
-<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
-</span><span class="boring">fn main() {
-</span>if Engine::singleton().is_editor_hint() {
-   return;
-}
-<span class="boring">}</span></code></pre></pre>
+<p>There is no differentiation between &quot;tool&quot; and &quot;normal&quot; scripts anymore, as it was the case in GDNative. Rust logic runs as soon as 
+the Godot editor launches, but gdext explicitly changes this behavior. By default, all virtual callbacks (<code>ready</code>, <code>process</code> etc.)
+are not invoked <strong>in editor mode</strong>. This behavior can be configured when implementing the <a href="https://godot-rust.github.io/docs/gdext/master/godot/init/trait.ExtensionLibrary.html#method.editor_run_behavior"><code>ExtensionLibrary</code></a> trait.</p>
 </li>
 <li>
 <p><strong>No recompilation while editor is open</strong></p>
@@ -542,14 +536,20 @@ impl Sprite2DVirtual for Player {
 this example -- is done via the <code>#[base]</code> field.</p>
 <p>This is a point where you can compile your code, launch Godot and see the result. The sprite should rotate at a constant speed.</p>
 <p><img src="https://docs.godotengine.org/en/stable/_images/scripting_first_script_godot_turning_in_place.gif" alt="rotating sprite" /></p>
-<blockquote>
+<div id="admonition-tip" class="admonition tip">
+<div class="admonition-title">
+<p>Tip</p>
+<p><a class="admonition-anchor-link" href="gdext/intro/hello-world.html#admonition-tip"></a></p>
+</div>
+<div>
 <p><strong>Launching the Godot application</strong></p>
 <p>While it's possible to open the Godot editor and press the launch button every time you made a change in Rust, this is not the most
 efficient workflow. Unfortunately there is <a href="https://github.com/godotengine/godot/issues/66231">a GDExtension limitation</a> that prevents recompilation while the editor is open 
 (at least on Windows systems -- it tends to work better on Linux and macOS).</p>
 <p>However, if you don't need to modify anything in the editor itself, you can launch Godot from the command line or even your IDE.
 Check out the <a href="https://docs.godotengine.org/en/stable/tutorials/editor/command_line_tutorial.html">command-line tutorial</a> for more information.</p>
-</blockquote>
+</div>
+</div>
 <p>We now add a translation component to the sprite, following <a href="https://docs.godotengine.org/en/stable/getting_started/step_by_step/scripting_first_script.html#complete-script">the upstream tutorial</a>.</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {

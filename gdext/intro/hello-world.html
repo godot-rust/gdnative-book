@@ -411,14 +411,20 @@ impl Sprite2DVirtual for Player {
 this example -- is done via the <code>#[base]</code> field.</p>
 <p>This is a point where you can compile your code, launch Godot and see the result. The sprite should rotate at a constant speed.</p>
 <p><img src="https://docs.godotengine.org/en/stable/_images/scripting_first_script_godot_turning_in_place.gif" alt="rotating sprite" /></p>
-<blockquote>
+<div id="admonition-tip" class="admonition tip">
+<div class="admonition-title">
+<p>Tip</p>
+<p><a class="admonition-anchor-link" href="#admonition-tip"></a></p>
+</div>
+<div>
 <p><strong>Launching the Godot application</strong></p>
 <p>While it's possible to open the Godot editor and press the launch button every time you made a change in Rust, this is not the most
 efficient workflow. Unfortunately there is <a href="https://github.com/godotengine/godot/issues/66231">a GDExtension limitation</a> that prevents recompilation while the editor is open 
 (at least on Windows systems -- it tends to work better on Linux and macOS).</p>
 <p>However, if you don't need to modify anything in the editor itself, you can launch Godot from the command line or even your IDE.
 Check out the <a href="https://docs.godotengine.org/en/stable/tutorials/editor/command_line_tutorial.html">command-line tutorial</a> for more information.</p>
-</blockquote>
+</div>
+</div>
 <p>We now add a translation component to the sprite, following <a href="https://docs.godotengine.org/en/stable/getting_started/step_by_step/scripting_first_script.html#complete-script">the upstream tutorial</a>.</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
