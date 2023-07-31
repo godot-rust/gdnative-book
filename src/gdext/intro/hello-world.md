@@ -230,14 +230,16 @@ This is a point where you can compile your code, launch Godot and see the result
 
 ![rotating sprite](https://docs.godotengine.org/en/stable/_images/scripting_first_script_godot_turning_in_place.gif)
 
-> **Launching the Godot application**
-> 
-> While it's possible to open the Godot editor and press the launch button every time you made a change in Rust, this is not the most
-> efficient workflow. Unfortunately there is [a GDExtension limitation][no-reload] that prevents recompilation while the editor is open 
-> (at least on Windows systems -- it tends to work better on Linux and macOS).
-> 
-> However, if you don't need to modify anything in the editor itself, you can launch Godot from the command line or even your IDE.
-> Check out the [command-line tutorial][godot-command-line] for more information.
+```admonish tip
+ **Launching the Godot application**
+ 
+While it's possible to open the Godot editor and press the launch button every time you made a change in Rust, this is not the most
+efficient workflow. Unfortunately there is [a GDExtension limitation][no-reload] that prevents recompilation while the editor is open 
+ (at least on Windows systems -- it tends to work better on Linux and macOS).
+ 
+ However, if you don't need to modify anything in the editor itself, you can launch Godot from the command line or even your IDE.
+ Check out the [command-line tutorial][godot-command-line] for more information.
+```
 
 We now add a translation component to the sprite, following [the upstream tutorial][tutorial-full-script].
 
