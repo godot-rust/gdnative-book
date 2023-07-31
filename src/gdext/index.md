@@ -48,4 +48,4 @@ That said, there are some notable differences:
 
 [features]: https://github.com/godot-rust/gdextension/issues/24
 [issue #66231]: https://github.com/godotengine/godot/issues/66231
-[extension_library_doc]: https://godot-rust.github.io/docs/gdext/master/godot/init/trait.ExtensionLibrary.html#method.editor_run_behavior
+[extension-library-doc]: https://godot-rust.github.io/docs/gdext/master/godot/init/trait.ExtensionLibrary.html#method.editor_run_behavior
