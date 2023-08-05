@@ -33,10 +33,10 @@ linux.debug.x86_64 = "res://../rust/target/debug/lib{myCrate}.so"
 linux.release.x86_64 = "res://../rust/target/release/lib{myCrate}.so"
 windows.debug.x86_64 = "res://../rust/target/debug/{myCrate}.dll"
 windows.release.x86_64 = "res://../rust/target/release/{myCrate}.dll"
-macos.debug = "res://../rust/target/debug/{myCrate}.dylib"
-macos.release = "res://../rust/target/release/{myCrate}.dylib"
-macos.debug.arm64 = "res://../rust/target/debug/{myCrate}.dylib"
-macos.release.arm64 = "res://../rust/target/release/{myCrate}.dylib"
+macos.debug = "res://../rust/target/debug/lib{myCrate}.dylib"
+macos.release = "res://../rust/target/release/lib{myCrate}.dylib"
+macos.debug.arm64 = "res://../rust/target/debug/lib{myCrate}.dylib"
+macos.release.arm64 = "res://../rust/target/release/lib{myCrate}.dylib"
 ```
 
 ```admonish note
@@ -44,7 +44,7 @@ For exporting your project, you'll need to use paths inside `res://`.
 ```
 
 ```admonish note
-If you specify your cargo compilation target via the `--target` flag or a `.cargo/config.toml` file, the rust library will be placed in a path name that includes target architecture, and the `.gdextension` library paths will need to match. E.g. for M1 Macs (`macos.debug.arm64` and `macos.release.arm64`) the path would be `"res://../rust/target/aarch64-apple-darwin/debug/{myCrate}.dylib"`
+If you specify your cargo compilation target via the `--target` flag or a `.cargo/config.toml` file, the rust library will be placed in a path name that includes target architecture, and the `.gdextension` library paths will need to match. E.g. for M1 Macs (`macos.debug.arm64` and `macos.release.arm64`) the path would be `"res://../rust/target/aarch64-apple-darwin/debug/lib{myCrate}.dylib"`
 ```
 
 ### `extension_list.cfg`
