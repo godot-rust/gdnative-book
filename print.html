@@ -336,10 +336,10 @@ linux.debug.x86_64 = &quot;res://../rust/target/debug/lib{myCrate}.so&quot;
 linux.release.x86_64 = &quot;res://../rust/target/release/lib{myCrate}.so&quot;
 windows.debug.x86_64 = &quot;res://../rust/target/debug/{myCrate}.dll&quot;
 windows.release.x86_64 = &quot;res://../rust/target/release/{myCrate}.dll&quot;
-macos.debug = &quot;res://../rust/target/debug/{myCrate}.dylib&quot;
-macos.release = &quot;res://../rust/target/release/{myCrate}.dylib&quot;
-macos.debug.arm64 = &quot;res://../rust/target/debug/{myCrate}.dylib&quot;
-macos.release.arm64 = &quot;res://../rust/target/release/{myCrate}.dylib&quot;
+macos.debug = &quot;res://../rust/target/debug/lib{myCrate}.dylib&quot;
+macos.release = &quot;res://../rust/target/release/lib{myCrate}.dylib&quot;
+macos.debug.arm64 = &quot;res://../rust/target/debug/lib{myCrate}.dylib&quot;
+macos.release.arm64 = &quot;res://../rust/target/release/lib{myCrate}.dylib&quot;
 </code></pre>
 <div id="admonition-note" class="admonition note">
 <div class="admonition-title">
@@ -356,7 +356,7 @@ macos.release.arm64 = &quot;res://../rust/target/release/{myCrate}.dylib&quot;
 <p><a class="admonition-anchor-link" href="gdext/intro/hello-world.html#admonition-note-1"></a></p>
 </div>
 <div>
-<p>If you specify your cargo compilation target via the <code>--target</code> flag or a <code>.cargo/config.toml</code> file, the rust library will be placed in a path name that includes target architecture, and the <code>.gdextension</code> library paths will need to match. E.g. for M1 Macs (<code>macos.debug.arm64</code> and <code>macos.release.arm64</code>) the path would be <code>&quot;res://../rust/target/aarch64-apple-darwin/debug/{myCrate}.dylib&quot;</code></p>
+<p>If you specify your cargo compilation target via the <code>--target</code> flag or a <code>.cargo/config.toml</code> file, the rust library will be placed in a path name that includes target architecture, and the <code>.gdextension</code> library paths will need to match. E.g. for M1 Macs (<code>macos.debug.arm64</code> and <code>macos.release.arm64</code>) the path would be <code>&quot;res://../rust/target/aarch64-apple-darwin/debug/lib{myCrate}.dylib&quot;</code></p>
 </div>
 </div>
 <h3 id="extension_listcfg"><a class="header" href="#extension_listcfg"><code>extension_list.cfg</code></a></h3>
