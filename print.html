@@ -592,7 +592,7 @@ impl Player {
 	#[func]
 	fn increase_speed(&amp;mut self, amount: f64) {
 		self.speed += amount;
-		self.emit_signal(&quot;speed_increased&quot;.into(), &amp;[]);
+		self.sprite.emit_signal(&quot;speed_increased&quot;.into(), &amp;[]);
 	}
 
 	#[signal]
