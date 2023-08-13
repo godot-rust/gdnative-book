@@ -1,19 +1,17 @@
 # Debugging
 
-You can debug your Rust code simply by attaching LLDB to the Godot editor (or your compiled Godot executable) and telling it to launch your project. 
-However, the process for doing this will vary based on your IDE and platform.
+Godot-Rust based GDExtensions can be debugged using LLDB in a similar manner to other Rust programs. The primary difference is that the executable which LLDB will launch or attach to needs to be the Godot executable (either Godot editor or your custom compiled Godot executable). Godot will, in turn, load your GDExtension (itself a dynamic library). The process for launching or attaching LLDB will vary based on your IDE and platform. Also keep in mind that, unless you are using a debug version of Godot itself, you'll only have symbols for stack frames in Rust code.
 
 ## Launching with VSCode
 
-Here is an example launch configuration for Visual Studio Code (typically found in `./.vscode/launch.json` relative to your project's root). This example assumes you have the [CodeLLDB](https://marketplace.visualstudio.com/items?itemName=vadimcn.vscode-lldb) 
-extension installed, which is common for Rust development.
+Here is an example launch configuration for Visual Studio Code. Launch configurations should be added to  `./.vscode/launch.json` relative to your project's root. This example assumes you have the [CodeLLDB](https://marketplace.visualstudio.com/items?itemName=vadimcn.vscode-lldb) extension installed, which is common for Rust development. 
 
 ```jsonc
 {
     "configurations": [
         {
             "name": "Debug Project (Godot 4)",
-            "type": "lldb",
+            "type": "lldb", // type provided by CodeLLDB extension
             "request": "launch",
             "cwd": "${workspaceFolder}",
             "args": [
@@ -38,12 +36,9 @@ extension installed, which is common for Rust development.
 ## Debugging on MacOS
 
 Attaching a debugger to an executable that wasn't compiled locally (the Godot editor, in this example) requires special considerations on MacOS due to its System 
-Integrity Protection (SIP) security feature. 
-Even though your extension will be compiled locally, LLDB will be unable to attach to the Godot host process without manual re-signing.
+Integrity Protection (SIP) security feature. Even though your extension is be compiled locally, LLDB will be unable to attach to the Godot *host process* without manual re-signing.
 
-In order to re-sign, simply create a file called `editor.entitlements`[^1] with the following contents (it is recommended to check this file in since each dev will need to re-sign their local install if you have a team):
-
-[^1]: Be sure to use the `editor.entitlements` file below rather than the one from the Godot docs as it includes the required `com.apple.security.get-task-allow` key not currently present in Godot's instructions.
+In order to re-sign, simply create a file called `editor.entitlements` with the following contents. Be sure to use the `editor.entitlements` file below rather than the one from the [Godot Docs](https://docs.godotengine.org/en/stable/contributing/development/debugging/macos_debug.html) as it includes the required `com.apple.security.get-task-allow` key not currently present in Godot's instructions.
 
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
@@ -70,6 +65,4 @@ In order to re-sign, simply create a file called `editor.entitlements`[^1] with 
 </plist>
 ```
 
-Then you can run `codesign -s - --deep --force --options=runtime --entitlements ./editor.entitlements /Applications/Godot.app` in Terminal to complete the process.
-
-The re-signing process is covered in more detail in the [Godot Docs](https://docs.godotengine.org/en/stable/contributing/development/debugging/macos_debug.html).
+Once this file is created, you can run `codesign -s - --deep --force --options=runtime --entitlements ./editor.entitlements /Applications/Godot.app` in Terminal to complete the re-signing process. It is recommended to check this file in since each dev will need to re-sign their local install if you have a team. It should only need to be done once per Godot install though.
