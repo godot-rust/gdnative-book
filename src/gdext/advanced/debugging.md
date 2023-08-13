@@ -1,6 +1,6 @@
 # Debugging
 
-You can debug your Rust code simply by attaching LLDB to the Godot editor and telling the editor to launch your project. 
+You can debug your Rust code simply by attaching LLDB to the Godot editor (or your compiled Godot executable) and telling it to launch your project. 
 However, the process for doing this will vary based on your IDE and platform.
 
 ## Launching with VSCode
