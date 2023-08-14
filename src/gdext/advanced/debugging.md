@@ -1,10 +1,16 @@
 # Debugging
 
-Godot-Rust based GDExtensions can be debugged using LLDB in a similar manner to other Rust programs. The primary difference is that the executable which LLDB will launch or attach to needs to be the Godot executable (either Godot editor or your custom compiled Godot executable). Godot will, in turn, load your GDExtension (itself a dynamic library). The process for launching or attaching LLDB will vary based on your IDE and platform. Also keep in mind that, unless you are using a debug version of Godot itself, you'll only have symbols for stack frames in Rust code.
+Extensions written in gdext can be debugged using LLDB, in a similar manner to other Rust programs. The primary difference is that LLDB will
+launch or attach to the Godot C++ executable: either the Godot editor or your custom Godot application. 
+Godot then loads your extension (itself a dynamic library), and with it your Rust code.
 
-## Launching with VSCode
+The process for launching or attaching LLDB varies based on your IDE and platform. Unless you are using a debug version of Godot itself,
+you will only have symbols for stack frames in Rust code.
 
-Here is an example launch configuration for Visual Studio Code. Launch configurations should be added to  `./.vscode/launch.json` relative to your project's root. This example assumes you have the [CodeLLDB](https://marketplace.visualstudio.com/items?itemName=vadimcn.vscode-lldb) extension installed, which is common for Rust development. 
+## Launching with VS Code
+
+Here is an example launch configuration for Visual Studio Code. Launch configurations should be added to  `./.vscode/launch.json` relative 
+to your project's root. This example assumes you have the [CodeLLDB](https://marketplace.visualstudio.com/items?itemName=vadimcn.vscode-lldb) extension installed, which is common for Rust development. 
 
 ```jsonc
 {
@@ -13,9 +19,10 @@ Here is an example launch configuration for Visual Studio Code. Launch configura
             "name": "Debug Project (Godot 4)",
             "type": "lldb", // type provided by CodeLLDB extension
             "request": "launch",
+            "preLaunchTask": "rust: cargo build",
             "cwd": "${workspaceFolder}",
             "args": [
-                "-e", // run editor (remove this if you want to launch the scene directly)
+                "-e", // run editor (remove this to launch the scene directly)
                 "-w", // windowed mode
             ],
             "linux": {
@@ -25,7 +32,8 @@ Here is an example launch configuration for Visual Studio Code. Launch configura
                 "program": "C:\\Program Files\\Godot\\Godot_v4.1.X.exe",
             },
             "osx": {
-                // NOTE: on Mac the Godot.app needs to be manually re-signed to enable debugging (see below)
+                // NOTE: on macOS the Godot.app needs to be manually re-signed 
+                // to enable debugging (see below)
                 "program": "/Applications/Godot.app/Contents/MacOS/Godot",
             }
         }
@@ -33,12 +41,15 @@ Here is an example launch configuration for Visual Studio Code. Launch configura
 }
 ```
 
-## Debugging on MacOS
+## Debugging on macOS
 
-Attaching a debugger to an executable that wasn't compiled locally (the Godot editor, in this example) requires special considerations on MacOS due to its System 
-Integrity Protection (SIP) security feature. Even though your extension is compiled locally, LLDB will be unable to attach to the Godot *host process* without manual re-signing.
+Attaching a debugger to an executable that wasn't compiled locally (the Godot editor, in this example) requires special considerations on macOS 
+due to its _System Integrity Protection_ (SIP) security feature. Even though your extension is compiled locally, LLDB will be unable to attach 
+to the Godot _host process_ without manual re-signing.
 
-In order to re-sign, simply create a file called `editor.entitlements` with the following contents. Be sure to use the `editor.entitlements` file below rather than the one from the [Godot Docs](https://docs.godotengine.org/en/stable/contributing/development/debugging/macos_debug.html) as it includes the required `com.apple.security.get-task-allow` key not currently present in Godot's instructions.
+In order to re-sign, simply create a file called `editor.entitlements` with the following contents. Be sure to use the `editor.entitlements` file
+below rather than the one from the [Godot Docs](https://docs.godotengine.org/en/stable/contributing/development/debugging/macos_debug.html), 
+as it includes the required `com.apple.security.get-task-allow` key not currently present in Godot's instructions.
 
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
@@ -65,4 +76,9 @@ In order to re-sign, simply create a file called `editor.entitlements` with the 
 </plist>
 ```
 
-Once this file is created, you can run `codesign -s - --deep --force --options=runtime --entitlements ./editor.entitlements /Applications/Godot.app` in Terminal to complete the re-signing process. It is recommended to check this file in since each dev will need to re-sign their local install if you have a team. It should only need to be done once per Godot install though.
+Once this file is created, you can run 
+```bash
+codesign -s - --deep --force --options=runtime --entitlements ./editor.entitlements /Applications/Godot.app
+```
+in Terminal to complete the re-signing process. It is recommended to check this file into version control, since each developer needs to
+re-sign their local installation if you have a team. This process should only be necessary once per Godot installation though.

@@ -9,6 +9,7 @@
   - [Advanced topics](gdext/advanced/index.md)
     - [Compatibility and stability](gdext/advanced/compatibility.md)
     - [Selecting a Godot version](gdext/advanced/godot-version.md)
+    - [Debugging](gdext/advanced/debugging.md)
   - [Contributing to gdext](gdext/contribute/index.md)
     - [Dev tools and testing](gdext/contribute/dev-tools.md)
     - [Code and API conventions](gdext/contribute/conventions.md)
