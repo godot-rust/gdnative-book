@@ -36,7 +36,7 @@ Here is an example launch configuration for Visual Studio Code. Launch configura
 ## Debugging on MacOS
 
 Attaching a debugger to an executable that wasn't compiled locally (the Godot editor, in this example) requires special considerations on MacOS due to its System 
-Integrity Protection (SIP) security feature. Even though your extension is be compiled locally, LLDB will be unable to attach to the Godot *host process* without manual re-signing.
+Integrity Protection (SIP) security feature. Even though your extension is compiled locally, LLDB will be unable to attach to the Godot *host process* without manual re-signing.
 
 In order to re-sign, simply create a file called `editor.entitlements` with the following contents. Be sure to use the `editor.entitlements` file below rather than the one from the [Godot Docs](https://docs.godotengine.org/en/stable/contributing/development/debugging/macos_debug.html) as it includes the required `com.apple.security.get-task-allow` key not currently present in Godot's instructions.
 
