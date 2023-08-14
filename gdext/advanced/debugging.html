@@ -185,6 +185,7 @@ to your project's root. This example assumes you have the <a href="https://marke
             &quot;name&quot;: &quot;Debug Project (Godot 4)&quot;,
             &quot;type&quot;: &quot;lldb&quot;, // type provided by CodeLLDB extension
             &quot;request&quot;: &quot;launch&quot;,
+            &quot;preLaunchTask&quot;: &quot;rust: cargo build&quot;,
             &quot;cwd&quot;: &quot;${workspaceFolder}&quot;,
             &quot;args&quot;: [
                 &quot;-e&quot;, // run editor (remove this to launch the scene directly)
