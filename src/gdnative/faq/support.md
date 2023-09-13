@@ -55,9 +55,7 @@ Caveat 3: A lot of code in a game is not performance-critical and as such, Rust 
 
 Short Answer: Wherever you can get your code (and Godot) to run. :)
 
-Long Answer: Rust and Godot are natively available for Windows, Linux, Android and iOS export targets.
-
-As of writing, WASM targets are a tentatively doable, but it requires additional configuration and is currently not supported out of the box. The godot-rust bindings do not officially support this target. The progress in this regard can be tracked in [godot-rust/godot-rust#647](https://github.com/godot-rust/godot-rust/issues/647).
+Long Answer: Rust and Godot are natively available for Windows, Linux, HTML5, Android and iOS export targets.
 
 
 ## Does godot-rust support consoles?
