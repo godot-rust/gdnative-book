@@ -12,6 +12,12 @@ env:
   MDBOOK_ADMONISH_VERSION: "1.10.1"
   MDBOOK_BIN: "/tmp/mdbook-bin"
 
+# Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
 jobs:
   build_and_deploy:
     runs-on: ubuntu-latest
@@ -19,9 +25,7 @@ jobs:
     steps:
     # If using actions/checkout@v2, persist-credentials must be set to false in most cases for the deployment to work correctly.
     - name: "Checkout"
-      uses: actions/checkout@v2
-      with:
-        persist-credentials: false
+      uses: actions/checkout@v3
 
     # Note: actions-rs/install@v0.1 was considered, but a full 'cargo install' is unnecessarily slow and the cache mechanism is not reliable
     # (error "Unable to download mdbook == 0.4.14 from the tool cache: Error: Unexpected HTTP response: 403")
@@ -44,9 +48,10 @@ jobs:
     - name: "Build book"
       run: mdbook build
 
-    - name: "Deploy"
-      uses: JamesIves/github-pages-deploy-action@releases/v3
+    - name: "Upload Pages artifact"
+      uses: actions/upload-pages-artifact@v1
       with:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        BRANCH: gh-pages # The branch the action should deploy to.
-        FOLDER: book # The folder the action should deploy.
+        path: book
+
+    - name: "Deploy to GitHub Pages"
+      uses: actions/deploy-pages@v2
