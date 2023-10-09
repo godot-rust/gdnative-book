@@ -2,7 +2,8 @@
 
 The godot-rust book is a user guide for the Rust bindings. The book is still work-in-progress, and contributions are very welcome.
 
-An online version of the book is available at [godot-rust.github.io/book][book-web].
+An online version of the book is available at [godot-rust.github.io/gdnative-book][book-web].
+For the gdext book, check out [gdext-book].
 
 The book is built with [mdBook] and the plugins [mdbook-toc] and [mdbook-admonish]. To install them and build the book locally, you can run:
 ```bash
@@ -28,6 +29,7 @@ For contributions, see the contributing guidelines under `CONTRIBUTING.md` in th
 Any contribution intentionally submitted for inclusion in the work by you shall be licensed under the [MIT license], without any additional terms or conditions.
 
 [book-web]: https://godot-rust.github.io/book
+[gdext-book]: https://github.com/godot-rust/book
 [mdBook]: https://github.com/rust-lang-nursery/mdBook
 [mdbook-toc]: https://github.com/badboy/mdbook-toc
 [mdbook-admonish]: https://github.com/tommilligan/mdbook-admonish
