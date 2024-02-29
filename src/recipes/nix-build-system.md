@@ -68,4 +68,4 @@ If you get any errors about missing headers, you can use [`nix-locate`](https://
 
 ## Activating the Flakes environment
 
-In the same directory where you created your flake.nix, you can use the comamnd [`nix develop`](https://nixos.wiki/wiki/Development_environment_with_nix-shell#nix-develop) to load our Flakes config and setup everything for your NixOS system.
+In the same directory where you created your flake.nix, you can use the command [`nix develop`](https://nixos.wiki/wiki/Development_environment_with_nix-shell#nix-develop) to load our Flakes config and setup everything for your Nix-capable system.
