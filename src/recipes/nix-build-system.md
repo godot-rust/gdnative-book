@@ -57,6 +57,9 @@ Now to the Nix part of the tutorial. In your project directory create a `flake.n
             rust-bin.stable.latest.default
             godot3
           ];
+          shellHook = ''
+            alias godot="godot3"
+          '';
         };
       }
     );
