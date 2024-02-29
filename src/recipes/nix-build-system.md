@@ -1,6 +1,6 @@
 # Recipe: Nix as development environment
 
-**Disclaimer**: _Currently the following steps are tested and confirmed to work on NixOs only._
+**Disclaimer**: _Currently the following steps are tested and confirmed to work on NixOS only._
 
 [Flakes](https://nixos.wiki/wiki/Flakes) Flakes is a feature of managing Nix packages to simplify usability and improve reproducibility of Nix installations.
 
