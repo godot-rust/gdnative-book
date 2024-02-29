@@ -4,7 +4,9 @@
 
 [Flakes](https://nixos.wiki/wiki/Flakes) Flakes is a feature of managing Nix packages to simplify usability and improve reproducibility of Nix installations.
 
-This tutorial assumes that you are on a [NixOs](https://nixos.wiki/wiki/Main_Page) system and have [Flakes](https://nixos.wiki/wiki/Flakes) enabled.
+This tutorial assumes that you are on a [NixOs](https://nixos.wiki/wiki/Main_Page) system
+or that Nix is [installed](https://nixos.org/download.html#nix-quick-install).
+Finally, you also need to make sure that [Flakes](https://nixos.wiki/wiki/Flakes) is enabled.
 
 To begin with, we are going to create a new project using the [Hello, world!](../getting-started/hello-world.md) guide in Getting Started. Note that the full source code for the project is available at https://github.com/godot-rust/godot-rust/tree/master/examples/hello-world. Because we aren't using the default build system explained in [setup](../getting-started/setup.md), you should only be worried about the content of the project rather than the dependencies.
 
