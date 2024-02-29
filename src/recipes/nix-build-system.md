@@ -1,4 +1,4 @@
-# Recipe: Flakes as development environment
+# Recipe: Nix Flakes as development environment
 
 **Disclaimer**: _Currently the following steps are tested and confirmed to work on NixOS only._
 
