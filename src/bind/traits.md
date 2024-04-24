@@ -151,7 +151,7 @@ impl Export for MyIntEnum {
 
 ```
 
-After implementing `FromVariant` and `Export`, running cargo check wouuld result in the following additional error:
+After implementing `FromVariant` and `Export`, running `cargo check` would result in the following additional error:
 
 ```sh
 the trait bound `MyIntEnum: gdnative::prelude::ToVariant` is not satisfied
