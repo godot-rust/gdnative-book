@@ -25,7 +25,7 @@ jobs:
     steps:
     # If using actions/checkout@v2, persist-credentials must be set to false in most cases for the deployment to work correctly.
     - name: "Checkout"
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
 
     # Note: actions-rs/install@v0.1 was considered, but a full 'cargo install' is unnecessarily slow and the cache mechanism is not reliable
     # (error "Unable to download mdbook == 0.4.14 from the tool cache: Error: Unexpected HTTP response: 403")
@@ -49,9 +49,9 @@ jobs:
       run: mdbook build
 
     - name: "Upload Pages artifact"
-      uses: actions/upload-pages-artifact@v1
+      uses: actions/upload-pages-artifact@v3
       with:
         path: book
 
     - name: "Deploy to GitHub Pages"
-      uses: actions/deploy-pages@v2
+      uses: actions/deploy-pages@v4
