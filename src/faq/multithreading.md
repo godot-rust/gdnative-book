@@ -5,7 +5,7 @@
 
 ## How do I use multithreading?
 
-Make sure you read [Godot's thread safety guidelines](https://docs.godotengine.org/en/stable/tutorials/performance/threads/thread_safe_apis.html).
+Make sure you read [Godot's thread safety guidelines](https://docs.godotengine.org/en/3.6/tutorials/performance/threads/thread_safe_apis.html).
 
 > This is **EXTREMELY IMPORTANT**.
 

@@ -6,7 +6,7 @@ In order to receive data from Godot, you can export methods. With the `#[method]
 > `#[export]` has been renamed to `#[method]` and is now deprecated.
 > It keeps working for the time being though (i.e. gdnative 0.11).
 >
-> For more information, see [`gdnative::derive::NativeClass`](https://godot-rust.github.io/docs/gdnative/derive/derive.NativeClass.html).
+> For more information, see [`gdnative::derive::NativeClass`](https://docs.rs/gdnative/latest/gdnative/derive/derive.NativeClass.html).
 
 The exported method's first parameter is always `&self` or `&mut self` (operating on the Rust object), and the second parameter is `&T` or `TRef<T>` (operating on the Godot base object, with `T` being the inherited type).
 
@@ -24,7 +24,7 @@ impl GodotApi {
         godot_print!("_init()");
         Self { enemy_count: 0 }
     }
-    
+
     #[method]
     fn create_enemy(
         &mut self,
@@ -48,7 +48,7 @@ impl GodotApi {
     #[method]
     fn count_enemies(&self) -> i32 {
         self.enemy_count
-    }  
+    }
 }
 ```
 The two creation methods are semantically equivalent, yet they demonstrate how godot-rust implicitly converts the values to the parameter types (unmarshalling). You could use `Variant` everywhere, however it is more type-safe and expressive to use specific types. The same applies to return types, you could use `Variant` instead of `i32`.
@@ -63,7 +63,7 @@ api.create_enemy2("Elf", Vector2(50, 70));
 
 print("enemies: ", api.count_enemies())
 
-# don't forget to add it to the scene tree, otherwise memory must be managed manually 
+# don't forget to add it to the scene tree, otherwise memory must be managed manually
 self.add_child(api)
 ```
 
@@ -99,7 +99,7 @@ impl GodotApi {
     ) {
         self.enemies.push(enemy);
     }
-  
+
     // You can even return the enemies directly with Vec.
     // In GDScript, you will get an array of nodes.
     // An alternative would be VariantArray, able to hold different types.

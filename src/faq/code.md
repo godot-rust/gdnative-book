@@ -84,13 +84,13 @@ impl SignalEmitter {
             data: "initial",
         }
     }
-    
+
     #[method]
     fn update_data(&mut self, #[base] base: TRef<Node>, data: LargeData) {
         self.data = data;
       base.emit_signal("updated", &[]);
     }
-    
+
     #[method]
     fn get_data(&self) -> &LargeData {
         &self.data
@@ -439,16 +439,16 @@ impl MyNode {
 
 The GDNative API supports any type that implements the [`ToVariant`](https://docs.rs/gdnative/latest/gdnative/core_types/trait.ToVariant.html) and/or [`FromVariant`](https://docs.rs/gdnative/latest/gdnative/core_types/trait.FromVariant.html) traits.
 
-To use a type as a property, in addition to the above, the type will also need to implement the [`Export`](https://docs.rs/gdnative/latest/gdnative/nativescript/trait.Export.html) trait.
+To use a type as a property, in addition to the above, the type will also need to implement the [`Export`](https://docs.rs/gdnative/latest/gdnative/export/trait.Export.html) trait.
 
 Some concrete examples of types that can be used with the GDNative API are the following:
 
 - [`Variant`](https://docs.rs/gdnative/latest/gdnative/core_types/struct.Variant.html), this is Godot's "any" type. It must be converted before it can be used.
 - A subset of scalar types such as `i64`, `f64`, `bool`, etc.
 - [`String`](https://doc.rust-lang.org/std/string/struct.String.html) and [`GodotString`](https://docs.rs/gdnative/latest/gdnative/core_types/struct.GodotString.html).
-- [Godot core types](https://docs.rs/gdnative/latest/gdnative/core_types/index.html) such as [`Color`](https://docs.rs/gdnative/latest/gdnative/core_types/struct.Color.html), [`Aabb`](https://docs.rs/gdnative/latest/gdnative/core_types/struct.Aabb.html), [`Transform2D`](https://docs.rs/gdnative/latest/gdnative/core_types/type.Transform2D.html), [`Vector2`](https://docs.rs/gdnative/latest/gdnative/core_types/type.Vector2.html), etc.
-- Godot classes such as `Node`, `Reference`, etc. which must be accessed via [`Ref<T>`](https://docs.rs/gdnative/latest/gdnative/struct.Ref.html) (you can't pass them by value, because Godot owns them).
-- Any Rust struct that derives [`NativeClass`](https://docs.rs/gdnative/latest/gdnative/derive.NativeClass.html), through [`Instance<T>`](https://docs.rs/gdnative/latest/gdnative/nativescript/struct.Instance.html).
+- [Godot core types](https://docs.rs/gdnative/latest/gdnative/core_types/index.html) such as [`Color`](https://docs.rs/gdnative/latest/gdnative/core_types/struct.Color.html), [`Aabb`](https://docs.rs/gdnative/latest/gdnative/core_types/struct.Aabb.html), [`Transform2D`](https://docs.rs/gdnative/latest/gdnative/core_types/struct.Transform2D.html), [`Vector2`](https://docs.rs/gdnative/latest/gdnative/core_types/struct.Vector2.html), etc.
+- Godot classes such as `Node`, `Reference`, etc. which must be accessed via [`Ref<T>`](https://docs.rs/gdnative/latest/gdnative/object/struct.Ref.html) (you can't pass them by value, because Godot owns them).
+- Any Rust struct that derives [`NativeClass`](https://docs.rs/gdnative/latest/gdnative/derive/derive.NativeClass.html), through [`Instance<T>`](https://docs.rs/gdnative/latest/gdnative/object/struct.Instance.html).
 
 
 ## How can I profile my code to measure performance?

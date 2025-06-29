@@ -1,6 +1,6 @@
 # Data representations
 
-The godot-rust library uses many different approaches to store and transport data. This chapter explains high-level concepts of related terminology used throughout the library and its documentation. It is not a usage guide however -- to see the concepts in action, check out [Binding to Rust code](../rust-binding.md).
+The godot-rust library uses many different approaches to store and transport data. This chapter explains high-level concepts of related terminology used throughout the library and its documentation. It is not a usage guide however -- to see the concepts in action, check out [Binding to Rust code](../bind).
 
 
 ## Object and class
@@ -16,15 +16,15 @@ Every user-defined class inherits `Object` directly or indirectly, and thus all 
 
 `Object` itself comes with manual memory management. All instances must be deallocated using the `free()` method. This is typically not what you want, instead you will most often work with the following classes inherited from `Object`:
 
-* **`Reference`**  
-  Reference-counted objects. This is the default base class if you don't use the `extends` keyword in GDScript. Allows to pass around instances of this type freely, managing memory automatically when the last reference goes out of scope.  
+* **`Reference`**
+  Reference-counted objects. This is the default base class if you don't use the `extends` keyword in GDScript. Allows to pass around instances of this type freely, managing memory automatically when the last reference goes out of scope.
   Do not confuse this type with the godot-rust `Ref` smart pointer.
-* **`Node`**  
-  Anything that's part of the scene tree, such as `Spatial` (3D), `CanvasItem` and `Node2D` (2D). Each node in the tree is responsible of its children and will deallocate them automatically when it is removed from the tree. At the latest, the entire tree will be destroyed when ending the application.  
+* **`Node`**
+  Anything that's part of the scene tree, such as `Spatial` (3D), `CanvasItem` and `Node2D` (2D). Each node in the tree is responsible of its children and will deallocate them automatically when it is removed from the tree. At the latest, the entire tree will be destroyed when ending the application.
   **Important:** as long as a node is not attached to the scene tree, it behaves like an `Object` instance and must be freed manually. On the other hand, as long as it is part of the tree, it can be destroyed (e.g. when its parent is removed) and other references pointing to it become invalid.
-* **`Resource`**  
+* **`Resource`**
   Data set that is loaded from disk and cached in memory, for example 3D meshes, materials, textures, fonts or music (see also [Godot tutorial](https://docs.godotengine.org/en/stable/getting_started/step_by_step/resources.html)).
-  `Resource` inherits `Reference`, so in the context of godot-rust, it can be treated like a normal, reference-counted class. 
+  `Resource` inherits `Reference`, so in the context of godot-rust, it can be treated like a normal, reference-counted class.
 
 When talking about inheritance, we always mean the relationship in GDScript code. Rust does not have inheritance, instead godot-rust implements `Deref` traits to allow implicit upcasts. This enables to invoke all parent methods and makes the godot-rust API very close to GDScript.
 
@@ -32,8 +32,8 @@ Classes need to be added as `NativeScript` resources inside the Godot editor, se
 
 _See `Object` in
 [godot-rust docs](https://docs.rs/gdnative/latest/gdnative/api/struct.Object.html),
-[Godot docs](https://docs.godotengine.org/en/latest/classes/class_object.html)_  
-_See `GodotObject`, the Rust trait implemented for all Godot classes, in [godot-rust docs](https://docs.rs/gdnative/latest/gdnative/trait.GodotObject.html)_
+[Godot docs](https://docs.godotengine.org/en/latest/classes/class_object.html)_
+_See `GodotObject`, the Rust trait implemented for all Godot classes, in [godot-rust docs](https://docs.rs/gdnative/latest/gdnative/object/trait.GodotObject.html)_
 
 
 ## Variant
@@ -53,7 +53,7 @@ _See `Variant` in
 
 Scripts are programmable building blocks that can be attached to nodes in the scene tree, in order to customize their behavior. Depending on the language in which the script is written, there are different classes which inherit the `Script` class; relevant here will be `NativeScript` for classes defined in Rust, and `GDScript` for classes defined in GDScript. Scripts are stored as Godot resources (like materials, textures, shaders etc), usually in their own separate file.
 
-Scripts _always_ inherit another class from Godot's `Object` hierarchy, either an existing one from Godot or a user-defined one. In Rust, scripts are limited to inherit an existing Godot class; other scripts cannot be inherited. This makes each script a class on their own: they provide the properties and methods from their _base object_, plus all the properties and methods that you define in the script. 
+Scripts _always_ inherit another class from Godot's `Object` hierarchy, either an existing one from Godot or a user-defined one. In Rust, scripts are limited to inherit an existing Godot class; other scripts cannot be inherited. This makes each script a class on their own: they provide the properties and methods from their _base object_, plus all the properties and methods that you define in the script.
 
 _See `Script` in
 [godot-rust docs](https://docs.rs/gdnative/latest/gdnative/api/struct.Script.html),

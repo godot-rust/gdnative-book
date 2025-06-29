@@ -44,7 +44,7 @@ gdnative = "0.10"
 > While it's also possible to place the Rust crate within the Godot project, doing so might lead to problems with Godot's resource importer. It's best to place the Rust crate somewhere outside the Godot project directory.
 >
 > Previously, some third-party resources have recommended separating Rust code into multiple crates. While this is fine to do, godot-rust works best when there is a single `cdylib` crate acting as the entry point for all crates in the workspace. Script downcasting, for example, only works for types registered in the same GDNative library. Code from `std` and other dependencies can also lead to code bloat when duplicated in multiple binaries.
-> 
+>
 > We suggest that users start projects as a single crate, and only split code into workspaces when necessary.
 
 
@@ -88,7 +88,7 @@ This macro defines the necessary C callbacks used by Godot. You only need *one* 
 
 > ### GDNative internals
 >
-> The purposes of this macro will be discussed in detail in [_An Overview of GDNative_](../gdnative-overview.md). For now, treat it as a magic incantation.
+> The purposes of this macro will be discussed in detail in [_An Overview of GDNative_](../overview). For now, treat it as a magic incantation.
 
 
 ## Your first script

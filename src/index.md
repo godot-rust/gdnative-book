@@ -56,7 +56,7 @@ The source repository for this book is [hosted on GitHub](https://github.com/god
 
 ## License
 
-The GDNative bindings and this user guide are licensed under the MIT license.  
+The GDNative bindings and this user guide are licensed under the MIT license.
 The GDExtension bindings are licensed under the [Mozilla Public License 2.0](https://www.mozilla.org/en-US/MPL).
 
 

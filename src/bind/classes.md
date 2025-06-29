@@ -33,21 +33,21 @@ fn init(handle: InitHandle) {
 
 ## Class definition
 
-Similar to the [Hello World](../getting-started/hello-world.md#overriding-a-godot-method) example, we can define the `GodotApi` native class as follows:
+Similar to the [Hello World](../intro/hello-world.md#overriding-a-godot-method) example, we can define the `GodotApi` native class as follows:
 ```rust
-// Tell godot-rust that this struct is exported as a native class 
+// Tell godot-rust that this struct is exported as a native class
 // (implements NativeClass trait)
 #[derive(NativeClass)]
 
 // Specify the base class (corresponds to 'extends' statement in GDScript).
-// * Like 'extends' in GDScript, this can be omitted. 
+// * Like 'extends' in GDScript, this can be omitted.
 //   In that case, the 'Reference' class is used as a base.
 // * Unlike 'extends' however, only existing Godot types are permitted,
 //   no other user-defined scripts.
 #[inherit(Node)]
 pub struct GodotApi {}
 
-// Exactly one impl block can have the #[methods] annotation, 
+// Exactly one impl block can have the #[methods] annotation,
 // which registers methods in the background.
 #[methods]
 impl GodotApi {
@@ -58,10 +58,10 @@ impl GodotApi {
 }
 ```
 
-The [`#[derive(NativeClass)]` macro](https://docs.rs/gdnative/latest/gdnative/derive.NativeClass.html) enables a Rust type to be usable as a _native class_ in Godot. It implements [the `NativeClass` trait](https://docs.rs/gdnative/latest/gdnative/nativescript/trait.NativeClass.html), which fills in the glue code required to make the class available in Godot. Among other information, this includes class name and registry of exported methods and properties. For the user, the utility methods `new_instance()` and `emplace()` are provided for constructing `Instance` objects.
+The [`#[derive(NativeClass)]` macro](https://docs.rs/gdnative/latest/gdnative/derive/derive.NativeClass.html) enables a Rust type to be usable as a _native class_ in Godot. It implements [the `NativeClass` trait](https://docs.rs/gdnative/latest/gdnative/export/trait.NativeClass.html), which fills in the glue code required to make the class available in Godot. Among other information, this includes class name and registry of exported methods and properties. For the user, the utility methods `new_instance()` and `emplace()` are provided for constructing `Instance` objects.
 
 The function `new()` corresponds to `_init()` in GDScript. The _base_ is the base object of the script, and must correspond to the class specified in the `#[inherit]` attribute (or `Reference` if the attribute is absent). The parameter can be a shared reference `&T` or a `TRef<T>`.
 
 With a `new()` method, you are able to write `GodotApi.new()` in GDScript. If you don't need this, you can add the `#[no_constructor]` attribute to the struct declaration.
 
-At this point, arguments cannot be passed into the constructor. Consult [this FAQ entry](../faq.md#passing-additional-arguments-to-a-class-constructor) for available workarounds.
+At this point, arguments cannot be passed into the constructor. Consult [this FAQ entry](../faq/code.html#can-the-new-constructor-have-additional-parameters) for available workarounds.
